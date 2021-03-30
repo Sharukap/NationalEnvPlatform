@@ -49,25 +49,41 @@
                         @endforeach
                     </select>
                 </div>
-
-
-                <!-- <div class="form-check border-secondary rounded-lg mb-4" style="background-color:#ebeef0">
-                    <label class="mt-2"> Modules Allowed: </label>
-                    <hr>
-                    <fieldset>
-                        <input type="checkbox" name="modules[]" value="general" checked><label class="ml-2" />General Module</label> <br>
-                        <input type="checkbox" name="modules[]" value="user" checked><label class="ml-2" />User Module</label> <br>
-                        <input type="checkbox" name="modules[]" value="admin"><label class="ml-2">Administrator Module</label> <br>
-                        <input type="checkbox" name="modules[]" value="security"><label class="ml-2">Security Module</label> <br>
-                        <input type="checkbox" name="modules[]" value="env"><label class="ml-2">Environmental Module</label> <br>
-                    </fieldset>
-                </div> -->
                 <div style="float:right;">
                     <button type="submit" class="btn btn-warning">Submit</button>
                 </div>
             </form>
         </div>
         @endif
+    </div>
+    <div class="row justify-content-md-center border p-4 bg-white">
+        <div class="col-6 ml-3">
+            <label class="mt-2"> Additional Access privileges currently Allowed: </label>
+                    <hr>
+                    <table>
+                    @foreach($Useraccesses as $useraccess)
+                        <tr>
+                            <td>{{$useraccess->access->access}}</td>
+                            <td><a href="/admin/removeUserAccess/{{$useraccess->id}}" class="btn btn-outline-warning" role="button">Remove</a></td>
+                        </td>
+                    @endforeach
+                    </table> 
+            <form method="post" action="/admin/userPriviledge/{{$user->id}}">
+                @csrf
+                <div class="form-check border-secondary rounded-lg mb-4" style="background-color:#ebeef0">
+                    <label class="mt-2"> Add new module access: </label>
+                    <hr>
+                    <fieldset>
+                    @foreach($accesses as $access)
+                        <input type="checkbox" name="modules[]" value="{{$access->id}}" checked><label class="ml-2">{{$access->access}}</label> <br>
+                    @endforeach
+                    </fieldset>
+                </div> 
+                <div style="float:right;">
+                    <button type="submit" class="btn btn-warning">Add</button>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 
