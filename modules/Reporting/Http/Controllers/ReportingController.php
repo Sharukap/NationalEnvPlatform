@@ -1,6 +1,7 @@
 <?php
 namespace Reporting\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Form_Type;
 use App\Models\Organization;
 use App\Models\Process_Item;
@@ -18,6 +19,60 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 
 class ReportingController extends Controller {
+    //WELCOME PAGE CHARTS
+    //Process Item per month Line Chart
+    public function getAllUsers() {
+        $month_year_array=array();
+        $users_dates = User::orderBy('created_at','ASC')->pluck('created_at');
+        $users_dates = json_decode($users_dates);
+        if( ! empty($users_dates)){
+            foreach($users_dates as $unformatted_date){
+                $date = new \DateTime($unformatted_date);
+                $month_no = strval($date->format('m'));
+                $year_no = strval($date->format('y'));
+                $month_year_no=$month_no.$year_no;
+                $month_name = $date->format('M');
+                $year_name = $date->format('Y');
+                $month_year_name=$month_name.(" ").$year_name;
+                $month_year_array[$month_year_no] = $month_year_name; //obtains as array of month and years
+            }
+        }
+        return $month_year_array;
+    }
+    function getMonthlyUserCount( $month ) {
+        $month_val=intval(substr($month,0,2));
+        $year_val=intval("20".substr($month,2));
+        $monthly_user_count = User::whereYear('created_at',$year_val)->whereMonth( 'created_at', $month_val )->get()->count();
+        return $monthly_user_count;
+    }
+
+    function getMonthlyUserData() {
+
+        $monthly_user_count_array = array();
+        $month_year_array = $this->getAllUsers();
+        $month_year_name_array = array();
+        if ( ! empty( $month_year_array ) ) {
+            foreach ( $month_year_array as $month_year_no => $month_year_name ){
+                $monthly_user_count = $this->getMonthlyUserCount( $month_year_no );
+                array_push( $monthly_user_count_array, $monthly_user_count );
+                array_push( $month_year_name_array, $month_year_name );
+            }
+        }
+
+        $max_no = max( $monthly_user_count_array );
+        $max = round(( $max_no + 10/2 ) / 10 ) * 10;
+        $monthly_user_data_array = array(
+            'months_years' => $month_year_name_array,
+            'user_count_data' => $monthly_user_count_array,
+            'max' => $max,
+        );
+
+        return $monthly_user_data_array;
+
+    }
+
+
+
     //OVERVIEW TAB CHARTS
     public function overview(){
         $items = Process_Item::where('activity_organization', '=', Auth::user()->organization_id)->get();
