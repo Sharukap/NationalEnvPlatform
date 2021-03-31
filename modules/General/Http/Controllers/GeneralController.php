@@ -1,7 +1,7 @@
 <?php
 
 namespace General\Http\Controllers;
-
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
@@ -24,12 +24,19 @@ class GeneralController extends Controller
         $organization = Auth::user()->organization_id;
         $role = Auth::user()->role_id;
         $id = Auth::user()->id;
-
+        $tree_removals = Process_Item::where('form_type_id',1)
+        ->whereMonth('created_at', Carbon::now()->month)
+        ->count(); 
+        $dev_projects = Process_Item::where('form_type_id',2)
+        ->whereMonth('created_at', Carbon::now()->month)
+        ->count(); 
         //IF ADMIN DISPLAYS ALL THE PENDING REQUESTS TO BE ASSIGNED
         if ($role == 1 || $role == 2 ) {
             $Process_items = Process_Item::all()->where('status_id', 1);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
+                'tree_removals' =>$tree_removals,
+                'dev_projects'=>$dev_projects
             ]);
         }
         //IF HOO OR MANAGER, DISPLAYS ALL THE PENDING REQUESTS OF THEIR ORGANIZATION
