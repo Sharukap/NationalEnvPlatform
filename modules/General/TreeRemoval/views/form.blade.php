@@ -136,9 +136,12 @@
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
             <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+            
+            <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
+
             <div class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-              <label class="custom-control-label" for="customCheck"><strong>Check if land is a protected area</strong></label>
+              <label class="custom-control-label" for="customCheck"><strong>Is Land a Protected Area?</strong></label>
             </div>
           </div>
           <div class="col border border-muted rounded-lg">
@@ -429,76 +432,71 @@
     $(this).parents('tr').remove();
   });
 
-  /// SCRIPT FOR THE MAP
+  ///SCRIPT FOR THE MAP
   var center = [7.2906, 80.6337];
 
-  // Create the map
-  var map = L.map('mapid').setView(center, 10);
+// Create the map
+var map = L.map('mapid').setView(center, 10);
 
-  // Set up the OSM layer 
-  L.tileLayer(
+// Set up the OSM layer 
+L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
-      maxZoom: 18
+        attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
+        maxZoom: 18
     }).addTo(map);
 
-  // Initialise the FeatureGroup to store editable layers
-  var editableLayers = new L.FeatureGroup();
-  map.addLayer(editableLayers);
 
-  var drawPluginOptions = {
+var drawnItems = new L.FeatureGroup();
+map.addLayer(drawnItems);
+
+var drawControl = new L.Control.Draw({
     position: 'topright',
     draw: {
-      polygon: {
-        allowIntersection: false, // Restricts shapes to simple polygons
-        drawError: {
-          color: '#e1e100', // Color the shape will turn when intersects
-          message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+        polygon: {
+            shapeOptions: {
+                color: 'purple'
+            },
+            allowIntersection: false,
+            drawError: {
+                color: 'orange',
+                timeout: 1000
+            },
+            showArea: true,
+            metric: false,
+            repeatMode: true
         },
-        shapeOptions: {
-          color: '#97009c'
-        }
-      },
-      // disable toolbar item by setting it to false
-      polyline: true,
-      circle: false, // Turns off this drawing tool
-      rectangle: true,
-      marker: true,
-      circlemarker: false,
-      polygon: {
-        shapeOptions: {
-          color: 'green'
+        polyline: {
+            shapeOptions: {
+                color: 'red'
+            },
         },
-        allowIntersection: false,
-        drawError: {
-          color: 'orange',
-          timeout: 1000
+        circlemarker: false,
+        rect: {
+            shapeOptions: {
+                color: 'green'
+            },
         },
-      },
-
+        circle: false,
     },
     edit: {
-      featureGroup: editableLayers, //REQUIRED!!
-      remove: true
+        featureGroup: drawnItems
     }
-  };
+});
+map.addControl(drawControl);
 
-  // Initialise the draw control and pass it the FeatureGroup of editable layers
-  var drawControl = new L.Control.Draw(drawPluginOptions);
-  map.addControl(drawControl);
-
-  map.on('draw:created', function(e) {
+map.on('draw:created', function(e) {
     var type = e.layerType,
-      layer = e.layer;
+        layer = e.layer;
 
     if (type === 'marker') {
-      layer.bindPopup('A popup!');
+        layer.bindPopup('A popup!');
     }
-    editableLayers.addLayer(layer);
 
-    //console.log(layer.toGeoJSON());
-    $('#polygon').val(JSON.stringify(editableLayers.toGeoJSON()));
+    drawnItems.addLayer(layer);
+    $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON()));
 
+    ///Converting your layer to a KML
+    $('#kml').val(tokml(drawnItems.toGeoJSON()));
   });
 </script>
 @endsection

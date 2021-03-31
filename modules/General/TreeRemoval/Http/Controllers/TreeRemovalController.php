@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
 Use App\Notifications\ApplicationMade;
 use App\Models\User;
+use Illuminate\Support\Facades\Storage;
 
 
 
@@ -211,10 +212,17 @@ class TreeRemovalController extends Controller
             }
             $process->save();
 
-            $Users = User::where('role_id', '=', 2)->get();
+            $Users = User::where('role_id', '<', 3)->get();
             Notification::send($Users, new ApplicationMade($process));
         });
 
+        //making a downloadable version of the KML file
+        try {
+            $kml = request('kml');
+            Storage::put('attempt1.kml', $kml);
+       } catch (\Exception $e) {
+            dd($e);
+       }
         return redirect('/general/pending')->with('message', 'Request Created Successfully');
     }
 
