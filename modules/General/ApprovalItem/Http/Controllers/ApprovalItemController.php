@@ -80,14 +80,13 @@ class ApprovalItemController extends Controller
             'email' => 'required',
         ]);
         $array=DB::transaction(function () use($request){
-            
-            //$User = User::find($request['create_by']);
-            Process_item::where('id',$request['process_id'])->update([
-                'other_removal_requestor_name' => $request['organization'],
-                'status_id' => 2
-                ]);
-            $process_item =Process_item::find($request['process_id']);
-            return($process_item);
+
+        Process_item::where('id',$request['process_id'])->update([
+            'other_removal_requestor_name' => $request['organization'],
+            'status_id' => 2
+        ]);
+        $process_item =Process_item::find($request['process_id']);
+        return($process_item);
         });
         $user =User::find($request['create_by']);
         if($array->form_type_id == '1'){ 
@@ -102,15 +101,11 @@ class ApprovalItemController extends Controller
         }
         else if($array->form_type_id == '4'){
             $item = Crime_report::find($array->form_id);
-
             $Photos=Json_decode($item->photos);
-            
             $tree_data = null;
         }
         $land_parcel = Land_Parcel::find($item->land_parcel_id);
         //dd($array);
-        
-
         $pdf = PDF::loadView('approvalItem::index',[
             'process_item' => $array,
             'user' =>$user,
@@ -121,9 +116,8 @@ class ApprovalItemController extends Controller
         $array->requestor_email=$request['email'];
         
         $process_item = $array->toarray();
-        if($array->form_type_id ==1){
+        /* if($array->form_type_id ==1){
             $item=tree_removal_request::find($array->form_id);
-            dd($item);
         }
         else if($array->form_type_id ==4){
             $item=crime_report::find($array->form_id);
@@ -135,18 +129,37 @@ class ApprovalItemController extends Controller
                 $contents[$y] =  Storage::disk('public')->get($photos[$y]);
             }
             //dd($contents);
+        } */
+        if($Photos != null){
+            for($y=0;$y<count($photos);$y++){
+                //return Storage::disk('public')->download($photo);
+                $contents[$y] =  Storage::disk('public')->get($photos[$y]);
+            }
+        }
+        if(isset($contents)){
+            Mail::send('emails.assignorg', $process_item, function($message) use ($pdf,$contents,$photos,$process_item){
+            
+                $message->to($process_item['requestor_email']);
+                $message->subject('Assigning application');
+                $message->attachData($pdf->output(),'document.pdf');
+                for($y=0;$y<count($contents);$y++){
+                    $message->attachData($contents[$y],$photos[$y]);
+                }
+    
+            }); 
+        }
+        else{
+            Mail::send('emails.assignorg', $process_item, function($message) use ($pdf,$process_item){
+            
+                $message->to($process_item['requestor_email']);
+                $message->subject('Assigning application');
+                $message->attachData($pdf->output(),'document.pdf');
+    
+            }); 
         }
         
-        Mail::send('emails.assignorg', $process_item, function($message) use ($pdf,$contents,$photos,$process_item){
-            
-            $message->to($process_item['requestor_email']);
-            $message->subject('Assigning application');
-            $message->attachData($pdf->output(),'document.pdf');
-            for($y=0;$y<count($contents);$y++){
-                $message->attachData($contents[$y],$photos[$y]);
-            }
-
-        }); 
+        
+        
         
         return back()->with('message', 'Successfully forwarded the application through email'); 
     }
@@ -277,46 +290,36 @@ class ApprovalItemController extends Controller
     {
         $process_item =Process_item::find($id);
         $Organizations=Organization::all();
-        if($process_item->form_type_id == '1'){ 
-            $treecut = Tree_Removal_Request::find($process_item->form_id);
-            $land_parcel = Land_Parcel::find($treecut->land_parcel_id);
-            return view('approvalItem::assignOrg',[
-                'treecut' => $treecut,
-                'Organizations' => $Organizations,
-                'process_item' =>$process_item,
-                'polygon' => $land_parcel->polygon,
-            ]);
-        } 
-        else if($process_item->form_type_id == '2'){
-            $devp = Development_Project::find($process_item->form_id);
-            $land_parcel = Land_Parcel::find($devp->land_parcel_id);
-            return view('approvalItem::assignOrg',[
-                'devp' => $devp,
-                'Organizations' => $Organizations,
-                'process_item' =>$process_item,
-                'polygon' => $land_parcel->polygon,
-            ]);
+        if($process_item->form_type_id == '1'){
+            $item = Tree_Removal_Request::find($process_item->form_id);
+            $Photos=Json_decode($item->images);
         }
-        else if($process_item->form_type_id == '3'){
-            $reforest = Environment_Restoration_Activity::find($process_item->form_id);
-            return view('approvalItem::assignOrg',[
-                'reforest' => $reforest,
-                'Organizations' => $Organizations,
-                'process_item' =>$process_item,
-            ]);
+        else if($process_item->form_type_id == '2'){
+            $item = Development_Project::find($process_item->form_id);
         }
         else if($process_item->form_type_id == '4'){
-            $crime = Crime_report::find($process_item->form_id);
-            $Photos=Json_decode($crime->photos);
-            $land_parcel = Land_Parcel::find($crime->land_parcel_id);
+            $item = Crime_report::find($process_item->form_id);
+            $Photos=Json_decode($item->photos);
+        }
+        $land_parcel = Land_Parcel::find($item->land_parcel_id);
+
+        if($process_item->form_type_id == '1' ||$process_item->form_type_id == '4'){
             return view('approvalItem::assignOrg',[
-                'crime' => $crime,
+                'item' => $item,
                 'process_item' =>$process_item,
                 'Organizations' => $Organizations,
                 'polygon' => $land_parcel->polygon,
                 'Photos' => $Photos,
             ]);
-        } 
+        }
+        else{
+            return view('approvalItem::assignOrg',[
+                'item' => $item,
+                'process_item' =>$process_item,
+                'Organizations' => $Organizations,
+                'polygon' => $land_parcel->polygon,
+            ]);
+        }
     }
 
     public function investigate($id)
