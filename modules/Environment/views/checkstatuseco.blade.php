@@ -23,7 +23,7 @@
 
     </div>
     @endif
-<table class="table table-striped table-white">
+<table class="table table-striped table-dark">
   <thead>
     <tr>
       <th scope="col">ID</th>
