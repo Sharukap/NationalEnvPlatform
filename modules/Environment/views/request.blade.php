@@ -1,18 +1,13 @@
 @extends('home')
 
 @section('cont')
-<kbd><a href="/environment/updatedata" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+<kbd><a href="/environment/generalenv" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+    <div class='row justify-content-center'>
+    </br>
+ 
 
-<div class="container">
-   <h2 style="text-align:center;" class="text-dark">Application Form </h2>
-   <hr>
-   <div class="row justify-content-md-center border p-4 bg-white">
-      <div class="col-6 ml-3">
-         <!--Organizaion Details -->        
-         <h6 style="text-align:left;" class="text-dark">Eco-Systems Details</h6>
-         <hr>
-         <form action="/environment/newrequest" method="post">
-      @csrf
+    <h2>Add Your data </h2>
+    </div>
     
 
     @if(count($errors) >0)
@@ -32,21 +27,22 @@
     </div>
     @endif
     
-
+    </br>
   
-
-     <div class="input-group mb-3">
+    <hr>
+     <div class='row justify-content-center'> 
+     <form action="/environment/newrequest" method="post">
+      @csrf
    
-  
+
+      <h6> Eco System Type</h6>
         <div class="input-group mb-3">
       <select name="type" class="custom-select" required>
-                <option disabled selected>Eco-system type</option>
+                <option selected>Select</option>
                 <option >Land</option>
                 <option >Marine</option>
                 <option >Fresh Water</option>
                 <option >Riverine</option>
-                <option >Grassland</option>
-                <option >Forest</option>
 
             </select>
             
@@ -64,17 +60,14 @@
                    
                       
                        </br>
-                      
-
-                       <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-                        <label class="custom-control-label" for="customCheck"><strong>I confirmed these information to be true</strong></label>
-
-                        </br>
-                        <button type="submit" class="tn btn-outline-secondary btn" >Cancel</button>
-                        <button type="submit" class="btn bd-navbar text-light" >Submit</button>
-                        
-                    </div>
+                       <div class="form-check">
+                           <label class="form-check-label">
+                               <input type="checkbox" class="form-check-input" name="confirm" ><strong>I confirm these information to be true</strong>
+                              
+                           </label>
+                           </br>
+                           <button type="submit" class="btn btn-success" >Submit</button>
+                       </div>
                        <input type="hidden" class="form-control" name="createby" value="{{Auth::user()->id}}">
                        <input type="hidden" class="form-control" name="status" value="0">
 
