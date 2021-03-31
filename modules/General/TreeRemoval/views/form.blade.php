@@ -18,7 +18,7 @@
     <p>{{\Session::get('success') }}</p>
   </div>
   @endif -->
-  
+
 
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data">
     @csrf
@@ -44,11 +44,13 @@
                   @enderror
                 </div>
 
-                <div class="form-group">
-                  District:<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
-                  @error('district')
-                  <div class="alert alert-danger">{{ $message }}</div>
-                  @enderror
+                <div style="margin-top: 35px;">
+                  <div class="form-group">
+                    District:<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                    @error('district')
+                    <div class="alert alert-danger">{{ $message }}</div>
+                    @enderror
+                  </div>
                 </div>
 
                 <div class="form-group">
@@ -60,16 +62,28 @@
 
               </div>
               <div class="col p-2">
+
+              <div class="form-group">
+                  Removal Requestor:<input type="text" class="form-control typeahead3 @error('removal_requestor') is-invalid @enderror" value="{{ old('removal_requestor') }}" name="removal_requestor" placeholder="Search" />
+                  @error('removal_requestor')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
+                  <div class="custom-control custom-checkbox">
+                    <input type="checkbox" class="custom-control-input" id="customCheck2" value="1" name="checkremovalrequestor" {{ old('checkremovalrequestor') == "1" ? 'checked' : ''}}>
+                    <label class="custom-control-label" for="customCheck2"><strong>Other</strong></label>
+                  </div>
+                </div>
+
                 <div class="form-group">
                   <label>Removal Requestor Type:</label>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="removalrequestortype" id="removalrequestortype1" value="1">
+                    <input class="form-check-input" type="radio" name="removalrequestortype" id="removalrequestortype1" value="1" {{ old('removalrequestortype') == "1" ? 'checked' : ''}}>
                     <label class="form-check-label" for="removalrequestortype1">
                       Government
                     </label>
                   </div>
                   <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="removalrequestortype" id="removalrequestortype2" value="2">
+                    <input class="form-check-input" type="radio" name="removalrequestortype" id="removalrequestortype2" value="2" {{ old('removalrequestortype') == "2" ? 'checked' : ''}}>
                     <label class="form-check-label" for="removalrequestortype2">
                       Private
                     </label>
@@ -80,14 +94,10 @@
                 </div>
 
                 <div class="form-group">
-                  Removal Requestor:<input type="text" class="form-control typeahead3 @error('removal_requestor') is-invalid @enderror" value="{{ old('removal_requestor') }}" name="removal_requestor" placeholder="Search" />
-                  @error('removal_requestor')
-                  <div class="alert alert-danger">{{ $message }}</div>
+                  Removal Requestor Email:<input type="text" class="form-control @error('rremail') is-invalid @enderror" value="{{ old('rremail') }}" placeholder="Enter email" name="rremail" />
+                  @error('rremail')
+                  <div class="alert alert-danger">Please Enter a Valid Email</div>
                   @enderror
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck2" value="1" name="checkremovalrequestor">
-                    <label class="custom-control-label" for="customCheck2"><strong>Other</strong></label>
-                  </div>
                 </div>
               </div>
             </div>
@@ -95,28 +105,9 @@
 
             <div class="form-group">
               <label for="land_extent">Land Extent (In Acres)</label>
-              <input type="text" class="form-control typeahead3 @error('removal_requestor') is-invalid @enderror" value="{{ old('land_extent') }}" id="land_extent" name="land_extent">
+              <input type="text" class="form-control typeahead3" value="{{ old('land_extent') }}" id="land_extent" name="land_extent">
               @error('land_extent')
               <div class="alert alert-danger">{{ $message }}</div>
-              @enderror
-            </div>
-
-            <div class="form-group">
-              <label>Land Owner Type:</label>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="landownertype" id="landownertype1" value="1" required>
-                <label class="form-check-label" for="landownertype1">
-                  Government
-                </label>
-              </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="landownertype" id="landownertype2" value="2" required>
-                <label class="form-check-label" for="landownertype2">
-                  Private
-                </label>
-              </div>
-              @error('landownertype')
-              <div class="alert alert-danger">Please Select the Type</div>
               @enderror
             </div>
 
@@ -126,17 +117,37 @@
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
               <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="customCheck1" value="1" name="checklandowner">
+                <input type="checkbox" class="custom-control-input" id="customCheck1" value="1" name="checklandowner" {{ old('checklandowner') == "1" ? 'checked' : ''}}>
                 <label class="custom-control-label" for="customCheck1"><strong>Other</strong></label>
               </div>
             </div>
+
+            <div class="form-group">
+              <label>Land Owner Type:</label>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="landownertype" id="landownertype1" value="1" {{ old('landownertype') == "1" ? 'checked' : ''}}>
+                <label class="form-check-label" for="landownertype1">
+                  Government
+                </label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="landownertype" id="landownertype2" value="2" {{ old('landownertype') == "2" ? 'checked' : ''}}>
+                <label class="form-check-label" for="landownertype2">
+                  Private
+                </label>
+              </div>
+              @error('landownertype')
+              <div class="alert alert-danger">Please Select the Type</div>
+              @enderror
+            </div>
+
             <!-- ////////MAP GOES HERE -->
             <div id="mapid" style="height:400px;" name="map"></div>
             @error('polygon')
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
             <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
-            
+
             <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
 
             <div class="custom-control custom-checkbox">
@@ -158,38 +169,62 @@
                 <div class="form-group">
                   <label for="number_of_tree_species">Number of Tree Species</label>
                   <input type="text" class="form-control" id="number_of_tree_species" name="number_of_tree_species">
+                  @error('number_of_tree_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="number_of_flora_species">Number of Flora Species</label>
                   <input type="text" class="form-control" id="number_of_flora_species" name="number_of_flora_species">
+                  @error('number_of_flora_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
+
                 <div class="form-group">
                   <label for="number_of_reptile_species">Number of Reptile Species</label>
                   <input type="text" class="form-control" id="number_of_reptile_species" name="number_of_reptile_species">
+                  @error('number_of_reptile_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
               </div>
+
               <div class="col">
                 <div class="form-group">
                   <label for="number_of_mammal_species">Number of Mammal Species</label>
                   <input type="text" class="form-control" id="number_of_mammal_species" name="number_of_mammal_species">
+                  @error('number_of_mammal_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="number_of_amphibian_species">Number of Ambhibian Species</label>
                   <input type="text" class="form-control" id="number_of_amphibian_species" name="number_of_amphibian_species">
+                  @error('number_of_amphibian_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="number_of_fish_species">Number of Fish Species</label>
                   <input type="text" class="form-control" id="number_of_fish_species" name="number_of_fish_species">
+                  @error('number_of_fish_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="number_of_avian_species">Number of Avian Species</label>
                   <input type="text" class="form-control" id="number_of_avian_species" name="number_of_avian_species">
+                  @error('number_of_avian_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
               </div>
+
             </div>
             <div class="form-group">
               <label for="species_special_notes">Species Special Notes</label>
@@ -198,7 +233,7 @@
 
             <div class="form-group">
               <label for="description">Description</label>
-              <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" name="description" value="{{ old('description') }}"></textarea>
+              <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" name="description">{{{ old('description') }}}</textarea>
               @error('description')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
@@ -229,7 +264,7 @@
               <th>Age</th>
             </tr>
             <tr>
-              <td><input type="text" name="location[0][tree_species_id]" placeholder="Enter ID" class="form-control" /></td>
+              <td><input type="text" name="location[0][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6" /></td>
               <td><input type="text" name="location[0][tree_id]" placeholder="Enter ID" class="form-control" /></td>
               <td><input type="text" name="location[0][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td>
               <td><input type="text" name="location[0][height]" placeholder="Enter Height" class="form-control" /></td>
@@ -263,14 +298,13 @@
 
 
 <script>
-
   //photos add
-    var i = 0;
-    $("#add-btn2").click(function() {
-        ++i;
-        $("#dynamicAddRemove2").append(
-        '<input type="file" id="images" name="images['+ i +']">');
-    });
+  var i = 0;
+  $("#add-btn2").click(function() {
+    ++i;
+    $("#dynamicAddRemove2").append(
+      '<input type="file" id="images" name="images[' + i + ']">');
+  });
 
   //STEPPER
   var currentTab = 0; // Current tab is set to be the first tab (0)
@@ -420,6 +454,24 @@
     },
   });
 
+  var path6 = "{{route('species')}}";
+  $('input.typeahead6').typeahead({
+    source: function(terms, process) {
+
+      return $.get(path6, {
+        terms: terms
+      }, function(data) {
+        console.log(data);
+        objects = [];
+        data.map(i => {
+          objects.push(i.title)
+        })
+        console.log(objects);
+        return process(objects);
+      })
+    },
+  });
+
   /// SCRIPT FOR THE DYNAMIC COMPONENT
   var i = 0;
   $("#add-btn").click(function() {
@@ -435,61 +487,61 @@
   ///SCRIPT FOR THE MAP
   var center = [7.2906, 80.6337];
 
-// Create the map
-var map = L.map('mapid').setView(center, 10);
+  // Create the map
+  var map = L.map('mapid').setView(center, 10);
 
-// Set up the OSM layer 
-L.tileLayer(
+  // Set up the OSM layer 
+  L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-        attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
-        maxZoom: 18
+      attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
+      maxZoom: 18
     }).addTo(map);
 
 
-var drawnItems = new L.FeatureGroup();
-map.addLayer(drawnItems);
+  var drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
 
-var drawControl = new L.Control.Draw({
+  var drawControl = new L.Control.Draw({
     position: 'topright',
     draw: {
-        polygon: {
-            shapeOptions: {
-                color: 'purple'
-            },
-            allowIntersection: false,
-            drawError: {
-                color: 'orange',
-                timeout: 1000
-            },
-            showArea: true,
-            metric: false,
-            repeatMode: true
+      polygon: {
+        shapeOptions: {
+          color: 'purple'
         },
-        polyline: {
-            shapeOptions: {
-                color: 'red'
-            },
+        allowIntersection: false,
+        drawError: {
+          color: 'orange',
+          timeout: 1000
         },
-        circlemarker: false,
-        rect: {
-            shapeOptions: {
-                color: 'green'
-            },
+        showArea: true,
+        metric: false,
+        repeatMode: true
+      },
+      polyline: {
+        shapeOptions: {
+          color: 'red'
         },
-        circle: false,
+      },
+      circlemarker: false,
+      rect: {
+        shapeOptions: {
+          color: 'green'
+        },
+      },
+      circle: false,
     },
     edit: {
-        featureGroup: drawnItems
+      featureGroup: drawnItems
     }
-});
-map.addControl(drawControl);
+  });
+  map.addControl(drawControl);
 
-map.on('draw:created', function(e) {
+  map.on('draw:created', function(e) {
     var type = e.layerType,
-        layer = e.layer;
+      layer = e.layer;
 
     if (type === 'marker') {
-        layer.bindPopup('A popup!');
+      layer.bindPopup('A popup!');
     }
 
     drawnItems.addLayer(layer);

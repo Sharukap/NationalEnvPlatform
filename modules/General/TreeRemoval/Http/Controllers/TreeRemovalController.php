@@ -9,6 +9,7 @@ use App\Models\District;
 use App\Models\GS_Division;
 use App\Models\Organization;
 use App\Models\Process_Item;
+use App\Models\Species_Information;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +43,16 @@ class TreeRemovalController extends Controller
                 'polygon' => 'required',
                 'number_of_trees' => 'required|integer',
                 'description' => 'required',
-                'land_extent' => 'sometimes|integer'
+                'land_extent' => 'nullable|integer',
+                'rremail' => 'required|email',
+
+                'number_of_tree_species' => 'nullable|integer',
+                'number_of_flora_species' => 'nullable|integer',
+                'number_of_reptile_species' => 'nullable|integer',
+                'number_of_mammal_species' => 'nullable|integer',
+                'number_of_amphibian_species' => 'nullable|integer',
+                'number_of_fish_species' => 'nullable|integer',
+                'number_of_avian_species' => 'nullable|integer',
             ]);
         } elseif (request('checkremovalrequestor')) {
             $request->validate([
@@ -56,7 +66,16 @@ class TreeRemovalController extends Controller
                 'polygon' => 'required',
                 'number_of_trees' => 'required|integer',
                 'description' => 'required',
-                'land_extent' => 'sometimes|integer'
+                'land_extent' => 'nullable|integer',
+                'rremail' => 'required|email',
+
+                'number_of_tree_species' => 'nullable|integer',
+                'number_of_flora_species' => 'nullable|integer',
+                'number_of_reptile_species' => 'nullable|integer',
+                'number_of_mammal_species' => 'nullable|integer',
+                'number_of_amphibian_species' => 'nullable|integer',
+                'number_of_fish_species' => 'nullable|integer',
+                'number_of_avian_species' => 'nullable|integer',
             ]);
         } elseif (request('checklandowner')) {
             $request->validate([
@@ -70,7 +89,15 @@ class TreeRemovalController extends Controller
                 'polygon' => 'required',
                 'number_of_trees' => 'required|integer',
                 'description' => 'required',
-                'land_extent' => 'sometimes|integer'
+                'land_extent' => 'nullable|integer',
+
+                'number_of_tree_species' => 'nullable|integer',
+                'number_of_flora_species' => 'nullable|integer',
+                'number_of_reptile_species' => 'nullable|integer',
+                'number_of_mammal_species' => 'nullable|integer',
+                'number_of_amphibian_species' => 'nullable|integer',
+                'number_of_fish_species' => 'nullable|integer',
+                'number_of_avian_species' => 'nullable|integer',
             ]);
         } else {
             $request->validate([
@@ -83,9 +110,20 @@ class TreeRemovalController extends Controller
                 'polygon' => 'required',
                 'number_of_trees' => 'required|integer',
                 'description' => 'required',
-                'land_extent' => 'sometimes|integer'
+                'land_extent' => 'nullable|integer',
+
+                'number_of_tree_species' => 'nullable|integer',
+                'number_of_flora_species' => 'nullable|integer',
+                'number_of_reptile_species' => 'nullable|integer',
+                'number_of_mammal_species' => 'nullable|integer',
+                'number_of_amphibian_species' => 'nullable|integer',
+                'number_of_fish_species' => 'nullable|integer',
+                'number_of_avian_species' => 'nullable|integer',
             ]);
         }
+
+
+
         
             
         // $request->validate([
@@ -199,13 +237,13 @@ class TreeRemovalController extends Controller
                 $process->other_land_owner_name = request('land_owner');
                 $process->other_land_owner_type = request('landownertype');
             } else {
-                
                 $land_owner = Organization::where('title', request('land_owner'))->pluck('id');
                 $process->request_organization = $land_owner[0];
             }
             if (request('checkremovalrequestor')) {
                 $process->other_removal_requestor_name = request('removal_requestor');
                 $process->other_removal_requestor_type = request('removalrequestortype');
+                $process->requestor_email = request('rremail');
             } else {
                 $removal_requestor = Organization::where('title', request('removal_requestor'))->pluck('id');
                 $process->activity_organization = $removal_requestor[0];
@@ -270,6 +308,15 @@ class TreeRemovalController extends Controller
     {
         $data = GS_Division::select("gs_division")
             ->where("gs_division", "LIKE", "%{$request->terms}%")
+            ->get();
+
+        return response()->json($data);
+    }
+
+    public function SpeciesAutocomplete(Request $request)
+    {
+        $data = Species_Information::select("title")
+            ->where("title", "LIKE", "%{$request->terms}%")
             ->get();
 
         return response()->json($data);

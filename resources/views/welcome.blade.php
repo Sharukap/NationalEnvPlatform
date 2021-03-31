@@ -193,6 +193,7 @@
     }
 
     #footer {
+      font: 15px/22px Georgia, Palatino, "Times New Roman", Times, Serif;
       clear: both;
       border-top: 1px solid #ddd;
       color: #999;
@@ -210,10 +211,6 @@
 
     #footer .right {
       float: right;
-    }
-
-    .lightpurp {
-      background-color: #440F77;
     }
 
     .lightpurp {
@@ -296,8 +293,11 @@
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
         <div class="card-body">
-          <a href="#" class="btn lightpurp text-light">Submit a Tree Removal Form</a>
-
+          @if(auth()->user())
+          <a href="{{ route('treeremoval') }}" class="btn lightpurp text-light">Submit a Tree Removal Form</a>
+          @else
+          <a href="{{ route('login') }}" class="btn lightpurp text-light">Submit a Tree Removal Form</a>
+          @endif
         </div>
       </div>
 
@@ -308,8 +308,11 @@
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
         <div class="card-body">
-          <a href="#" class="btn lightpurp text-light">Submit a Development Form</a>
-
+          @if(auth()->user())
+          <a href="{{ route('devproject') }}" class="btn lightpurp text-light">Submit a Development Form</a>
+          @else
+          <a href="{{ route('login') }}" class="btn lightpurp text-light">Submit a Development Form</a>
+          @endif
         </div>
       </div>
 
@@ -320,7 +323,11 @@
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
         <div class="card-body">
-          <a href="#" class="btn lightpurp text-light">Submit a Restoration Form</a>
+          @if(auth()->user())
+          <a href="{{ route('envrestoration') }}" class="btn lightpurp text-light">Submit a Restoration Form</a>
+          @else
+          <a href="{{ route('login') }}" class="btn lightpurp text-light">Submit a Restoration Form</a>
+          @endif
         </div>
       </div>
 
@@ -331,7 +338,11 @@
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
         <div class="card-body">
-          <a href="#" class="btn lightpurp text-light">Make a Complaint</a>
+          @if(auth()->user())
+          <a href="{{ route('crime') }}" class="btn lightpurp text-light">Make a Complaint</a>
+          @else
+          <a href="{{ route('login') }}" class="btn lightpurp text-light">Make a Complaint</a>
+          @endif
         </div>
       </div>
     </div>
@@ -370,15 +381,19 @@
   <div id="footer">
     <div class="d-flex  bg-light justify-content-end">
       <br>
-      <a href="#" class="text-secondary mr-2">
+      <a href="https://www.facebook.com/reforestsrilanka/" class="text-secondary mr-2">
         <i class="fab fa-facebook-square"></i> Facebook |
       </a>
-      <a href="#" class="text-secondary mr-2">
-        <i class="fab fa-twitter-square"></i> Twitter |
+      <a href="https://www.linkedin.com/company/reforest-sri-lanka/" class="text-secondary mr-2">
+        <i class="fab fa-linkedin"></i> LinkedIn |
       </a>
-      <a href="#" class="text-secondary mr-2">
-        <i class="fab fa-instagram"></i> Instagram
+      <a href="https://www.instagram.com/reforest_srilanka/?hl=en" class="text-secondary mr-2">
+        <i class="fab fa-instagram"></i> Instagram |
       </a>
+      <a href="https://medium.com/@achalaarunalu/reforest-sri-lanka-8e16cf5749de" class="text-secondary mr-2">
+        <i class="fab fa-medium"></i> Medium |
+      </a>
+      <a href="http://www.reforestsrilanka.com/" class="text-secondary mr-2">ReforestSL</a>
     </div>
     <div class="d-flex bg-light justify-content-center">
       <h5 class="text-secondary"><i class="far fa-copyright"></i> 2021 by RFSL - LSF - Ministry of Environment</h5><br>
