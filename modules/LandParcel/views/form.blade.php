@@ -67,7 +67,7 @@
                                     <strong>Select Multiple</strong>
                                     <fieldset>
                                         @foreach($gazettes as $gazette)
-                                        <input type="checkbox" name="gazettes[]" value="{{$gazette->id}}"><label class="ml-2">{{$gazette->title}}</label> <br>
+                                        <input type="checkbox" name="gazettes[]" value="{{$gazette->id}}"> <label class="ml-2">{{$gazette->title}}</label> <br>
                                         @endforeach
                                     </fieldset>
                                 </div>
