@@ -49,16 +49,16 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                     <br>
-                    <input id="polygon" type="text" class="form-control" name="polygon" value="{{request('polygon')}}">
+                    <input id="polygon" type="hidden" class="form-control" name="polygon" value="{{request('polygon')}}">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-                        <label class="custom-control-label" for="customCheck"><strong>Check if land is a protected area</strong></label>
+                        <label class="custom-control-label" for="customCheck"><strong>Is Land a Protected Area?</strong></label>
                     </div>
                 </div>
             </div>
         </div>
         <input type="hidden" class="form-control" name="createdBy" value="{{Auth::user()->id}}">
-
+        <input id="kml" type="text" class="form-control" name="kml" value="{{request('kml')}}">
     </form>
 </div>
 
@@ -165,12 +165,11 @@
         drawnItems.addLayer(layer);
         $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON()));
 
-        ///COnverting your layer to a KML
-        var json = drawnItems.toGeoJSON();
-        var kml = tokml(json);
-        console.log(kml);
-
-
+        ///Converting your layer to a KML
+        // var json = drawnItems.toGeoJSON();
+        // var kml = tokml(json);
+        // console.log(kml);
+        $('#kml').val(tokml(drawnItems.toGeoJSON()));
 
 
     });
