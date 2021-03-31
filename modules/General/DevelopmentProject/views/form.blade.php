@@ -24,7 +24,7 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        Organization:<input type="text" class="form-control typeahead3" placeholder="Search" name="organization" value="{{ old('organization') }}"/>
+                        Organization:<input type="text" class="form-control typeahead3" placeholder="Search" name="organization" value="{{ old('organization') }}" />
                         @error('organization')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -49,15 +49,16 @@
                     <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                     <br>
-                    <input id="polygon" type="hidden" name="polygon" value="{{request('polygon')}}">
+                    <input id="polygon" type="hidden" class="form-control" name="polygon" value="{{request('polygon')}}">
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-                        <label class="custom-control-label" for="customCheck"><strong>Check if land is a protected area</strong></label>
+                        <label class="custom-control-label" for="customCheck"><strong>Is Land a Protected Area?</strong></label>
                     </div>
                 </div>
             </div>
         </div>
         <input type="hidden" class="form-control" name="createdBy" value="{{Auth::user()->id}}">
+        <input id="kml" type="text" class="form-control" name="kml" value="{{request('kml')}}">
     </form>
 </div>
 
@@ -114,6 +115,7 @@
             maxZoom: 18
         }).addTo(map);
 
+
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
 
@@ -161,7 +163,13 @@
         }
 
         drawnItems.addLayer(layer);
-        $('#polygon').val(JSON.stringify(layer.toGeoJSON()));
+        $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON()));
+
+        ///Converting your layer to a KML
+        // var json = drawnItems.toGeoJSON();
+        // var kml = tokml(json);
+        // console.log(kml);
+        $('#kml').val(tokml(drawnItems.toGeoJSON()));
 
 
     });
