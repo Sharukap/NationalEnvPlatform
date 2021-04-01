@@ -47,10 +47,10 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{$treecut->province->province}}</td>
-                                <td>{{$treecut->district->district}}</td>
-                                <td>{{$treecut->gs_division_id}}</td>
-                                <td>{{$treecut->description}}</td>
+                                <td>{{$item->province->province}}</td>
+                                <td>{{$item->district->district}}</td>
+                                <td>{{$item->gs_division_id}}</td>
+                                <td>{{$item->description}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -65,14 +65,14 @@
                         </thead>
                         <tbody>
                             <tr>
-                                @if($treecut->special_approval==0)
+                                @if($item->special_approval==0)
                                 <td>Not a protected area</td>
-                                @elseif($treecut->special_approval==1)
+                                @elseif($item->special_approval==1)
                                 <td>Protected area</td>
                                 @endif
-                                <td>{{$treecut->land_size}}</td>
-                                <td>{{$treecut->no_of_trees}}</td>
-                                <td>{{$treecut->no_of_tree_species}}<td>
+                                <td>{{$item->land_size}}</td>
+                                <td>{{$item->no_of_trees}}</td>
+                                <td>{{$item->no_of_tree_species}}<td>
                             </tr>
                         </tbody>
                     </table>
@@ -89,10 +89,10 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{$devp->title}}</td>
-                                <td>{{$devp->gazette->title}}</td>
-                                <td>{{$devp->gs_division_id}}</td>
-                                <td>{{$devp->description}}</td>
+                                <td>{{$item->title}}</td>
+                                <td>{{$item->gazette->title}}</td>
+                                <td>{{$item->gs_division_id}}</td>
+                                <td>{{$item->description}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -111,9 +111,9 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{$crime->crime_type->type}}</td>
-                                <td>{{$crime->description}}</td>
-                                <td>{{$crime->land_parcel->title}}</td>
+                                <td>{{$item->crime_type->type}}</td>
+                                <td>{{$item->description}}</td>
+                                <td>{{$item->land_parcel->title}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -140,12 +140,12 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td>{{$treecut->no_of_mammal_species}}</td>
-                                <td>{{$treecut->no_of_amphibian_species}}</td>
-                                <td>{{$treecut->no_of_reptile_species}}</td>
-                                <td>{{$treecut->no_of_avian_species}}</td>
-                                <td>{{$treecut->no_of_flora_species}}</td>
-                                <td>{{$treecut->species_special_notes}}</td>
+                                <td>{{$item->no_of_mammal_species}}</td>
+                                <td>{{$item->no_of_amphibian_species}}</td>
+                                <td>{{$item->no_of_reptile_species}}</td>
+                                <td>{{$item->no_of_avian_species}}</td>
+                                <td>{{$item->no_of_flora_species}}</td>
+                                <td>{{$item->species_special_notes}}</td>
                             </tr>
                         </tbody>
                     </table>
@@ -158,7 +158,7 @@
                 <div class="card" style="background-color:#99A3A4">
                     <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
                     <div class="card-body text-center">
-                    <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
+                    <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
                     </div>
                 </div>
                 @endforeach
@@ -237,15 +237,16 @@
             maxZoom: 18
         }).addTo(map);
 
-    // add a marker in the given location
-    L.marker(center).addTo(map);
+    
 
     //FROM LARAVEL THE COORDINATES ARE BEING TAKEN TO THE SCRIPT AND CONVERTED TO JSON
     var polygon = @json($polygon);
-    console.log(polygon);
+    var layer = L.geoJSON(JSON.parse(polygon)).addTo(map);
+    
 
-    //ADDING THE JSOON COORDINATES TO MAP
-    L.geoJSON(JSON.parse(polygon)).addTo(map);
+    // Adjust map to show the kml
+    var bounds = layer.getBounds();
+    map.fitBounds(bounds);
     
 </script>
 @endsection

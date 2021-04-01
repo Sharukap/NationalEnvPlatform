@@ -14,9 +14,11 @@
 			this.ajaxGetTreeRemovalProvincesData();
 			this.ajaxGetTreeRemovalDistrictsData();
 
+
 			this.ajaxGetRestorationsMonthlyData();
 			this.ajaxGetRestorationsTypesData();
 			this.ajaxGetRestorationsEcosystemsData();
+
 		},
 
 		ajaxGetProcessItemsMonthlyData: function () {
@@ -88,6 +90,7 @@
 					},
 					legend: {
 						display: true
+
 					},
 					responsive: {  
 						rules: [{  
@@ -177,6 +180,7 @@
 					},
 					legend: {
 						display: true
+
 					},
 					responsive: {  
 						rules: [{  
@@ -193,6 +197,7 @@
 				}
 			})
 			;
+
 		},
 
 
@@ -241,6 +246,7 @@
 						display: true
 					},
 					rotation: -0.7 * Math.PI
+
 				},
 				responsive: {  
 					rules: [{  
@@ -644,7 +650,7 @@
             });
         },
 
-		
+
 
 
 		

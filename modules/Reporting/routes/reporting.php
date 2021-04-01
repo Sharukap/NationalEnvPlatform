@@ -16,3 +16,4 @@ Route::get('/restoration', [ReportingController::class, 'restoration']);
 Route::get('/get-restoration-chart-data',[ReportingController::class, 'getMonthlyRestorationData']);
 Route::get('/get-restoration-type-chart-data',[ReportingController::class, 'getRestorationActivityTypeData']);
 Route::get('/get-restoration-ecosystem-chart-data',[ReportingController::class, 'getRestorationEcosystemData']);
+
