@@ -44,6 +44,8 @@ class GeneralController extends Controller
             $Process_items = Process_Item::all()->where('status_id','>=',2)->where('activity_organization',$organization);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
+                'tree_removals' =>$tree_removals,
+                'dev_projects'=>$dev_projects
             ]);
         }
 
@@ -57,6 +59,8 @@ class GeneralController extends Controller
             $Process_items = Process_Item::all()->where('created_by_user_id',$id);
             return view('general::generalA',[
                 'Process_items' => $Process_items,
+                'tree_removals' =>$tree_removals,
+                'dev_projects'=>$dev_projects
             ]);
         } else {
             return view('unauthorized')->with('message', 'Access Denied');
