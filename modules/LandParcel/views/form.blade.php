@@ -67,7 +67,7 @@
                                     <strong>Select Multiple</strong>
                                     <fieldset>
                                         @foreach($gazettes as $gazette)
-                                        <input type="checkbox" name="gazettes[]" value="{{$gazette->id}}"><label class="ml-2">{{$gazette->title}}</label> <br>
+                                        <input type="checkbox" name="gazettes[]" value="{{$gazette->id}}"> <label class="ml-2">{{$gazette->title}}</label> <br>
                                         @endforeach
                                     </fieldset>
                                 </div>
@@ -101,7 +101,7 @@
                     <br>
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-                        <label class="custom-control-label" for="customCheck"><strong>Check if land is a protected area</strong></label>
+                        <label class="custom-control-label" for="customCheck"><strong>Is Land a Protected Area?</strong></label>
                     </div>
                     <div style="float:right;">
                         <button type="submit" name="submit" class="btn bd-navbar text-white">Submit</button>
