@@ -15,7 +15,6 @@ class Tree_Removal_Request extends Model
         'created_by_user_id',
         'description',
         'land_size',
-        'land_size_unit',
         'no_of_trees',
         'no_of_tree_species',
         'no_of_mammal_species',
@@ -27,26 +26,21 @@ class Tree_Removal_Request extends Model
         'status_id',
         'land_parcel_id',
         'district_id',
-        'province_id',
         'gs_division_id',
-        'governing_organizations',
+        'organization_id',
         'images',
-        'special_approval',
-        'tree_locations',
+        'tree_details',
     ];
 
     protected $casts = [
-        'tree_locations' => 'array',
-        'special_approval' => 'array',
+        'tree_details' => 'array',
         'governing_organizations' => 'array',
     ];
 
     protected $attributes = [
         'images' => 0,
-        'special_approval' => 0,
-        'tree_locations' => 0,
+        'tree_details' => 0,
         'status_id' => 1,
-        'land_size_unit' => "acres",
         'land_size' => 0,
         'no_of_tree_species' => 0,
         'no_of_mammal_species' => 0,
@@ -68,11 +62,6 @@ class Tree_Removal_Request extends Model
         return $this->belongsTo('App\Models\GS_Division');
     }
 
-    public function province()
-    {
-        return $this->belongsTo('App\Models\Province');
-    }
-
     public function district()
     {
         return $this->belongsTo('App\Models\District');
@@ -82,4 +71,10 @@ class Tree_Removal_Request extends Model
     {
         return $this->belongsTo('App\Models\Land_Parcel');
     }
+
+    public function organization()
+    {
+        return $this->belongsTo('App\Models\Organization');
+    }
+
 }

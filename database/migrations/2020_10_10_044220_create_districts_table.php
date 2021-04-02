@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProvincesTable extends Migration
+class CreateDistrictsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,14 @@ class CreateProvincesTable extends Migration
      */
     public function up()
     {
-        Schema::create('provinces', function (Blueprint $table) {
+        Schema::create('districts', function (Blueprint $table) {
             $table->id();
-            $table->string('province');  
+            $table->string('district');  
             $table->timestampsTz(); //time stamp with timezone in UTC
-            $table->tinyInteger('status');
             $table->softDeletesTz('deleted_at', 0);
+
+            $table->unsignedBigInteger('province_id')->nullable(); 
+            $table->foreign('province_id')->references('id')->on('provinces')->onDelete('cascade'); 
         });
     }
 
@@ -29,6 +31,6 @@ class CreateProvincesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('provinces');
+        Schema::dropIfExists('districts');
     }
 }

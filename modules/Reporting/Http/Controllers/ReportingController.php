@@ -1,17 +1,21 @@
 <?php
 namespace Reporting\Http\Controllers;
 
+
 use App\Models\User;
+
 use App\Models\Form_Type;
 use App\Models\Organization;
 use App\Models\Process_Item;
 use App\Models\Province;
 use App\Models\District;
 use App\Models\Tree_Removal_Request;
+
 use App\Models\Environment_Restoration;
 use App\Models\Environment_Restoration_Activity;
 use App\Models\Environment_Restoration_Species;
 use App\Models\Ecosystem;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -19,6 +23,7 @@ use Illuminate\Support\Facades\Validator;
 use DB;
 
 class ReportingController extends Controller {
+
     //WELCOME PAGE CHARTS
     //Process Item per month Line Chart
     public function getAllUsers() {
@@ -70,6 +75,7 @@ class ReportingController extends Controller {
         return $monthly_user_data_array;
 
     }
+
 
 
 
@@ -324,6 +330,7 @@ class ReportingController extends Controller {
             $district_count = Tree_Removal_Request::where('district_id', $pid)->pluck('no_of_trees')->sum();
             return $district_count;
         }
+
         function rand_color() {
             return '#' . str_pad(dechex(mt_rand(0, 0xFFFFFF)), 6, '0', STR_PAD_LEFT);
         }
@@ -331,20 +338,25 @@ class ReportingController extends Controller {
             $tree_removal_district_count_array = array();
             $tree_removal_district_array = $this->getTreeRemovalDistrictNames();
             $tree_removal_district_name_array = array();
+
             $tree_removal_district_colors=array();
+
             $district_id =1;
             if ( ! empty( $tree_removal_district_array ) ) {
                 foreach ( $tree_removal_district_array as $district ){
                     $tree_removal_district_count = $this->getTreeRemovalDistrictCount( $district_id );
                     array_push( $tree_removal_district_count_array, $tree_removal_district_count );
                     array_push( $tree_removal_district_name_array, $district );
+
                     $district_color=$this->rand_color();
                     array_push( $tree_removal_district_colors,$district_color);
+
                     $district_id++;
                 }
             }
             $tree_removal_district_data_array = array(
                 'district' => $tree_removal_district_name_array,
+
                 'tree_removal_district_count_data' => $tree_removal_district_count_array,
                 'district_color'=>$tree_removal_district_colors
             );
@@ -492,6 +504,7 @@ class ReportingController extends Controller {
     
 
     
+
 
     
 }

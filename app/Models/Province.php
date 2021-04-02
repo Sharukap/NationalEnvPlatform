@@ -14,7 +14,7 @@ class Province extends Model
         'province',
     ];
 
-    public function tree_removal_requests(){
-        return $this->hasMany('App\Models\Tree_Removal_Request');
+    public function districts(){
+        return $this->hasMany('App\Models\District');
     }
 }
