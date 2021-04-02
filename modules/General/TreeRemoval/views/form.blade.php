@@ -11,8 +11,8 @@
       <div class="container">
         <div class="row border rounded-lg p-4 bg-white">
           <div class="col border border-muted rounded-lg mr-2 p-2">
-
             <div class="row p-2">
+
               <div class="col p-2">
                 <div class="form-group">
                   District:*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
@@ -20,7 +20,6 @@
                   <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
                 </div>
-
               </div>
               <div class="col p-2">
                 <div class="form-group">
@@ -29,7 +28,6 @@
                   <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
                 </div>
-
               </div>
             </div>
 
@@ -69,7 +67,7 @@
                     <strong>Select 1 or More</strong>
                     <fieldset>
                       @foreach($organizations as $organization)
-                      <input type="checkbox" name="land_governing_orgs[]" value="{{$organization->id}}"><label class="ml-2">{{$organization->title}}</label> <br>
+                      <input type="checkbox" name="land_governing_orgs[]" value="{{$organization->id}}" @if( is_array(old('land_governing_orgs')) && in_array($organization->id, old('land_governing_orgs'))) checked @endif><label class="ml-2">{{$organization->title}}</label> <br>
                       @endforeach
                     </fieldset>
                   </div>
@@ -87,7 +85,7 @@
                     <strong>Select 1 or More</strong>
                     <fieldset>
                       @foreach($gazettes as $gazette)
-                      <input type="checkbox" name="land_gazettes[]" value="{{$gazette->id}}"> <label class="ml-2">{{$gazette->title}}</label> <br>
+                      <input type="checkbox" name="land_gazettes[]" value="{{$gazette->id}}" @if( is_array(old('land_gazettes')) && in_array($gazette->id, old('land_gazettes'))) checked @endif> <label class="ml-2">{{$gazette->title}}</label> <br>
                       @endforeach
                     </fieldset>
                   </div>
@@ -224,7 +222,7 @@
             <div class="form-group">
               External Requestor:<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
               @error('externalRequestor')
-              <div class="alert alert-danger">{{ $message }}</div>
+              <div class="alert alert-danger">The NIC format is Invalid</div>
               @enderror
             </div>
             <div class="form-group">
@@ -370,23 +368,23 @@
 
 
   ///TYPEAHEAD
-  var path = "{{route('province')}}";
-  $('input.typeahead').typeahead({
-    source: function(terms, process) {
+  // var path = "{{route('province')}}";
+  // $('input.typeahead').typeahead({
+  //   source: function(terms, process) {
 
-      return $.get(path, {
-        terms: terms
-      }, function(data) {
-        console.log(data);
-        objects = [];
-        data.map(i => {
-          objects.push(i.province)
-        })
-        console.log(objects);
-        return process(objects);
-      })
-    },
-  });
+  //     return $.get(path, {
+  //       terms: terms
+  //     }, function(data) {
+  //       console.log(data);
+  //       objects = [];
+  //       data.map(i => {
+  //         objects.push(i.province)
+  //       })
+  //       console.log(objects);
+  //       return process(objects);
+  //     })
+  //   },
+  // });
 
   var path2 = "{{route('district')}}";
   $('input.typeahead2').typeahead({
