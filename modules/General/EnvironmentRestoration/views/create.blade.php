@@ -54,6 +54,10 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="request_org">Organization to submit request to :</label>
+                            <input type="text" class="form-control" placeholder="Enter Organization" id="request_org" name="request_org">
+                        </div>
                     </div>
                     <div class="col border border-muted rounded-lg p-4">
                         <!-- ////////MAP GOES HERE -->
