@@ -21,22 +21,19 @@ class Process_Item extends Model
         'prerequisite_id',
         'created_by_user_id',
         'status_id',
-        'other_land_owner_type',
-        'other_land_owner_name',
-        'other_removal_requestor_type',
-        'other_removal_requestor_name',
-        'requestor_email',
+
+        'ext_requestor',
+        'ext_requestor_email',
     ];
 
     protected $attributes = [
         'prerequisite' => 0,
         'remark' => 0,
         'status_id' => 1,
-        'other_land_owner_type' => 0,
-        'other_land_owner_name' => '',
-        'other_removal_requestor_type' => 0,
-        'other_removal_requestor_name' => '',
-        'requestor_email' => '',
+        'ext_requestor' => '',
+        'ext_requestor_email' => '',
+        'request_organization' => 0,
+        'activity_user_id' => 0,
     ];
 
     public function form_type()

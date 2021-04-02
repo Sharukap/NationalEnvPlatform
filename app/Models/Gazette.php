@@ -10,7 +10,8 @@ class Gazette extends Model
     use HasFactory;
     protected $table = 'gazettes';
 
-    public function development_projects(){
+    public function development_projects()
+    {
         return $this->hasMany('App\Models\Development_Project');
     }
 

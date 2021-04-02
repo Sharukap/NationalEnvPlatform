@@ -34,5 +34,8 @@
 <div class="col-md">
     @yield('reporting')
 </div>
-
+<!--chart js -->
+<script src="{{ url('/vendor/chart.js/dist/Chart.min.js') }}"></script>
+<script src="{{ url('/vendor/chart.js/dist/Chart.extension.js') }}"></script>
+<script src="{{ url('/vendor/create-charts.js' ) }}"></script>
 @endsection

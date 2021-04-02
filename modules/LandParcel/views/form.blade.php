@@ -15,18 +15,7 @@
         <div class="container">
             <div class="row p-4 bg-white">
                 <div class="col border border-muted rounded-lg mr-2 p-4">
-                    <div class="form-group">
-                        <label for="title">Title:</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Enter Title" value="{{ old('title') }}" id="title" name="title">
-                        @error('title')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-                    </div>
-
-
-                    <div class="form-group">
-                        Province:<input type="text" class="form-control typeahead" placeholder="Search" name="province" />
-                    </div>
+                    
                     <div class="form-group">
                         District:<input type="text" class="form-control typeahead2" placeholder="Search" name="district" />
                     </div>
@@ -224,24 +213,6 @@
     });
 
     ///TYPEAHEAD
-    var path = "{{route('province')}}";
-    $('input.typeahead').typeahead({
-        source: function(terms, process) {
-
-            return $.get(path, {
-                terms: terms
-            }, function(data) {
-                console.log(data);
-                objects = [];
-                data.map(i => {
-                    objects.push(i.province)
-                })
-                console.log(objects);
-                return process(objects);
-            })
-        },
-    });
-
     var path2 = "{{route('district')}}";
     $('input.typeahead2').typeahead({
         source: function(terms, process) {

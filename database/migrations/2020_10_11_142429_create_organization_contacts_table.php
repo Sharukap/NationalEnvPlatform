@@ -20,7 +20,6 @@ class CreateOrganizationContactsTable extends Migration
             $table->string('contact_signature'); //number, email string, address string
             $table->boolean('primary');
             $table->timestampsTz(); //time stamp with timezone in UTC
-            $table->tinyInteger('status');
             $table->softDeletesTz('deleted_at', 0);
             $table->foreign('org_id')->references('id')->on('organizations')->onDelete('cascade');
         });
