@@ -301,6 +301,9 @@ class ApprovalItemController extends Controller
             $item = Crime_report::find($process_item->form_id);
             $Photos=Json_decode($item->photos);
         }
+        else if($process_item->form_type_id == '5'){
+            $item = Land_Parcel::find($process_item->form_id);
+        }
         $land_parcel = Land_Parcel::find($item->land_parcel_id);
 
         if($process_item->form_type_id == '1' ||$process_item->form_type_id == '4'){
