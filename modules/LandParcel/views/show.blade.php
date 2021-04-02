@@ -10,30 +10,23 @@
         <dt class="col-sm-3">Title:</dt>
         <dd class="col-sm-9">{{$land->title}}</dd>
 
+        <dt class="col-sm-3">Activity Organizations:</dt>
+        <dd class="col-sm-9">
+            <ul class="list-unstyled">
+                {{$land->organization->title}}
+            </ul>
+        </dd>
+
         <dt class="col-sm-3">Governing Organizations:</dt>
         <dd class="col-sm-9">
             <ul class="list-unstyled">
-                @foreach($land->governing_organizations as $governing_organization)
-                @switch($governing_organization)
-                @case(1)
-                <li>Reforest Sri Lanka</li>
-                @break
-                @case(2)
-                <li>Ministry of Environment</li>
-                @break
-                @case(3)
-                <li>Central Environmental Authority</li>
-                @break
-                @case(4)
-                <li>Ministry of Wildlife</li>
-                @break
-                @case(5)
-                <li>Road Development Authority</li>
-                @break
-                @default
-                <li>Other</li>
-                @endswitch
-                @endforeach
+                @if($governing_orgs!=null)
+                    @foreach($governing_orgs as $go)
+                    <p>{{$go->title}}</p>
+                    @endforeach
+                @else
+                <p>Unassigned</p>
+                @endif
             </ul>
         </dd>
 
@@ -43,7 +36,9 @@
         <dt class="col-sm-3 text-truncate">Created at:</dt>
         <dd class="col-sm-9">{{$land->created_at}}</dd>
     </dl>
-    <div class="container border border-dark border-rounded"><div id="mapid" style="height:400px;" name="map"></div></div>
+    <div class="container border border-dark border-rounded">
+        <div id="mapid" style="height:400px;" name="map"></div>
+    </div>
 </div>
 
 <script>

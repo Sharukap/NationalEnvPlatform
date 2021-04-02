@@ -29,7 +29,6 @@ class Land_Parcel extends Model
     ];
 
     protected $casts = [
-        'governing_organizations' => 'array',
         'polygon' => 'array',
     ];
 
@@ -47,13 +46,13 @@ class Land_Parcel extends Model
     //relation for activity organization
     public function organization()
     {
-        return $this->belongsTo('App\Models\Organization');
+        return $this->belongsTo('App\Models\Organization','activity_organization');
     }
 
     //relation for m-m relationship between land_parcels and organizations
     public function organizations()
     {
-        return $this->belongsToMany(Organization::class, 'Land_Has_Organization');
+        return $this->belongsToMany('App\Models\Organization','land_has_organizations','land_parcel_id','organization_id');
     }
 
     public function gazettes()

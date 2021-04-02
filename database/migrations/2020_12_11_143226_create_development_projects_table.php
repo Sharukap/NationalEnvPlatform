@@ -19,6 +19,7 @@ class CreateDevelopmentProjectsTable extends Migration
             //$table->json('governing_organizations');
             $table->tinyInteger('protected_area');
             $table->integer('created_by_user_id');
+            $table->double('land_size', 12,4);
             $table->string('description');
             $table->json('images');
 
