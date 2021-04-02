@@ -17,7 +17,6 @@ class CreateGsDivisionsTable extends Migration
             $table->id();
             $table->string('gs_division');  
             $table->timestampsTz(); //time stamp with timezone in UTC
-            $table->tinyInteger('status');
             $table->softDeletesTz('deleted_at', 0);
         });
     }

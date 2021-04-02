@@ -294,7 +294,9 @@
         </div>
         <div class="card-body">
           @if(auth()->user())
+          @if(auth()->user()->role_id)
           <a href="{{ route('treeremoval') }}" class="btn lightpurp text-light">Submit a Tree Removal Form</a>
+          @endif
           @else
           <a href="{{ route('login') }}" class="btn lightpurp text-light">Submit a Tree Removal Form</a>
           @endif
@@ -309,7 +311,9 @@
         </div>
         <div class="card-body">
           @if(auth()->user())
+          @if(auth()->user()->role_id)
           <a href="{{ route('devproject') }}" class="btn lightpurp text-light">Submit a Development Form</a>
+          @endif
           @else
           <a href="{{ route('login') }}" class="btn lightpurp text-light">Submit a Development Form</a>
           @endif
@@ -324,7 +328,9 @@
         </div>
         <div class="card-body">
           @if(auth()->user())
+          @if(auth()->user()->role_id)
           <a href="{{ route('envrestoration') }}" class="btn lightpurp text-light">Submit a Restoration Form</a>
+          @endif
           @else
           <a href="{{ route('login') }}" class="btn lightpurp text-light">Submit a Restoration Form</a>
           @endif
@@ -339,7 +345,9 @@
         </div>
         <div class="card-body">
           @if(auth()->user())
+          @if(auth()->user()->role_id)
           <a href="{{ route('crime') }}" class="btn lightpurp text-light">Make a Complaint</a>
+          @endif
           @else
           <a href="{{ route('login') }}" class="btn lightpurp text-light">Make a Complaint</a>
           @endif
@@ -376,12 +384,12 @@
   <h2>Our Progress</h2>
   <div class="row justify-content-center mb-3">
     <div class="col-lg-11 card">
-    <canvas id="UserChart"></canvas>
+      <canvas id="UserChart"></canvas>
     </div>
   </div>
   <div class="row justify-content-center mb-3">
     <div class="col-lg-11 card">
-    <canvas id="processItemTypeChart"></canvas>
+      <canvas id="processItemTypeChart"></canvas>
     </div>
   </div>
   </div>

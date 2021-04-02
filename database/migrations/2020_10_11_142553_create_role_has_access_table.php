@@ -18,7 +18,6 @@ class CreateRoleHasAccessTable extends Migration
             $table->integer('role_id');
             $table->integer('access_id');
             $table->timestampsTz(); //time stamp with timezone in UTC
-            $table->tinyInteger('status');
             $table->softDeletesTz('deleted_at', 0);
         });
     }

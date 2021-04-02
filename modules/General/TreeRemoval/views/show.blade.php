@@ -9,7 +9,7 @@
         <div class="col border border-muted rounded-lg mr-2 p-2">
             <dl class="row">
                 <dt class="col-sm-3">Province:</dt>
-                <dd class="col-sm-9">{{$tree->province->province}}</dd>
+                <dd class="col-sm-9">{{$tree->district->province->province}}</dd>
 
                 <dt class="col-sm-3">District:</dt>
                 <dd class="col-sm-9">{{$tree->district->district}}</dd>
@@ -24,27 +24,7 @@
 
                 <dt class="col-sm-3">Governing Organizations:</dt>
                 <dd class="col-sm-9">
-                    <ul class="list-unstyled">
-                        @foreach($tree->governing_organizations as $governing_organization)
-                        @switch($governing_organization)
-                        @case(1)
-                        <li>Reforest Sri Lanka</li>
-                        @break
-                        @case(2)
-                        <li>Ministry of Environment</li>
-                        @break
-                        @case(3)
-                        <li>Central Environmental Authority</li>
-                        @break
-                        @case(4)
-                        <li>Ministry of Wildlife</li>
-                        @break
-                        @case(5)
-                        <li>Road Development Authority</li>
-                        @break
-                        @endswitch
-                        @endforeach
-                    </ul>
+                    <p></p>
                 </dd>
 
                 <dt class="col-sm-3">Category:</dt>
