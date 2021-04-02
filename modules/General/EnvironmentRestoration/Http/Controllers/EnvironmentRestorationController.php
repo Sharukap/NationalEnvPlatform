@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ecosystem;
+use App\Models\Land_Has_Organization;
 use Livewire\WithPagination;
 
 class EnvironmentRestorationController extends Controller
@@ -63,13 +64,21 @@ class EnvironmentRestorationController extends Controller
         $landparcel = new Land_Parcel();
         $landparcel->title = request('landparceltitle');
         $landparcel->polygon = request('polygon');
-        $landparcel->governing_organizations = request('govOrg');
         $landparcel->protected_area = request('isProtected');
         $landparcel->created_by_user_id = request('created_by');
         $landparcel->save();
 
         $latest = Land_Parcel::latest()->first();
         $newland = $latest->id;
+
+        $orgs = request('govOrg');
+        foreach($orgs as $org){
+            $landhasorg = new Land_Has_Organization();
+            $landhasorg->land_parcel_id = $newland;
+            $landhasorg->organization_id = $org;
+            $landhasorg->save();
+        }
+
 
 
         $restoration = new Environment_Restoration();
@@ -126,17 +135,17 @@ class EnvironmentRestorationController extends Controller
         }
 
         Environment_Restoration_Species::insert($insert_data);
-
+       
         $latest = Land_Parcel::latest()->first();
-        foreach ($latest->governing_organizations as $governing_organization) {
-            $process = new Process_Item();
-            $process->form_type_id = 3;
-            $process->form_id = $latest->id;
-            $process->created_by_user_id = request('created_by');
-            $process->request_organization = Auth::user()->organization_id;
-            $process->activity_organization = $governing_organization;
-            $process->save();
-        }
+
+        $process = new Process_Item();
+        $process->form_type_id = 3;
+        $process->form_id = $latest->id;
+        $process->created_by_user_id = request('created_by');
+        $process->request_organization = Auth::user()->organization_id;
+        $process->activity_organization = request('request_org');
+        $process->save();
+        
 
         return redirect('/general/pending')->with('message', 'Restoration Request Created Successfully');
     }
