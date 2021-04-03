@@ -290,7 +290,11 @@ class ReportingController extends Controller {
     }
 
     function getTreeRemovalProvinceCount($pid){
-        $province_count = Tree_Removal_Request::where('province_id', $pid)->pluck('no_of_trees')->sum();
+        $province_count=0;
+        $districts = District::where('province_id',$pid)->pluck('id');
+        foreach($districts as $district){
+            $province_count += Tree_Removal_Request::where('district_id', $district)->pluck('no_of_trees')->sum();
+        }
         return $province_count;
     }
 
