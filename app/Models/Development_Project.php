@@ -30,9 +30,7 @@ class Development_Project extends Model
         'images' => 0,
     ];
 
-    protected $casts = [
-        'images' => 'array',
-    ];
+    
 
     public function gazette()
     {
