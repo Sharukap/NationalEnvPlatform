@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Access;
 use App\Models\Role_has_access;
 use App\Models\User_has_access;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,9 @@ class access_control
             {
                 $access2 = User_has_access::where('user_id',Auth::user()->id)->where('access_id',$access)->first();
                 if($access2 == null){
-                    return redirect('/home/main')->with('message', 'You do not have access permision'); 
+                    $accesstitle=Access::find($access);
+                    
+                    return redirect('/home/main')->with('message', 'You do not have access permision to'.$accesstitle->access); 
                 }
                 else return $next($request);
             }
