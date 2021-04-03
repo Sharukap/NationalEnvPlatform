@@ -82,7 +82,11 @@
                             <tbody>
                                 <tr>
                                     <td>{{$item->title}}</td>
+                                @if($item->special_approval==null)
+                                    <td>No Gazette</td>
+                                @else
                                     <td>{{$item->gazette->title}}</td>
+                                @endif
                                     <td>{{$item->gs_division_id}}</td>
                                     <td>{{$item->description}}</td>
                                 </tr>

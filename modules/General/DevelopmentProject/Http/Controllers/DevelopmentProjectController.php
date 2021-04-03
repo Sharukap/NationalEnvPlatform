@@ -175,7 +175,7 @@ class DevelopmentProjectController extends Controller
             $landProcess = new Process_Item();
             $landProcess->form_id = $landid;
             $landProcess->remark = "Verify these land details";
-            $landProcess->prerequisite = 1;
+            $landProcess->prerequisite = 0;
             
             if (request('checkExternalRequestor')) {
                 $landProcess->ext_requestor = request('externalRequestor');

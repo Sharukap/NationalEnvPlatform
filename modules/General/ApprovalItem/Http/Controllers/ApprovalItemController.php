@@ -168,7 +168,10 @@ class ApprovalItemController extends Controller
 
     public function showRequests()
     {
-        $items = Process_Item::where('created_by_user_id', '=', Auth::user()->id)->get();
+        $items = Process_Item::where([
+            ['created_by_user_id', '=', Auth::user()->id],
+            ['form_type_id', '<', 5],
+        ])->get();
         return view('approvalItem::requests', [
             'items' => $items,
         ]);
@@ -313,7 +316,7 @@ class ApprovalItemController extends Controller
                 ['prerequisite_id', '=' , $process_item->id],           
                 ['prerequisite', '=', 0], 
             ])->first();
-            //dd($Photos);
+            
             return view('approvalItem::assignOrg',[
                 'item' => $item,
                 'process_item' =>$process_item,
