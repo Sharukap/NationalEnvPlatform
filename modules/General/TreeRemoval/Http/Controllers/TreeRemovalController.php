@@ -153,9 +153,9 @@ class TreeRemovalController extends Controller
             $tree->land_parcel_id = $landid;
 
             $tree->tree_details = request('location');
-
+            $tree->images = "{}";
             $tree->save();
-
+            
             //saving the images to the db
             $latest = Tree_Removal_Request::latest()->first();
             if (request('images')) {
@@ -195,7 +195,7 @@ class TreeRemovalController extends Controller
             $landProcess = new Process_Item();
             $landProcess->form_id = $landid;
             $landProcess->remark = "Verify these land details";
-            $landProcess->prerequisite = 1;
+            $landProcess->prerequisite = 0;
             
             if (request('checkExternalRequestor')) {
                 $landProcess->ext_requestor = request('externalRequestor');
@@ -206,10 +206,6 @@ class TreeRemovalController extends Controller
             $organization_id1 = Organization::where('title', request('activity_organization'))->pluck('id');
             $landProcess->activity_organization = $organization_id1[0];
 
-<<<<<<< HEAD
-            //$landProcess->activity_user_id = 0;
-=======
->>>>>>> e0894494a34ab08f4a3da89bff4a8694d0e1b3a2
             $landProcess->status_id = 1;
             $landProcess->form_type_id = 5;
             $landProcess->created_by_user_id = request('createdBy');

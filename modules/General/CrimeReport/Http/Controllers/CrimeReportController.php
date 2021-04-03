@@ -44,7 +44,6 @@ class CrimeReportController extends Controller
             
             $land = new Land_Parcel();
             $land->title = $request['landTitle'];
-            $land->governing_organizations =$request['organization'];
             $land->polygon = request('polygon');
             $land->created_by_user_id = $request['create_by'];
             if (request('isProtected')) {
@@ -81,8 +80,6 @@ class CrimeReportController extends Controller
             $org=Organization::where('title', $request['organization'])->first();
             $Process_item =new Process_item;
             $Process_item->created_by_user_id = $request['create_by'];
-            $Process_item->request_organization = "1";
-            //dd($org->city);
             $Process_item->activity_organization = $org->id;
             $Process_item->activity_user_id = null;
             $Process_item->form_id =  $id;
@@ -94,6 +91,17 @@ class CrimeReportController extends Controller
                 $Process_item->other_removal_requestor_name = $request['Requestor'];
             }
             $Process_item->save();
+            $latestcrimeProcess = Process_Item::latest()->first();
+            $landProcess = new Process_Item();
+            $landProcess->form_id = $landid;
+            $landProcess->remark = "Verify these land details";
+            $landProcess->prerequisite = 0;
+            $landProcess->activity_organization =$org->id;
+            $landProcess->status_id = 1;
+            $landProcess->form_type_id = 5;
+            $landProcess->created_by_user_id = request('createdBy');
+            $landProcess->prerequisite_id = $latestcrimeProcess->id;
+            $landProcess->save();
             $Process_itemnew =Process_item::latest()->first()->id;
             $successmessage='Crime report logged Successfully the ID of the application is '.$Process_itemnew;
             $Users = User::where('role_id', '=', 2)->get();
@@ -108,6 +116,7 @@ class CrimeReportController extends Controller
     public function crime_report_form_display() {
         $Organizations = Organization::all();
         $crime_types = Crime_type::all();
+        //dd($crime_types,$Organizations);
         return view('crimeReport::logComplaint',['Organizations' => $Organizations],['crime_types' => $crime_types],);
     }
 

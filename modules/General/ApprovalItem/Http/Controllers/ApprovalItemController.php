@@ -295,6 +295,7 @@ class ApprovalItemController extends Controller
         if($process_item->form_type_id == '1'){
             $item = Tree_Removal_Request::find($process_item->form_id);
             $Photos=Json_decode($item->images);
+            //dd($Photos);
         }
         else if($process_item->form_type_id == '2'){
             $item = Development_Project::find($process_item->form_id);
@@ -307,11 +308,12 @@ class ApprovalItemController extends Controller
         
         if($process_item->form_type_id != '5'){
             $land_parcel = Land_Parcel::find($item->land_parcel_id);
+            
             $landProcess=Process_item::where([
                 ['prerequisite_id', '=' , $process_item->id],           
                 ['prerequisite', '=', 0], 
             ])->first();
-            //dd($landProcess);
+            //dd($Photos);
             return view('approvalItem::assignOrg',[
                 'item' => $item,
                 'process_item' =>$process_item,
