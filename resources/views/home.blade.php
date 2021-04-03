@@ -100,6 +100,12 @@
                                         <p>New {{$notification->data['type']}} application No {{$notification->data['form_id']}} has been made.</p></i>
                                 </span></a>
                             @endif
+                            @if($notification->type == "App\Notifications\NewUserRegistration")
+                            <a href="/user/showSelfRegistered"><i class="ni ni-single-02"></i><span>
+                                    <li>
+                                        <p>New User {{$notification->data['name']}} has registered using  {{$notification->data['email']}} has been made.</p></i>
+                                </span></a>
+                            @endif
                         </ul>
                         @endforeach
                         @if(auth()->user()->unreadNotifications->count())
