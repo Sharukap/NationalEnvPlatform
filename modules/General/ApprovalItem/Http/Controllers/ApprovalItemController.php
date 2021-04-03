@@ -11,6 +11,8 @@ use App\Models\Form_Type;
 use App\Models\Process_item_progress;
 use App\Models\Process_item_status;
 use App\Models\land_parcel;
+use App\Models\Land_Has_Gazette;
+use App\Models\Land_Has_Organization;
 use App\Models\Environment_Restoration_Activity;
 use App\Mail\RequestApproved;
 use Illuminate\Support\Facades\Auth;
@@ -296,33 +298,43 @@ class ApprovalItemController extends Controller
         }
         else if($process_item->form_type_id == '2'){
             $item = Development_Project::find($process_item->form_id);
+            $Photos=Json_decode($item->images);
         }
         else if($process_item->form_type_id == '4'){
             $item = Crime_report::find($process_item->form_id);
             $Photos=Json_decode($item->photos);
         }
-        else if($process_item->form_type_id == '5'){
-            $item = Land_Parcel::find($process_item->form_id);
-        }
-        $land_parcel = Land_Parcel::find($item->land_parcel_id);
-
-        if($process_item->form_type_id == '1' ||$process_item->form_type_id == '4'){
+        
+        if($process_item->form_type_id != '5'){
+            $land_parcel = Land_Parcel::find($item->land_parcel_id);
+            $landProcess=Process_item::where([
+                ['prerequisite_id', '=' , $process_item->id],           
+                ['prerequisite', '=', 0], 
+            ])->first();
+            //dd($landProcess);
             return view('approvalItem::assignOrg',[
                 'item' => $item,
                 'process_item' =>$process_item,
                 'Organizations' => $Organizations,
                 'polygon' => $land_parcel->polygon,
                 'Photos' => $Photos,
+                'land_process' => $landProcess,
             ]);
         }
         else{
+            $item = Land_Parcel::find($process_item->form_id);
+            $Land_Organizations =Land_Has_Organization::where('land_parcel_id',$item->id)->get();
+            //dd($Land_Organizations->Organization->type);
+            //dd($process_item->prerequisite_process);
             return view('approvalItem::assignOrg',[
                 'item' => $item,
                 'process_item' =>$process_item,
                 'Organizations' => $Organizations,
-                'polygon' => $land_parcel->polygon,
+                'polygon' => $item->polygon,
+                'LandOrganizations' =>$Land_Organizations,
             ]);
         }
+        
     }
 
     public function investigate($id)
