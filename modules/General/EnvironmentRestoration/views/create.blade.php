@@ -40,7 +40,7 @@
                         </div>
                         <div class="card">
                             <div class="card-header">
-                                <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseOne">Governing Organization for selected Land Parcel </a>
+                                <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseOne">Governing Organization for selected Land Parcel (Optional)</a>
                             </div>
                             <div id="collapseOne" class="collapse">
                                 <div class="card-body">
@@ -56,7 +56,7 @@
                         </div>
                         <div class="form-group">
                             <label for="request_org">Organization to submit request to :</label>
-                            <input type="text" class="form-control" placeholder="Enter Organization" id="request_org" name="request_org">
+                            <input type="text" class="form-control typeahead1" placeholder="Enter Organization" id="request_org" name="request_org" value="{{ old('organization') }}"/>
                         </div>
                     </div>
                     <div class="col border border-muted rounded-lg p-4">
@@ -105,7 +105,7 @@
                                                     html = '<tr>';
                                                     html += '<input type="hidden" name="environment_restoration_id[]" class="form-control" value="" />';
                                                     html += '<input type="hidden" name="statusSpecies[]" class="form-control" value="1" />';
-                                                    html += '<td><select name="species_id[]" class="custom-select"><option selected>Select Species</option><option value="1">treespeciesname1</option><option value="2">treespeciesname2</option><option value="3">treespeciesname3 </option><option value="4">treespeciesname4</option></select></td>';
+                                                    html += '<td><input type="text" name="species_id[]" class="form-control typeahead6" /></td>';
                                                     html += '<td><input type="text" name="quantity[]" class="form-control" /></td>';
                                                     html += '<td><input type="text" name="height[]" class="form-control" /></td>';
                                                     html += '<td><input type="text" name="dimension[]" class="form-control" /></td>';
@@ -187,6 +187,43 @@
 </div>
 
 <script type="text/javascript">
+    //TYPEAHEAD 
+    //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
+    var path1 = "{{route('organization')}}";
+    $('input.typeahead1').typeahead({
+        source: function(terms, process) {
+
+            return $.get(path1, {
+                terms: terms
+            }, function(data) {
+                console.log(data);
+                objects = [];
+                data.map(i => {
+                    objects.push(i.title)
+                })
+                console.log(objects);
+                return process(objects);
+            })
+        },
+    });
+  var path6 = "{{route('species')}}";
+  $('input.typeahead6').typeahead({
+    source: function(terms, process) {
+
+      return $.get(path6, {
+        terms: terms
+      }, function(data) {
+        console.log(data);
+        objects = [];
+        data.map(i => {
+          objects.push(i.title)
+        })
+        console.log(objects);
+        return process(objects);
+      })
+    },
+  });
+    
   ///STEPPER
   var currentTab = 0; // Current tab is set to be the first tab (0)
   showTab(currentTab); // Display the current tab

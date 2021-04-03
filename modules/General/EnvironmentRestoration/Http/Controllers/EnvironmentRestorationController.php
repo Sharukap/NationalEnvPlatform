@@ -17,23 +17,31 @@ use Livewire\WithPagination;
 class EnvironmentRestorationController extends Controller
 {
     use WithPagination;
-    public function index()
-    {
-        $restorations = Environment_Restoration::all();       //show all records for index
-        return view('environmentRestoration::index', [
-            'restorations' => Environment_Restoration::paginate(10),
-        ]);
-    }
+    // public function index()
+    // {
+    //     $restorations = Environment_Restoration::all();       //show all records for index
+    //     return view('environmentRestoration::index', [
+    //         'restorations' => Environment_Restoration::paginate(10),
+    //     ]);
+    // }
 
-    public function myIndex()
+    // public function myIndex()
+    // {
+    //     $userID = Auth::user()->id;
+    //     $restorations = Environment_Restoration::where('created_by_user_id','=', $userID)->get();       //show all records for index
+    //     return view('environmentRestoration::myIndex', [
+    //         'restorations' => $restorations,
+    //     ]);
+    // }
+    public function organizationAutocomplete(Request $request)
     {
-        $userID = Auth::user()->id;
-        $restorations = Environment_Restoration::where('created_by_user_id','=', $userID)->get();       //show all records for index
-        return view('environmentRestoration::myIndex', [
-            'restorations' => $restorations,
-        ]);
-    }
+        $data = Organization::select("title")
+            ->where("title", "LIKE", "%{$request->terms}%")
+            ->get();
 
+        return response()->json($data);
+    }
+    
     public function create()
     {
         $restorations = Environment_Restoration::all();         //shows all records of enviroment restoration request
@@ -48,16 +56,16 @@ class EnvironmentRestorationController extends Controller
         ]);
     }
 
-    public function show($id)           //show one record for moreinfo button
-    {
-        $restoration = Environment_Restoration::find($id);
-        // $species = Environment_Restoration_Species::find($restoration->id); 
-        $species = Environment_Restoration_Species::where('environment_restoration_id','=',($restoration->id))->get();              
-        return view('environmentRestoration::show', [
-            'restoration' => $restoration,
-            'species' => $species,
-        ]);
-    }
+    // public function show($id)           //show one record for moreinfo button
+    // {
+    //     $restoration = Environment_Restoration::find($id);
+    //     // $species = Environment_Restoration_Species::find($restoration->id); 
+    //     $species = Environment_Restoration_Species::where('environment_restoration_id','=',($restoration->id))->get();              
+    //     return view('environmentRestoration::show', [
+    //         'restoration' => $restoration,
+    //         'species' => $species,
+    //     ]);
+    // }
 
     public function store(Request $request)
     {
