@@ -183,7 +183,7 @@
                     @if (count($Photos) > 0)
                             @foreach($Photos as $photo)
                                 <div class="col border border-muted rounded-lg mr-2 p-4">
-                                    <img class="img-responsive" src="{{URL::asset('/storage/crimeEvidence/27NO041NO0oie_7M8XMhI9uOs1 (2).png')}}" alt="photo">
+                                    <img class="img-responsive" src="{{URL::asset('/storage/'.$photo)}}" alt="photo">
                                     <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
                                 </div>
                             @endforeach
@@ -460,15 +460,14 @@
             maxZoom: 18
         }).addTo(map);
 
-    // add a marker in the given location
-    L.marker(center).addTo(map);
-
     //FROM LARAVEL THE COORDINATES ARE BEING TAKEN TO THE SCRIPT AND CONVERTED TO JSON
-    var polygon = @json($polygon);
-    console.log(polygon);
+   var polygon = @json($polygon);
+    var layer = L.geoJSON(JSON.parse(polygon)).addTo(map);
+    
 
-    //ADDING THE JSOON COORDINATES TO MAP
-    L.geoJSON(JSON.parse(polygon)).addTo(map);
+    // Adjust map to show the kml
+    var bounds = layer.getBounds();
+    map.fitBounds(bounds);
     
 </script> 
 @endsection

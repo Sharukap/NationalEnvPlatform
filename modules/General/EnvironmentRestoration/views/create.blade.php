@@ -54,14 +54,20 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="request_org">Organization to submit request to :</label>
+                            <input type="text" class="form-control" placeholder="Enter Organization" id="request_org" name="request_org">
+                        </div>
                     </div>
                     <div class="col border border-muted rounded-lg p-4">
                         <!-- ////////MAP GOES HERE -->
                         <div id="mapid" style="height:400px;" name="map"></div>
+
                         @error('polygon')
                             <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />                        <br>
+
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
                             <label class="custom-control-label" for="customCheck"><strong>Check if land is a protected area</strong></label>
