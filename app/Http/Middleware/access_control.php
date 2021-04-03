@@ -22,7 +22,7 @@ class access_control
     {
         if (!Auth::check()) 
         return redirect('login'); //will redirect to login if not logged
-
+        //return redirect('/home')->with('message', 'You do not have access permision');
         $role = Auth::user()->role_id;
         if($role != 1){
             $access1 = Role_has_access::where('role_id',$role)->where('access_id',$access)->first();;
@@ -30,12 +30,11 @@ class access_control
             {
                 $access2 = User_has_access::where('user_id',Auth::user()->id)->where('access_id',$access)->first();
                 if($access2 == null){
-                    return redirect('/home')->with('message', 'You do not have access permision'); 
+                    return redirect('/home/main')->with('message', 'You do not have access permision'); 
                 }
                 else return $next($request);
             }
         }
-        
         return $next($request);
     }
 }
