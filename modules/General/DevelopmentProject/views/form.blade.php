@@ -160,7 +160,7 @@
                     <!-- Saving the KML file in storage -->
                     <input id="kml" type="text" name="kml" class="form-control" value="{{request('kml')}}" />
 
-                    <div>
+                    <div style="float:right;">
                         <button type="submit" class="btn bd-navbar text-light">Submit</button>
                     </div>
                 </div>

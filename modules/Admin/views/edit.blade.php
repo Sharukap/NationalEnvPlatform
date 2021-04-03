@@ -7,7 +7,7 @@
 
     <!-- If user status is 0 -> Not activated then prevent access to the edit view -->
     @if($user->status == 0)
-    <div class="container p-3 my-3 bg-primary text-white">
+    <div class="container p-3 my-3 text-danger">
         <h2>This user is not activated. Please activate the user prior to editing details.</h2>
     </div>
 
@@ -16,7 +16,7 @@
     <hr>
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-6 ml-3">
-            <form method="post" action="/user/update/{{$user->id}}" class="needs-validation" novalidate>
+            <form method="post" action="/user/update/{{$user->id}}">
                 @csrf
                 @method('patch')
                 <div class="input-group mb-3">
@@ -24,7 +24,7 @@
                         <span class="input-group-text">Name</span>
                     </div>
                     <!-- Fill in the input fields with the current values of the user -->
-                    <input type="text" class="form-control" name="name" value="{{$user->name}}" required>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$user->name}}">
                 </div>
                 @error('name')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -34,7 +34,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Email</span>
                     </div>
-                    <input type="text" class="form-control" name="email" value="{{$user->email}}" required>
+                    <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$user->email}}">
                 </div>
                 @error('email')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -45,7 +45,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Organization</span>
                     </div>
-                    <select name="organization" class="custom-select" required>
+                    <select name="organization" class="custom-select">
                         @if($user->organization == NULL)
                         <option selected value="NULL">Select Organization</option>
                         @else
@@ -62,7 +62,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Designation</span>
                     </div>
-                    <select name="designation" class="custom-select" required>
+                    <select name="designation" class="custom-select">
                         @if($user->designation == NULL)
                         <option selected value="NULL">Select Designaion</option>
                         @else
@@ -86,24 +86,4 @@
     </div>
     @endif
 </div>
-<script>
-    // Disable form submissions if there are invalid fields
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Get the forms we want to add validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>
 @endsection

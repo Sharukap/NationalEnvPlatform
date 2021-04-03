@@ -33,7 +33,7 @@
 
         @if($development_project->land_size != 0)
         <dt class="col-sm-3">Land Size:</dt>
-        <dd class="col-sm-9">{{$development_project->land_size}} {{$tree->land_size_unit}}</dd>
+        <dd class="col-sm-9">{{$development_project->land_size}} acres</dd>
         @endif
 
         <dt class="col-sm-3">Status:</dt>
