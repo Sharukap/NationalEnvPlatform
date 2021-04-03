@@ -206,7 +206,7 @@ class ApprovalItemController extends Controller
             $treecut = Tree_Removal_Request::find($Process_item->form_id);
             $land_parcel = Land_Parcel::find($treecut->land_parcel_id);
             $Photos=Json_decode($treecut->images);
-            dd($Photos);
+            //dd($Photos);
             return view('approvalItem::assignStaff',[
                 'treecut' => $treecut,
                 'Users' => $Users,
@@ -220,6 +220,7 @@ class ApprovalItemController extends Controller
         else if($Process_item->form_type_id == '2'){
             $devp = Development_Project::find($Process_item->form_id);
             $land_parcel = Land_Parcel::find($devp->land_parcel_id);
+            $Photos=Json_decode($devp->images);
             return view('approvalItem::assignStaff',[
                 'devp' => $devp,
                 'Users' => $Users,
@@ -227,6 +228,7 @@ class ApprovalItemController extends Controller
                 'Process_item' =>$Process_item,
                 'Organizations' => $Organizations,
                 'polygon' => $land_parcel->polygon,
+                'Photos' => $Photos,
             ]);
         }
         else if($Process_item->form_type_id == '3'){

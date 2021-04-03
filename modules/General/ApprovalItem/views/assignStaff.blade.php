@@ -110,8 +110,17 @@
                             <tbody>
                                 <tr>
                                     <td>{{$devp->title}}</td>
-                                    <td>{{$devp->gazette->title}}</td>
-                                    <td>{{$devp->protected_area}}</td>               
+                                    @if($devp->gazette==null)
+                                        <td>No Gazzete</td>
+                                    @else
+                                    <td>{{$item->gazette->title}}</td>
+                                    @endif
+                                    @if($devp->protected_area==0)
+                                        <td>Not a protected area</td>
+                                    @else
+                                        <td>Protected area</td>
+                                    @endif
+                                              
                                 </tr>
                             </tbody>
                         </table>
@@ -173,7 +182,7 @@
                     <p>No prerequisites made yet</p>
                 @endif
             </div> 
-            @if($Process_item->form_type_id == 1 || 4)
+
             <div class="row p-4 bg-white">
                 @isset($Photos)
                     @if (count($Photos) > 0)
@@ -192,7 +201,6 @@
                     <p>No photos included in the application</p>
                 @endempty
             </div>
-        @endif
         </div>
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
