@@ -3,9 +3,6 @@
 @section('general')
 <h3 class="p-3 display-4">Assigning Organizations</h3>
 <hr>
-<span>
-    <h3 class="text-center bg-success text-light">{{session('message')}}</h3>
-</span>
 <div class="container">
     <div class="container bg-white">
         <div class="row p-4 bg-white">
@@ -27,7 +24,7 @@
                             <td>{{$process_item->form_type->type}}</td>
                             <td>{{date('d-m-Y',strtotime($process_item->created_at))}}</td>
                             @if($process_item->activity_organization ==null)
-                                <td>{{$process_item->other_removal_requestor_name}}</td>
+                                <td>{{$process_item->ext_requestor}}</td>
                             @else
                                 <td>{{$process_item->Activity_organization->title}}</td>
                             @endif

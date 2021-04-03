@@ -9,7 +9,7 @@
 <hr>
 <div>
     <h6>The Head of application processing</h6>
-    <h6>{{$other_removal_requestor_name}} ,</h6>
+    <h6>{{$ext_requestor}} ,</h6>
 </div>
 <div>
     <h6>The {{$form_type['type']}} application made on the {{ date('d-m-Y',strtotime($created_at)) }} has been assigned to your organization. </h6>

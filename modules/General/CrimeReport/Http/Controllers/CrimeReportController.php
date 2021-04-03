@@ -88,7 +88,7 @@ class CrimeReportController extends Controller
             $Process_item->remark = "to be made yet";
             if($request->has('nonreguser')){
                 $Process_item->requestor_email = $request['Requestor_email'];
-                $Process_item->other_removal_requestor_name = $request['Requestor'];
+                $Process_item->ext_requestor = $request['Requestor'];
             }
             $Process_item->save();
             $latestcrimeProcess = Process_Item::latest()->first();

@@ -84,7 +84,7 @@ class ApprovalItemController extends Controller
         $array=DB::transaction(function () use($request){
 
         Process_item::where('id',$request['process_id'])->update([
-            'other_removal_requestor_name' => $request['organization'],
+            'ext_requestor' => $request['organization'],
             'status_id' => 2
         ]);
         $process_item =Process_item::find($request['process_id']);
@@ -133,19 +133,19 @@ class ApprovalItemController extends Controller
             //dd($contents);
         } */
         if($Photos != null){
-            for($y=0;$y<count($photos);$y++){
+            for($y=0;$y<count($Photos);$y++){
                 //return Storage::disk('public')->download($photo);
-                $contents[$y] =  Storage::disk('public')->get($photos[$y]);
+                $contents[$y] =  Storage::disk('public')->get($Photos[$y]);
             }
         }
         if(isset($contents)){
-            Mail::send('emails.assignorg', $process_item, function($message) use ($pdf,$contents,$photos,$process_item){
+            Mail::send('emails.assignorg', $process_item, function($message) use ($pdf,$contents,$Photos,$process_item){
             
                 $message->to($process_item['requestor_email']);
                 $message->subject('Assigning application');
                 $message->attachData($pdf->output(),'document.pdf');
                 for($y=0;$y<count($contents);$y++){
-                    $message->attachData($contents[$y],$photos[$y]);
+                    $message->attachData($contents[$y],$Photos[$y]);
                 }
     
             }); 
