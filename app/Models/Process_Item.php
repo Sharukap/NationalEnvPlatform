@@ -31,10 +31,7 @@ class Process_Item extends Model
         'status_id' => 1,
         'ext_requestor' => '',
         'ext_requestor_email' => '',
-<<<<<<< HEAD
-        'request_organization' => 0,
-=======
->>>>>>> e0894494a34ab08f4a3da89bff4a8694d0e1b3a2
+        
     ];
 
     public function form_type()

@@ -3,6 +3,7 @@
 use Admin\Http\Controllers\AdminController;
 use Admin\Http\Controllers\UserController;
 
+Route::middleware(['access.control:1'])->group(function () {
 /////PASSWORD RESET
 Route::get('/passwordReset', function() {       // Open view to reset password.
     return view('admin::passwordReset');
@@ -40,3 +41,4 @@ Route::patch('/activate/{id}', [AdminController::class, 'activate']);           
 ///////More details button for all users - Admin, HoO and Manager - One route because same functionality
 Route::get('/more/{id}', [UserController::class, 'more']);
 
+});

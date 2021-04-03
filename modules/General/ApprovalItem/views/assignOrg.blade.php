@@ -121,8 +121,16 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{$item->district->district}}</td>
+                                    @if($item->special_approval==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                        <td>{{$item->district->district}}</td>
+                                    @endif
+                                    @if($item->special_approval==null)
+                                        <td>Not assigned</td>
+                                    @else
                                     <td>{{$item->gs_division->gs_division}}</td>
+                                    @endif
                                     @if($item->special_approval==0)
                                         <td>Not a protected area</td>
                                     @elseif($item->special_approval==1)
@@ -264,8 +272,10 @@
             </div>
         </div>
     @else
-        <div>
-            <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignorganization/{{$process_item->prerequisite_id}}" class="text-dark">Back to {{$process_item->prerequisite_process->form_type->type}}</a></button>
+        <div class="container">
+            <div class="row p-4 bg-white">
+                <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignorganization/{{$process_item->prerequisite_id}}" class="text-dark">Back to {{$process_item->prerequisite_process->form_type->type}}</a></button>
+            </div>
         </div>
     @endif
    
