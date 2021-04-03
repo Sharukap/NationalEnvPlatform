@@ -21,7 +21,6 @@ class Process_Item extends Model
         'prerequisite_id',
         'created_by_user_id',
         'status_id',
-
         'ext_requestor',
         'ext_requestor_email',
     ];
@@ -32,6 +31,10 @@ class Process_Item extends Model
         'status_id' => 1,
         'ext_requestor' => '',
         'ext_requestor_email' => '',
+<<<<<<< HEAD
+        'request_organization' => 0,
+=======
+>>>>>>> e0894494a34ab08f4a3da89bff4a8694d0e1b3a2
     ];
 
     public function form_type()
@@ -44,7 +47,7 @@ class Process_Item extends Model
         return $this->belongsTo('App\Models\Status');
     }
 
-    public function prerequisite_id()
+    public function prerequisite_process()
     {
         return $this->belongsTo('App\Models\Process_Item','prerequisite_id');
     }

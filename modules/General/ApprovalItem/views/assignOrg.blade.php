@@ -35,93 +35,110 @@
                     </tbody>
                 </table>
                 @switch($process_item->form_type_id)
-                @case('1')
-                    <table class="table table-light table-striped border-secondary rounded-lg mr-4">
-                        <thead>
-                            <tr>
-                                <th>Province</th>
-                                <th>District</th>
-                                <th>Grama Niladari Division</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$item->province->province}}</td>
-                                <td>{{$item->district->district}}</td>
-                                <td>{{$item->gs_division_id}}</td>
-                                <td>{{$item->description}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <table class="table table-light table-striped border-secondary rounded-lg mr-4">
-                        <thead>
-                            <tr>
-                                <th>Special approval</th>
-                                <th>Land Size</th>
-                                <th>Number of Trees</th>
-                                <th>Number of Tree Species</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                @if($item->special_approval==0)
-                                <td>Not a protected area</td>
-                                @elseif($item->special_approval==1)
-                                <td>Protected area</td>
-                                @endif
-                                <td>{{$item->land_size}}</td>
-                                <td>{{$item->no_of_trees}}</td>
-                                <td>{{$item->no_of_tree_species}}<td>
-                            </tr>
-                        </tbody>
-                    </table>
-                @break
-                @case('2')
-                    <table class="table table-light table-striped border-secondary rounded-lg mr-4">
-                        <thead>
-                            <tr>
-                                <th>Project Title</th>
-                                <th>Gazette</th>
-                                <th>Grama Niladari Division</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$item->title}}</td>
-                                <td>{{$item->gazette->title}}</td>
-                                <td>{{$item->gs_division_id}}</td>
-                                <td>{{$item->description}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                @break
-                @case('3')
-                    <h6>nothing yet</h6>
-                @break
-                @case('4')
-                    <table class="table table-light table-striped border-secondary rounded-lg mr-4">
-                        <thead>
-                            <tr>
-                                <th>Crime Type</th>
-                                <th>Description</th>
-                                <th>Land Parcel</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{{$item->crime_type->type}}</td>
-                                <td>{{$item->description}}</td>
-                                <td>{{$item->land_parcel->title}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                @break
+                    @case('1')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>District</th>
+                                    <th>Grama Niladari Division</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$item->district->district}}</td>
+                                    <td>{{$item->gs_division_id}}</td>
+                                    <td>{{$item->description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Land Size</th>
+                                    <th>Number of Trees</th>
+                                    <th>Number of Tree Species</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$item->land_size}}</td>
+                                    <td>{{$item->no_of_trees}}</td>
+                                    <td>{{$item->no_of_tree_species}}<td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
+                    @case('2')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Project Title</th>
+                                    <th>Gazette</th>
+                                    <th>Grama Niladari Division</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$item->title}}</td>
+                                    <td>{{$item->gazette->title}}</td>
+                                    <td>{{$item->gs_division_id}}</td>
+                                    <td>{{$item->description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
+                    @case('3')
+                        <h6>nothing yet</h6>
+                    @break
+                    @case('4')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Crime Type</th>
+                                    <th>Description</th>
+                                    <th>Land Parcel</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$item->crime_type->type}}</td>
+                                    <td>{{$item->description}}</td>
+                                    <td>{{$item->land_parcel->title}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
+                    @case('5')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>District</th>
+                                    <th>Grama Niladari Division</th>
+                                    <th>Protected Area</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$item->district->district}}</td>
+                                    <td>{{$item->gs_division->gs_division}}</td>
+                                    @if($item->special_approval==0)
+                                        <td>Not a protected area</td>
+                                    @elseif($item->special_approval==1)
+                                        <td>Protected area</td>
+                                    @endif
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
                 @endswitch
             </div>
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <div id="mapid" style="height:400px;" name="map"></div>
+                @if($process_item->form_type_id!=5)
+                <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignorganization/{{$land_process->id}}" class="text-dark">View More details</a></button>
+                @endif
             </div>
         </div>
         @if($process_item->form_type_id==1)
@@ -151,6 +168,29 @@
                     </table>
         </div>
         @endif
+        @if($process_item->form_type_id==5)
+        <div class="row p-4 bg-white">
+        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Type</th>
+                                <th>Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($LandOrganizations as $organization)
+                            <tr>
+                                <td>{{$organization->organization->title}}</td>
+                                <td>{{$organization->organization->type->title}}</td>
+                                <td>{{$organization->organization->Description}}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+        
+        </div>
+        @endif
         @isset($Photos)
         <div class="row p-4 bg-white">
             <div class="card-deck">
@@ -166,62 +206,69 @@
         </div>
         @endisset
     </div>
-    <div class="container">
-        <div class="row p-4 bg-white">
-            <h6>Change Assigned Organization</h6>
-        </div>
-    </div>
-    <div class="container">
-        <div class="row p-4 bg-white">
-            <div class="col border border-muted rounded-lg mr-2 p-4">       
-                <p>System registered Organizations</p>
-                <table class="table  border-secondary rounded-lg mr-4">
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Change</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($Organizations as $organization)
-                        <tr>
-                            <td>{{$organization->title}}</td>
-                            <td><a href="/approval-item/changeassignOrganization/{{$organization->id}}/{{$process_item->id}}" class="text-dark">assign</a></td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
-            <div class="col border border-muted rounded-lg mr-2 p-4">
-                <p>Non registered Organizations</p>
-                <form action="\approval-item\changeassignOrganization" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Organization name" name="organization" value="{{ old('organization') }}"/>
-                        @error('organization')
-                            <div class="alert">                                   
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror 
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Organization email" name="email" value="{{ old('email') }}"/>
-                        @error('email')
-                            <div class="alert">                                   
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror 
-                        <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}">
-                        <input type="hidden" class="form-control" name="create_organization" value="{{ Auth::user()->organization_id }}">
-                        <input type="hidden" class="form-control" name="process_id" value="{{ $process_item->id }}">
-                    </div>
-                    <div class="form-check">
-                        <button type="submit" class="btn btn-primary" >Assign</button>
-                    </div>
-                </form>
+    @if($process_item->form_type_id!=5)
+        <div class="container">
+            <div class="row p-4 bg-white">
+                <h6>Change Assigned Organization</h6>
             </div>
         </div>
-    </div>
+        <div class="container">
+            <div class="row p-4 bg-white">
+                <div class="col border border-muted rounded-lg mr-2 p-4">       
+                    <p>System registered Organizations</p>
+                    <table class="table  border-secondary rounded-lg mr-4">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Change</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($Organizations as $organization)
+                            <tr>
+                                <td>{{$organization->title}}</td>
+                                <td><a href="/approval-item/changeassignOrganization/{{$organization->id}}/{{$process_item->id}}" class="text-dark">assign</a></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="col border border-muted rounded-lg mr-2 p-4">
+                    <p>Non registered Organizations</p>
+                    <form action="\approval-item\changeassignOrganization" method="post">
+                        @csrf
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Organization name" name="organization" value="{{ old('organization') }}"/>
+                            @error('organization')
+                                <div class="alert">                                   
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror 
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Organization email" name="email" value="{{ old('email') }}"/>
+                            @error('email')
+                                <div class="alert">                                   
+                                    <strong>{{ $message }}</strong>
+                                </div>
+                            @enderror 
+                            <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}">
+                            <input type="hidden" class="form-control" name="create_organization" value="{{ Auth::user()->organization_id }}">
+                            <input type="hidden" class="form-control" name="process_id" value="{{ $process_item->id }}">
+                        </div>
+                        <div class="form-check">
+                            <button type="submit" class="btn btn-primary" >Assign</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    @else
+        <div>
+            <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignorganization/{{$process_item->prerequisite_id}}" class="text-dark">Back to {{$process_item->prerequisite_process->form_type->type}}</a></button>
+        </div>
+    @endif
+   
 </div>
 
 <script type="text/javascript">

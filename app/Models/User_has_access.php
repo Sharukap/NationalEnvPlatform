@@ -9,9 +9,7 @@ class User_has_access extends Model
 {
     use HasFactory;
     protected $table = "user_has_access";
-    protected $attributes = [
-        'status' => 1,
-    ];
+    
     public function access()
     {
         return $this->belongsTo('App\Models\Access');

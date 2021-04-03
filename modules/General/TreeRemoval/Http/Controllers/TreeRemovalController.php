@@ -185,7 +185,7 @@ class TreeRemovalController extends Controller
             $treeProcess->activity_organization = $organization_id1[0];
 
             $treeProcess->status_id = 1;
-
+            //dd($treeProcess);
             $treeProcess->save();
 
             $Users = User::where('role_id', '<', 3)->get();
@@ -206,6 +206,10 @@ class TreeRemovalController extends Controller
             $organization_id1 = Organization::where('title', request('activity_organization'))->pluck('id');
             $landProcess->activity_organization = $organization_id1[0];
 
+<<<<<<< HEAD
+            //$landProcess->activity_user_id = 0;
+=======
+>>>>>>> e0894494a34ab08f4a3da89bff4a8694d0e1b3a2
             $landProcess->status_id = 1;
             $landProcess->form_type_id = 5;
             $landProcess->created_by_user_id = request('createdBy');

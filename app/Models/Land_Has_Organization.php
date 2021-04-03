@@ -14,4 +14,9 @@ class Land_Has_Organization extends Model
         'organization_id',
         'land_parcel_id',
     ];
+
+    public function organization()
+    {
+        return $this->belongsTo('App\Models\Organization');
+    }
 }
