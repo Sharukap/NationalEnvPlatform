@@ -22,16 +22,18 @@
                     <p>{{$tree->description}}</p>
                 </dd>
 
-                <dt class="col-sm-3">Governing Organizations:</dt>
+                <dt class="col-sm-3">Activity Organization:</dt>
                 <dd class="col-sm-9">
-                    <p></p>
+                    <p>{{$tree->organization->title}}</p>
                 </dd>
 
                 <dt class="col-sm-3">Category:</dt>
                 <dd class="col-sm-9">Tree Removal</dd>
 
+                @if($tree->land_size != 0)
                 <dt class="col-sm-3">Land Size:</dt>
                 <dd class="col-sm-9">{{$tree->land_size}} {{$tree->land_size_unit}}</dd>
+                @endif
 
                 <dt class="col-sm-3">Number of Trees:</dt>
                 <dd class="col-sm-9">{{$tree->no_of_trees}}</dd>

@@ -45,7 +45,7 @@ class TreeRemovalController extends Controller
             'polygon' => 'required',
             'number_of_trees' => 'required|integer',
             'description' => 'required',
-            'land_extent' => 'nullable|integer',
+            'land_extent' => 'nullable|numeric|between:0,99.999',
             'number_of_tree_species' => 'nullable|integer',
             'number_of_flora_species' => 'nullable|integer',
             'number_of_reptile_species' => 'nullable|integer',
@@ -53,7 +53,7 @@ class TreeRemovalController extends Controller
             'number_of_amphibian_species' => 'nullable|integer',
             'number_of_fish_species' => 'nullable|integer',
             'number_of_avian_species' => 'nullable|integer',
-            'externalRequestor' => 'nullable',
+            'externalRequestor' => 'nullable|regex:regex:/^[0-9]{9}[vVxX]$/',
             'erEmail' => 'nullable|email',
             'land_gazettes' => 'nullable',
             'land_governing_orgs' => 'nullable',
@@ -206,7 +206,10 @@ class TreeRemovalController extends Controller
             $organization_id1 = Organization::where('title', request('activity_organization'))->pluck('id');
             $landProcess->activity_organization = $organization_id1[0];
 
+<<<<<<< HEAD
             //$landProcess->activity_user_id = 0;
+=======
+>>>>>>> e0894494a34ab08f4a3da89bff4a8694d0e1b3a2
             $landProcess->status_id = 1;
             $landProcess->form_type_id = 5;
             $landProcess->created_by_user_id = request('createdBy');

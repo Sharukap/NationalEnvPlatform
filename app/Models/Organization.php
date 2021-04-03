@@ -61,7 +61,7 @@ class Organization extends Model
     //relation for m-m relationship between land_parcels and organizations
     public function land_parcels()
     {
-        return $this->belongsToMany(Land_Parcel::class, 'Land_Has_Organization');
+        return $this->belongsToMany('App\Models\Land_Parcel','land_has_organizations','organization_id', 'land_parcel_id');
     }
 
     public function tree_removal_request(){

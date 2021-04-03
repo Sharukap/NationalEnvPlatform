@@ -99,9 +99,13 @@ class LandController extends Controller
     {
         $item = Process_Item::find($id);
         $land_data = Land_Parcel::find($item->form_id);
+        //using the M:M relationship
+        $governing = Land_Parcel::find($item->form_id)->organizations;
+
         return view('land::show', [
             'land' => $land_data,
             'polygon' => $land_data->polygon,
+            'governing_orgs' => $governing,
         ]);
     }
 
