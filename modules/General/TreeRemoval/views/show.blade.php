@@ -8,78 +8,78 @@
     <div class="row">
         <div class="col border border-muted rounded-lg mr-2 p-2">
             <dl class="row">
-                <dt class="col-sm-3">Province:</dt>
-                <dd class="col-sm-9">{{$tree->district->province->province}}</dd>
+                <dt class="col-sm-5">Province:</dt>
+                <dd class="col-sm-7">{{$tree->district->province->province}}</dd>
 
-                <dt class="col-sm-3">District:</dt>
-                <dd class="col-sm-9">{{$tree->district->district}}</dd>
+                <dt class="col-sm-5">District:</dt>
+                <dd class="col-sm-7">{{$tree->district->district}}</dd>
 
-                <dt class="col-sm-3">Grama Sevaka Division:</dt>
-                <dd class="col-sm-9">{{$tree->gs_division->gs_division}}</dd>
+                <dt class="col-sm-5">Grama Sevaka Division:</dt>
+                <dd class="col-sm-7">{{$tree->gs_division->gs_division}}</dd>
 
-                <dt class="col-sm-3">Description:</dt>
-                <dd class="col-sm-9">
+                <dt class="col-sm-5">Description:</dt>
+                <dd class="col-sm-7">
                     <p>{{$tree->description}}</p>
                 </dd>
 
-                <dt class="col-sm-3">Activity Organization:</dt>
-                <dd class="col-sm-9">
+                <dt class="col-sm-5">Activity Organization:</dt>
+                <dd class="col-sm-7">
                     <p>{{$tree->organization->title}}</p>
                 </dd>
 
-                <dt class="col-sm-3">Category:</dt>
-                <dd class="col-sm-9">Tree Removal</dd>
+                <dt class="col-sm-5">Category:</dt>
+                <dd class="col-sm-7">Tree Removal</dd>
 
                 @if($tree->land_size != 0)
-                <dt class="col-sm-3">Land Size:</dt>
-                <dd class="col-sm-9">{{$tree->land_size}} acres</dd>
+                <dt class="col-sm-5">Land Size:</dt>
+                <dd class="col-sm-7">{{$tree->land_size}} acres</dd>
                 @endif
 
-                <dt class="col-sm-3">Number of Trees:</dt>
-                <dd class="col-sm-9">{{$tree->no_of_trees}}</dd>
+                <dt class="col-sm-5">Number of Trees:</dt>
+                <dd class="col-sm-7">{{$tree->no_of_trees}}</dd>
 
-                <dt class="col-sm-3">Number of Tree Species:</dt>
-                <dd class="col-sm-9">{{$tree->no_of_tree_species}}</dd>
+                <dt class="col-sm-5">Number of Tree Species:</dt>
+                <dd class="col-sm-7">{{$tree->no_of_tree_species}}</dd>
 
-                <dt class="col-sm-3">Number of Mammal Species:</dt>
-                <dd class="col-sm-9">{{$tree->no_of_mammal_species}}</dd>
+                <dt class="col-sm-5">Number of Mammal Species:</dt>
+                <dd class="col-sm-7">{{$tree->no_of_mammal_species}}</dd>
 
-                <dt class="col-sm-3">Number of Amphibian Species:</dt>
-                <dd class="col-sm-9">{{$tree->no_of_amphibian_species}}</dd>
+                <dt class="col-sm-5">Number of Amphibian Species:</dt>
+                <dd class="col-sm-7">{{$tree->no_of_amphibian_species}}</dd>
 
-                <dt class="col-sm-3">Number of Reptile Species:</dt>
-                <dd class="col-sm-9">{{$tree->no_of_reptile_species}}</dd>
+                <dt class="col-sm-5">Number of Reptile Species:</dt>
+                <dd class="col-sm-7">{{$tree->no_of_reptile_species}}</dd>
 
-                <dt class="col-sm-3">Number of Avian Species:</dt>
-                <dd class="col-sm-9">{{$tree->no_of_avian_species}}</dd>
+                <dt class="col-sm-5">Number of Avian Species:</dt>
+                <dd class="col-sm-7">{{$tree->no_of_avian_species}}</dd>
 
-                <dt class="col-sm-3">Number of Floral Species:</dt>
-                <dd class="col-sm-9">{{$tree->no_of_flora_species}}</dd>
+                <dt class="col-sm-5">Number of Floral Species:</dt>
+                <dd class="col-sm-7">{{$tree->no_of_flora_species}}</dd>
 
-                <dt class="col-sm-3">Species Special Notes:</dt>
-                <dd class="col-sm-9">
+                <dt class="col-sm-5">Species Special Notes:</dt>
+                <dd class="col-sm-7">
                     <p>{{$tree->species_special_notes}}</p>
                 </dd>
 
-                <dt class="col-sm-3">Special Approval:</dt>
-                <dd class="col-sm-9">{{$tree->special_approval}}</dd>
+                <dt class="col-sm-5">Special Approval:</dt>
+                <dd class="col-sm-7">{{$tree->special_approval}}</dd>
 
-                <dt class="col-sm-3">Land Parcel:</dt>
-                <dd class="col-sm-9">{{$tree->land_parcel->title}}</dd>
+                <dt class="col-sm-5">Land Parcel:</dt>
+                <dd class="col-sm-7">{{$tree->land_parcel->title}}</dd>
 
-                <dt class="col-sm-3">Status:</dt>
-                <dd class="col-sm-9">{{$tree->status->type}}</dd>
+                <dt class="col-sm-5">Status:</dt>
+                <dd class="col-sm-7">{{$tree->status->type}}</dd>
 
-                <dt class="col-sm-3">Created at:</dt>
-                <dd class="col-sm-9">{{$tree->created_at}}</dd>
+                <dt class="col-sm-5">Created at:</dt>
+                <dd class="col-sm-7">{{$tree->created_at}}</dd>
         </div>
         <div class="col border border-muted rounded-lg mr-2 p-2">
-            <dt class="col-sm-3">Properties</dt>
+            <dt class="col-sm-5">Properties</dt>
             <hr>
             @if($location==0)
-            <dd class="col-sm-9">No Properties</dd>
+            <dd class="col-sm-7">No Properties</dd>
             @else
-            @for($x = 0; $x < count($location); $x++) <dd class="col-sm-9">
+            @for($x = 0; $x < count($location); $x++) <dd class="col-sm-7">
                 <dl class="row">
                     <dt class="col-sm-7">Tree Species ID:</dt>
                     <dd class="col-sm-5">{{$location[$x]['tree_species_id']}}</dd>

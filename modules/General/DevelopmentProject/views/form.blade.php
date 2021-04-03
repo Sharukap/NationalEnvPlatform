@@ -11,7 +11,7 @@
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     <div class="form-group">
                         <label for="title">Title:</label>
-                        <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}">
+                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}">
                         @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -29,7 +29,8 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        Gazette for Development Project (Optional):<input type="text" class="form-control typeahead" placeholder="Search" name="gazette" value="{{ old('gazette') }}" />
+                        Gazette for Development Project (Optional):
+                        <input type="text" class="form-control typeahead" placeholder="Search" name="gazette" value="{{ old('gazette') }}" />
                         @error('gazette')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -93,7 +94,7 @@
                         </div>
                         <div class="form-group">
                             <label for="land_extent">Land Extent (In Acres)</label>
-                            <input type="text" class="form-control typeahead3" value="{{ old('land_extent') }}" id="land_extent" name="land_extent">
+                            <input type="text" class="form-control" value="{{ old('land_extent') }}" id="land_extent" name="land_extent">
                             @error('land_extent')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -312,12 +313,9 @@
         var type = e.layerType,
             layer = e.layer;
 
-        if (type === 'marker') {
-            layer.bindPopup('A popup!');
-        }
 
         drawnItems.addLayer(layer);
-        $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON()));
+        $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON()));  //geoJSON converts a layer to JSON
 
         ///Converting your layer to a KML
         $('#kml').val(tokml(drawnItems.toGeoJSON()));
@@ -336,12 +334,12 @@
             cache: false,
             processData: false,
             success: function(data) {
-                $('#message').css('display', 'block');
-                $('#message').html(data.message);
-                $('#message').addClass(data.class_name);
-                $('#uploaded_image').html(data.uploaded_image);
+                // $('#message').css('display', 'block');
+                // $('#message').html(data.message);
+                // $('#message').addClass(data.class_name);
+                // $('#uploaded_image').html(data.uploaded_image);
                 var tmp = data.uploaded_image;
-                $('#loc').val(JSON.stringify(tmp));
+                $('#loc').val(JSON.stringify(tmp)); //location of the uploaded file
                 console.log(tmp);
                 fetch(`/${tmp}`)
                     .then(res => res.text())
