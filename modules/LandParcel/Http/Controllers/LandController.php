@@ -81,6 +81,12 @@ class LandController extends Controller
             $process->status_id = 1;
             $process->save();
         }
+        $processnewid= Process_Item::latest()->first()->id;
+        //dd($processnewid);
+        Process_Item::where('form_id',$landid)->where('id','!=',$processnewid)->update([
+            'prerequisite' => 1,
+            'prerequisite_id' =>$processnewid,
+        ]);
         // if (request('file')) {
         //     $fileloc = request('file');
         //     Storage::delete('public/'.$fileloc);

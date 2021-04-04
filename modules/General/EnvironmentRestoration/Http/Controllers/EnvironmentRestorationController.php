@@ -12,28 +12,29 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ecosystem;
 use App\Models\Land_Has_Organization;
+use App\Models\Species_Information;
 use Livewire\WithPagination;
 
 class EnvironmentRestorationController extends Controller
 {
     use WithPagination;
-    public function index()
-    {
-        $restorations = Environment_Restoration::all();       //show all records for index
-        return view('environmentRestoration::index', [
-            'restorations' => Environment_Restoration::paginate(10),
-        ]);
-    }
+    // public function index()
+    // {
+    //     $restorations = Environment_Restoration::all();       //show all records for index
+    //     return view('environmentRestoration::index', [
+    //         'restorations' => Environment_Restoration::paginate(10),
+    //     ]);
+    // }
 
-    public function myIndex()
-    {
-        $userID = Auth::user()->id;
-        $restorations = Environment_Restoration::where('created_by_user_id','=', $userID)->get();       //show all records for index
-        return view('environmentRestoration::myIndex', [
-            'restorations' => $restorations,
-        ]);
-    }
-
+    // public function myIndex()
+    // {
+    //     $userID = Auth::user()->id;
+    //     $restorations = Environment_Restoration::where('created_by_user_id','=', $userID)->get();       //show all records for index
+    //     return view('environmentRestoration::myIndex', [
+    //         'restorations' => $restorations,
+    //     ]);
+    // }
+    
     public function create()
     {
         $restorations = Environment_Restoration::all();         //shows all records of enviroment restoration request
@@ -48,16 +49,16 @@ class EnvironmentRestorationController extends Controller
         ]);
     }
 
-    public function show($id)           //show one record for moreinfo button
-    {
-        $restoration = Environment_Restoration::find($id);
-        // $species = Environment_Restoration_Species::find($restoration->id); 
-        $species = Environment_Restoration_Species::where('environment_restoration_id','=',($restoration->id))->get();              
-        return view('environmentRestoration::show', [
-            'restoration' => $restoration,
-            'species' => $species,
-        ]);
-    }
+    // public function show($id)           //show one record for moreinfo button
+    // {
+    //     $restoration = Environment_Restoration::find($id);
+    //     // $species = Environment_Restoration_Species::find($restoration->id); 
+    //     $species = Environment_Restoration_Species::where('environment_restoration_id','=',($restoration->id))->get();              
+    //     return view('environmentRestoration::show', [
+    //         'restoration' => $restoration,
+    //         'species' => $species,
+    //     ]);
+    // }
 
     public function store(Request $request)
     {
@@ -100,7 +101,7 @@ class EnvironmentRestorationController extends Controller
         //Adding to Environment Restoration Species Table using ajax
         $rules = array(
             'statusSpecies.*'  => 'required',
-            'species_id.*'  => 'required',
+            'species_name.*'  => 'required',
             'quantity.*'  => 'required',
             'height.*'  => 'required',
             'dimension.*'  => 'required',
@@ -115,17 +116,18 @@ class EnvironmentRestorationController extends Controller
         }
 
         $statusSpecies = $request->statusSpecies;
-        $species_id = $request->species_id;
+        $species_names = $request->species_name;
         $quantity = $request->quantity;
         $height = $request->height;
         $dimension = $request->dimension;
         $remark = $request->remark;
-        for($count = 0; $count < count($species_id); $count++)
+        for($count = 0; $count < count($species_names); $count++)
         {
+            $species_id = Species_Information::where('title',$species_names[$count])->pluck('id');
             $data = array(
                 'environment_restoration_id' => $newres,
                 'status' => $statusSpecies[$count],
-                'species_id'  => $species_id[$count],
+                'species_id'  => $species_id[0],
                 'quantity'  => $quantity[$count],
                 'height'  => $height[$count],
                 'dimensions'  => $dimension[$count],
@@ -137,13 +139,14 @@ class EnvironmentRestorationController extends Controller
         Environment_Restoration_Species::insert($insert_data);
        
         $latest = Land_Parcel::latest()->first();
-
+        $activityorgname = request('request_org');
+        $activityorgid = Organization::where('title',$activityorgname)->pluck('id');
         $process = new Process_Item();
         $process->form_type_id = 3;
         $process->form_id = $latest->id;
         $process->created_by_user_id = request('created_by');
         $process->request_organization = Auth::user()->organization_id;
-        $process->activity_organization = request('request_org');
+        $process->activity_organization = $activityorgid[0];
         $process->save();
         
 

@@ -29,9 +29,7 @@ class Development_Project extends Model
         'land_size' => 0,
     ];
 
-    protected $casts = [
-        'images' => 'array',
-    ];
+    
 
     public function gazette()
     {

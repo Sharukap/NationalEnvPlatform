@@ -32,7 +32,10 @@ class GeneralController extends Controller
         ->count(); 
         //IF ADMIN DISPLAYS ALL THE PENDING REQUESTS TO BE ASSIGNED
         if ($role == 1 || $role == 2 ) {
-            $Process_items = Process_Item::all()->where('status_id', 1);
+            $Process_items = Process_Item::where([
+                ['status_id','=', 1],
+                ['form_type_id','<', 5],
+            ])->get();
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' =>$tree_removals,

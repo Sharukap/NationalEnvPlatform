@@ -20,8 +20,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', [GeneralController::class, 'pending']);
+Route::get('/home', [GeneralController::class, 'pending'])->middleware('auth','verified');
 
+Route::get('/home/main', function () {
+    return view('home');
+});
 Route::get('/search', [UserController::class, 'search']);
 
 Route::get('/markAsRead', function(){

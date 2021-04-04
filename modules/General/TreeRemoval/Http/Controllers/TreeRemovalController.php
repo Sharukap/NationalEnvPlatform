@@ -153,11 +153,9 @@ class TreeRemovalController extends Controller
             $tree->land_parcel_id = $landid;
 
             $tree->tree_details = request('location');
-
             $tree->images = "{}";
-
             $tree->save();
-
+            
             //saving the images to the db
             $latest = Tree_Removal_Request::latest()->first();
             if (request('images')) {
@@ -167,7 +165,7 @@ class TreeRemovalController extends Controller
                     $file = $request->images[$y];
                     $filename = $file->getClientOriginalName();
                     $newname = $latest->id . 'NO' . $y . $filename;
-                    $path = $file->storeAs('tree_removal_images', $newname, 'public');
+                    $path = $file->storeAs('treeRemoval', $newname, 'public');
                     $photoarray[$y] = $path;
                 }
                 $tree = Tree_Removal_Request::where('id', $latest->id)->update(['images' => json_encode($photoarray)]);
@@ -187,7 +185,7 @@ class TreeRemovalController extends Controller
             $treeProcess->activity_organization = $organization_id1[0];
 
             $treeProcess->status_id = 1;
-
+            //dd($treeProcess);
             $treeProcess->save();
 
             $Users = User::where('role_id', '<', 3)->get();
@@ -197,7 +195,7 @@ class TreeRemovalController extends Controller
             $landProcess = new Process_Item();
             $landProcess->form_id = $landid;
             $landProcess->remark = "Verify these land details";
-            $landProcess->prerequisite = 1;
+            $landProcess->prerequisite = 0;
             
             if (request('checkExternalRequestor')) {
                 $landProcess->ext_requestor = request('externalRequestor');
@@ -232,6 +230,7 @@ class TreeRemovalController extends Controller
     {
         $item = Process_Item::find($id);
         $tree_removal = Tree_Removal_Request::find($item->form_id);
+        $Photos=Json_decode($tree_removal->images);
         $location_data = $tree_removal->tree_details;
         $land_data = Land_Parcel::find($tree_removal->land_parcel_id);
         // $images = json_decode($tree_removal->images);
@@ -240,7 +239,7 @@ class TreeRemovalController extends Controller
             'tree' => $tree_removal,
             'location' => $location_data,
             'polygon' => $land_data->polygon,
-            //'images' => $images,
+            'Photos' =>$Photos,
         ]);
     }
 
