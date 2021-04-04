@@ -1,9 +1,9 @@
 @extends('home')
 
 @section('cont')
-<div class="jumbotron">
+
     <span>
-        <h3 class="text-dark">This User Has No Role</h3>
+        <h3 class="text-center bg-success text-light">{{session('message')}}</h3>
     </span>
-</div>
+
 @endsection

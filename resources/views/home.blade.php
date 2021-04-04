@@ -169,9 +169,7 @@
                         @endguest
                     </ul>
                 </nav>
-                <span>
-                    <h3 class="text-center bg-success text-light">{{session('message')}}</h3>
-                </span>
+                
                 <div style="background-color:#f0f0f7" class="col-md">
 
                     @yield('cont')
