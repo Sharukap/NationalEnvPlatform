@@ -29,10 +29,10 @@
                             <tbody>
                                 <tr>
                                     <td>{{$treecut->id}}</td>
-                                    @if($treecut->province == NULL)
+                                    @if($treecut->District == NULL)
                                     <td>Unassigned</td>
                                     @else
-                                    <td>{{$treecut->province->province}}</td>
+                                    <td>{{$treecut->District->province->province}}</td>
                                     @endif 
                                     @if($treecut->district == NULL)
                                     <td>Unassigned</td>
@@ -113,7 +113,7 @@
                                     @if($devp->gazette==null)
                                         <td>No Gazzete</td>
                                     @else
-                                    <td>{{$item->gazette->title}}</td>
+                                    <td>{{$devp->gazette->title}}</td>
                                     @endif
                                     @if($devp->protected_area==0)
                                         <td>Not a protected area</td>
@@ -121,6 +121,26 @@
                                         <td>Protected area</td>
                                     @endif
                                               
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
+                    @case('3')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Activity</th>
+                                    <th>Eco System</th>
+                                    <th>Eco System Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$envrest->title}}</td>
+                                    <td>{{$envrest->environment_restoration_activity->title}}</td>
+                                    <td>{{$envrest->eco_system->ecosystem_type}}</td>
+                                    <td>{{$envrest->eco_system->description}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -148,14 +168,97 @@
                             </tbody>
                         </table>
                     @break
+                    @case('5')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>District</th>
+                                    <th>Grama Niladari Division</th>
+                                    <th>Protected Area</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if($envrest->special_approval==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                        <td>{{$envrest->district->district}}</td>
+                                    @endif
+                                    @if($envrest->special_approval==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                    <td>{{$envrest->gs_division->gs_division}}</td>
+                                    @endif
+                                    @if($envrest->special_approval==0)
+                                        <td>Not a protected area</td>
+                                    @elseif($envrest->special_approval==1)
+                                        <td>Protected area</td>
+                                    @endif
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
                 @endswitch
             </div>
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <div id="mapid" style="height:400px;" name="map"></div>
+                @if($Process_item->form_type_id!=5)
+                    <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignstaff/{{$land_process->id}}" class="text-dark">View More details</a></button>
+                @endif
             </div>
         </div>
     </div>
     <div class="container bg-white">
+            @if($Process_item->form_type_id ===1 || $Process_item->form_type_id == 2 || $Process_item->form_type_id == 4)
+                <div class="row p-4 bg-white">
+                    @isset($Photos)
+                        @if (count($Photos) > 0)
+                                @foreach($Photos as $photo)
+                                    <div class="col border border-muted rounded-lg mr-2 p-4">
+                                        <img class="img-responsive" src="{{URL::asset('/storage/'.$photo)}}" alt="photo">
+                                        <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
+                                    </div>
+                                @endforeach
+                        @endif
+                        @if (count($Photos) < 1)
+                                <p>No photos included in the application</p>
+                        @endif
+                    @endisset
+                    @empty($Photos)
+                        <p>No photos included in the application</p>
+                    @endempty
+                </div>
+            @elseif($Process_item->form_type_id == 3)
+                <div class="row p-4 bg-white">
+                    <div class="col border border-muted rounded-lg mr-2 p-4">
+                        <h6>Species Data related to the restoration project</h6>
+                        @if($tree_data == null)
+                            <h1>No data</h1>
+                        @else
+                            <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                                <thead>
+                                    <tr>
+                                        <th>Species Type</th>
+                                        <th>Species Name</th>
+                                        <th>Species Scientific Name</th>
+                                        <th>Number of species to be restored</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($tree_data as $tree)
+                                        <tr>
+                                        <td>{{$tree->species->type}}</td>
+                                        <td>{{$tree->species->title}}</td>
+                                        <td>{{$tree->species->scientefic_name}}</td>
+                                        <td>{{$tree->quantity}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>      
+                </div>
+            @endif
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <h6>Prerequisites</h6>
@@ -182,25 +285,6 @@
                     <p>No prerequisites made yet</p>
                 @endif
             </div> 
-
-            <div class="row p-4 bg-white">
-                @isset($Photos)
-                    @if (count($Photos) > 0)
-                            @foreach($Photos as $photo)
-                                <div class="col border border-muted rounded-lg mr-2 p-4">
-                                    <img class="img-responsive" src="{{URL::asset('/storage/'.$photo)}}" alt="photo">
-                                    <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
-                                </div>
-                            @endforeach
-                    @endif
-                    @if (count($Photos) < 1)
-                            <p>No photos included in the application</p>
-                    @endif
-                @endisset
-                @empty($Photos)
-                    <p>No photos included in the application</p>
-                @endempty
-            </div>
         </div>
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
@@ -273,6 +357,13 @@
             </div>
         </div>
     </div>
+    @if($Process_item->form_type_id ==5)
+        <div class="container">
+            <div class="row p-4 bg-white">
+                <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignstaff/{{$Process_item->prerequisite_id}}" class="text-dark">Back to {{$Process_item->prerequisite_process->form_type->type}}</a></button>
+            </div>
+        </div>
+    @endif
 </div>
 <script type="text/javascript">
     var center = [7.2906, 80.6337];
