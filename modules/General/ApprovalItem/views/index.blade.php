@@ -29,7 +29,7 @@
             <ul>
             <li>Application created by {{$process_item->created_by_user->name}} logged on {{date('d-m-Y',strtotime($item->created_at))}}</li>
             <li>Assigned by Mr/Mrs. {{$user->name}}, {{$user->designation->designation}} at {{$user->organization->title}}</li>
-            <li>Assigned to {{$process_item->other_removal_requestor_name}} for investigation</li>
+            <li>Assigned to {{$process_item->ext_requestor}} for investigation</li>
             </ul>
         </div>
     </div>
@@ -135,7 +135,11 @@
                             <tbody>
                                 <tr>
                                     <td>{{$item->title}}</td>
+                                    @if($item->gazette==null)
+                                        <td>No Gazzete</td>
+                                    @else
                                     <td>{{$item->gazette->title}}</td>
+                                    @endif
                                     <td>{{$item->protected_area}}</td>               
                                 </tr>
                             </tbody>

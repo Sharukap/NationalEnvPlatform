@@ -165,7 +165,7 @@ class TreeRemovalController extends Controller
                     $file = $request->images[$y];
                     $filename = $file->getClientOriginalName();
                     $newname = $latest->id . 'NO' . $y . $filename;
-                    $path = $file->storeAs('crimeEvidence', $newname, 'public');
+                    $path = $file->storeAs('treeRemoval', $newname, 'public');
                     $photoarray[$y] = $path;
                 }
                 $tree = Tree_Removal_Request::where('id', $latest->id)->update(['images' => json_encode($photoarray)]);
@@ -230,12 +230,14 @@ class TreeRemovalController extends Controller
     {
         $item = Process_Item::find($id);
         $tree_removal = Tree_Removal_Request::find($item->form_id);
+        $Photos=Json_decode($tree_removal->images);
         $location_data = $tree_removal->tree_details;
         $land_data = Land_Parcel::find($tree_removal->land_parcel_id);
         return view('treeRemoval::show', [
             'tree' => $tree_removal,
             'location' => $location_data,
             'polygon' => $land_data->polygon,
+            'Photos' =>$Photos,
         ]);
     }
 

@@ -144,7 +144,7 @@ class DevelopmentProjectController extends Controller
                     $file = $request->images[$y];
                     $filename = $file->getClientOriginalName();
                     $newname = $latest->id . 'NO' . $y . $filename;
-                    $path = $file->storeAs('crimeEvidence', $newname, 'public');
+                    $path = $file->storeAs('developmentproject', $newname, 'public');
                     $photoarray[$y] = $path;
                 }
                 $dev = Development_Project::where('id', $latest->id)->update(['images' => json_encode($photoarray)]);
@@ -175,7 +175,7 @@ class DevelopmentProjectController extends Controller
             $landProcess = new Process_Item();
             $landProcess->form_id = $landid;
             $landProcess->remark = "Verify these land details";
-            $landProcess->prerequisite = 1;
+            $landProcess->prerequisite = 0;
             
             if (request('checkExternalRequestor')) {
                 $landProcess->ext_requestor = request('externalRequestor');
@@ -210,10 +210,14 @@ class DevelopmentProjectController extends Controller
     {
         $process_item = Process_Item::find($id);
         $development_project = Development_Project::find($process_item->form_id);
+        
+        $Photos=Json_decode($development_project->images);
+        
         $land_data = Land_Parcel::find($development_project->land_parcel_id);
         return view('developmentProject::show', [
             'development_project' => $development_project,
             'polygon' => $land_data->polygon,
+            'Photos' =>$Photos,
         ]);
     }
 
