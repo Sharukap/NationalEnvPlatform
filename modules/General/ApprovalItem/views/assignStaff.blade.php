@@ -125,6 +125,26 @@
                             </tbody>
                         </table>
                     @break
+                    @case('3')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Activity</th>
+                                    <th>Eco System</th>
+                                    <th>Eco System Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$envrest->title}}</td>
+                                    <td>{{$envrest->environment_restoration_activity->title}}</td>
+                                    <td>{{$envrest->eco_system->ecosystem_type}}</td>
+                                    <td>{{$envrest->eco_system->description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
                     @case('4')
                         <h6>Crime information</h6>
                         <table class="table table-light table-striped border-secondary rounded-lg mr-4">
@@ -159,19 +179,19 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    @if($item->special_approval==null)
+                                    @if($envrest->special_approval==null)
                                         <td>Not assigned</td>
                                     @else
-                                        <td>{{$item->district->district}}</td>
+                                        <td>{{$envrest->district->district}}</td>
                                     @endif
-                                    @if($item->special_approval==null)
+                                    @if($envrest->special_approval==null)
                                         <td>Not assigned</td>
                                     @else
-                                    <td>{{$item->gs_division->gs_division}}</td>
+                                    <td>{{$envrest->gs_division->gs_division}}</td>
                                     @endif
-                                    @if($item->special_approval==0)
+                                    @if($envrest->special_approval==0)
                                         <td>Not a protected area</td>
-                                    @elseif($item->special_approval==1)
+                                    @elseif($envrest->special_approval==1)
                                         <td>Protected area</td>
                                     @endif
                                 </tr>
@@ -183,7 +203,7 @@
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <div id="mapid" style="height:400px;" name="map"></div>
                 @if($Process_item->form_type_id!=5)
-                    <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignstaff/{{$land_process->id}}" class="text-dark">View More details</a></button>
+                    <button type="submit" class="btn btn-primary" ><a href="/approval-envrest/assignstaff/{{$land_process->id}}" class="text-dark">View More details</a></button>
                 @endif
             </div>
         </div>
@@ -215,7 +235,7 @@
                     <p>No prerequisites made yet</p>
                 @endif
             </div> 
-
+            @if($Process_item->form_type_id ===1 || $Process_item->form_type_id == 2 || $Process_item->form_type_id == 4)
             <div class="row p-4 bg-white">
                 @isset($Photos)
                     @if (count($Photos) > 0)
@@ -234,6 +254,7 @@
                     <p>No photos included in the application</p>
                 @endempty
             </div>
+            @endif
         </div>
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
@@ -260,7 +281,7 @@
                             <td>{{$user->id}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
-                            <td><a href="/approval-item/confirmassign/{{$user->id}}/{{$Process_item->id}}" class="text-muted">assign</a></td>
+                            <td><a href="/approval-envrest/confirmassign/{{$user->id}}/{{$Process_item->id}}" class="text-muted">assign</a></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -269,7 +290,7 @@
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <h6>Request additional investigation</h6>
                 <br>
-                <form action="\approval-item\createprerequisite" method="post">
+                <form action="\approval-envrest\createprerequisite" method="post">
                     @csrf
                     <h6>Select Organization in charge</h6>
                     <div class="input-group mb-3">
@@ -309,7 +330,7 @@
     @if($Process_item->form_type_id ==5)
         <div class="container">
             <div class="row p-4 bg-white">
-                <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignstaff/{{$Process_item->prerequisite_id}}" class="text-dark">Back to {{$Process_item->prerequisite_process->form_type->type}}</a></button>
+                <button type="submit" class="btn btn-primary" ><a href="/approval-envrest/assignstaff/{{$Process_item->prerequisite_id}}" class="text-dark">Back to {{$Process_item->prerequisite_process->form_type->type}}</a></button>
             </div>
         </div>
     @endif
