@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateSampleProcessesTable extends Migration
+class CreateProvincesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateSampleProcessesTable extends Migration
      */
     public function up()
     {
-        Schema::create('sample_processes', function (Blueprint $table) {
+        Schema::create('provinces', function (Blueprint $table) {
             $table->id();
-            $table->json('structure');
-            $table->integer('created_by_user_id');
+            $table->string('province');  
             $table->timestampsTz(); //time stamp with timezone in UTC
-            $table->tinyInteger('status'); // ref process_item_statuses
             $table->softDeletesTz('deleted_at', 0);
         });
     }
@@ -30,6 +28,6 @@ class CreateSampleProcessesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sample_processes');
+        Schema::dropIfExists('provinces');
     }
 }

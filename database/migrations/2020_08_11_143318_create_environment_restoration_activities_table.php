@@ -18,7 +18,6 @@ class CreateEnvironmentRestorationActivitiesTable extends Migration
             $table->string('title');
             $table->integer('created_by_user_id');
             $table->timestampsTz(); //time stamp with timezone in UTC
-            $table->tinyInteger('status');
             $table->softDeletesTz('deleted_at', 0);
         });
     }

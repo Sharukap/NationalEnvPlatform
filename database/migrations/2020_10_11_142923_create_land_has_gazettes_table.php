@@ -18,7 +18,6 @@ class CreateLandHasGazettesTable extends Migration
             $table->unsignedBigInteger('gazette_id')->nullable();
             $table->unsignedBigInteger('land_parcel_id')->nullable();
             $table->timestampsTz(); //time stamp with timezone in UTC
-            $table->tinyInteger('status');
             $table->softDeletesTz('deleted_at', 0);
             $table->foreign('land_parcel_id')->references('id')->on('land_parcels')->onDelete('cascade');
             $table->foreign('gazette_id')->references('id')->on('gazettes')->onDelete('cascade');

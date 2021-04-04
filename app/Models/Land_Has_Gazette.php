@@ -13,6 +13,5 @@ class Land_Has_Gazette extends Model
     protected $fillable = [
         'gazette_id',
         'land_parcel_id',
-        'status'
     ];
 }

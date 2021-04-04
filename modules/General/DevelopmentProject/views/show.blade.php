@@ -12,43 +12,29 @@
         <dt class="col-sm-3">Category:</dt>
         <dd class="col-sm-9">Development Project</dd>
 
+        @if($development_project->gazette_id)
         <dt class="col-sm-3">Gazette:</dt>
         <dd class="col-sm-9">{{$development_project->gazette->title}}</dd>
+        @endif
 
-        <dt class="col-sm-3">Governing Organizations:</dt>
+
+        <dt class="col-sm-3">Description:</dt>
         <dd class="col-sm-9">
-            <ul class="list-unstyled">
-                @foreach($development_project->governing_organizations as $governing_organization)
-                @switch($governing_organization)
-                @case(1)
-                <li>Reforest Sri Lanka</li>
-                @break
-                @case(2)
-                <li>Ministry of Environment</li>
-                @break
-                @case(3)
-                <li>Central Environmental Authority</li>
-                @break
-                @case(4)
-                <li>Ministry of Wildlife</li>
-                @break
-                @case(5)
-                <li>Road Development Authority</li>
-                @break
-                @endswitch
-                @endforeach
-            </ul>
+            <p>{{$development_project->description}}</p>
         </dd>
 
-        <dt class="col-sm-3">Logs:</dt>
-        @if($development_project->logs == 0)
-        <dd class="col-sm-9">No Logs</dd>
-        @else
-        <dd class="col-sm-9">CONFIGURE CODE TO SHOW LOGS NOT DONE - CURRENTLY SAVING COORDINATES HERE</dd>
-        @endif
+        <dt class="col-sm-3">Activity Organization:</dt>
+        <dd class="col-sm-9">
+            <p>{{$development_project->organization->title}}</p>
+        </dd>
 
         <dt class="col-sm-3">Land Parcel:</dt>
         <dd class="col-sm-9">{{$development_project->land_parcel->title}}</dd>
+
+        @if($development_project->land_size != 0)
+        <dt class="col-sm-3">Land Size:</dt>
+        <dd class="col-sm-9">{{$development_project->land_size}} {{$tree->land_size_unit}}</dd>
+        @endif
 
         <dt class="col-sm-3">Status:</dt>
         <dd class="col-sm-9">{{$development_project->status->type}}</dd>
@@ -58,6 +44,24 @@
     </dl>
     <div class="border border-dark border-rounded">
         <div id="mapid" style="height:400px;" name="map"></div>
+    </div>
+    <div class="row">
+        @isset($Photos)
+            @if (count($Photos) > 0)
+                @foreach($Photos as $photo)
+                    <div class="col border border-muted rounded-lg mr-2 p-4">
+                        <img class="img-responsive" src="{{asset('/storage/'.$photo)}}" alt="photo">
+                        <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
+                    </div>
+                @endforeach
+            @endif
+            @if (count($Photos) < 1)
+                <p>No photos included in the application</p>
+            @endif
+        @endisset
+        @empty($Photos)
+            <p>No photos included in the application</p>
+        @endempty
     </div>
 </div>
 

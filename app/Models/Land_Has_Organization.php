@@ -13,10 +13,10 @@ class Land_Has_Organization extends Model
     protected $fillable = [
         'organization_id',
         'land_parcel_id',
-        'status'
     ];
 
-    protected $attributes = [
-        
-    ];
+    public function organization()
+    {
+        return $this->belongsTo('App\Models\Organization');
+    }
 }

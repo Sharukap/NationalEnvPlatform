@@ -13,24 +13,24 @@ class Development_Project extends Model
     protected $fillable = [
         'title',
         'gazette_id',
-        'governing_organizations',
-        'logs',
+        'organization_id',
         'land_parcel_id',
         'protected_area',
         'created_by_user_id',
         'status_id',
+        'description',
+        'images',
+        'land_size',
     ];
 
     protected $attributes = [
-        'logs' => 0,
         'protected_area' => 0,
         'status_id' => 1,
+        'land_size' => 0,
+        'images' => 0,
     ];
 
-    protected $casts = [
-        'governing_organizations' => 'array',
-        'logs' => 'array',
-    ];
+    
 
     public function gazette()
     {
@@ -45,6 +45,11 @@ class Development_Project extends Model
     public function status()
     {
         return $this->belongsTo('App\Models\Status');
+    }
+
+    public function organization()
+    {
+        return $this->belongsTo('App\Models\Organization');
     }
 
 }

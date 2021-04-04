@@ -44,7 +44,7 @@
 
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/environment/generalenv"><i class="fa fa-tree" aria-hidden="true"></i>   Environment Module</a>
+                                <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-tree" aria-hidden="true"></i>   Environment Module</a>
                             </li>
                             <li class="nav-item mt-3">
 
@@ -98,6 +98,12 @@
                             <a href="/approval-item/assignorganization/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p>New {{$notification->data['type']}} application No {{$notification->data['form_id']}} has been made.</p></i>
+                                </span></a>
+                            @endif
+                            @if($notification->type == "App\Notifications\NewUserRegistration")
+                            <a href="/user/showSelfRegistered"><i class="ni ni-single-02"></i><span>
+                                    <li>
+                                        <p>New User {{$notification->data['name']}} has registered using  {{$notification->data['email']}} has been made.</p></i>
                                 </span></a>
                             @endif
                         </ul>
@@ -163,7 +169,11 @@
                         @endguest
                     </ul>
                 </nav>
+                <span>
+                    <h3 class="text-center bg-success text-light">{{session('message')}}</h3>
+                </span>
                 <div style="background-color:#f0f0f7" class="col-md">
+
                     @yield('cont')
                     <br>
                 </div>
@@ -198,9 +208,5 @@
             </div>
         </footer>
     </div>
-    <!--chart js -->
-    <script src="{{ url('/vendor/chart.js/dist/Chart.min.js') }}"></script>
-    <script src="{{ url('/vendor/chart.js/dist/Chart.extension.js') }}"></script>
-    <script src="{{ url('/vendor/create-charts.js' ) }}"></script>
 </body>
 </html>

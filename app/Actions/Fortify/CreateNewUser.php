@@ -7,6 +7,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Contracts\CreatesNewUsers;
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\NewUserRegistration;
 
 class CreateNewUser implements CreatesNewUsers
 {
@@ -31,11 +33,17 @@ class CreateNewUser implements CreatesNewUsers
             ],
             'password' => $this->passwordRules(),
         ])->validate();
-
+        $user = new User();
+        $user->name=$input['name'];
+        $user->email= $input['email'];
+        $Mailers = User::where('role_id', '=', 2)->get();
+        Notification::send($Mailers, new NewUserRegistration($user));
         return User::create([
             'name' => $input['name'],
             'email' => $input['email'],
             'password' => Hash::make($input['password']),
         ]);
+
+        
     }
 }

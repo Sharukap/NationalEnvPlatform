@@ -27,7 +27,6 @@ class LandController extends Controller
         return view('land::form', [
             'organizations' => $organizations,
             'gazettes' => $gazettes,
-
         ]);
     }
 
@@ -35,7 +34,6 @@ class LandController extends Controller
     {
 
         $request->validate([
-            'title' => 'required',
             'landTitle' => 'required',
             'governing_orgs' => 'required',
             'gazettes' => 'required',
@@ -44,7 +42,6 @@ class LandController extends Controller
 
         $land = new Land_Parcel();
         $land->title = request('landTitle');
-        //$land->governing_organizations = request('governing_orgs');
         $land->governing_organizations = request('governing_orgs');
         $land->polygon = request('polygon');
         $land->created_by_user_id = request('createdBy');
@@ -62,7 +59,6 @@ class LandController extends Controller
             $land_has_organization = new Land_Has_Organization();
             $land_has_organization->land_parcel_id = $landid;
             $land_has_organization->organization_id = $governing_organization;
-            $land_has_organization->status = 2;
             $land_has_organization->save();
         }
 
@@ -72,7 +68,6 @@ class LandController extends Controller
             $land_has_gazette = new Land_Has_Gazette();
             $land_has_gazette->land_parcel_id = $landid;
             $land_has_gazette->gazette_id = $gazette;
-            $land_has_gazette->status = 2;
             $land_has_gazette->save();
         }
 
@@ -83,24 +78,34 @@ class LandController extends Controller
             $process->created_by_user_id = request('createdBy');
             $process->request_organization = Auth::user()->organization_id;
             $process->activity_organization = $governing_organization;
+            $process->status_id = 1;
             $process->save();
         }
+        $processnewid= Process_Item::latest()->first()->id;
+        //dd($processnewid);
+        Process_Item::where('form_id',$landid)->where('id','!=',$processnewid)->update([
+            'prerequisite' => 1,
+            'prerequisite_id' =>$processnewid,
+        ]);
         // if (request('file')) {
         //     $fileloc = request('file');
         //     Storage::delete('public/'.$fileloc);
         //     File::delete(public_path($fileloc));
         //     Storage::delete($fileloc);
         // }
-
         return redirect('/general/pending')->with('message', 'Request Created Successfully');
     }
     public function show($id)
     {
         $item = Process_Item::find($id);
         $land_data = Land_Parcel::find($item->form_id);
+        //using the M:M relationship
+        $governing = Land_Parcel::find($item->form_id)->organizations;
+
         return view('land::show', [
             'land' => $land_data,
             'polygon' => $land_data->polygon,
+            'governing_orgs' => $governing,
         ]);
     }
 
