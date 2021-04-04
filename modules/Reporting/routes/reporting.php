@@ -17,3 +17,11 @@ Route::get('/get-restoration-chart-data',[ReportingController::class, 'getMonthl
 Route::get('/get-restoration-type-chart-data',[ReportingController::class, 'getRestorationActivityTypeData']);
 Route::get('/get-restoration-ecosystem-chart-data',[ReportingController::class, 'getRestorationEcosystemData']);
 
+Route::get('/dev-proj', [ReportingController::class, 'devProject']); 
+Route::get('/get-developmentProject-chart-data',[ReportingController::class, 'getMonthlyDevelopmentProjectData']);
+Route::get('/get-developmentProject-organization-chart-data',[ReportingController::class, 'getDevelopmentProjectOrganizationData']);
+
+Route::get('/complaints', [ReportingController::class, 'crimeReport']); 
+Route::get('/get-crimeReport-chart-data',[ReportingController::class, 'getMonthlyCrimeReportData']);
+Route::get('/get-crimeReport-type-chart-data',[ReportingController::class, 'getCrimeReportTypeData']);
+Route::get('/get-crimeReport-actionTaken-chart-data',[ReportingController::class, 'getCrimeReportActionTakenData']);
