@@ -47,19 +47,11 @@ class Organization extends Model
         return $this->hasMany('App\Models\User');
     }
 
-    //organization activities
-    public function activities()
-    {
-        return $this->hasMany('App\Models\Org_Activity');
-    }
-
-
     //relation for activity organization
     public function land_parcel()
     {
         return $this->hasMany('App\Models\Land_Parcel');
     }
-
 
     public function environment_restorations()
     {

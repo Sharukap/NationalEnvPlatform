@@ -33,17 +33,6 @@
             <br>
             <div class="row">
                 <div class="col">
-                <strong>Province :</strong>
-                </div>
-                <div class="col">
-                 @foreach ($ORG_ACT as $key => $province)
-                {{$province->province->province  }}
-                @endforeach
-                </div>
-            </div>
-            <br>
-            <div class="row">
-                <div class="col">
                 <strong>Organization Type :</strong>
                 </div>
                 <div class="col">
@@ -51,7 +40,6 @@
                 </div> 
             </div>
             <br>
-            
             <div class="row">
                 <div class="col">
                 <strong>Country :</strong>
@@ -80,7 +68,7 @@
             <br>
             <div class="row">
                 <div class="col">
-                <strong>Description :</strong>
+                <strong>Descroption :</strong>
                 </div>
                 <div class="col">
                 {{ $organization->description }}
@@ -110,20 +98,7 @@
 
                 </tbody>
             </table>
-              <h6 style="text-align:left;" class="text-dark">Activities</h6>
-       
-            <hr>
 
-            <table class="table table-light table-striped border-secondary rounded-lg mr-4">
-                <tbody>
-                    @foreach ( $ORG_ACT as $key => $value)
-                    <tr>
-                        <td>{{$value->activity->activity}}</td>
-                    </tr>
-                    @endforeach
-
-                </tbody>
-            </table>
 
 
             <br>
