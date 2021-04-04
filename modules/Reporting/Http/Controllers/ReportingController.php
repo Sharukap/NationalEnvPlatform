@@ -26,8 +26,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use DB;
-use PDF;
+
 
 class ReportingController extends Controller
 {
@@ -92,16 +91,7 @@ class ReportingController extends Controller
     //OVERVIEW TAB CHARTS
     public function overview()
     {
-        $items = Process_Item::where('activity_organization', '=', Auth::user()->organization_id)->get();
-        return view('reporting::overview', ['items' => $items]);
-    }
-    public function downloadOverview()
-    {
-        $items = Process_Item::where('activity_organization', '=', Auth::user()->organization_id)->get();
-        $pdf = PDF::loadView('reporting::overviewReport', [
-            'items' => $items,
-        ]);
-        return $pdf->stream();
+        return view('reporting::overview');
     }
     //Process Item per month Line Chart
     public function getAllProcessItems()

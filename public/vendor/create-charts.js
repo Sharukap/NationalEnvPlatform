@@ -1,4 +1,13 @@
 (function ($) {
+	// draw background
+	var backgroundColor = 'white';
+	Chart.plugins.register({
+		beforeDraw: function (c) {
+			var ctx = c.chart.ctx;
+			ctx.fillStyle = backgroundColor;
+			ctx.fillRect(0, 0, c.chart.width, c.chart.height);
+		}
+	});
 
 	var charts = {
 		init: function () {
@@ -44,7 +53,7 @@
 		 */
 		createProcessItemsChart: function (response) {
 
-			var ctx = document.getElementById("myAreaChart");
+			var ctx = document.getElementById("ProcessItemsAreaChart");
 			var myLineChart = new Chart(ctx, {
 				type: 'line',
 				data: {
@@ -109,6 +118,13 @@
 								}
 							}
 						}]
+					},
+					options: {
+						animation: {
+							onComplete: function () {
+								console.log(myChart.toBase64Image());
+							}
+						}
 					}
 				}
 			});
@@ -199,6 +215,13 @@
 								}
 							}
 						}]
+					},
+					options: {
+						animation: {
+							onComplete: function () {
+								console.log(myChart.toBase64Image());
+							}
+						}
 					}
 				}
 			})
@@ -252,19 +275,6 @@
 						display: true
 					},
 					rotation: -0.7 * Math.PI
-
-				},
-				responsive: {
-					rules: [{
-						condition: {
-							maxWidth: 500
-						},
-						chartOptions: {
-							legend: {
-								enabled: false
-							}
-						}
-					}]
 				}
 			});
 		},
@@ -296,7 +306,7 @@
 				data: {
 					labels: response.months_years, // The response got from the ajax request containing all month names in the database
 					datasets: [{
-						label: "Tree Removals",
+						label: "Tree Removals (no. of Trees)",
 						lineTension: 0.3,
 						backgroundColor: "#0275d8",
 						borderColor: "rgba(2,117,216,1)",
@@ -463,7 +473,7 @@
 				data: {
 					labels: response.resto_months_years, // The response got from the ajax request containing all month names in the database
 					datasets: [{
-						label: "Restorations",
+						label: "Trees Restored",
 						lineTension: 0.3,
 						backgroundColor: "#0275d8",
 						borderColor: "rgba(2,117,216,1)",
@@ -491,7 +501,7 @@
 							}
 						}],
 						yAxes: [{
-							label: "No. of Restorations Requested for",
+							label: "No. of trees requested to be restored",
 							ticks: {
 								min: 0,
 								max: response.max, // The response got from the ajax request containing max limit for y axis
@@ -856,151 +866,151 @@
 			});
 		},
 
-        ajaxGetCrimeReportsTypesData: function () {
-            var request = $.ajax({
-                method: 'GET',
-                url: 'get-crimeReport-type-chart-data'
-            });
- 
-            request.done(function (response) {
-                console.log(response);
-                charts.createCrimeReportsTypesChart(response);
-            });
-        },
- 
-        /**
-         * Created the Crime Reports Type bar Chart
-         */
-        createCrimeReportsTypesChart: function (response) {
- 
-            var ctx = document.getElementById("CrimeReportTypeChart");
-            var myLineChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: response.crime_type, // The response got from the ajax request containing all crime type names in the database
-                    datasets: [{
-                        label: "Crime Reports recieved",
-                        lineTension: 0.3,
-                        backgroundColor: "#0275d8",
-                        borderColor: "rgba(2,117,216,1)",
-                        pointRadius: 5,
-                        pointBackgroundColor: "rgba(2,117,216,1)",
-                        pointBorderColor: "rgba(255,255,255,0.8)",
-                        pointHoverRadius: 5,
-                        pointHoverBackgroundColor: "rgba(2,117,216,1)",
-                        pointHitRadius: 20,
-                        pointBorderWidth: 2,
-                        data: response.crime_report_type_count_data // The response got from the ajax request containing data 
-                    }],
-                },
-                options: {
-                    scales: {
-                        xAxes: [{
-                            time: {
-                                unit: 'date'
-                            },
-                            gridLines: {
-                                display: false
-                            },
-                            ticks: {
-                                maxTicksLimit: 7
-                            }
-                        }],
-                        yAxes: [{
-                            label: "No. of Crime Reports made",
-                            ticks: {
-                                min: 0,
-                                max: response.max, // The response got from the ajax request containing max limit for y axis
-                                maxTicksLimit: 5
-                            },
-                            gridLines: {
-                                color: "rgba(0, 0, 0, .125)",
-                            }
-                        }],
-                    },
-                    title: {
-                        display: true,
-                        text: 'NUMBER OF CRIME REPORTS MADE OF EACH TYPE',
-                        position: 'top'
-                    },
-                    legend: {
-                        display: true
-                    },
-                    responsive: {
-                        rules: [{
-                            condition: {
-                                maxWidth: 500
-                            },
-                            chartOptions: {
-                                legend: {
-                                    enabled: false
-                                }
-                            }
-                        }]
-                    }
-                }
-            });
-        },
+		ajaxGetCrimeReportsTypesData: function () {
+			var request = $.ajax({
+				method: 'GET',
+				url: 'get-crimeReport-type-chart-data'
+			});
 
-        ajaxGetCrimeReportsActionsTakenData: function () {
-            var request = $.ajax({
-                method: 'GET',
-                url: 'get-crimeReport-actionTaken-chart-data'
-            });
- 
-            request.done(function (response) {
-                console.log(response);
-                charts.createCrimeReportsActionTakenChart(response);
-            });
-        },
- 
-        /**
-         * Created the Crime Report Action Taken  Chart
-         */
-        createCrimeReportsActionTakenChart: function (response) {
- 
-            var ctx = document.getElementById("CrimeReportActionTakenChart");
-            var myLineChart = new Chart(ctx, {
-                type: 'pie',
-                data: {
-                    labels: response.crime_action_taken, 
-                    datasets: [{
-                        backgroundColor: ['#0275d8', '#5cb85c', '#5bc0de', '#f0ad4e', '#d9534f'],
-                        pointRadius: 5,
-                        pointBackgroundColor: "rgba(2,117,216,1)",
-                        pointBorderColor: "rgba(255,255,255,0.8)",
-                        pointHoverRadius: 9,
-                        pointHoverBackgroundColor: "rgba(2,117,216,1)",
-                        pointHitRadius: 20,
-                        pointBorderWidth: 2,
-                        data: response.crime_report_action_taken_count_data // The response got from the ajax request containing data 
-                    }],
-                },
-                options: {
-                    title: {
-                        display: true,
-                        text: 'OVERVIEW RESULT OF THE CRIME REPORTS MADE',
-                        position: 'top'
-                    },
-                    legend: {
-                        display: true
-                    },
-                    rotation: -0.7 * Math.PI
-                },
-                responsive: {
-                    rules: [{
-                        condition: {
-                            maxWidth: 500
-                        },
-                        chartOptions: {
-                            legend: {
-                                enabled: false
-                            }
-                        }
-                    }]
-                }
-            });
-        },
+			request.done(function (response) {
+				console.log(response);
+				charts.createCrimeReportsTypesChart(response);
+			});
+		},
+
+		/**
+		 * Created the Crime Reports Type bar Chart
+		 */
+		createCrimeReportsTypesChart: function (response) {
+
+			var ctx = document.getElementById("CrimeReportTypeChart");
+			var myLineChart = new Chart(ctx, {
+				type: 'bar',
+				data: {
+					labels: response.crime_type, // The response got from the ajax request containing all crime type names in the database
+					datasets: [{
+						label: "Crime Reports recieved",
+						lineTension: 0.3,
+						backgroundColor: "#0275d8",
+						borderColor: "rgba(2,117,216,1)",
+						pointRadius: 5,
+						pointBackgroundColor: "rgba(2,117,216,1)",
+						pointBorderColor: "rgba(255,255,255,0.8)",
+						pointHoverRadius: 5,
+						pointHoverBackgroundColor: "rgba(2,117,216,1)",
+						pointHitRadius: 20,
+						pointBorderWidth: 2,
+						data: response.crime_report_type_count_data // The response got from the ajax request containing data 
+					}],
+				},
+				options: {
+					scales: {
+						xAxes: [{
+							time: {
+								unit: 'date'
+							},
+							gridLines: {
+								display: false
+							},
+							ticks: {
+								maxTicksLimit: 7
+							}
+						}],
+						yAxes: [{
+							label: "No. of Crime Reports made",
+							ticks: {
+								min: 0,
+								max: response.max, // The response got from the ajax request containing max limit for y axis
+								maxTicksLimit: 5
+							},
+							gridLines: {
+								color: "rgba(0, 0, 0, .125)",
+							}
+						}],
+					},
+					title: {
+						display: true,
+						text: 'NUMBER OF CRIME REPORTS MADE OF EACH TYPE',
+						position: 'top'
+					},
+					legend: {
+						display: true
+					},
+					responsive: {
+						rules: [{
+							condition: {
+								maxWidth: 500
+							},
+							chartOptions: {
+								legend: {
+									enabled: false
+								}
+							}
+						}]
+					}
+				}
+			});
+		},
+
+		ajaxGetCrimeReportsActionsTakenData: function () {
+			var request = $.ajax({
+				method: 'GET',
+				url: 'get-crimeReport-actionTaken-chart-data'
+			});
+
+			request.done(function (response) {
+				console.log(response);
+				charts.createCrimeReportsActionTakenChart(response);
+			});
+		},
+
+		/**
+		 * Created the Crime Report Action Taken  Chart
+		 */
+		createCrimeReportsActionTakenChart: function (response) {
+
+			var ctx = document.getElementById("CrimeReportActionTakenChart");
+			var myLineChart = new Chart(ctx, {
+				type: 'pie',
+				data: {
+					labels: response.crime_action_taken,
+					datasets: [{
+						backgroundColor: ['#0275d8', '#5cb85c', '#5bc0de', '#f0ad4e', '#d9534f'],
+						pointRadius: 5,
+						pointBackgroundColor: "rgba(2,117,216,1)",
+						pointBorderColor: "rgba(255,255,255,0.8)",
+						pointHoverRadius: 9,
+						pointHoverBackgroundColor: "rgba(2,117,216,1)",
+						pointHitRadius: 20,
+						pointBorderWidth: 2,
+						data: response.crime_report_action_taken_count_data // The response got from the ajax request containing data 
+					}],
+				},
+				options: {
+					title: {
+						display: true,
+						text: 'OVERVIEW RESULT OF THE CRIME REPORTS MADE',
+						position: 'top'
+					},
+					legend: {
+						display: true
+					},
+					rotation: -0.7 * Math.PI
+				},
+				responsive: {
+					rules: [{
+						condition: {
+							maxWidth: 500
+						},
+						chartOptions: {
+							legend: {
+								enabled: false
+							}
+						}
+					}]
+				}
+			});
+		},
 
 	};
 
