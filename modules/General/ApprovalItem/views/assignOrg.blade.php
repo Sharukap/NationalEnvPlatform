@@ -91,7 +91,24 @@
                         </table>
                     @break
                     @case('3')
-                        <h6>nothing yet</h6>
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Activity</th>
+                                    <th>Eco System</th>
+                                    <th>Eco System Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$item->title}}</td>
+                                    <td>{{$item->environment_restoration_activity->title}}</td>
+                                    <td>{{$item->eco_system->ecosystem_type}}</td>
+                                    <td>{{$item->eco_system->description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
                     @break
                     @case('4')
                         <table class="table table-light table-striped border-secondary rounded-lg mr-4">
@@ -179,25 +196,24 @@
         @endif
         @if($process_item->form_type_id==5)
             <div class="row p-4 bg-white">
-            <table class="table table-light table-striped border-secondary rounded-lg mr-4">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Type</th>
-                                    <th>Description</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach($LandOrganizations as $organization)
-                                <tr>
-                                    <td>{{$organization->organization->title}}</td>
-                                    <td>{{$organization->organization->type->title}}</td>
-                                    <td>{{$organization->organization->Description}}</td>
-                                </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-            
+                <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                    <thead>
+                        <tr>
+                            <th>Title</th>
+                            <th>Type</th>
+                            <th>Description</th>
+                            </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($LandOrganizations as $organization)
+                            <tr>
+                                <td>{{$organization->organization->title}}</td>
+                                <td>{{$organization->organization->type->title}}</td>
+                                <td>{{$organization->organization->Description}}</td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         @endif
         @isset($Photos)

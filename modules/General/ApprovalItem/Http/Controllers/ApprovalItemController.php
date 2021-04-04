@@ -7,6 +7,7 @@ use App\Models\Crime_report;
 use App\Models\tree_removal_request;
 use App\Models\Development_Project;
 use App\Models\Environment_Restoration;
+use App\Models\Environment_Restoration_Species;
 use App\Models\Process_Item;
 use App\Models\Form_Type;
 use App\Models\Process_item_progress;
@@ -106,8 +107,17 @@ class ApprovalItemController extends Controller
         } 
         else if($array->form_type_id == '2'){
             $item = Development_Project::find($array->form_id);
-            $Photos=null;
+            $Photos=Json_decode($item->images);
             $tree_data = null;
+        }
+        else if($array->form_type_id == '3'){
+            $item = Environment_Restoration::find($array->form_id);
+            $Photos=null;
+            $tree_data = Environment_Restoration_Species::all()->where('environment_restoration_id',$item->id);
+            $Land_Organizations =Land_Has_Organization::where('land_parcel_id',$item->land_parcel_id)->get();
+            //dd($tree_data);
+            
+            //dd($tree_data,$Land_Organizations);
         }
         else if($array->form_type_id == '4'){
             $item = Crime_report::find($array->form_id);
@@ -116,13 +126,15 @@ class ApprovalItemController extends Controller
         }
         $land_parcel = Land_Parcel::find($item->land_parcel_id);
         //dd($array);
-        $pdf = PDF::loadView('approvalItem::index',[
+        //
+        $pdf = PDF ::loadView('approvalItem::index',[
             'process_item' => $array,
             'user' =>$user,
             'item' => $item,
             'polygon' => $land_parcel->polygon,
             'tree_data' =>$tree_data,
         ]);
+        
         $array->requestor_email=$request['email'];
         
         $process_item = $array->toarray();
