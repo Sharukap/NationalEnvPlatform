@@ -106,9 +106,17 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{$item->title}}</td>
+                                <td>{{$item->title}}</td>
+                                    @if($item->gazette==null)
+                                        <td>No Gazzete</td>
+                                    @else
                                     <td>{{$item->gazette->title}}</td>
-                                    <td>{{$item->protected_area}}</td>               
+                                    @endif
+                                    @if($item->protected_area==0)
+                                        <td>Not a protected area</td>
+                                    @else
+                                        <td>Protected area</td>
+                                    @endif              
                                 </tr>
                             </tbody>
                         </table>
@@ -328,7 +336,12 @@
                         <tbody>
                             @foreach($Related_Devps as $related_devp)<tr>
                                 <td>{{$related_devp->title}}</td>
-                                <td>{{$related_devp->gazette->title}}</td>
+                                    @if($related_devp->gazette==null)
+                                        <td>No Gazzete</td>
+                                    @else
+                                    <td>{{$related_devp->gazette->title}}</td>
+                                    @endif
+                                
                                 <td>{{date('d-m-Y',strtotime($related_devp->created_at))}}</td>
                             </tr>
                             @endforeach

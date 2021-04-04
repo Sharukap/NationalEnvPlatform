@@ -113,7 +113,7 @@
                                     @if($devp->gazette==null)
                                         <td>No Gazzete</td>
                                     @else
-                                    <td>{{$item->gazette->title}}</td>
+                                    <td>{{$devp->gazette->title}}</td>
                                     @endif
                                     @if($devp->protected_area==0)
                                         <td>Not a protected area</td>
@@ -182,8 +182,8 @@
             </div>
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <div id="mapid" style="height:400px;" name="map"></div>
-                @if($process_item->form_type_id!=5)
-                    <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignorganization/{{$land_process->id}}" class="text-dark">View More details</a></button>
+                @if($Process_item->form_type_id!=5)
+                    <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignstaff/{{$land_process->id}}" class="text-dark">View More details</a></button>
                 @endif
             </div>
         </div>
@@ -306,6 +306,13 @@
             </div>
         </div>
     </div>
+    @if($Process_item->form_type_id ==5)
+        <div class="container">
+            <div class="row p-4 bg-white">
+                <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignstaff/{{$Process_item->prerequisite_id}}" class="text-dark">Back to {{$Process_item->prerequisite_process->form_type->type}}</a></button>
+            </div>
+        </div>
+    @endif
 </div>
 <script type="text/javascript">
     var center = [7.2906, 80.6337];
