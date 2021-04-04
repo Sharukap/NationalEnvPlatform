@@ -46,7 +46,11 @@ class Organization extends Model
     {
         return $this->hasMany('App\Models\User');
     }
-
+    //organization activities
+    public function activities()
+    {
+        return $this->hasMany('App\Models\Org_Activity');
+    }
     public function environment_restorations()
     {
         return $this->hasMany('App\Models\Environment_Restoration');
