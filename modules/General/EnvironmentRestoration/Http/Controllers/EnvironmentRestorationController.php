@@ -65,10 +65,12 @@ class EnvironmentRestorationController extends Controller
         $landparcel = new Land_Parcel();
         $landparcel->title = request('landparceltitle');
         $landparcel->polygon = request('polygon');
+        
         $landparcel->protected_area = request('isProtected');
+        if (request('isProtected')) {
         $landparcel->created_by_user_id = request('created_by');
         $landparcel->save();
-
+        }
         $latest = Land_Parcel::latest()->first();
         $newland = $latest->id;
 
@@ -94,6 +96,15 @@ class EnvironmentRestorationController extends Controller
         $restoration->save();
         $latest = Environment_Restoration::latest()->first();
         $newres = $latest->id;
+        $Process_item = new Process_Item();
+        $Process_item->form_id = $latest->id;
+        $Process_item->form_type_id = 3;
+        $Process_item->created_by_user_id = request('created_by');
+        $Process_item->activity_organization = request('organization');
+        $Process_item->status_id = 1;
+        $Process_item->save();
+        //dd($Process_item,$request,$restoration);
+        $latestprocess = Process_Item::latest()->first();
 
         //Adding map coordinates to the land parcel table
 
@@ -142,11 +153,13 @@ class EnvironmentRestorationController extends Controller
         $activityorgname = request('request_org');
         $activityorgid = Organization::where('title',$activityorgname)->pluck('id');
         $process = new Process_Item();
-        $process->form_type_id = 3;
+        $process->form_type_id = 5;
         $process->form_id = $latest->id;
         $process->created_by_user_id = request('created_by');
         $process->request_organization = Auth::user()->organization_id;
-        $process->activity_organization = $activityorgid[0];
+        $process->activity_organization = request('organization');
+        $process->prerequisite_id=$latestprocess->id;
+        $process->prerequisite=0;
         $process->save();
         
 

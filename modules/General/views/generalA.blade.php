@@ -75,7 +75,11 @@
                 <td>{{$process_item->form_type->type}}</td>
                 <td>{{date('d-m-Y',strtotime($process_item->created_at))}}</td>
                 @if($process_item->request_organization==null && $process_item->other_land_owner_name==null)
-                <td>{{$process_item->created_by_user->name}}</td>
+                    @if($process_item->created_by_user != null)
+                        <td>{{$process_item->created_by_user->name}}</td>
+                    @else
+                        <td>No details available</td>
+                    @endif
                 @elseif($process_item->request_organization==null)
                 <td>{{$process_item->other_land_owner_name}}</td>
                 @else

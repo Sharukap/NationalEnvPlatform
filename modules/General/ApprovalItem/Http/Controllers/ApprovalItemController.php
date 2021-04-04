@@ -6,6 +6,7 @@ use App\Models\Organization;
 use App\Models\Crime_report;
 use App\Models\tree_removal_request;
 use App\Models\Development_Project;
+use App\Models\Environment_Restoration;
 use App\Models\Process_Item;
 use App\Models\Form_Type;
 use App\Models\Process_item_progress;
@@ -320,6 +321,11 @@ class ApprovalItemController extends Controller
             $item = Development_Project::find($process_item->form_id);
             $Photos=Json_decode($item->images);
         }
+        else if($process_item->form_type_id == '3'){
+            $item = Environment_Restoration::find($process_item->form_id);
+            //dd($process_item,$item);
+            $Photos=null;
+        }
         else if($process_item->form_type_id == '4'){
             $item = Crime_report::find($process_item->form_id);
             $Photos=Json_decode($item->photos);
@@ -332,6 +338,8 @@ class ApprovalItemController extends Controller
                 ['prerequisite_id', '=' , $process_item->id],           
                 ['prerequisite', '=', 0], 
             ])->first();
+            $landProcess2=Process_item::where('prerequisite_id', '=' , $process_item->id)->first();
+            //dd($landProcess,$landProcess2);
             
             return view('approvalItem::assignOrg',[
                 'item' => $item,
