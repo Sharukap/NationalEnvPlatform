@@ -203,12 +203,62 @@
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <div id="mapid" style="height:400px;" name="map"></div>
                 @if($Process_item->form_type_id!=5)
-                    <button type="submit" class="btn btn-primary" ><a href="/approval-envrest/assignstaff/{{$land_process->id}}" class="text-dark">View More details</a></button>
+                    <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignstaff/{{$land_process->id}}" class="text-dark">View More details</a></button>
                 @endif
             </div>
         </div>
     </div>
     <div class="container bg-white">
+            @if($Process_item->form_type_id ===1 || $Process_item->form_type_id == 2 || $Process_item->form_type_id == 4)
+                <div class="row p-4 bg-white">
+                    @isset($Photos)
+                        @if (count($Photos) > 0)
+                                @foreach($Photos as $photo)
+                                    <div class="col border border-muted rounded-lg mr-2 p-4">
+                                        <img class="img-responsive" src="{{URL::asset('/storage/'.$photo)}}" alt="photo">
+                                        <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
+                                    </div>
+                                @endforeach
+                        @endif
+                        @if (count($Photos) < 1)
+                                <p>No photos included in the application</p>
+                        @endif
+                    @endisset
+                    @empty($Photos)
+                        <p>No photos included in the application</p>
+                    @endempty
+                </div>
+            @elseif($Process_item->form_type_id == 3)
+                <div class="row p-4 bg-white">
+                    <div class="col border border-muted rounded-lg mr-2 p-4">
+                        <h6>Species Data related to the restoration project</h6>
+                        @if($tree_data == null)
+                            <h1>No data</h1>
+                        @else
+                            <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                                <thead>
+                                    <tr>
+                                        <th>Species Type</th>
+                                        <th>Species Name</th>
+                                        <th>Species Scientific Name</th>
+                                        <th>Number of species to be restored</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($tree_data as $tree)
+                                        <tr>
+                                        <td>{{$tree->species->type}}</td>
+                                        <td>{{$tree->species->title}}</td>
+                                        <td>{{$tree->species->scientefic_name}}</td>
+                                        <td>{{$tree->quantity}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>      
+                </div>
+            @endif
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <h6>Prerequisites</h6>
@@ -235,26 +285,6 @@
                     <p>No prerequisites made yet</p>
                 @endif
             </div> 
-            @if($Process_item->form_type_id ===1 || $Process_item->form_type_id == 2 || $Process_item->form_type_id == 4)
-            <div class="row p-4 bg-white">
-                @isset($Photos)
-                    @if (count($Photos) > 0)
-                            @foreach($Photos as $photo)
-                                <div class="col border border-muted rounded-lg mr-2 p-4">
-                                    <img class="img-responsive" src="{{URL::asset('/storage/'.$photo)}}" alt="photo">
-                                    <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
-                                </div>
-                            @endforeach
-                    @endif
-                    @if (count($Photos) < 1)
-                            <p>No photos included in the application</p>
-                    @endif
-                @endisset
-                @empty($Photos)
-                    <p>No photos included in the application</p>
-                @endempty
-            </div>
-            @endif
         </div>
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
@@ -281,7 +311,7 @@
                             <td>{{$user->id}}</td>
                             <td>{{$user->name}}</td>
                             <td>{{$user->email}}</td>
-                            <td><a href="/approval-envrest/confirmassign/{{$user->id}}/{{$Process_item->id}}" class="text-muted">assign</a></td>
+                            <td><a href="/approval-item/confirmassign/{{$user->id}}/{{$Process_item->id}}" class="text-muted">assign</a></td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -290,7 +320,7 @@
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <h6>Request additional investigation</h6>
                 <br>
-                <form action="\approval-envrest\createprerequisite" method="post">
+                <form action="\approval-item\createprerequisite" method="post">
                     @csrf
                     <h6>Select Organization in charge</h6>
                     <div class="input-group mb-3">
@@ -330,7 +360,7 @@
     @if($Process_item->form_type_id ==5)
         <div class="container">
             <div class="row p-4 bg-white">
-                <button type="submit" class="btn btn-primary" ><a href="/approval-envrest/assignstaff/{{$Process_item->prerequisite_id}}" class="text-dark">Back to {{$Process_item->prerequisite_process->form_type->type}}</a></button>
+                <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignstaff/{{$Process_item->prerequisite_id}}" class="text-dark">Back to {{$Process_item->prerequisite_process->form_type->type}}</a></button>
             </div>
         </div>
     @endif

@@ -193,7 +193,7 @@ class ApprovalItemController extends Controller
         } 
         $organization=Auth::user()->organization_id;
         $Prerequisites=Process_item::all()->where('prerequisite_id',$Process_item->id);
-        $Organizations=Organization::all()->where('type_id','2');
+        $Organizations=Organization::all();
         if(Auth::user()->role_id=='3'){
             $Users = User::where([
                 ['role_id', '>' , 3],           
@@ -246,6 +246,7 @@ class ApprovalItemController extends Controller
         else if($Process_item->form_type_id == '3'){
             $envrest = Environment_Restoration::find($Process_item->form_id);
             $land_parcel = Land_Parcel::find($envrest->land_parcel_id);
+            $tree_data = Environment_Restoration_Species::all()->where('environment_restoration_id',$envrest->id);
             return view('approvalItem::assignStaff',[
                 'envrest' => $envrest,
                 'land_process' =>$landProcess,
@@ -254,6 +255,7 @@ class ApprovalItemController extends Controller
                 'Process_item' =>$Process_item,
                 'Organizations' => $Organizations,
                 'polygon' => $land_parcel->polygon,
+                'tree_data' => $tree_data,
             ]);
         }
         else if($Process_item->form_type_id == '4'){
@@ -408,8 +410,9 @@ class ApprovalItemController extends Controller
             $tree_data = null;
         }
         else if($process_item->form_type_id == '3'){
-            $item = Environment_Restoration_Activity::find($process_item->form_id);
-            $tree_data = null;
+            $item = Environment_Restoration::find($process_item->form_id);
+            $Photos=null;
+            $tree_data = Environment_Restoration_Species::all()->where('environment_restoration_id',$item->id);
         }
         else if($process_item->form_type_id == '4'){
             $item = Crime_report::find($process_item->form_id);
@@ -417,6 +420,7 @@ class ApprovalItemController extends Controller
             $tree_data = null;
         }
         if($process_item->form_type_id != '5'){
+            //dd($process_item,$item);
             $land_parcel = Land_Parcel::find($item->land_parcel_id);
             
             $landProcess=Process_item::where([

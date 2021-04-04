@@ -121,6 +121,26 @@
                             </tbody>
                         </table>
                     @break
+                    @case('3')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Activity</th>
+                                    <th>Eco System</th>
+                                    <th>Eco System Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$item->title}}</td>
+                                    <td>{{$item->environment_restoration_activity->title}}</td>
+                                    <td>{{$item->eco_system->ecosystem_type}}</td>
+                                    <td>{{$item->eco_system->description}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
                     @case('4')
                         <table class="table table-light table-striped border-secondary rounded-lg mr-4">
                             <thead>
@@ -271,7 +291,7 @@
                 @endif
             </div>
         </div>
-        @if($process_item->form_type_id !=5)
+        @if($process_item->form_type_id ===1 ||$process_item->form_type_id ===2 || $process_item->form_type_id ===4)
             <div class="row p-4 bg-white">
                 <h6>Related images</h6>
             </div>
@@ -353,6 +373,36 @@
                     @endif
                 </div>
             </div>
+        @elseif($process_item->form_type_id ===3)
+                <div class="row p-4 bg-white">
+                    <div class="col border border-muted rounded-lg mr-2 p-4">
+                        <h6>Species Data related to the restoration project</h6>
+                        @if($tree_data == null)
+                            <h1>No data</h1>
+                        @else
+                            <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                                <thead>
+                                    <tr>
+                                        <th>Species Type</th>
+                                        <th>Species Name</th>
+                                        <th>Species Scientific Name</th>
+                                        <th>Number of species to be restored</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($tree_data as $tree)
+                                        <tr>
+                                        <td>{{$tree->species->type}}</td>
+                                        <td>{{$tree->species->title}}</td>
+                                        <td>{{$tree->species->scientefic_name}}</td>
+                                        <td>{{$tree->quantity}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>      
+                </div>
         @else
             <div class="row p-4 bg-white">
             <h6>Governing Organizations related to the Land Parcel</h6>
