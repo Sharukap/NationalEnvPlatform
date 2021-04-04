@@ -34,11 +34,11 @@ class Organization extends Model
         return $this->hasOne('App\Models\Contact');
     }
 
-
     public function type()
     {
-        return $this->belongsTo(\App\Models\Type::class, 'type_id');
+        return $this->belongsTo('App\Models\Type');
     }
+
 
     // A user belongs to one organization and an organization has many users.
     public function users()

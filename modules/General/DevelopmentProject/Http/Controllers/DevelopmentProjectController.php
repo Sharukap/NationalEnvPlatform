@@ -201,7 +201,7 @@ class DevelopmentProjectController extends Controller
         //making a downloadable version of the KML file
         try {
             $kml = request('kml');
-            Storage::put('attempt1.kml', $kml);
+            Storage::put('kml_files/attempt1.kml', $kml);
         } catch (\Exception $e) {
             dd($e);
         }
