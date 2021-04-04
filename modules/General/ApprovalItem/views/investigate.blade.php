@@ -9,11 +9,11 @@
 <div class="container">
     <div class="container bg-white">
         <div class="row p-4 bg-white">
-        @if($process_item->prerequisite == 0)
-            <h3>Investigation of {{$process_item->form_type->type}} application no {{$process_item->form_id}} logged on {{date('d-m-Y',strtotime($item->created_at))}}</h3>
-        @elseif($process_item->prerequisite == 1)
-            <h3>Additional Investigation for {{$process_item->form_type->type}} application no {{$process_item->form_id}} logged on {{date('d-m-Y',strtotime($item->created_at))}}</h3>
-        @endif
+            @if($process_item->prerequisite == 0)
+                <h3>Investigation of {{$process_item->form_type->type}} application no {{$process_item->form_id}} logged on {{date('d-m-Y',strtotime($item->created_at))}}</h3>
+            @elseif($process_item->prerequisite == 1)
+                <h3>Additional Investigation for {{$process_item->form_type->type}} application no {{$process_item->form_id}} logged on {{date('d-m-Y',strtotime($item->created_at))}}</h3>
+            @endif
         </div>   
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
@@ -30,11 +30,11 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    @if($item->province == NULL)
+                                    @if($item->District == NULL)
                                     <td>Unassigned</td>
                                     @else
-                                    <td>{{$item->province->province}}</td>
-                                    @endif 
+                                    <td>{{$item->District->province->province}}</td>
+                                    @endif
                                     @if($item->district == NULL)
                                     <td>Unassigned</td>
                                     @else
@@ -106,9 +106,37 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{$item->title}}</td>
+                                <td>{{$item->title}}</td>
+                                    @if($item->gazette==null)
+                                        <td>No Gazzete</td>
+                                    @else
                                     <td>{{$item->gazette->title}}</td>
-                                    <td>{{$item->protected_area}}</td>               
+                                    @endif
+                                    @if($item->protected_area==0)
+                                        <td>Not a protected area</td>
+                                    @else
+                                        <td>Protected area</td>
+                                    @endif              
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
+                    @case('3')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Activity</th>
+                                    <th>Eco System</th>
+                                    <th>Eco System Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$item->title}}</td>
+                                    <td>{{$item->environment_restoration_activity->title}}</td>
+                                    <td>{{$item->eco_system->ecosystem_type}}</td>
+                                    <td>{{$item->eco_system->description}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -131,10 +159,43 @@
                             </tbody>
                         </table>
                     @break
+                    @case('5')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>District</th>
+                                    <th>Grama Niladari Division</th>
+                                    <th>Protected Area</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if($item->district==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                        <td>{{$item->district->district}}</td>
+                                    @endif
+                                    @if($item->gs_division==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                    <td>{{$item->gs_division->gs_division}}</td>
+                                    @endif
+                                    @if($item->special_approval==0)
+                                        <td>Not a protected area</td>
+                                    @elseif($item->special_approval==1)
+                                        <td>Protected area</td>
+                                    @endif
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
                 @endswitch
             </div>
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <div id="mapid" style="height:400px;" name="map"></div>
+                @if($process_item->form_type_id!=5)
+                    <button type="submit" class="btn btn-primary" ><a href="/approval-item/investigate/{{$land_process->id}}" class="text-dark">View More details</a></button>
+                @endif
             </div>
         </div>
         @if($process_item->form_type_id == 1)
@@ -172,29 +233,6 @@
                         </tbody>
                     </table>
                 @endif             
-            </div>
-        @endif
-        @if($process_item->form_type_id == 1 || 4)
-            <div class="row p-4 bg-white">
-                <h6>Related images</h6>
-            </div>
-            <div class="row p-4 bg-white">
-                @isset($Photos)
-                    @if (count($Photos) > 0)
-                            @foreach($Photos as $photo)
-                                <div class="col border border-muted rounded-lg mr-2 p-4">
-                                    <img class="img-responsive" src="{{URL::asset('/storage/'.$photo)}}" alt="photo">
-                                    <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
-                                </div>
-                            @endforeach
-                    @endif
-                    @if (count($Photos) < 1)
-                            <p>No photos included in the application</p>
-                    @endif
-                @endisset
-                @empty($Photos)
-                    <p>No photos included in the application</p>
-                @endempty
             </div>
         @endif
         <div class="row p-4 bg-white">
@@ -253,61 +291,141 @@
                 @endif
             </div>
         </div>
-        <div class="row p-4 bg-white">
-            <div class="col border border-muted rounded-lg mr-2 p-4">
-                <h6>Tree removals in the same land Parcel</h6>
-                @if(count($Related_Treecuts) > 0)
+        @if($process_item->form_type_id ===1 ||$process_item->form_type_id ===2 || $process_item->form_type_id ===4)
+            <div class="row p-4 bg-white">
+                <h6>Related images</h6>
+            </div>
+            <div class="row p-4 bg-white">
+                @isset($Photos)
+                    @if (count($Photos) > 0)
+                            @foreach($Photos as $photo)
+                                <div class="col border border-muted rounded-lg mr-2 p-4">
+                                    <img class="img-responsive" src="{{URL::asset('/storage/'.$photo)}}" alt="photo">
+                                    <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
+                                </div>
+                            @endforeach
+                    @endif
+                    @if (count($Photos) < 1)
+                            <p>No photos included in the application</p>
+                    @endif
+                @endisset
+                @empty($Photos)
+                    <p>No photos included in the application</p>
+                @endempty
+            </div>
+            <div class="row p-4 bg-white">
+                <div class="col border border-muted rounded-lg mr-2 p-4">
+                    <h6>Tree removals in the same land Parcel</h6>
+                    @if(count($Related_Treecuts) > 0)
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Land Size</th>
+                                    <th>No of trees</th>
+                                    <th>No of tree species</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($Related_Treecuts as $related_treecut)
+                                    <tr>
+                                        <td>{{$related_treecut->land_size}}</td>
+                                        <td>{{$related_treecut->no_of_trees}}</td>
+                                        <td>{{$related_treecut->no_of_tree_species}}</td>
+                                        <td>{{date('d-m-Y',strtotime($related_treecut->created_at))}}</td>
+                                    </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    @endif
+                    @if(count($Related_Treecuts) < 1)
+                        <p>No related tree removals in the same land parcel</p>
+                    @endif
+                </div>
+                <div class="col border border-muted rounded-lg mr-2 p-4">
+                    <h6>Development Projects in the same land Parcel</h6>
+                    @if(count($Related_Devps) > 0)
                     <table class="table table-light table-striped border-secondary rounded-lg mr-4">
                         <thead>
                             <tr>
-                                <th>Land Size</th>
-                                <th>No of trees</th>
-                                <th>No of tree species</th>
+                                <th>Title</th>
+                                <th>Gazette Title</th>
                                 <th>Date</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($Related_Treecuts as $related_treecut)
-                                <tr>
-                                    <td>{{$related_treecut->land_size}}</td>
-                                    <td>{{$related_treecut->no_of_trees}}</td>
-                                    <td>{{$related_treecut->no_of_tree_species}}</td>
-                                    <td>{{date('d-m-Y',strtotime($related_treecut->created_at))}}</td>
-                                </tr>
+                            @foreach($Related_Devps as $related_devp)<tr>
+                                <td>{{$related_devp->title}}</td>
+                                    @if($related_devp->gazette==null)
+                                        <td>No Gazzete</td>
+                                    @else
+                                    <td>{{$related_devp->gazette->title}}</td>
+                                    @endif
+                                
+                                <td>{{date('d-m-Y',strtotime($related_devp->created_at))}}</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>
-                @endif
-                @if(count($Related_Treecuts) < 1)
-                    <p>No related tree removals in the same land parcel</p>
-                @endif
+                    @endif
+                    @if(count($Related_Devps) < 1)
+                        <p>No related development projects in the same land parcel</p>
+                    @endif
+                </div>
             </div>
-            <div class="col border border-muted rounded-lg mr-2 p-4">
-                <h6>Development Projects in the same land Parcel</h6>
-                @if(count($Related_Devps) > 0)
-                <table class="table table-light table-striped border-secondary rounded-lg mr-4">
-                    <thead>
-                        <tr>
-                            <th>Title</th>
-                            <th>Gazette Title</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach($Related_Devps as $related_devp)<tr>
-                            <td>{{$related_devp->title}}</td>
-                            <td>{{$related_devp->gazette->title}}</td>
-                            <td>{{date('d-m-Y',strtotime($related_devp->created_at))}}</td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                @endif
-                @if(count($Related_Devps) < 1)
-                    <p>No related development projects in the same land parcel</p>
-                @endif
+        @elseif($process_item->form_type_id ===3)
+                <div class="row p-4 bg-white">
+                    <div class="col border border-muted rounded-lg mr-2 p-4">
+                        <h6>Species Data related to the restoration project</h6>
+                        @if($tree_data == null)
+                            <h1>No data</h1>
+                        @else
+                            <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                                <thead>
+                                    <tr>
+                                        <th>Species Type</th>
+                                        <th>Species Name</th>
+                                        <th>Species Scientific Name</th>
+                                        <th>Number of species to be restored</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($tree_data as $tree)
+                                        <tr>
+                                        <td>{{$tree->species->type}}</td>
+                                        <td>{{$tree->species->title}}</td>
+                                        <td>{{$tree->species->scientefic_name}}</td>
+                                        <td>{{$tree->quantity}}</td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        @endif
+                    </div>      
+                </div>
+        @else
+            <div class="row p-4 bg-white">
+            <h6>Governing Organizations related to the Land Parcel</h6>
+            <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($LandOrganizations as $organization)
+                                <tr>
+                                    <td>{{$organization->organization->title}}</td>
+                                    <td>{{$organization->organization->type->title}}</td>
+                                    <td>{{$organization->organization->Description}}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
             </div>
-        </div>
+        @endif
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <h6>Request additional investigation</h6>
@@ -445,6 +563,13 @@
                 </form>
             </div>
         </div>
+        @if($process_item->form_type_id ==5)
+            <div class="container">
+                <div class="row p-4 bg-white">
+                    <button type="submit" class="btn btn-primary" ><a href="/approval-item/investigate/{{$process_item->prerequisite_id}}" class="text-dark">Back to {{$process_item->prerequisite_process->form_type->type}}</a></button>
+                </div>
+            </div>
+        @endif
     </div>
 </div>
 <script type="text/javascript">

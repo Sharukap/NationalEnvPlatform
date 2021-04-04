@@ -87,7 +87,7 @@ class CrimeReportController extends Controller
             $Process_item->status_id = "1";
             $Process_item->remark = "to be made yet";
             if($request->has('nonreguser')){
-                $Process_item->requestor_email = $request['Requestor_email'];
+                $Process_item->ext_requestor_email = $request['Requestor_email'];
                 $Process_item->ext_requestor = $request['Requestor'];
             }
             $Process_item->save();
@@ -99,7 +99,7 @@ class CrimeReportController extends Controller
             $landProcess->activity_organization =$org->id;
             $landProcess->status_id = 1;
             $landProcess->form_type_id = 5;
-            $landProcess->created_by_user_id = request('createdBy');
+            $landProcess->created_by_user_id = $request['create_by'];
             $landProcess->prerequisite_id = $latestcrimeProcess->id;
             $landProcess->save();
             $Process_itemnew =Process_item::latest()->first()->id;

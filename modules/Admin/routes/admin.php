@@ -3,7 +3,7 @@
 use Admin\Http\Controllers\AdminController;
 use Admin\Http\Controllers\UserController;
 
-Route::middleware(['access.control:1'])->group(function () {
+Route::middleware(['auth'])->group(function () {
 /////PASSWORD RESET
 Route::get('/passwordReset', function() {       // Open view to reset password.
     return view('admin::passwordReset');
