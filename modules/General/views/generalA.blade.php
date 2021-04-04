@@ -25,7 +25,13 @@
 </div>
 <hr>
 <div class="row border-secondary rounded-lg ml-3">
+    @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
     <h5 class="p-3">New requests to confirm Organization assigning</h5>
+    @elseif(Auth::user()->role_id == 3 || Auth::user()->role_id == 4 )
+    <h5 class="p-3">New requests to be assigned to staff</h5>
+    @elseif(Auth::user()->role_id == 5) 
+    <h5 class="p-3">Applications to be investigated</h5>
+    @endif
 </div>
 <form action="/general/filterItems" method="get">
     @csrf
