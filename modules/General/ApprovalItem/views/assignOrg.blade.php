@@ -79,7 +79,7 @@
                             <tbody>
                                 <tr>
                                     <td>{{$item->title}}</td>
-                                @if($item->special_approval==null)
+                                @if($item->gazette==null)
                                     <td>No Gazette</td>
                                 @else
                                     <td>{{$item->gazette->title}}</td>
@@ -122,19 +122,19 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    @if($item->special_approval==null)
+                                    @if($item->district==null)
                                         <td>Not assigned</td>
                                     @else
                                         <td>{{$item->district->district}}</td>
                                     @endif
-                                    @if($item->special_approval==null)
+                                    @if($item->gs_division==null)
                                         <td>Not assigned</td>
                                     @else
                                     <td>{{$item->gs_division->gs_division}}</td>
                                     @endif
                                     @if($item->special_approval==0)
                                         <td>Not a protected area</td>
-                                    @elseif($item->special_approval==1)
+                                    @else
                                         <td>Protected area</td>
                                     @endif
                                 </tr>
@@ -178,27 +178,27 @@
         </div>
         @endif
         @if($process_item->form_type_id==5)
-        <div class="row p-4 bg-white">
-        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
-                        <thead>
-                            <tr>
-                                <th>Title</th>
-                                <th>Type</th>
-                                <th>Description</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach($LandOrganizations as $organization)
-                            <tr>
-                                <td>{{$organization->organization->title}}</td>
-                                <td>{{$organization->organization->type->title}}</td>
-                                <td>{{$organization->organization->Description}}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-        
-        </div>
+            <div class="row p-4 bg-white">
+            <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>Title</th>
+                                    <th>Type</th>
+                                    <th>Description</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($LandOrganizations as $organization)
+                                <tr>
+                                    <td>{{$organization->organization->title}}</td>
+                                    <td>{{$organization->organization->type->title}}</td>
+                                    <td>{{$organization->organization->Description}}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+            
+            </div>
         @endif
         @isset($Photos)
         <div class="row p-4 bg-white">

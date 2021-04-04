@@ -29,10 +29,10 @@
                             <tbody>
                                 <tr>
                                     <td>{{$treecut->id}}</td>
-                                    @if($treecut->province == NULL)
+                                    @if($treecut->District == NULL)
                                     <td>Unassigned</td>
                                     @else
-                                    <td>{{$treecut->province->province}}</td>
+                                    <td>{{$treecut->District->province->province}}</td>
                                     @endif 
                                     @if($treecut->district == NULL)
                                     <td>Unassigned</td>
@@ -148,10 +148,43 @@
                             </tbody>
                         </table>
                     @break
+                    @case('5')
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>District</th>
+                                    <th>Grama Niladari Division</th>
+                                    <th>Protected Area</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    @if($item->special_approval==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                        <td>{{$item->district->district}}</td>
+                                    @endif
+                                    @if($item->special_approval==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                    <td>{{$item->gs_division->gs_division}}</td>
+                                    @endif
+                                    @if($item->special_approval==0)
+                                        <td>Not a protected area</td>
+                                    @elseif($item->special_approval==1)
+                                        <td>Protected area</td>
+                                    @endif
+                                </tr>
+                            </tbody>
+                        </table>
+                    @break
                 @endswitch
             </div>
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <div id="mapid" style="height:400px;" name="map"></div>
+                @if($process_item->form_type_id!=5)
+                    <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignorganization/{{$land_process->id}}" class="text-dark">View More details</a></button>
+                @endif
             </div>
         </div>
     </div>
