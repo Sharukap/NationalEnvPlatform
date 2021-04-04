@@ -22,27 +22,52 @@
                 </div>
                 @error('title')
                 <div class="alert alert-danger">{{ $message }}</div>
-                @enderror
-
+                @enderror                 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">City</span>
                     </div>
-                    <input type="text" class="form-control" name="city" value="{{$organization->city}}">
+                    <input type="text" class="form-control" name="province" value="{{$organization->city}}">
                 </div>
                 @error('city')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
-
+                 <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Province</span>
+                    </div>
+                    @foreach ($ORG_ACT as $key => $province)
+                    <input type="text" class="form-control" name="province" value="{{$province->province->province}}">
+                 @endforeach
+                </div>
+                @error('province')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Country</span>
                     </div>
-                    <input type="text" class="form-control" name="country" value="{{$organization->country}}">
+                    <input type="text" class="form-control" name="country" value="{{$organization->country}}"disabled>
                 </div>
                 @error('country')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
+               <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Type</span>
+                    </div>
+                    <select name="organization" class="custom-select" required>
+                        @if($organization->type->title == NULL)
+                        <option selected value="NULL">Select Organization</option>
+                        @else
+                        <option selected value="{$organization->type->title}}">{{$organization->type->title}}</option>
+                        @endif
+                        @foreach($org_type as $org)
+                        <option value="{{$org->title}}">{{$org->title}}</option>
+                        @endforeach
+                    </select>
+                </div>
+              
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Description</span>
@@ -73,6 +98,21 @@
 
                     </tbody>
                 </table>
+                <h6 style="text-align:left;" class="text-dark">Activities</h6>
+              
+                    
+                
+                    @foreach ($ORG_ACT as $key => $value)
+                     
+         <input type="checkbox" name="activity" value="{{$value->activity->activity}}" checked><label class="ml-2" />{{$value->activity->activity}}</label><br>
+                   @endforeach
+                         @foreach ($Activities as $activity) 
+                        <input type="checkbox" name="activity[]" value="{{ $activity->id }}"><label class="ml-2" />{{ $activity->activity }}</label> <br>
+                      @endforeach  
+                     
+                      
+                   
+                   
 
                 <div style="float:right;">
                     <button type="submit" class="btn btn-warning">Submit</button>
