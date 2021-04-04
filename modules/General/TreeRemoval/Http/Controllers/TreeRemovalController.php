@@ -53,7 +53,7 @@ class TreeRemovalController extends Controller
             'number_of_amphibian_species' => 'nullable|integer',
             'number_of_fish_species' => 'nullable|integer',
             'number_of_avian_species' => 'nullable|integer',
-            'externalRequestor' => 'nullable|regex:regex:/^[0-9]{9}[vVxX]$/',
+            'externalRequestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
             'erEmail' => 'nullable|email',
             'land_gazettes' => 'nullable',
             'land_governing_orgs' => 'nullable',

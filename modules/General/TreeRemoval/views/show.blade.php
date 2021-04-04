@@ -117,24 +117,31 @@
     <div class="border border-dark border-rounded">
         <div id="mapid" style="height:400px;" name="map"></div>
     </div>
-    <div class="row">
-        @isset($Photos)
+    <br>
+    <dl>
+        <dt>Images:</dt>
+        <dd>
+            @if($tree->images == "{}")
+            <p>No Images</p>
+            @else
+            @isset($Photos)
             @if (count($Photos) > 0)
-                @foreach($Photos as $photo)
-                    <div class="col border border-muted rounded-lg mr-2 p-4">
-                        <img class="img-responsive" src="{{asset('/storage/'.$photo)}}" alt="photo">
-                        <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
-                    </div>
-                @endforeach
+            @foreach($Photos as $photo)
+            <div class="col border border-muted rounded-lg mr-2 p-4">
+                <img class="img-responsive" src="{{asset('/storage/'.$photo)}}" alt="photo">
+                <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
+            </div>
+            @endforeach
             @endif
-            @if (count($Photos) < 1)
+            @if (count($Photos) < 1) <p>No photos included in the application</p>
+                @endif
+                @endisset
+                @empty($Photos)
                 <p>No photos included in the application</p>
-            @endif
-        @endisset
-        @empty($Photos)
-            <p>No photos included in the application</p>
-        @endempty
-    </div>
+                @endempty
+                @endif
+        </dd>
+    </dl>
 </div>
 
 <script>
