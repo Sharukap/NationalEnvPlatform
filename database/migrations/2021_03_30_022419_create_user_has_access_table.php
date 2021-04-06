@@ -15,8 +15,6 @@ class CreateUserHasAccessTable extends Migration
     {
         Schema::create('user_has_access', function (Blueprint $table) {
             $table->id();
-            //$table->integer('role_id');
-            //$table->integer('access_id');
             $table->timestampsTz(); //time stamp with timezone in UTC
             $table->softDeletesTz('deleted_at', 0);
             $table->unsignedBigInteger('user_id')->nullable();  
