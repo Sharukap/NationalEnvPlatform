@@ -31,11 +31,7 @@
         <dt class="col-sm-3">Created at:</dt>
         <dd class="col-sm-9">{{$crime->created_at}}</dd>
     </dl>
-    
-            
-            
-
-            <div id="mapid" style="height:400px;" name="map"></div>
+    <div id="mapid" style="height:400px;" name="map"></div>
             <div class="row">
                 @isset($Photos)
                     @if (count($Photos) > 0)
