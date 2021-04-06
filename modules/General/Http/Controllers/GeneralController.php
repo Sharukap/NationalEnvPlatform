@@ -21,6 +21,7 @@ class GeneralController extends Controller
 
     public function pending()
     {
+       // dd('test');
         $organization = Auth::user()->organization_id;
         $role = Auth::user()->role_id;
         $id = Auth::user()->id;
@@ -32,6 +33,7 @@ class GeneralController extends Controller
         ->count(); 
         //IF ADMIN DISPLAYS ALL THE PENDING REQUESTS TO BE ASSIGNED
         if ($role == 1 || $role == 2 ) {
+            dd('test role');
             $Process_items = Process_Item::where([
                 ['status_id','=', 1],
                 ['form_type_id','<', 5],
@@ -45,6 +47,7 @@ class GeneralController extends Controller
         //IF HOO OR MANAGER, DISPLAYS ALL THE PENDING REQUESTS OF THEIR ORGANIZATION
         if ($role == 3 || $role == 4){
             $Process_items = Process_Item::all()->where('status_id','>=',2)->where('activity_organization',$organization);
+            
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' =>$tree_removals,
@@ -55,7 +58,11 @@ class GeneralController extends Controller
         //IF STAFF DISPLAYS ALL THE REQUESTS ASSIGNED TO THEM
         else if ($role == 5) {
             $Process_items = Process_Item::all()->where('activity_user_id', $id);
-            return view('general::generalA', compact('Process_items'));
+            return view('general::generalA', [
+                'Process_items' => $Process_items,
+                'tree_removals' =>$tree_removals,
+                'dev_projects'=>$dev_projects
+            ]);
         }
         //IF CITIZEN, DISPLAYS THE REQUESTS MADE
         else if($role == 6){
