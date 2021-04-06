@@ -17,7 +17,6 @@ class CreateCrimeTypesTable extends Migration
             $table->id();
             $table->string('type');  
             $table->timestampsTz(); //time stamp with timezone in UTC
-            $table->tinyInteger('status');
             $table->softDeletesTz('deleted_at', 0);
         });
     }

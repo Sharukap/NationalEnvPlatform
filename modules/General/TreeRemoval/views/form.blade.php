@@ -3,142 +3,121 @@
 @section('general')
 
 <div class="container">
-  <!-- @if(count($errors) >0)
-  <div class="alert alert-danger">
-    <ul>
-      @foreach($errors->all() as $error)
-      <li>{{$error}}</li>
-      @endforeach
-    </ul>
-  </div>
-  @endif
 
-  @if(\Session::has('success'))
-  <div class="alert alert-success">
-    <p>{{\Session::get('success') }}</p>
-  </div>
-  @endif -->
-
-  <form action="/tree-removal/save" method="post" id="regForm">
+  <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data">
     @csrf
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
       <div class="container">
         <div class="row border rounded-lg p-4 bg-white">
           <div class="col border border-muted rounded-lg mr-2 p-2">
+            <div class="row p-2">
+
+              <div class="col p-2">
+                <div class="form-group">
+                  District:*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                  @error('district')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+              </div>
+              <div class="col p-2">
+                <div class="form-group">
+                  GS Division:*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Search" name="gs_division" />
+                  @error('gs_division')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
+                </div>
+              </div>
+            </div>
+
             <div class="form-group">
-              <label for="title">Land Title:</label>
+              Activity Organization:*<input type="text" class="form-control typeahead3 @error('activity_organization') is-invalid @enderror" value="{{ old('activity_organization') }}" name="activity_organization" placeholder="Search Organizations" />
+              @error('activity_organization')
+              <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
+            </div>
+            <br>
+            <hr>
+            <!-- MAP CONTENT -->
+            <h4>Land Parcel Details</h4>
+            <div class="form-group">
+              <label for="title">Land Title:*</label>
               <input type="text" class="form-control @error('landTitle') is-invalid @enderror" value="{{ old('landTitle') }}" placeholder="Enter Land Title" id="landTitle" name="landTitle">
               @error('landTitle')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
             </div>
-
-            <div class="row p-2">
-              <div class="col p-2">
-                <div class="form-group">
-                  Province:<input type="text" class="form-control typeahead @error('province') is-invalid @enderror" value="{{ old('province') }}" placeholder="Search" name="province" />
-                  @error('province')
-                  <div class="alert alert-danger">{{ $message }}</div>
-                  @enderror
-                </div>
-
-                <div class="form-group">
-                  District:<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
-                  @error('district')
-                  <div class="alert alert-danger">{{ $message }}</div>
-                  @enderror
-                </div>
-
-                <div class="form-group">
-                  GS Division:<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Search" name="gs_division" />
-                  @error('gs_division')
-                  <div class="alert alert-danger">{{ $message }}</div>
-                  @enderror
-                </div>
-
-              </div>
-              <div class="col p-2">
-                <div class="form-group">
-                  <label>Removal Requestor Type:</label>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="removalrequestortype" id="removalrequestortype1" value="1">
-                    <label class="form-check-label" for="removalrequestortype1">
-                      Government
-                    </label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="radio" name="removalrequestortype" id="removalrequestortype2" value="2">
-                    <label class="form-check-label" for="removalrequestortype2">
-                      Private
-                    </label>
-                  </div>
-                  @error('removalrequestortype')
-                  <div class="alert alert-danger">Please Select the Type</div>
-                  @enderror
-                </div>
-
-                <div class="form-group">
-                  Removal Requestor:<input type="text" class="form-control typeahead3 @error('removal_requestor') is-invalid @enderror" value="{{ old('removal_requestor') }}" name="removal_requestor" placeholder="Search" />
-                  @error('removal_requestor')
-                  <div class="alert alert-danger">{{ $message }}</div>
-                  @enderror
-                  <div class="custom-control custom-checkbox">
-                    <input type="checkbox" class="custom-control-input" id="customCheck2" value="1" name="checkremovalrequestor">
-                    <label class="custom-control-label" for="customCheck2"><strong>Other</strong></label>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
             <div class="form-group">
               <label for="land_extent">Land Extent (In Acres)</label>
-              <input type="text" class="form-control typeahead3 @error('removal_requestor') is-invalid @enderror" value="{{ old('land_extent') }}" id="land_extent" name="land_extent">
+              <input type="text" class="form-control typeahead3" value="{{ old('land_extent') }}" id="land_extent" name="land_extent">
               @error('land_extent')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
             </div>
+            <div id="accordion" class="mb-3">
+              <div class="card mb-3">
+                <div class="card-header bg-white">
+                  <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseone">
+                    Organizations Governing Land (Optional)
+                  </a>
+                </div>
+                <div id="collapseone" class="collapse" data-parent="#accordion">
+                  <div class="card-body">
+                    <strong>Select 1 or More</strong>
+                    <fieldset>
+                      @foreach($organizations as $organization)
+                      <input type="checkbox" name="land_governing_orgs[]" value="{{$organization->id}}" @if( is_array(old('land_governing_orgs')) && in_array($organization->id, old('land_governing_orgs'))) checked @endif><label class="ml-2">{{$organization->title}}</label> <br>
+                      @endforeach
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
 
-            <div class="form-group">
-              <label>Land Owner Type:</label>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="landownertype" id="landownertype1" value="1" required>
-                <label class="form-check-label" for="landownertype1">
-                  Government
-                </label>
+              <div class="card">
+                <div class="card-header bg-white">
+                  <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapsetwo">
+                    Gazettes Relavant to Land (Optional)
+                  </a>
+                </div>
+                <div id="collapsetwo" class="collapse" data-parent="#accordion">
+                  <div class="card-body">
+                    <strong>Select 1 or More</strong>
+                    <fieldset>
+                      @foreach($gazettes as $gazette)
+                      <input type="checkbox" name="land_gazettes[]" value="{{$gazette->id}}" @if( is_array(old('land_gazettes')) && in_array($gazette->id, old('land_gazettes'))) checked @endif> <label class="ml-2">{{$gazette->title}}</label> <br>
+                      @endforeach
+                    </fieldset>
+                  </div>
+                </div>
               </div>
-              <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="landownertype" id="landownertype2" value="2" required>
-                <label class="form-check-label" for="landownertype2">
-                  Private
-                </label>
-              </div>
-              @error('landownertype')
-              <div class="alert alert-danger">Please Select the Type</div>
-              @enderror
             </div>
 
-            <div class="form-group">
-              Land Owner:<input type="text" class="form-control typeahead3 @error('land_owner') is-invalid @enderror" value="{{ old('land_owner') }}" placeholder="Search" name="land_owner" />
-              @error('land_owner')
-              <div class="alert alert-danger">{{ $message }}</div>
-              @enderror
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="customCheck1" value="1" name="checklandowner">
-                <label class="custom-control-label" for="customCheck1"><strong>Other</strong></label>
-              </div>
+
+            <div>
+              <label>Upload KML File</label>
+              <input type="file" name="select_file" id="select_file" />
+              <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
             </div>
+            <br>
             <!-- ////////MAP GOES HERE -->
             <div id="mapid" style="height:400px;" name="map"></div>
             @error('polygon')
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
-            <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+            <br>
+
             <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-              <label class="custom-control-label" for="customCheck"><strong>Check if land is a protected area</strong></label>
+              <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected" {{ old('isProtected') == "1" ? 'checked' : ''}}>
+              <label class="custom-control-label" for="customCheck"><strong>Is Land a Protected Area?</strong></label>
             </div>
+
+            <!-- saving the coordinates of the kml file -->
+            <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+
+            <!-- Saving the KML file in storage -->
+            <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
+
           </div>
           <div class="col border border-muted rounded-lg">
             <div class="row p-2 mt-2">
@@ -154,38 +133,62 @@
                 <div class="form-group">
                   <label for="number_of_tree_species">Number of Tree Species</label>
                   <input type="text" class="form-control" id="number_of_tree_species" name="number_of_tree_species">
+                  @error('number_of_tree_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="number_of_flora_species">Number of Flora Species</label>
                   <input type="text" class="form-control" id="number_of_flora_species" name="number_of_flora_species">
+                  @error('number_of_flora_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
+
                 <div class="form-group">
                   <label for="number_of_reptile_species">Number of Reptile Species</label>
                   <input type="text" class="form-control" id="number_of_reptile_species" name="number_of_reptile_species">
+                  @error('number_of_reptile_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
               </div>
+
               <div class="col">
                 <div class="form-group">
                   <label for="number_of_mammal_species">Number of Mammal Species</label>
                   <input type="text" class="form-control" id="number_of_mammal_species" name="number_of_mammal_species">
+                  @error('number_of_mammal_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="number_of_amphibian_species">Number of Ambhibian Species</label>
                   <input type="text" class="form-control" id="number_of_amphibian_species" name="number_of_amphibian_species">
+                  @error('number_of_amphibian_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="number_of_fish_species">Number of Fish Species</label>
                   <input type="text" class="form-control" id="number_of_fish_species" name="number_of_fish_species">
+                  @error('number_of_fish_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
 
                 <div class="form-group">
                   <label for="number_of_avian_species">Number of Avian Species</label>
                   <input type="text" class="form-control" id="number_of_avian_species" name="number_of_avian_species">
+                  @error('number_of_avian_species')
+                  <div class="alert alert-danger">{{ $message }}</div>
+                  @enderror
                 </div>
               </div>
+
             </div>
             <div class="form-group">
               <label for="species_special_notes">Species Special Notes</label>
@@ -194,18 +197,41 @@
 
             <div class="form-group">
               <label for="description">Description</label>
-              <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" name="description" value="{{ old('description') }}"></textarea>
+              <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" name="description">{{{ old('description') }}}</textarea>
               @error('description')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="dynamicAddRemove2">
               <label for="images">Image (Optional)</label>
               <div class="custom-file mb-3">
-                <input type="file" id="images" name="images">
+                <input type="file" id="images" name="images[0]">
+                <button type="button" name="add" id="add-btn2" class="btn btn-success">Add More</button>
               </div>
             </div>
+            <br>
+            <hr><br>
+            <div class="form-group">
+              <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" id="customCheck2" value="1" name="checkExternalRequestor" {{ old('checkExternalRequestor') == "1" ? 'checked' : ''}}>
+                <label class="custom-control-label" for="customCheck2"><strong>Creating on behalf of non-registered user</strong></label>
+              </div>
+            </div>
+
+            <div class="form-group">
+              External Requestor:<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
+              @error('externalRequestor')
+              <div class="alert alert-danger">The NIC format is Invalid</div>
+              @enderror
+            </div>
+            <div class="form-group">
+              External Requestor Email:<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
+              @error('erEmail')
+              <div class="alert alert-danger">Please Enter a Valid Email</div>
+              @enderror
+            </div>
+
           </div>
         </div>
       </div>
@@ -224,7 +250,7 @@
               <th>Age</th>
             </tr>
             <tr>
-              <td><input type="text" name="location[0][tree_species_id]" placeholder="Enter ID" class="form-control" /></td>
+              <td><input type="text" name="location[0][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6" /></td>
               <td><input type="text" name="location[0][tree_id]" placeholder="Enter ID" class="form-control" /></td>
               <td><input type="text" name="location[0][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td>
               <td><input type="text" name="location[0][height]" placeholder="Enter Height" class="form-control" /></td>
@@ -258,7 +284,15 @@
 
 
 <script>
-  ///STEPPER
+  //photos add
+  var i = 0;
+  $("#add-btn2").click(function() {
+    ++i;
+    $("#dynamicAddRemove2").append(
+      '<input type="file" id="images" name="images[' + i + ']">');
+  });
+
+  //STEPPER
   var currentTab = 0; // Current tab is set to be the first tab (0)
   showTab(currentTab); // Display the current tab
 
@@ -334,23 +368,23 @@
 
 
   ///TYPEAHEAD
-  var path = "{{route('province')}}";
-  $('input.typeahead').typeahead({
-    source: function(terms, process) {
+  // var path = "{{route('province')}}";
+  // $('input.typeahead').typeahead({
+  //   source: function(terms, process) {
 
-      return $.get(path, {
-        terms: terms
-      }, function(data) {
-        console.log(data);
-        objects = [];
-        data.map(i => {
-          objects.push(i.province)
-        })
-        console.log(objects);
-        return process(objects);
-      })
-    },
-  });
+  //     return $.get(path, {
+  //       terms: terms
+  //     }, function(data) {
+  //       console.log(data);
+  //       objects = [];
+  //       data.map(i => {
+  //         objects.push(i.province)
+  //       })
+  //       console.log(objects);
+  //       return process(objects);
+  //     })
+  //   },
+  // });
 
   var path2 = "{{route('district')}}";
   $('input.typeahead2').typeahead({
@@ -406,6 +440,24 @@
     },
   });
 
+  var path6 = "{{route('species')}}";
+  $('input.typeahead6').typeahead({
+    source: function(terms, process) {
+
+      return $.get(path6, {
+        terms: terms
+      }, function(data) {
+        console.log(data);
+        objects = [];
+        data.map(i => {
+          objects.push(i.title)
+        })
+        console.log(objects);
+        return process(objects);
+      })
+    },
+  });
+
   /// SCRIPT FOR THE DYNAMIC COMPONENT
   var i = 0;
   $("#add-btn").click(function() {
@@ -418,7 +470,8 @@
     $(this).parents('tr').remove();
   });
 
-  /// SCRIPT FOR THE MAP
+
+  ///SCRIPT FOR THE MAP
   var center = [7.2906, 80.6337];
 
   // Create the map
@@ -431,48 +484,43 @@
       maxZoom: 18
     }).addTo(map);
 
-  // Initialise the FeatureGroup to store editable layers
-  var editableLayers = new L.FeatureGroup();
-  map.addLayer(editableLayers);
 
-  var drawPluginOptions = {
+  var drawnItems = new L.FeatureGroup();
+  map.addLayer(drawnItems);
+
+  var drawControl = new L.Control.Draw({
     position: 'topright',
     draw: {
       polygon: {
-        allowIntersection: false, // Restricts shapes to simple polygons
-        drawError: {
-          color: '#e1e100', // Color the shape will turn when intersects
-          message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-        },
         shapeOptions: {
-          color: '#97009c'
-        }
-      },
-      // disable toolbar item by setting it to false
-      polyline: true,
-      circle: false, // Turns off this drawing tool
-      rectangle: true,
-      marker: true,
-      circlemarker: false,
-      polygon: {
-        shapeOptions: {
-          color: 'green'
+          color: 'purple'
         },
         allowIntersection: false,
         drawError: {
           color: 'orange',
           timeout: 1000
         },
+        showArea: true,
+        metric: false,
+        repeatMode: true
       },
+      polyline: {
+        shapeOptions: {
+          color: 'red'
+        },
+      },
+      circlemarker: false,
+      rect: {
+        shapeOptions: {
+          color: 'green'
+        },
+      },
+      circle: false,
     },
     edit: {
-      featureGroup: editableLayers, //REQUIRED!!
-      remove: true
+      featureGroup: drawnItems
     }
-  };
-
-  // Initialise the draw control and pass it the FeatureGroup of editable layers
-  var drawControl = new L.Control.Draw(drawPluginOptions);
+  });
   map.addControl(drawControl);
 
   map.on('draw:created', function(e) {
@@ -482,10 +530,52 @@
     if (type === 'marker') {
       layer.bindPopup('A popup!');
     }
-    editableLayers.addLayer(layer);
 
-    //console.log(layer.toGeoJSON());
-    $('#polygon').val(JSON.stringify(layer.toGeoJSON()));
+    drawnItems.addLayer(layer);
+    $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON()));
+
+    ///Converting your layer to a KML
+    $('#kml').val(tokml(drawnItems.toGeoJSON()));
+  });
+
+  ///UPLOADING A FILE AND RETRIEVING AND CREATING A LAYER FROM IT.
+  document.getElementById("upload").addEventListener("click", function() {
+    var data = new FormData(document.getElementById("regForm"));
+    event.preventDefault();
+    $.ajax({
+      url: "{{ route('ajaxmap.action') }}",
+      method: "POST",
+      data: data,
+      dataType: 'JSON',
+      contentType: false,
+      cache: false,
+      processData: false,
+      success: function(data) {
+        $('#message').css('display', 'block');
+        $('#message').html(data.message);
+        $('#message').addClass(data.class_name);
+        $('#uploaded_image').html(data.uploaded_image);
+        var tmp = data.uploaded_image;
+        $('#loc').val(JSON.stringify(tmp));
+        console.log(tmp);
+        fetch(`/${tmp}`)
+          .then(res => res.text())
+          .then(kmltext => {
+            // Create new kml overlay
+            const track = new omnivore.kml.parse(kmltext);
+            map.addLayer(track);
+
+            //SAVING THE UPLOADED COORDIATE LAYER TO GEOJSON
+            $('#polygon').val(JSON.stringify(track.toGeoJSON()));
+
+            // Adjust map to show the kml
+            const bounds = track.getBounds();
+            map.fitBounds(bounds);
+          }).catch((e) => {
+            console.log(e);
+          })
+      }
+    })
 
   });
 </script>

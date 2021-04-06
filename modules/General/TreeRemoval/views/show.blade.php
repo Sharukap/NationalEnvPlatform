@@ -9,7 +9,7 @@
         <div class="col border border-muted rounded-lg mr-2 p-2">
             <dl class="row">
                 <dt class="col-sm-3">Province:</dt>
-                <dd class="col-sm-9">{{$tree->province->province}}</dd>
+                <dd class="col-sm-9">{{$tree->district->province->province}}</dd>
 
                 <dt class="col-sm-3">District:</dt>
                 <dd class="col-sm-9">{{$tree->district->district}}</dd>
@@ -22,36 +22,18 @@
                     <p>{{$tree->description}}</p>
                 </dd>
 
-                <dt class="col-sm-3">Governing Organizations:</dt>
+                <dt class="col-sm-3">Activity Organization:</dt>
                 <dd class="col-sm-9">
-                    <ul class="list-unstyled">
-                        @foreach($tree->governing_organizations as $governing_organization)
-                        @switch($governing_organization)
-                        @case(1)
-                        <li>Reforest Sri Lanka</li>
-                        @break
-                        @case(2)
-                        <li>Ministry of Environment</li>
-                        @break
-                        @case(3)
-                        <li>Central Environmental Authority</li>
-                        @break
-                        @case(4)
-                        <li>Ministry of Wildlife</li>
-                        @break
-                        @case(5)
-                        <li>Road Development Authority</li>
-                        @break
-                        @endswitch
-                        @endforeach
-                    </ul>
+                    <p>{{$tree->organization->title}}</p>
                 </dd>
 
                 <dt class="col-sm-3">Category:</dt>
                 <dd class="col-sm-9">Tree Removal</dd>
 
+                @if($tree->land_size != 0)
                 <dt class="col-sm-3">Land Size:</dt>
                 <dd class="col-sm-9">{{$tree->land_size}} {{$tree->land_size_unit}}</dd>
+                @endif
 
                 <dt class="col-sm-3">Number of Trees:</dt>
                 <dd class="col-sm-9">{{$tree->no_of_trees}}</dd>
@@ -134,6 +116,25 @@
 
     <div class="border border-dark border-rounded">
         <div id="mapid" style="height:400px;" name="map"></div>
+    </div>
+    <div class="row">
+        @isset($Photos)
+            <div class="row p-4 bg-white">
+                <div class="card-deck">
+                    @foreach($Photos as $photo)
+                    <div class="card" style="background-color:#99A3A4">
+                        <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
+                        <div class="card-body text-center">
+                        <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        @endisset
+        @empty($Photos)
+            <p>No photos included in the application</p>
+        @endempty
     </div>
 </div>
 

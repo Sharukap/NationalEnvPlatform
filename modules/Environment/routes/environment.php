@@ -6,6 +6,7 @@ use Environment\Http\Controllers\TypeController;
 
 Route::get('/home', [EnvController::class, 'home'])->name('environment.home');
 //General view of the env module
+
 Route::get('/generalenv', fn() => view('environment::Envmain'));
 // To collect the eco systems data through a form 
 //Route::get('/createrequest', fn() => view('environment::request'));

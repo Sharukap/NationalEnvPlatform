@@ -11,7 +11,7 @@
                         {{ session('status') }}
                     </div>
                 @endif
-
+                
                 <p class="login-card-description">You must verify your email address, please check your email for a verification</p>
                     <form method="POST" action="{{ route('verification.send') }}">
                         @csrf

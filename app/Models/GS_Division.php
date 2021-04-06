@@ -13,4 +13,8 @@ class GS_Division extends Model
     public function tree_removal_requests(){
         return $this->hasMany('App\Models\Tree_Removal_Request');
     }
+
+    public function land_parcels(){
+        return $this->hasMany('App\Models\Land_Parcel');
+    }
 }

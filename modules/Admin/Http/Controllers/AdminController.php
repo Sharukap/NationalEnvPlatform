@@ -5,6 +5,9 @@ use App\Models\User;
 use App\Models\Role;
 use App\Models\Organization;
 use App\Models\Designation;
+use App\Models\Access;
+use App\Models\Role_has_access;
+use App\Models\User_has_access;
 use Illuminate\Http\Request;
 
 class AdminController extends Controller
@@ -23,9 +26,14 @@ class AdminController extends Controller
     {
         $roles = Role::where('id', '>', 1)->get(); 
         $user = User::find($id);
+        $Useraccesses=User_has_access::where('user_id',$id)->get();
+        $existaccess=User_has_access::select('access_id')->where('user_id',$id)->get()->toArray();
+        $accesses=Access::whereNotIn('id',$existaccess)->get();
         return view('admin::admin.privilege', [
             'user' => $user,
             'roles' => $roles,
+            'accesses' => $accesses,
+            'Useraccesses' =>$Useraccesses,
         ]);
     }
 
@@ -77,4 +85,64 @@ class AdminController extends Controller
         return redirect('/admin/showSelfRegistered')->with('message', 'User Activated Successfully');
     }
 
+    public function index()
+    {
+        $roles = Role::where('id', '>', 1)->get(); 
+        return view('admin::admin.roles', [
+            'roles' => $roles,
+        ]);
+
+    }
+
+    public function roleedit($id)
+    {
+        //dd($id);
+        $role = Role::find($id);
+        $roleaccesses=Role_has_access::where('role_id',$id)->get();
+        $existrole=Role_has_access::select('access_id')->where('role_id',$id)->get()->toArray();
+        $accesses=Access::whereNotIn('id',$existrole)->get();
+        return view('admin::admin.roleedit', [
+            'role' => $role,
+            'accesses' => $accesses,
+            'roleaccesses' =>$roleaccesses,
+        ]);
+    }
+
+    public function roleupdate(Request $request,$id)
+    {
+        foreach($request->modules as $newaccess)
+        {
+            $roleaccess=new Role_has_access();
+            $roleaccess->role_id=$id;
+            $roleaccess->access_id=$newaccess;
+            $roleaccess->save();
+        }
+        return redirect()->route('roleedit', ['id' =>$id])->with('message', 'Access permission granted Successfully');
+    }
+
+    public function accessremove($id)
+    {
+        $roleId =Role_has_access::where('id',$id)->value('role_id');
+        Role_has_access::where('id',$id)->delete();
+        return redirect()->route('roleedit', ['id' =>$roleId])->with('message', 'Access permission withdrawn Successfully');
+    }
+
+    public function user_access_update(Request $request,$id)
+    {
+        foreach($request->modules as $newaccess)
+        {
+            $useraccess=new User_has_access();
+            $useraccess->user_id=$id;
+            $useraccess->access_id=$newaccess;
+            $useraccess->save();
+        }
+        return redirect()->route('privilegeview', ['id' =>$id])->with('message', 'Special access permission granted Successfully');
+    }
+
+    public function user_access_remove($id)
+    {
+        $userId =User_has_access::where('id',$id)->value('user_id');
+        User_has_access::where('id',$id)->delete();
+        return redirect()->route('privilegeview', ['id' =>$userId])->with('message', 'Special access permission withdrawn Successfully');
+    }
 }

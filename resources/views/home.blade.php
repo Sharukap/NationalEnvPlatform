@@ -11,7 +11,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.2/bootstrap3-typeahead.min.js" integrity="sha512-HWlJyU4ut5HkEj0QsK/IxBCY55n5ZpskyjVlAoV9Z7XQwwkqXoYdCIC93/htL3Gu5H3R4an/S0h2NXfbZk3g7w==" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    @livewireStyles
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 
@@ -21,12 +20,14 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous"></script>
 
+
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link href="{{ url('/css/app.css') }}" rel="stylesheet">
+
+    <script type="text/javascript" src="{{ URL::asset('js/tokml.js') }}"></script>
 </head>
 
 <body style="background-color:#f0f0f7">
-    @livewireScripts
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-2 bd-navbar">
@@ -35,26 +36,31 @@
                         <!-- Links -->
                         <ul class="navbar-nav">
                             <li class="nav-item mt-5">
-                                <a class="nav-link text-light" href="/general/pending"><i class="fa fa-home" aria-hidden="true"></i>  General Module</a>
+
+                                <a class="nav-link text-light" href="/general/pending"><i class="fa fa-home" aria-hidden="true"></i> General Module</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/user/index"><i class="fa fa-user" aria-hidden="true"></i>  User Management</a>
+                                <a class="nav-link text-light" href="/user/index"><i class="fa fa-user" aria-hidden="true"></i> User Management</a>
+
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-tree" aria-hidden="true"></i>  Environment Module</a>
+                                <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-tree" aria-hidden="true"></i>   Environment Module</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-arrow-down" aria-hidden="true"></i>  Requests</a>
+
+                                <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-arrow-down" aria-hidden="true"></i> Requests</a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-book" aria-hidden="true"></i> Reporting</a>
                             </li>
                         </ul>
                     </nav>
                 </div>
             </div>
-            <div class="col-lg">
+            <div class="col-lg" style="padding-left: 0; padding-right: 0;">
 
                 <!-- TOP NAV -->
-
-                <nav class="navbar navbar-expand-sm bd-navbar navbar-dark">
+                <nav class="navbar navbar-expand-sm bg-white navbar-dark">
                     <!-- Brand/logo -->
                     <a class="navbar-brand mr-auto" href="#">
                         <img src="/Logo.jpeg" alt="logo" style="width:70px;">
@@ -63,7 +69,7 @@
                     <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <div class="media align-items-center">
                             <div class="media-body  ml-2  d-none d-lg-block">
-                                <span class="mb-0 text-sm  text-white font-weight-bold"><i class="fas fa-bell mr-1"></i></span>
+                                <span class="mb-0 text-sm  text-dark font-weight-bold"><i class="fas fa-bell mr-1"></i></span>
                                 @if(auth()->user()->unreadNotifications->count())
                                 <span class="mb-0 text-sm  font-weight-bold"><span class="badge badge-light">{{auth()->user()->unreadNotifications->count()}}</span></span>
                                 @endif
@@ -75,15 +81,32 @@
                             <h6 class="text-overflow m-0">Your Notifications:</h6>
                         </div>
                         @foreach(auth()->user()->unreadNotifications as $notification)
-                        <a href="#!" class="dropdown-item">
-                            <i class="ni ni-single-02"></i>
-                            <ul>
-                                <span>
-                                    <li>ID:{{$notification->data['id']}} - Type:{{$notification->data['type']}}</li>
-
-                                </span>
-                            </ul>
-                        </a>
+                        <ul>
+                            @if($notification->type == "App\Notifications\StaffAssigned")
+                            <a href="/approval-item/investigate/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
+                                    <li>
+                                        <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
+                                </span></a>
+                            @endif
+                            @if($notification->type == "App\Notifications\AssignOrg")
+                            <a href="/approval-item/assignstaff/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
+                                    <li>
+                                        <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
+                                </span></a>
+                            @endif
+                            @if($notification->type == "App\Notifications\ApplicationMade")
+                            <a href="/approval-item/assignorganization/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
+                                    <li>
+                                        <p>New {{$notification->data['type']}} application No {{$notification->data['form_id']}} has been made.</p></i>
+                                </span></a>
+                            @endif
+                            @if($notification->type == "App\Notifications\NewUserRegistration")
+                            <a href="/user/showSelfRegistered"><i class="ni ni-single-02"></i><span>
+                                    <li>
+                                        <p>New User {{$notification->data['name']}} has registered using  {{$notification->data['email']}} has been made.</p></i>
+                                </span></a>
+                            @endif
+                        </ul>
                         @endforeach
                         @if(auth()->user()->unreadNotifications->count())
                         <div class="dropdown-divider"></div>
@@ -97,18 +120,18 @@
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
-                            <a class="nav-link text-light" href="{{ route('login') }}">{{ __('Login') }}</a>
+                            <a class="nav-link text-dark" href="{{ route('login') }}">{{ __('Login') }}</a>
                         </li>
                         @if (Route::has('register'))
                         <li class="nav-item">
-                            <a class="nav-link text-light" href="{{ route('register') }}">{{ __('Register') }}</a>
+                            <a class="nav-link text-dark" href="{{ route('register') }}">{{ __('Register') }}</a>
                         </li>
                         @endif
                         @else
                         <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="media align-items-center">
                                 <div class="media-body  ml-2  d-none d-lg-block">
-                                    <span class="mb-0 text-sm  font-weight-bold">{{ Auth::user()->name }}</span>
+                                    <span class="mb-0 text-sm text-dark font-weight-bold">{{ Auth::user()->name }}</span>
                                 </div>
                             </div>
                         </a>
@@ -146,7 +169,9 @@
                         @endguest
                     </ul>
                 </nav>
+                
                 <div style="background-color:#f0f0f7" class="col-md">
+
                     @yield('cont')
                     <br>
                 </div>
@@ -159,15 +184,19 @@
         <footer class="footer">
             <div class="d-flex  bg-light justify-content-end">
                 <br>
-                <a href="#" class="text-secondary mr-2">
+                <a href="https://www.facebook.com/reforestsrilanka/" class="text-secondary mr-2">
                     <i class="fab fa-facebook-square"></i> Facebook |
                 </a>
-                <a href="#" class="text-secondary mr-2">
-                    <i class="fab fa-twitter-square"></i> Twitter |
+                <a href="https://www.linkedin.com/company/reforest-sri-lanka/" class="text-secondary mr-2">
+                    <i class="fab fa-linkedin"></i> LinkedIn |
                 </a>
-                <a href="#" class="text-secondary mr-2">
-                    <i class="fab fa-instagram"></i> Instagram
+                <a href="https://www.instagram.com/reforest_srilanka/?hl=en" class="text-secondary mr-2">
+                    <i class="fab fa-instagram"></i> Instagram |
                 </a>
+                <a href="https://medium.com/@achalaarunalu/reforest-sri-lanka-8e16cf5749de" class="text-secondary mr-2">
+                    <i class="fab fa-medium"></i> Medium |
+                </a>
+                <a href="http://www.reforestsrilanka.com/" class="text-secondary mr-2">ReforestSL</a>
             </div>
             <div class="d-flex bg-light justify-content-center">
                 <h5 class="text-secondary"><i class="far fa-copyright"></i> 2021 by RFSL - LSF - Ministry of Environment</h5><br>

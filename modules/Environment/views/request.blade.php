@@ -1,7 +1,10 @@
 @extends('home')
 
 @section('cont')
-<kbd><a href="/environment/updatedata" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+<kbd><a href="/environment/generalenv" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+    <div class='row justify-content-center'>
+    </br>
+ 
 
 <div class="container">
     <h2 style="text-align:center;" class="text-dark">Application Form </h2>
