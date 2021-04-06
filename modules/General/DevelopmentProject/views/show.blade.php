@@ -45,31 +45,25 @@
     <div class="border border-dark border-rounded">
         <div id="mapid" style="height:400px;" name="map"></div>
     </div>
-<br>
-    <dl>
-        <dt>Images:</dt>
-        <dd>
-            @if($development_project->images == "{}")
-            <p>No Images</p>
-            @else
-            @isset($Photos)
-            @if (count($Photos) > 0)
-            @foreach($Photos as $photo)
-            <div class="col border border-muted rounded-lg mr-2 p-4">
-                <img class="img-responsive" src="{{asset('/storage/'.$photo)}}" alt="photo">
-                <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
+    <div class="row">
+        @isset($Photos)
+            <div class="row p-4 bg-white">
+                <div class="card-deck">
+                    @foreach($Photos as $photo)
+                    <div class="card" style="background-color:#99A3A4">
+                        <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
+                        <div class="card-body text-center">
+                        <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
             </div>
-            @endforeach
-            @endif
-            @if (count($Photos) < 1) <p>No photos included in the application</p>
-                @endif
-                @endisset
-                @empty($Photos)
-                <p>No photos included in the application</p>
-                @endempty
-                @endif
-        </dd>
-    </dl>
+        @endisset
+        @empty($Photos)
+            <p>No photos included in the application</p>
+        @endempty
+    </div>
 </div>
 
 

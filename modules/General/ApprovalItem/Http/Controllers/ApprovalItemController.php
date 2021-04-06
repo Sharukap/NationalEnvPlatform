@@ -555,6 +555,11 @@ class ApprovalItemController extends Controller
                 $Process_item_progress->status_id = $request['status'];
                 $Process_item_progress->remark = 'Final Approval of application '.$request['request'];
                 $Process_item_progress->save();
+                if($Process_item_progress->form_type_id==4){
+                    Crime_report::where('id',$Process_item_progress->form_id)->update([
+                        'action_taken' => 1,
+                        ]);
+                }
             }
         }
         else{
@@ -566,13 +571,6 @@ class ApprovalItemController extends Controller
                 $Process_item_progress->remark = 'Final Reject of application '.$request['request'];
                 $Process_item_progress->save();
         }
-        
-        //dd($title);
-        
-        
-        //$title="this";
-        //dd($Process_item_progress,$Process_item_statuses);
-        
         return back()->with('message', 'Request '.$title);  
     }
 

@@ -103,7 +103,8 @@ class EnvironmentRestorationController extends Controller
         $Process_item->activity_organization = request('organization');
         $Process_item->status_id = 1;
         $Process_item->save();
-        //dd($Process_item,$request,$restoration);
+        //+
+        dd($Process_item,$request,$restoration);
         $latestprocess = Process_Item::latest()->first();
 
         //Adding map coordinates to the land parcel table
