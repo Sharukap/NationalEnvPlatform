@@ -22,7 +22,7 @@ class CreateEcoSystemsTable extends Migration
             $table->softDeletesTz('deleted_at', 0);
             $table->string('title');
             $table->unsignedBigInteger('type_id')->nullable();
-            $table->foreign('type_id')->references('id')->on('ecosystems_type')->onDelete('cascade');
+            $table->foreign('type_id')->references('id')->on('ecosystems_types')->onDelete('cascade');
             $table->unsignedBigInteger('district_id')->nullable();
             $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
             $table->string('images');

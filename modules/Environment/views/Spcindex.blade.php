@@ -4,7 +4,7 @@
 
 
 <div class="container">
-  <div class="jumbotron">
+
 
     <div>
 
@@ -117,17 +117,6 @@
 
       </tbody>
     </table>
-
-
-
-
-
-
-
-
-  </div>
-
-
 
 
 

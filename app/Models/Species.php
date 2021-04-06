@@ -11,12 +11,13 @@ class Species extends Model
     protected $table = 'species_information';
 
     protected $fillable = [
-        'type', 'title', 'polygon', 'scientefic_name', 'habitats', 'taxa', 'description', 'status_id',
+        'type', 'title', 'polygon', 'scientefic_name', 'habitats', 'taxa', 'description', 'status_id', 'created_by_user_id', 'district_id', 'images', 'polygon'
     ];
 
     protected $attributes = [
-        'photos' => "{}",
+        'images' => 0,
     ];
+
     protected $casts = [
         'habitats' => 'array',
         'taxa' => 'array',

@@ -12,7 +12,7 @@ use App\Models\GS_Division;
 use App\Models\Organization;
 use App\Models\Process_Item;
 use App\Models\Gazette;
-use App\Models\Species_Information;
+use App\Models\Species;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -282,7 +282,7 @@ class TreeRemovalController extends Controller
 
     public function SpeciesAutocomplete(Request $request)
     {
-        $data = Species_Information::select("title")
+        $data = Species::select("title")
             ->where("title", "LIKE", "%{$request->terms}%")
             ->get();
 

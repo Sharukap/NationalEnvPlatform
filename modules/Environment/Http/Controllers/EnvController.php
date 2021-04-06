@@ -6,6 +6,7 @@ namespace Environment\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Env;
 use App\Models\Env_type;
+use App\Models\District;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,9 +31,12 @@ class EnvController extends Controller
         ]);
         $ecosystems = new Env;
         $ecosystems->type_id = $request->input('eco_type');
-
+        if (request('isProtected')) {
+            $ecosystems->protected_area = request('isProtected');
+        }
+        $district_id1 = District::where('district', request('district'))->pluck('id');
+        $ecosystems->district_id = $district_id1[0];
         $ecosystems->title = $request->input('title');
-
         $ecosystems->polygon = request('polygon');
         $ecosystems->description = $request->input('description');
         $ecosystems->created_by_user_id = $request->input('createby');
@@ -62,7 +66,7 @@ class EnvController extends Controller
     /* public function edit($id){
     $ecosystems= Env::select ('select * from eco_systems where id = ?',[$id]);
 
-return view('')
+    return view('')
 
  */
     // Delete the request when the authorized parties click the delete button
@@ -75,13 +79,8 @@ return view('')
         $ecosystems->delete();
 
 
-
-
         return redirect()->back()->with('success', 'Request  Successfully Deleted');
     }
-
-
-
 
     /* public function track()
     {

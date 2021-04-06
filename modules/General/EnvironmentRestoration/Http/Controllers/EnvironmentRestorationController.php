@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ecosystem;
 use App\Models\Land_Has_Organization;
-use App\Models\Species_Information;
+use App\Models\Species;
 use Livewire\WithPagination;
 
 class EnvironmentRestorationController extends Controller
@@ -134,7 +134,7 @@ class EnvironmentRestorationController extends Controller
         $remark = $request->remark;
         for($count = 0; $count < count($species_names); $count++)
         {
-            $species_id = Species_Information::where('title',$species_names[$count])->pluck('id');
+            $species_id = Species::where('title',$species_names[$count])->pluck('id');
             $data = array(
                 'environment_restoration_id' => $newres,
                 'status' => $statusSpecies[$count],

@@ -6,42 +6,36 @@
 <div class="container">
     <h2 style="text-align:center;" class="text-dark">Application Form </h2>
     <hr>
+    <div class="row justify-content-md-center border p-4 bg-white">
+        <div class="col-lg ml-3">
 
-    <div class="row justify-content-md-center border p-5 bg-white">
-        <div class="col-10 ml-2">
-            <!--Organizaion Details -->
             <h6 style="text-align:left;" class="text-dark">Species Details</h6>
             <hr>
+            <form action='/environment/newspecies' method="post">
+                @csrf
+
+
+                @if(count($errors) >0)
+                <div class="alert alert-danger">
+                    <ul>
+                        @foreach($errors->all() as $error)
+                        <li>{{$error}}</li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
+
+                @if(\Session::has('success'))
+                <div class="alert alert-success">
+                    <p>{{\Session::get('success') }} </p>
+
+                </div>
+                @endif
 
 
 
-            @if(count($errors) >0)
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach($errors->all() as $error)
-                    <li>{{$error}}</li>
-                    @endforeach
-                </ul>
-            </div>
-            @endif
-
-            @if(\Session::has('success'))
-            <div class="alert alert-success">
-                <p>{{\Session::get('success') }} </p>
-
-            </div>
-            @endif
-            </br>
-        </div>
-        <hr>
-
-
-        <form action='/environment/newspecies' method="post">
-            @csrf
-
-            <div class="container">
-                <div class="row p-4 bg-white">
-                    <div class="col border border-muted rounded-lg mr-2 p-4">
+                <div class="row border rounded-lg p-4 bg-white">
+                    <div class="col border border-muted rounded-lg mr-2 p-2">
                         <div class="form-group">
                             <label for="number_of_tree_species">Species Type</label>
 
@@ -53,9 +47,6 @@
                             <label for="number_of_tree_species">Species Title</label>
                             <input type="text" class="form-control" name="title" placeholder="Enter Title">
                         </div>
-
-
-
 
 
                         </br>
@@ -161,7 +152,7 @@
                         <input type="hidden" class="form-control" name="status" value="0">
                     </div>
                 </div>
-            </div>
+        </div>
         </form>
 
     </div>

@@ -11,7 +11,11 @@ class Env extends Model
 
     protected $table = 'eco_systems';
 
-    protected $fillable = ['type_id','title', 'polygon','description', 'created_by_user_id', 'status',];
+    protected $fillable = ['type_id','title', 'polygon','description', 'created_by_user_id', 'status', 'district_id', 'images', 'protected_area'];
+
+    protected $attributes = [
+        'images' => 0,
+    ];
 
     public function ecosystems_type()
     {

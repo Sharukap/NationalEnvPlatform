@@ -31,7 +31,6 @@ class SpeciesController extends Controller
             'taxanomy' => 'required',
             'description' => 'required',
             'createby' => 'required',
-
             'polygon' => 'required',
         ]);
         $species = new Species;
