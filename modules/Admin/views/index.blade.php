@@ -33,7 +33,7 @@
                 <!-- Only show the Privilege and Delete fields if Admin or Super Admin -->
                 @if (Auth::user()->role_id == 1 ||Auth::user()->role_id == 2)
                 <th>Change Privilege</th>
-                <th>Disable User</th>
+                <th>Delete User</th>
                 @endif
             </tr>
         </thead>

@@ -8,80 +8,74 @@
     <hr>
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-6 ml-3">
-            <form method="post" action="/user/store" class="needs-validation" novalidate>
+            <form method="post" action="/user/store">
                 @csrf
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Name</span>
                     </div>
-                    <input type="text" class="form-control" name="name" value="{{ old('name') }}" placeholder="Enter Name" required>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Enter Name">
                 </div>
-                <!-- @error('name')
+                @error('name')
                 <div class="alert alert-danger">{{ $message }}</div>
-                @enderror -->
+                @enderror
 
                 <div class="input-group mb-3">
-                    <input type="text" class="form-control" name="email" value="{{ old('email') }}" placeholder="Enter Email" required>
+                <input type="text" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Enter email" name="email" />
                     <div class="input-group-append">
                         <span class="input-group-text">@example.com</span>
                     </div>
                 </div>
-                <!-- @error('email')
+                @error('email')
                 <div class="alert alert-danger">{{ $message }}</div>
-                @enderror -->
+                @enderror
 
                 @if(Auth::user()->role_id == 1 ||Auth::user()->role_id == 2)
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Organization</span>
                     </div>
-                    <select name="organization" class="custom-select" required>
+                    <select name="organization" class="custom-select @error('organization') is-invalid @enderror">
                         <option selected value="">Select</option>
                         @foreach($organizations as $organization)
-                        <option value="{{$organization->id}}">{{$organization->title}}</option>
+                        <option value="{{$organization->id}}" {{ Request::old()?(Request::old('organization')==$organization->id?'selected="selected"':''):'' }}>{{$organization->title}}</option>
                         @endforeach
                     </select>
                 </div>
-                <!-- @error('organization')
+                @error('organization')
                 <div class="alert alert-danger">{{ $message }}</div>
-                @enderror -->
+                @enderror
                 @endif
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Designation</span>
                     </div>
-                    <select name="designation" class="custom-select" required>
+                    <select name="designation" class="custom-select @error('designation') is-invalid @enderror">
                         <option selected value="">Select</option>
                         @foreach($designations as $designation)
-                        <option value="{{$designation->id}}">{{$designation->designation}}</option>
+                        <option value="{{$designation->id}}" {{ Request::old()?(Request::old('designation')==$designation->id?'selected="selected"':''):'' }}>{{$designation->designation}}</option>
                         @endforeach
                     </select>
                 </div>
-                <!-- @error('designation')
+                @error('designation')
                 <div class="alert alert-danger">{{ $message }}</div>
-                @enderror -->
+                @enderror
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Role</span>
                     </div>
-                    <select name="role" class="custom-select" required>
+                    <select name="role" class="custom-select @error('role') is-invalid @enderror">
                         <option selected value="">Select</option>
-                        @if(Auth::user()->role_id == 1 ||Auth::user()->role_id == 2)
-                        <option value=2>Admin</option>
-                        <option value=3>Head Of Organization</option>
-                        <option value=4>Manager</option>
-                        @elseif(Auth::user()->role_id == 3)
-                        <option value=4>Manager</option>
-                        @endif
-                        <option value=5>Staff</option>
-                        <option value=6>Citizen</option>
+                        @foreach($roles as $role)
+                        <option value="{{$role->id}}" {{ Request::old()?(Request::old('role')==$role->id?'selected="selected"':''):'' }}>{{$role->title}}</option>
+                        @endforeach
                     </select>
                 </div>
-                <!-- @error('role')
+                @error('role')
                 <div class="alert alert-danger">{{ $message }}</div>
-                @enderror -->
+                @enderror
 
                 <!-- If the user is not super admin then pass in the user's organization id as well -->
                 @if (Auth::user()->role_id == 3 ||Auth::user()->role_id == 4)
@@ -99,24 +93,4 @@
         </div>
     </div>
 </div>
-<script>
-    // Disable form submissions if there are invalid fields
-    (function() {
-        'use strict';
-        window.addEventListener('load', function() {
-            // Get the forms we want to add validation styles to
-            var forms = document.getElementsByClassName('needs-validation');
-            // Loop over them and prevent submission
-            var validation = Array.prototype.filter.call(forms, function(form) {
-                form.addEventListener('submit', function(event) {
-                    if (form.checkValidity() === false) {
-                        event.preventDefault();
-                        event.stopPropagation();
-                    }
-                    form.classList.add('was-validated');
-                }, false);
-            });
-        }, false);
-    })();
-</script>
 @endsection

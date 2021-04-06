@@ -12,7 +12,7 @@ use App\Models\GS_Division;
 use App\Models\Organization;
 use App\Models\Process_Item;
 use App\Models\Gazette;
-use App\Models\Species_Information;
+use App\Models\Species;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -53,7 +53,7 @@ class TreeRemovalController extends Controller
             'number_of_amphibian_species' => 'nullable|integer',
             'number_of_fish_species' => 'nullable|integer',
             'number_of_avian_species' => 'nullable|integer',
-            'externalRequestor' => 'nullable|regex:regex:/^[0-9]{9}[vVxX]$/',
+            'externalRequestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
             'erEmail' => 'nullable|email',
             'land_gazettes' => 'nullable',
             'land_governing_orgs' => 'nullable',
@@ -219,7 +219,7 @@ class TreeRemovalController extends Controller
         //making a downloadable version of the KML file
         try {
             $kml = request('kml');
-            Storage::put('attempt1.kml', $kml);
+            Storage::put('kml_files/attempt1.kml', $kml);
         } catch (\Exception $e) {
             dd($e);
         }
@@ -233,6 +233,8 @@ class TreeRemovalController extends Controller
         $Photos=Json_decode($tree_removal->images);
         $location_data = $tree_removal->tree_details;
         $land_data = Land_Parcel::find($tree_removal->land_parcel_id);
+        // $images = json_decode($tree_removal->images);
+        // ddd($images);
         return view('treeRemoval::show', [
             'tree' => $tree_removal,
             'location' => $location_data,
@@ -280,7 +282,7 @@ class TreeRemovalController extends Controller
 
     public function SpeciesAutocomplete(Request $request)
     {
-        $data = Species_Information::select("title")
+        $data = Species::select("title")
             ->where("title", "LIKE", "%{$request->terms}%")
             ->get();
 

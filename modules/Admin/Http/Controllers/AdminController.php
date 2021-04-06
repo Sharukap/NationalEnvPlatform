@@ -75,6 +75,12 @@ class AdminController extends Controller
     // Activates the user by saving the new data to the database and setting the user status to 1.
     public function activate(Request $request, $id)     
     {
+        $request->validate([
+            'designation' => 'required|exists:designations,id',
+            'organization' => 'required|exists:organizations,id',
+            'role' => 'required|exists:roles,id',
+        ]);
+
         $user = User::find($id);
         $user->update([
             'status' => $request->status,

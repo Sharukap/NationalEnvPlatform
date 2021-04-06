@@ -133,6 +133,8 @@ class DevelopmentProjectController extends Controller
 
             $dev->land_parcel_id = $landid;
 
+            $dev->images = "{}";
+
             $dev->save();
 
             //saving the images to the db
@@ -199,7 +201,7 @@ class DevelopmentProjectController extends Controller
         //making a downloadable version of the KML file
         try {
             $kml = request('kml');
-            Storage::put('attempt1.kml', $kml);
+            Storage::put('kml_files/attempt1.kml', $kml);
         } catch (\Exception $e) {
             dd($e);
         }
@@ -214,6 +216,8 @@ class DevelopmentProjectController extends Controller
         $Photos=Json_decode($development_project->images);
         
         $land_data = Land_Parcel::find($development_project->land_parcel_id);
+        // $images = json_decode($development_project->images);
+        // $Photos=Json_decode($development_project->images);
         return view('developmentProject::show', [
             'development_project' => $development_project,
             'polygon' => $land_data->polygon,

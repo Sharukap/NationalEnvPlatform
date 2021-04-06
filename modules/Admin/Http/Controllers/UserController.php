@@ -29,9 +29,9 @@ class UserController extends Controller
         if(Auth::user()->role_id == 1 ||Auth::user()->role_id == 2){
             $roles = Role::where('id', '>', 1)->get();
         } elseif(Auth::user()->role_id == 3){
-            $roles = Role::where('id', '>', 3)->get();
+            $roles = Role::where('id', '>', 2)->get();
         } elseif (Auth::user()->role_id == 4) {
-            $roles = Role::where('id', '>', 4)->get();
+            $roles = Role::where('id', '>', 3)->get();
         }
                         
         return view('admin::create', [
@@ -46,21 +46,13 @@ class UserController extends Controller
     // Hope to send an email to the newly created user's email saying login and change password?
     public function store(Request $request)
     {
-        // if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2) {
-        //     $request->validate([
-        //         'name' => 'required',
-        //         'email' => 'required|email',
-        //         'designation' => 'required|in:1,2,3,4,5,6,7',
-        //         'role' => 'required|in:2,3,4,5,6',
-        //         'organization' => 'required|in:1,2,3,4,5,6',
-        //     ]);
-        // }
-        // $request->validate([
-        //     'name' => 'required',
-        //     'email' => 'required|email',
-        //     'designation' => 'required|in:1,2,3,4,5,6,7',
-        //     'role' => 'required|in:2,3,4,5,6',
-        // ]);
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'designation' => 'required|exists:designations,id',
+            'role' => 'required|exists:roles,id',
+            'organization' => 'required|exists:organizations,id',
+        ]);
 
         $user = new User();
         $user->name = $request->name;
@@ -92,6 +84,13 @@ class UserController extends Controller
     // patched for the relavant user who is being edited and saved in the db.
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'designation' => 'required|exists:designations,id',
+            'organization' => 'required|exists:organizations,id',
+        ]);
+
         $user = User::find($id);
         $user->update([
             'name' => $request->name,
@@ -187,4 +186,5 @@ class UserController extends Controller
         } else
             return redirect('/user/index')->with('danger', 'Current Password is Incorrect'); // Else show that old password is incorrect
     }
+    
 }

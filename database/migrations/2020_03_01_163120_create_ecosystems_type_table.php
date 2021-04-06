@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccessTable extends Migration
+class CreateEcosystemsTypeTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateAccessTable extends Migration
      */
     public function up()
     {
-        Schema::create('access', function (Blueprint $table) {
+        Schema::create('ecosystems_types', function (Blueprint $table) {
             $table->id();
-            $table->string('access');
+            $table->string('type');  
             $table->timestampsTz(); //time stamp with timezone in UTC
             $table->softDeletesTz('deleted_at', 0);
+
         });
     }
 
@@ -28,6 +29,6 @@ class CreateAccessTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('access');
+        Schema::dropIfExists('ecosystems_type');
     }
 }

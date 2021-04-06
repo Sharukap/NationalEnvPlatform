@@ -11,7 +11,7 @@
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     <div class="form-group">
                         <label for="title">Title:</label>
-                        <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}">
+                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}">
                         @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -29,7 +29,8 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        Gazette for Development Project (Optional):<input type="text" class="form-control typeahead" placeholder="Search" name="gazette" value="{{ old('gazette') }}" />
+                        Gazette for Development Project (Optional):
+                        <input type="text" class="form-control typeahead" placeholder="Search for Gazette Number" name="gazette" value="{{ old('gazette') }}" />
                         @error('gazette')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -93,7 +94,7 @@
                         </div>
                         <div class="form-group">
                             <label for="land_extent">Land Extent (In Acres)</label>
-                            <input type="text" class="form-control typeahead3" value="{{ old('land_extent') }}" id="land_extent" name="land_extent">
+                            <input type="text" class="form-control" value="{{ old('land_extent') }}" id="land_extent" name="land_extent">
                             @error('land_extent')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -160,7 +161,7 @@
                     <!-- Saving the KML file in storage -->
                     <input id="kml" type="text" name="kml" class="form-control" value="{{request('kml')}}" />
 
-                    <div>
+                    <div style="float:right;">
                         <button type="submit" class="btn bd-navbar text-light">Submit</button>
                     </div>
                 </div>
@@ -256,19 +257,65 @@
 
 
 
-    ///SCRIPT FOR THE MAP
-    var center = [7.2906, 80.6337];
+
+    ///MAP ACTIVITIES
+
+    //var center = [7.2906, 80.6337];
 
     // Create the map
-    var map = L.map('mapid').setView(center, 10);
+    //var map = L.map('mapid').setView(center, 10);    
+    //The first parameter passed into setView() represents the latitude and longitude, and the second parameter is the zoom level.
+
+
+    var map = L.map('mapid', {
+        center: [7.2906, 80.6337], //if the location cannot be fetched it will be set to Kandy
+        zoom: 12
+    });
+
+    window.onload = function() {
+        var popup = L.popup();
+                                        //false,               ,popup, map.center
+        function geolocationErrorOccurred(geolocationSupported, popup, latLng) {
+            popup.setLatLng(latLng);
+            popup.setContent(geolocationSupported ?
+                '<b>Error:</b> Geolocation service failed. Enable Location.' :
+                '<b>Error:</b> This browser doesn\'t support geolocation.');
+            popup.openOn(map);
+        }
+        //If theres an error then 
+
+        if (navigator.geolocation) {    //using an inbuilt function to get the lat and long of the user.
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var latLng = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                popup.setLatLng(latLng);
+                popup.setContent('This is your current location');
+                popup.openOn(map);
+                //setting the map to the user location
+                map.setView(latLng);
+
+            }, function() {
+                geolocationErrorOccurred(true, popup, map.getCenter());
+            });
+        } else {
+            //No browser support geolocation service
+            geolocationErrorOccurred(false, popup, map.getCenter());
+        }
+    }
 
     // Set up the OSM layer 
+    //map tiles are “square bitmap graphics displayed in a grid arrangement to show a map.”
+    //There are a number of different tile providers (or tileservers), some are free and open source. We are using OSM
     L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
             maxZoom: 18
         }).addTo(map);
-
+    //we’re calling tilelayer() to create the tile layer, passing in the OSM URL first, then the second argument is an object containing the options for our new tile 
+    //layer (including attribution is critical here to comply with licensing), and then the tile layer is added to the map using addTo().
 
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
@@ -312,12 +359,9 @@
         var type = e.layerType,
             layer = e.layer;
 
-        if (type === 'marker') {
-            layer.bindPopup('A popup!');
-        }
 
         drawnItems.addLayer(layer);
-        $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON()));
+        $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON())); //geoJSON converts a layer to JSON
 
         ///Converting your layer to a KML
         $('#kml').val(tokml(drawnItems.toGeoJSON()));
@@ -336,12 +380,8 @@
             cache: false,
             processData: false,
             success: function(data) {
-                $('#message').css('display', 'block');
-                $('#message').html(data.message);
-                $('#message').addClass(data.class_name);
-                $('#uploaded_image').html(data.uploaded_image);
                 var tmp = data.uploaded_image;
-                $('#loc').val(JSON.stringify(tmp));
+                $('#loc').val(JSON.stringify(tmp)); //location of the uploaded file
                 console.log(tmp);
                 fetch(`/${tmp}`)
                     .then(res => res.text())

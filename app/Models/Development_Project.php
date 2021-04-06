@@ -27,7 +27,6 @@ class Development_Project extends Model
         'protected_area' => 0,
         'status_id' => 1,
         'land_size' => 0,
-        'images' => 0,
     ];
 
     
