@@ -4,28 +4,39 @@
 
 <kbd><a href="/approval-item/showRequests" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
 
-<div class="container border bg-light">
-    <form>
-        <div class="input-group mb-3 mt-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Crime Type</span>
-            </div>
-            <input type="text" class="form-control" placeholder="{{$crime->Crime_type->type}}" readonly>
-        </div>
+<div class="container">
+    <dl class="row">
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Description</span>
-            </div>
-            <input type="text" class="form-control" placeholder="{{$crime->description}}" readonly>
-        </div>
+        <dt class="col-sm-3">Category:</dt>
+        <dd class="col-sm-9">Development Project</dd>
 
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Photos</span>
-            </div>
+        <dt class="col-sm-3">Crime Type:</dt>
+        <dd class="col-sm-9">{{$crime->Crime_type->type}}</dd>
+
+
+
+        <dt class="col-sm-3">Land Parcel Title:</dt>
+        <dd class="col-sm-9">
+            <p>{{$crime->land_parcel->title}}</p>
+        </dd>
+
+        <dt class="col-sm-3">Activity Organization:</dt>
+        <dd class="col-sm-9">
+            <p>{{$process_item->Activity_organization->title}}</p>
+        </dd>
+
+        <dt class="col-sm-3">Status:</dt>
+        <dd class="col-sm-9">{{$process_item->status->type}}</dd>
+
+        <dt class="col-sm-3">Created at:</dt>
+        <dd class="col-sm-9">{{$crime->created_at}}</dd>
+    </dl>
+    
             
-            <div class="input-group-prepend">
+            
+
+            <div id="mapid" style="height:400px;" name="map"></div>
+            <div class="row">
                 @isset($Photos)
                     @if (count($Photos) > 0)
                             @foreach($Photos as $photo)
@@ -43,31 +54,6 @@
                     <p>No photos included in the application</p>
                 @endempty
             </div>
-        </div>
-
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Land Parcel</span>
-            </div>
-            <input type="text" class="form-control" placeholder="{{$crime->land_parcel->title}}" readonly>
-        </div>
-
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Status</span>
-            </div>
-            <input type="text" class="form-control" placeholder="{{$crime->status_id}}" readonly>
-        </div>
-
-        <div class="input-group mb-3">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Created at</span>
-            </div>
-            <input type="text" class="form-control" placeholder="{{$crime->created_at}}" readonly>
-        </div>
-
-        <div id="mapid" style="height:400px;" name="map"></div>
-    </form>
 
 </div>
 

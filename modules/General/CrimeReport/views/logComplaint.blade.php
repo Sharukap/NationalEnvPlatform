@@ -32,9 +32,6 @@
                             </div>
                         @enderror    
                     </div>
-                    <div class="form-group">
-                    <input type="checkbox" class="form-check-input" name="nonregorg" ><strong>Other</strong>
-                    </div>
                     <div class="form-group" id="dynamicAddRemove">
                         <label for="images">Photos:</label>
                         <input type="file" id="images" name="images[0]">
@@ -52,7 +49,6 @@
                     </div>
                     <hr>
                     <div class="form-group">
-                        <input type="checkbox" name="nonreguser" value="1" ><strong>Creating on behalf of non registered user</strong>
                         <input type="checkbox" name="nonreguser" value="1" ><strong>Creating on behalf of non registered user</strong>
                         <label for="description">Inform investigation result to Mr/Ms:</label>
                         <input type="text" class="form-control" placeholder="Enter complainant name" name="Requestor" value=""/>
