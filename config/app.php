@@ -200,7 +200,12 @@ return [
         LandParcel\Providers\RouteServiceProvider::class,
         LandParcel\Providers\LandServiceProvider::class,
         Reporting\Providers\RouteServiceProvider::class,
-        Reporting\Providers\ReportingServiceProvider::class
+        Reporting\Providers\ReportingServiceProvider::class,
+        UserIntruction\Providers\RouteServiceProvider::class,
+        UserIntruction\Providers\UserIntructionServiceProvider::class,
+        SystemData\Providers\RouteServiceProvider::class,
+        SystemData\Providers\SystemDataServiceProvider::class
+
 
     ],
     /*
