@@ -26,6 +26,10 @@ class CreateSpeciesInformationTable extends Migration
             $table->timestampsTz(); //time stamp with timezone in UTC
             $table->integer('status_id'); // ref process_item_statuses
             $table->softDeletesTz('deleted_at', 0);
+            $table->unsignedBigInteger('district_id')->nullable();
+            $table->foreign('district_id')->references('id')->on('districts')->onDelete('cascade');
+            $table->string('images');
+            $table->json('polygon');
         });
     }
 
