@@ -23,7 +23,7 @@ Route::get('/', function () {
 Route::get('/home', [GeneralController::class, 'pending'])->middleware('auth','verified');
 
 Route::get('/home/main', function () {
-    return view('home');
+    return view('unauthorized');
 });
 Route::get('/search', [UserController::class, 'search']);
 

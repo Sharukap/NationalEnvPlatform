@@ -149,6 +149,7 @@ class CrimeReportController extends Controller
             'crime' => $crime,
             'Photos' =>$Photos,
             'polygon' =>$land_parcel->polygon,
+            'process_item' =>$process_item,
         ]);
     }
 

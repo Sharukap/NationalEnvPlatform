@@ -119,17 +119,18 @@
     </div>
     <div class="row">
         @isset($Photos)
-            @if (count($Photos) > 0)
-                @foreach($Photos as $photo)
-                    <div class="col border border-muted rounded-lg mr-2 p-4">
-                        <img class="img-responsive" src="{{asset('/storage/'.$photo)}}" alt="photo">
-                        <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
+            <div class="row p-4 bg-white">
+                <div class="card-deck">
+                    @foreach($Photos as $photo)
+                    <div class="card" style="background-color:#99A3A4">
+                        <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
+                        <div class="card-body text-center">
+                        <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
+                        </div>
                     </div>
-                @endforeach
-            @endif
-            @if (count($Photos) < 1)
-                <p>No photos included in the application</p>
-            @endif
+                    @endforeach
+                </div>
+            </div>
         @endisset
         @empty($Photos)
             <p>No photos included in the application</p>
