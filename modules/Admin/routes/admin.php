@@ -13,6 +13,8 @@ Route::patch('/alterPassword', [UserController::class, 'alterPassword']);       
 // user/index route will route to the UserController to route based on the user's role  
 Route::get('/index', [UserController::class, 'index'])->name('userIndex'); 
 
+Route::get('/index/{nid}', [UserController::class, 'index'])->name('userIndex')->middleware(['notifiy.read']);
+
 //Role Based Access control management
 Route::get('/roleindex',[AdminController::class, 'index'])->name('roleIndex');
 Route::get('/roleedit/{id}',[AdminController::class, 'roleedit'])->name('roleedit');

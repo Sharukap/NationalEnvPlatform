@@ -83,25 +83,25 @@
                         @foreach(auth()->user()->unreadNotifications as $notification)
                         <ul>
                             @if($notification->type == "App\Notifications\StaffAssigned")
-                            <a href="/approval-item/investigate/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
+                            <a href="/approval-item/investigate/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
                                 </span></a>
                             @endif
                             @if($notification->type == "App\Notifications\AssignOrg")
-                            <a href="/approval-item/assignstaff/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
+                            <a href="/approval-item/assignstaff/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
                                 </span></a>
                             @endif
                             @if($notification->type == "App\Notifications\ApplicationMade")
-                            <a href="/approval-item/assignorganization/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
+                            <a href="/approval-item/assignorganization/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p>New {{$notification->data['type']}} application No {{$notification->data['form_id']}} has been made.</p></i>
                                 </span></a>
                             @endif
                             @if($notification->type == "App\Notifications\NewUserRegistration")
-                            <a href="/user/showSelfRegistered"><i class="ni ni-single-02"></i><span>
+                            <a href="/user/showSelfRegistered/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p>New User {{$notification->data['name']}} has registered using  {{$notification->data['email']}} has been made.</p></i>
                                 </span></a>
@@ -171,7 +171,12 @@
                 </nav>
                 
                 <div style="background-color:#f0f0f7" class="col-md">
-
+                    <span>
+                        <h4 class="text-center bg-success text-light">{{session('message')}}</h4>
+                    </span>
+                    <span>
+                        <h4 class="text-center bg-danger text-light">{{session('warning')}}</h4>
+                    </span>
                     @yield('cont')
                     <br>
                 </div>
