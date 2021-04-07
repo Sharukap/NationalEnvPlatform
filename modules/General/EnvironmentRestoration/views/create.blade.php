@@ -34,7 +34,7 @@
                             <select name="ecosystem" class="custom-select">
                                 <option selected>Select Ecosystem</option>
                                 @foreach($ecosystems as $ecosystem)
-                                <option value="{{$ecosystem->id}}">{{$ecosystem->ecosystem_type}}</option>
+                                <option value="{{$ecosystem->id}}">{{$ecosystem->type}}</option>
                                 @endforeach
                             </select>
                         </div>
