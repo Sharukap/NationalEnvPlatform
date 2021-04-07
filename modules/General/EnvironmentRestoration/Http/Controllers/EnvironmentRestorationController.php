@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Ecosystem;
+use App\Models\Env_type;
 use App\Models\Land_Has_Organization;
 use App\Models\Species;
 use Livewire\WithPagination;
@@ -40,7 +41,7 @@ class EnvironmentRestorationController extends Controller
         $restorations = Environment_Restoration::all();         //shows all records of enviroment restoration request
         $organizations = Organization::where('type_id','=','1')->get(); //show all records for all government organizations
         $restoration_activities = Environment_Restoration_Activity::all();
-        $ecosystems = Ecosystem::all();
+        $ecosystems = Env_type::all();
         return view('environmentRestoration::create', [
             'restorations' => $restorations,
             'organizations' => $organizations,
@@ -104,7 +105,6 @@ class EnvironmentRestorationController extends Controller
         $Process_item->status_id = 1;
         $Process_item->save();
         //+
-        dd($Process_item,$request,$restoration);
         $latestprocess = Process_Item::latest()->first();
 
         //Adding map coordinates to the land parcel table
