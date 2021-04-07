@@ -64,5 +64,6 @@ class Kernel extends HttpKernel
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'access.control' =>\App\Http\Middleware\access_control::class,
         'restrict.own' =>\App\Http\Middleware\RestrictOwnRequests::class,
+        'notifiy.read' =>\App\Http\Middleware\NotificationRead::class,
     ];
 }
