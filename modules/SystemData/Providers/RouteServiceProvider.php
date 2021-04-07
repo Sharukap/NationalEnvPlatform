@@ -45,7 +45,7 @@ class RouteServiceProvider extends ServiceProvider
                     ->group(base_path('routes/api.php')); */
     
                 Route::middleware('web')
-                    ->prefix('sytem-data')
+                    ->prefix('system-data')
                     ->group(base_path('modules/SystemData/routes/systemData.php'));
             });
     }

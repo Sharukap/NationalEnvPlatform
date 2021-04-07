@@ -53,6 +53,12 @@
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-book" aria-hidden="true"></i> Reporting</a>
                             </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/help/test"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/system-data/test"><i class="fa fa-cog" aria-hidden="true"></i> System Data</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
