@@ -37,13 +37,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         $this->routes(function () {
-            /*    Route::prefix('api')
-                    ->middleware('api')
-                    ->namespace($this->namespace)
-                    ->group(base_path('routes/api.php')); */
-    
                 Route::middleware('web')
                     ->prefix('system-data')
                     ->group(base_path('modules/SystemData/routes/systemData.php'));
