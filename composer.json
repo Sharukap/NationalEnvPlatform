@@ -54,7 +54,9 @@
             "General\\": "modules/General",
             "Environment\\": "modules/Environment",
             "LandParcel\\": "modules/LandParcel",
-            "Reporting\\": "modules/Reporting"
+            "Reporting\\": "modules/Reporting",
+            "UserIntruction\\": "modules/UserIntruction",
+            "SystemData\\": "modules/SystemData"
 
             
         }
