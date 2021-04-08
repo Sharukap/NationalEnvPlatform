@@ -26,7 +26,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use PDF;
 
 class ReportingController extends Controller
 {
@@ -92,6 +92,13 @@ class ReportingController extends Controller
     public function overview()
     {
         return view('reporting::overview');
+    }
+    public function overviewReport(){
+        $chart1 = request('chart1');
+        $chart2 = request('chart2');
+        $chart3 = request('chart3');
+        $pdf = PDF ::loadView('reporting::overviewReport',['chart1'=>$chart1,'chart2'=>$chart2,'chart3'=>$chart3]);
+        return $pdf->stream('report.pdf');
     }
     //Process Item per month Line Chart
     public function getAllProcessItems()
