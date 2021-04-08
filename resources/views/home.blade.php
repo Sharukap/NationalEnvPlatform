@@ -92,25 +92,27 @@
                             <a href="/approval-item/investigate/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
-                                </span></a>
-                            @endif
-                            @if($notification->type == "App\Notifications\AssignOrg")
+                                    </li></span></a>
+                            @elseif($notification->type == "App\Notifications\AssignOrg")
                             <a href="/approval-item/assignstaff/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
-                                </span></a>
-                            @endif
-                            @if($notification->type == "App\Notifications\ApplicationMade")
+                                    </li></span></a>
+                            @elseif($notification->type == "App\Notifications\ApplicationMade")
                             <a href="/approval-item/assignorganization/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p>New {{$notification->data['type']}} application No {{$notification->data['form_id']}} has been made.</p></i>
-                                </span></a>
-                            @endif
-                            @if($notification->type == "App\Notifications\NewUserRegistration")
+                                    </li></span></a>
+                            @elseif($notification->type == "App\Notifications\NewUserRegistration")
                             <a href="/user/showSelfRegistered/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p>New User {{$notification->data['name']}} has registered using  {{$notification->data['email']}} has been made.</p></i>
-                                </span></a>
+                                    </li></span></a>
+                            @elseif($notification->type == "App\Notifications\prereqmemo")
+                            <a href="/approval-item/investigate/{{$notification->data['prerequisite_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
+                                    <li>
+                                        <p>Prerequisite no {{$notification->data['process_id']}} {{$notification->data['remark']}} .</p></i>
+                                    </li></span></a>
                             @endif
                         </ul>
                         @endforeach
