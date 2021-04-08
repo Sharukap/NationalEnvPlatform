@@ -501,7 +501,6 @@ class ApprovalItemController extends Controller
         $Process_item =Process_item::find($id);
         $User=User::find($userid);
         $remark=$Process_item->remark.' cancelled by '.$User->name.' (userId: '.$User->id.')';
-        //dd($remark);
         $Process_item->update([
             'status_id' => 8,
             'remark' => $remark,
