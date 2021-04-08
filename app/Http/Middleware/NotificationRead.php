@@ -20,7 +20,7 @@ class NotificationRead
         $notification = auth()->user()->notifications()->where('id', $id)->first();
         if ($notification) {
             $notification->markAsRead();
-            dd($notification);
+            //dd($notification);
         }
         return $next($request);
     }
