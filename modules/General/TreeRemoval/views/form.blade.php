@@ -3,20 +3,19 @@
 @section('general')
 
 <div class="container">
-
+  <div class="row border-lg justify-content-end bg-white">
+    <div class="d-flex justify-content-end">
+    <button type="submit" class="btn btn-primary" ><a href="addlink to modal here" class="text-dark"><i class="fa fa-info-circle"></i></a></button>
+      </div>
+  </div>
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data">
     @csrf
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
       <div class="container">
         <!-- add this part for button to link to instruction modal -->
-        <div class="row border-lg justify-content-end bg-white">
-          <div class="d-flex justify-content-end">
-            <a href="addlink to modal here" class="text-dark"><i class="fa fa-info-circle fa-2x" style="color:blue"></i></a>
-          </div>
-        </div>
-        <!-- end of part -->
         
+        <!-- end of part -->
         <div class="row border rounded-lg p-4 bg-white">
           <div class="col border border-muted rounded-lg mr-2 p-2">
             <div class="row p-2">
