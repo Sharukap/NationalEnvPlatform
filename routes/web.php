@@ -22,15 +22,9 @@ Route::get('/', function () {
 
 Route::get('/home', [GeneralController::class, 'pending'])->middleware('auth','verified');
 
-Route::get('/home/main', function () {
-    return view('unauthorized');
-});
+Route::get('/home/main',  [UserController::class, 'home'])->middleware('auth','verified');
 Route::get('/search', [UserController::class, 'search']);
 
-Route::get('/markAsRead', function(){
-    auth()->user()->unreadNotifications->markAsRead();
-    return redirect()->back();
-});
 
 //CHART ROUTES
 Route::get('/get-user-chart-data',[ReportingController::class, 'getMonthlyUserData']);
