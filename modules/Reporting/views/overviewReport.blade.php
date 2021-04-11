@@ -23,11 +23,6 @@
         </div>
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
-                <p>Your customized user request report where</p>
-            </div>
-        </div>
-        <div class="row p-4 bg-white">
-            <div class="col border border-muted rounded-lg mr-2 p-4">
                 <p>The following depicts the number of all requests within the last 5 months</p>
                 <img src="{{$chart1}}" class="img">
             </div>
