@@ -1,146 +1,130 @@
 @extends('home')
 
 @section('cont')
-<kbd><a href="/environment/generalenv" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
-    <div class='row justify-content-center'>
+<kbd><a href="/environment/updatedata" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+<div class='row justify-content-center'>
     </br>
- 
-
-<div class="container">
-    <h2 style="text-align:center;" class="text-dark">Application Form </h2>
-    <hr>
-    <div class="row justify-content-md-center border p-4 bg-white">
-        <div class="col-lg ml-3">
-     
-            <h6 style="text-align:left;" class="text-dark">Eco-Systems Details</h6>
-            <hr>
-            <form action="/environment/newrequest" method="post">
-                @csrf
 
 
-                @if(count($errors) >0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                        <li>{{$error}}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif
+    <div class="container">
+        <h4 style="text-align:center;" class="text-dark">Add New Ecosystem</h4>
+        <hr>
+        <div class="row justify-content-md-center border p-4 bg-white">
+            <div class="col-lg ml-3">
 
-                @if(\Session::has('success'))
-                <div class="alert alert-success">
-                    <p>{{\Session::get('success') }} </p>
+                <h6 style="text-align:left;" class="text-dark">Eco-Systems Details</h6>
+                <hr>
+                <form action="/environment/newrequest" method="post">
+                    @csrf
 
-                </div>
-                @endif
+                    @if(\Session::has('success'))
+                    <div class="alert alert-success">
+                        <p>{{\Session::get('success') }} </p>
+
+                    </div>
+                    @endif
 
 
 
-                <div class="row border rounded-lg p-4 bg-white">
-                    <div class="col border border-muted rounded-lg mr-2 p-2">
+                    <div class="row border rounded-lg p-4 bg-white">
+                        <div class="col border border-muted rounded-lg mr-2 p-2">
 
-                        <div class="form-group">
-                            <label for="title">Title:</label>
-                            <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}">
-                            @error('title')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Type</span>
-                            </diV>
-                            <select name="eco_type" class="custom-select">
-                                <option disabled selected>Eco-System Type</option>
-                                @foreach ($data as $page)
-                                <option value="{{ $page->id }}">{{ $page->type }}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        @error('type')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
-
-
-
-                        </br>
-
-                        <div class="form-group">
-                            District:<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
-                            @error('district')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <h6>Description</h6>
-                        <div class="input-group mb-3">
-                            </br>
-                            <textarea class="form-control" rows="5" name="description">
-                           </textarea>
-
-                        </div>
-
-
-                        </br>
-                        <div class="col border border-muted rounded-lg p-4">
-                            <!-- ////////MAP GOES HERE -->
-                            <div id="mapid" style="height:400px;" name="map"></div>
-
-                            @error('polygon')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                            <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" /> <br>
-
-                            
-                        </div>
-
-
-                        <div class="form-group">
-                            <label for="images">Image</label>
-                            <div class="custom-file mb-3">
-                                <input type="file" id="images" name="images">
+                            <div class="form-group">
+                                <label for="title">Title:</label>
+                                <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}">
+                                @error('title')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                             </div>
-                        </div>
-                       
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-                            <label class="custom-control-label" for="customCheck"><strong>I confirmed these information to be true</strong></label>
+
+
+                            <div class="input-group mb-3">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text">Type</span>
+                                </div>
+                                <select name="eco_type" class="custom-select @error('eco_type') is-invalid @enderror">
+                                    <option disabled selected value="">Select</option>
+                                    @foreach ($data as $page)
+                                    <option value="{{ $page->id }}">{{ $page->type }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @error('eco_type')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
 
                             </br>
-                            <button type="submit" class="tn btn-outline-secondary btn">Cancel</button>
-                            <button type="submit" class="btn bd-navbar text-light">Submit</button>
 
-                        </div>
-                        <input type="hidden" class="form-control" name="createby" value="{{Auth::user()->id}}">
-                        <input type="hidden" class="form-control" name="status" value="0">
+                            <div class="form-group">
+                                District:<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                                @error('district')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
 
-            </form>
+                            <label for="description">Description:</label>
+                            <textarea class="form-control" rows="5" name="description"></textarea>
+                            @error('description')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+
+
+
+                            </br>
+                            <div class="col border border-muted rounded-lg p-4">
+                                <!-- ////////MAP GOES HERE -->
+                                <div id="mapid" style="height:400px;" name="map"></div>
+                                @error('polygon')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
+                                    <label class="custom-control-label" for="customCheck"><strong>Is Protected Area?</strong></label>
+                                </div>
+                                <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" /> <br>
+
+
+                            </div>
+
+
+                            <div class="form-group">
+                                <label for="images">Image</label>
+                                <div class="custom-file mb-3">
+                                    <input type="file" id="images" name="images">
+                                </div>
+                            </div>
+
+                            <div style="float:right;">
+                                <button type="submit" name="submit" class="btn bd-navbar text-white">Submit</button>
+                            </div>
+
+
+                            <input type="hidden" class="form-control" name="createby" value="{{Auth::user()->id}}">
+                            <input type="hidden" class="form-control" name="status" value="0">
+                </form>
+            </div>
         </div>
     </div>
 </div>
-</div>
 
 <script type="text/javascript">
-var path2 = "{{route('district')}}";
-  $('input.typeahead2').typeahead({
-    source: function(terms, process) {
+    var path2 = "{{route('district')}}";
+    $('input.typeahead2').typeahead({
+        source: function(terms, process) {
 
-      return $.get(path2, {
-        terms: terms
-      }, function(data) {
-        console.log(data);
-        objects = [];
-        data.map(i => {
-          objects.push(i.district)
-        })
-        console.log(objects);
-        return process(objects);
-      })
-    },
-  });
+            return $.get(path2, {
+                terms: terms
+            }, function(data) {
+                console.log(data);
+                objects = [];
+                data.map(i => {
+                    objects.push(i.district)
+                })
+                console.log(objects);
+                return process(objects);
+            })
+        },
+    });
 
     var path = "{{route('gazette')}}";
     $('input.typeahead').typeahead({

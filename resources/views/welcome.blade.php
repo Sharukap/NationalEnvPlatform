@@ -284,7 +284,7 @@
   <div id="secondmain">
     <br>
     <hr><br>
-    <h2>Performance This Month</h2>
+    <h2 style="text-align: center;">Performance This Month</h2>
     <div class="row justify-content-center">
       <div class="card m-2" style="width: 18rem;">
         <img class="card-img-top" style="height:250px; width:287px;" src="images/tree.jpg" alt="Card image cap">
@@ -357,7 +357,7 @@
     <br>
     <hr><br>
 
-    <h2>Blogs</h2>
+    <h2 style="text-align: center;">Blogs</h2>
     @for($i=0; $i<3; $i++) <div class="row justify-content-center mb-3">
       <div class="col-lg-11 card">
         <div class="row no-gutters">
@@ -381,7 +381,7 @@
 
   <br>
   <hr><br>
-  <h2>Our Progress</h2>
+  <h2 style="text-align: center;">Our Progress</h2>
   <div class="row justify-content-center mb-3">
     <div class="col-lg-11 card">
       <canvas id="UserChart"></canvas>

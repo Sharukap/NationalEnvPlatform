@@ -99,6 +99,7 @@
               <input type="file" name="select_file" id="select_file" />
               <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
             </div>
+            <div class="alert mt-3" id="message" style="display: none"></div>
             <br>
             <!-- ////////MAP GOES HERE -->
             <div id="mapid" style="height:400px;" name="map"></div>
@@ -588,6 +589,12 @@
       cache: false,
       processData: false,
       success: function(data) {
+
+        $('#message').css('display', 'block');
+        $('#message').html(data.message);
+        $('#message').addClass(data.class_name);
+        console.log(JSON.stringify(data.message));
+
         var tmp = data.uploaded_image;
         $('#loc').val(JSON.stringify(tmp));
         console.log(tmp);

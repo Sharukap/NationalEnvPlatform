@@ -17,7 +17,6 @@
         <dd class="col-sm-9">{{$development_project->gazette->title}}</dd>
         @endif
 
-
         <dt class="col-sm-3">Description:</dt>
         <dd class="col-sm-9">
             <p>{{$development_project->description}}</p>
@@ -42,12 +41,14 @@
         <dt class="col-sm-3">Created at:</dt>
         <dd class="col-sm-9">{{$development_project->created_at}}</dd>
     </dl>
-    <div class="border border-dark border-rounded">
+    <div class="border border-dark border-rounded mt-4">
         <div id="mapid" style="height:400px;" name="map"></div>
     </div>
-    <div class="row">
+
+    <div class="row ml-1 mt-4">
+    <div><strong>Photos:</strong></div>
         @isset($Photos)
-            <div class="row p-4 bg-white">
+            <div class="row p-4">
                 <div class="card-deck">
                     @foreach($Photos as $photo)
                     <div class="card" style="background-color:#99A3A4">
