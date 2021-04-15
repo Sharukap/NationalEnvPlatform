@@ -4,7 +4,20 @@
 <kbd><a href="/environment/updatedataspecies" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
 
 <div class="container">
-    <h2 style="text-align:center;" class="text-dark">Application Form </h2>
+    <h2 style="text-align:center;" class="text-dark">Application Form
+
+
+        <span style="display:inline-block; width: 810px;"></span>
+
+
+
+        <button type="button" class="btn btn-secondary" data-placement="top" title="User Instructions"><a href="/environment/userinstruct" class="text-dark"><i class="fa fa-info-circle"></i></a></button>
+
+
+
+
+
+    </h2>
     <hr>
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-lg ml-3">
@@ -13,7 +26,7 @@
             <hr>
             <form action='/environment/newspecies' method="post">
                 @csrf
-
+                <!-- 
 
                 @if(count($errors) >0)
                 <div class="alert alert-danger">
@@ -23,7 +36,7 @@
                         @endforeach
                     </ul>
                 </div>
-                @endif
+                @endif -->
 
                 @if(\Session::has('success'))
                 <div class="alert alert-success">
@@ -37,15 +50,21 @@
                 <div class="row border rounded-lg p-4 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-2">
                         <div class="form-group">
-                            <label for="number_of_tree_species">Species Type</label>
+                            <label for="type">Species Type</label>
 
-                            <input type="text" class="form-control" name="type" placeholder="Enter Type">
-
+                            <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" placeholder="Enter Type">
+                            @error('type')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
+
                         <div>
 
                             <label for="number_of_tree_species">Species Title</label>
-                            <input type="text" class="form-control" name="title" placeholder="Enter Title">
+                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"  name="title" placeholder="Enter Title">
+                            @error('title')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
 

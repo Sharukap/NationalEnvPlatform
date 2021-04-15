@@ -25,7 +25,10 @@ class EnvController extends Controller
             'eco_type' => 'required',
             'description' => 'required',
             'createby' => 'required',
+            'district' => 'required',
             'status' => 'required',
+            'polygon' => 'required',
+
 
 
         ]);
