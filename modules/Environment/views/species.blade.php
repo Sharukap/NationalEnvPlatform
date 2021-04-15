@@ -4,20 +4,10 @@
 <kbd><a href="/environment/updatedataspecies" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
 
 <div class="container">
-    <h2 style="text-align:center;" class="text-dark">Application Form
-
-
+<h4 style="text-align:center;" class="text-dark">Add New Species</h4>
         <span style="display:inline-block; width: 810px;"></span>
-
-
-
         <button type="button" class="btn btn-secondary" data-placement="top" title="User Instructions"><a href="/environment/userinstruct" class="text-dark"><i class="fa fa-info-circle"></i></a></button>
 
-
-
-
-
-    </h2>
     <hr>
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-lg ml-3">
@@ -26,17 +16,6 @@
             <hr>
             <form action='/environment/newspecies' method="post">
                 @csrf
-                <!-- 
-
-                @if(count($errors) >0)
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach($errors->all() as $error)
-                        <li>{{$error}}</li>
-                        @endforeach
-                    </ul>
-                </div>
-                @endif -->
 
                 @if(\Session::has('success'))
                 <div class="alert alert-success">
@@ -59,7 +38,6 @@
                         </div>
 
                         <div>
-
                             <label for="number_of_tree_species">Species Title</label>
                             <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"  name="title" placeholder="Enter Title">
                             @error('title')
@@ -71,10 +49,10 @@
                         </br>
                         <h6>Scientific Name</h6>
                         <div class="form-group">
-
                             <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
-
-
+                            @error('scientific_name')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         </br>
@@ -96,16 +74,16 @@
                                     <div class="card-body">
                                         <strong>Select Multiple</strong>
                                         <fieldset>
-                                            <input type="checkbox" name="taxanomy[]" value="taxanomy1"><label class="ml-2">Clone</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="taxanomy2"><label class="ml-2">Domain</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="taxanomy3"><label class="ml-2">Species</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="taxanomy3"><label class="ml-2">Kingdom</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="taxanomy3"><label class="ml-2">Phylum</label> <br>
+                                            <input type="checkbox" name="taxanomy[]" value="Clone"><label class="ml-2">Clone</label> <br>
+                                            <input type="checkbox" name="taxanomy[]" value="Domain"><label class="ml-2">Domain</label> <br>
+                                            <input type="checkbox" name="taxanomy[]" value="Species"><label class="ml-2">Species</label> <br>
+                                            <input type="checkbox" name="taxanomy[]" value="Kingdom"><label class="ml-2">Kingdom</label> <br>
+                                            <input type="checkbox" name="taxanomy[]" value="Phylum"><label class="ml-2">Phylum</label> <br>
                                         </fieldset>
                                     </div>
                                 </div>
-                                @error('taxa')
-                                <div class="alert alert-danger">Please Select at Least 1 taxanomy</div>
+                                @error('taxanomy')
+                                <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -119,25 +97,23 @@
                                     <div class="card-body">
                                         <strong>Select Multiple</strong>
                                         <fieldset>
-                                            <input type="checkbox" name="habitat[]" value="habitat1"><label class="ml-2">Montane forest</label> <br>
-                                            <input type="checkbox" name="habitat[]" value="habitat2"><label class="ml-2">Sub-Montane forest</label> <br>
-                                            <input type="checkbox" name="habitat[]" value="habitat3"><label class="ml-2">Low land wet evergreen forest</label> <br>
-                                            <input type="checkbox" name="habitat[]" value="habitat4"><label class="ml-2">Dry mixed evergreen forest</label> <br>
+                                            <input type="checkbox" name="habitat[]" value="Montane forest"><label class="ml-2">Montane forest</label> <br>
+                                            <input type="checkbox" name="habitat[]" value="Sub-Montane forest"><label class="ml-2">Sub-Montane forest</label> <br>
+                                            <input type="checkbox" name="habitat[]" value="Low land wet evergreen forest"><label class="ml-2">Low land wet evergreen forest</label> <br>
+                                            <input type="checkbox" name="habitat[]" value="Dry mixed evergreen forest"><label class="ml-2">Dry mixed evergreen forest</label> <br>
                                         </fieldset>
                                     </div>
                                 </div>
-                                @error('habitats')
-                                <div class="alert alert-danger">Please Select at Least 1 Habitat</div>
+                                @error('habitat')
+                                <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
                         </div>
-                        <h6>Project Description</h6>
-                        <div class="input-group mb-3">
-                            </br>
-                            <textarea class="form-control" rows="5" name="description">
-                           </textarea>
-
-                        </div>
+                        <label>Project Description</label>
+                            <textarea class="form-control" rows="5" name="description"></textarea>
+                            @error('description')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
                         </br>
                         </br>
 
@@ -155,16 +131,9 @@
                         </div>
 
 
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-                            <label class="custom-control-label" for="customCheck"><strong>I confirmed these information to be true</strong></label>
-
-                            </br>
-                            <button type="submit" class="tn btn-outline-secondary btn">Cancel</button>
-                            <button type="submit" class="btn bd-navbar text-light">Submit</button>
-
+                        <div class="p-3" style="float:right;">
+                            <button type="submit" name="submit" class="btn bd-navbar text-white">Submit</button>
                         </div>
-
 
 
                         <input type="hidden" class="form-control" name="createby" value="{{Auth::user()->id}}">

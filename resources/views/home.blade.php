@@ -38,27 +38,29 @@
                         <ul class="navbar-nav">
                             <li class="nav-item mt-5">
 
-                                <a class="nav-link text-light" href="/general/pending"><i class="fa fa-home" aria-hidden="true"></i> General Module</a>
+                                <a class="nav-link text-light" href="/general/pending"><i class="fa fa-home mr-3" aria-hidden="true"></i> General Module</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/user/index"><i class="fa fa-user" aria-hidden="true"></i> User Management</a>
+                                <a class="nav-link text-light" href="/user/index"><i class="fa fa-user mr-3" aria-hidden="true"></i> User Management</a>
 
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-tree" aria-hidden="true"></i>   Environment Module</a>
+                                <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-tree mr-3" aria-hidden="true"></i>   Environment Module</a>
                             </li>
                             <li class="nav-item mt-3">
-
-                                <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-arrow-down" aria-hidden="true"></i> Requests</a>
+                                <a class="nav-link text-light" href="/glad"><i class="fa fa-globe mr-3" aria-hidden="true"></i>   Tracking</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-book" aria-hidden="true"></i> Reporting</a>
+                                <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-arrow-down mr-3" aria-hidden="true"></i> Requests</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/help/test"><i class="fa fa-question-circle" aria-hidden="true"></i> Help</a>
+                                <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-book mr-3" aria-hidden="true"></i> Reporting</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/system-data/test"><i class="fa fa-cog" aria-hidden="true"></i> System Data</a>
+                                <a class="nav-link text-light" href="/help/test"><i class="fa fa-question-circle mr-3" aria-hidden="true"></i> Help</a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/system-data/test"><i class="fa fa-cog mr-3" aria-hidden="true"></i> System Data</a>
                             </li>
                         </ul>
                     </nav>

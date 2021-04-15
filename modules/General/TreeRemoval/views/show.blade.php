@@ -114,27 +114,28 @@
 
 
 
-    <div class="border border-dark border-rounded">
+    <div class="border border-dark border-rounded mt-4">
         <div id="mapid" style="height:400px;" name="map"></div>
     </div>
 
-    <div class="row">
+    <div class="row ml-1 mt-4">
+        <div><strong>Photos:</strong></div>
         @isset($Photos)
-            <div class="row p-4 bg-white">
-                <div class="card-deck">
-                    @foreach($Photos as $photo)
-                    <div class="card" style="background-color:#99A3A4">
-                        <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
-                        <div class="card-body text-center">
+        <div class="row p-4">
+            <div class="card-deck">
+                @foreach($Photos as $photo)
+                <div class="card" style="background-color:#99A3A4">
+                    <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
+                    <div class="card-body text-center">
                         <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
-                        </div>
                     </div>
-                    @endforeach
                 </div>
+                @endforeach
             </div>
+        </div>
         @endisset
         @empty($Photos)
-            <p>No photos included in the application</p>
+        <p>No photos included in the application</p>
         @endempty
     </div>
 </div>

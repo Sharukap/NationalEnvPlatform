@@ -13,7 +13,7 @@ use App\Models\Land_Has_Organization;
 use App\Models\Process_Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Validator;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 
@@ -111,24 +111,31 @@ class LandController extends Controller
 
     function action(Request $request)
     {
-        $validation = Validator::make($request->all(), [
-            'select_file' => 'required'
-        ]);
-        if ($validation->passes()) {
-            $image = $request->file('select_file');
-            $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(public_path('kml'), $new_name);
-            return response()->json([
-                'message'   => 'Image Upload Successfully',
-                'uploaded_image' => "kml/$new_name",
-                'class_name'  => 'alert-success'
-            ]);
-        } else {
-            return response()->json([
-                'message'   => $validation->errors()->all(),
-                'uploaded_image' => '',
-                'class_name'  => 'alert-danger'
-            ]);
+        // $validation = Validator::make($request->all(), [
+        //     'select_file' => 'required'
+        // ]);
+
+        if($request->hasFile('select_file')) {
+            $file = $request->file('select_file');
+            //you also need to keep file extension as well
+            $name = $file->getClientOriginalExtension();
+            if($name == "kml"){
+                $image = $request->file('select_file');
+                $new_name = rand() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('kml'), $new_name);
+                return response()->json([
+                    'message'   => 'File Upload Successfull',
+                    'uploaded_image' => "kml/$new_name",
+                    'class_name'  => 'alert-success'
+                ]);
+            }else{
+                return response()->json([
+                    'message'   => "Error Uploading File. Check File Type.",
+                    'uploaded_image' => '',
+                    'class_name'  => 'alert-danger'
+                ]);
+            }
         }
+
     }
 }

@@ -172,13 +172,13 @@ class DevelopmentProjectController extends Controller
 
             $users = User::where('role_id', '<', 3)->get();
             Notification::send($users, new ApplicationMade($devProcess));
-        
+
             $latestDevProcess = Process_Item::latest()->first();
             $landProcess = new Process_Item();
             $landProcess->form_id = $landid;
             $landProcess->remark = "Verify these land details";
             $landProcess->prerequisite = 0;
-            
+
             if (request('checkExternalRequestor')) {
                 $landProcess->ext_requestor = request('externalRequestor');
                 $landProcess->ext_requestor_email = request('erEmail');
@@ -193,18 +193,25 @@ class DevelopmentProjectController extends Controller
             $landProcess->created_by_user_id = request('createdBy');
             $landProcess->prerequisite_id = $latestDevProcess->id;
             $landProcess->save();
-        
+
+            //making a downloadable version of the KML file
+            if (request('kml') !== null) { //if the file is uploaded then the kml file will not be created
+                try {
+                    $kml = request('kml');
+                    //setting the new name of the coordinates as {{landid}}.kml
+                    $new_name = $landid . '.' . "kml";
+
+                    Storage::put("kml_files/$new_name", $kml);
+                } catch (\Exception $e) {
+                    dd($e);
+                }
+            }
+
             $Users = User::where('role_id', '<', 3)->get();
             Notification::send($Users, new ApplicationMade($landProcess));
         });
 
-        //making a downloadable version of the KML file
-        try {
-            $kml = request('kml');
-            Storage::put('kml_files/attempt1.kml', $kml);
-        } catch (\Exception $e) {
-            dd($e);
-        }
+
         return redirect('/general/pending')->with('message', 'Request Created Successfully');
     }
 
@@ -212,16 +219,16 @@ class DevelopmentProjectController extends Controller
     {
         $process_item = Process_Item::find($id);
         $development_project = Development_Project::find($process_item->form_id);
-        
-        $Photos=Json_decode($development_project->images);
-        
+
+        $Photos = Json_decode($development_project->images);
+
         $land_data = Land_Parcel::find($development_project->land_parcel_id);
         // $images = json_decode($development_project->images);
         // $Photos=Json_decode($development_project->images);
         return view('developmentProject::show', [
             'development_project' => $development_project,
             'polygon' => $land_data->polygon,
-            'Photos' =>$Photos,
+            'Photos' => $Photos,
         ]);
     }
 
