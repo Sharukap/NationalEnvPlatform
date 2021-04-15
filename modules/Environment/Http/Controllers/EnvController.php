@@ -22,17 +22,20 @@ class EnvController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'title' => 'required',
             'eco_type' => 'required',
             'description' => 'required',
-            'createby' => 'required',
-            'status' => 'required',
-
+            'polygon' => 'required',
+            'district' => 'required|exists:districts,district',
 
         ]);
         $ecosystems = new Env;
         $ecosystems->type_id = $request->input('eco_type');
         if (request('isProtected')) {
             $ecosystems->protected_area = request('isProtected');
+        }
+        else{
+            $ecosystems->protected_area = 0;
         }
         $district_id1 = District::where('district', request('district'))->pluck('id');
         $ecosystems->district_id = $district_id1[0];

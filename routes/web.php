@@ -25,6 +25,10 @@ Route::get('/home', [GeneralController::class, 'pending'])->middleware('auth','v
 Route::get('/home/main',  [UserController::class, 'home'])->middleware('auth','verified');
 Route::get('/search', [UserController::class, 'search']);
 
+//ROute for the GLAD plugin
+Route::get('/glad', function () {
+    return view('glad');
+});
 
 //CHART ROUTES
 Route::get('/get-user-chart-data',[ReportingController::class, 'getMonthlyUserData']);
