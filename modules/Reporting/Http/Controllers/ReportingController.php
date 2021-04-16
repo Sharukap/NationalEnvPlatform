@@ -89,17 +89,18 @@ class ReportingController extends Controller
 
 
     //OVERVIEW TAB CHARTS
+    //OVERVIEW TAB CHARTS
     public function overview()
     {
         if (Auth::user()->role_id < 3) {
             $process_items = Process_Item::all();
         } elseif (Auth::user()->role_id == 6) {
-            $process_items = Process_Item::where('created_by_user_id', Auth::user()->id);
+            $process_items = Process_Item::where('created_by_user_id', Auth::user()->id)->get();
         } else {
-            $process_items = Process_Item::where('activity_organization', Auth::user()->organization_id);
+            $process_items = Process_Item::where('activity_organization', Auth::user()->organization_id)->get();
         }
-        $this->processItems=$process_items;
-        //ddd($this->processItems);
+        session()->put('processItems', $process_items);
+
         return view('reporting::overview', ['process_items' => $process_items]);
     }
     public function overviewReport()
@@ -107,7 +108,8 @@ class ReportingController extends Controller
         $chart1 = request('chart1');
         $chart2 = request('chart2');
         $chart3 = request('chart3');
-        $pdf = PDF::loadView('reporting::overviewReport', ['chart1' => $chart1, 'chart2' => $chart2, 'chart3' => $chart3]);
+        $process_items = session('processItems');
+        $pdf = PDF::loadView('reporting::overviewReport', ['process_items' => $process_items, 'chart1' => $chart1, 'chart2' => $chart2, 'chart3' => $chart3]);
         return $pdf->stream('report.pdf');
     }
     public function filterOverview()
@@ -116,14 +118,14 @@ class ReportingController extends Controller
         $time = request('time');
         switch ($time) {
             case 1:
-                $process_items = Process_Item::whereMonth('created_at',now()->month)->get();
+                $process_items = Process_Item::whereMonth('created_at', now()->month)->get();
                 break;
             case 2:
                 $month = (now()->month) - 03;
-                $process_items = Process_Item::whereMonth('created_at','>', $month)->get();
+                $process_items = Process_Item::whereMonth('created_at', '>', $month)->get();
                 break;
             case 3:
-                $process_items = Process_Item::whereMonth('created_at',now()->year)->get();
+                $process_items = Process_Item::whereMonth('created_at', now()->year)->get();
                 break;
             default:
                 $process_items = Process_Item::all();
@@ -133,14 +135,13 @@ class ReportingController extends Controller
         }
 
         if (Auth::user()->role_id < 3) {
-            
         } elseif (Auth::user()->role_id == 6) {
             $process_items = $process_items->where('created_by_user_id', Auth::user()->id);
         } else {
             $process_items = $process_items->where('activity_organization', Auth::user()->organization_id);
         }
-        $this->processItems=$process_items;
-        return view('reporting::overview', ['process_items'=>$process_items]);
+        session()->put('processItems', $process_items);
+        return view('reporting::overview', ['process_items' => $process_items]);
     }
     //Process Item per month Line Chart
     public function getAllProcessItems()

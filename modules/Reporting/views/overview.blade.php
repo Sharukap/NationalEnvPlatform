@@ -1,17 +1,17 @@
-@extends('index')
+@extends('reportingIndex')
 
 @section('reporting')
 <div class="container">
 
     <div class="row p-1 bg-white">
-        <div class="col border border-muted rounded-lg mr-1 p-2" style="width:50vw">
+        <div class="col border border-muted rounded-lg mr-1 p-2" style="height:100%">
             <!-- top -->
             <canvas id="ProcessItemsAreaChart"></canvas>
             <a id="download1" download="ProcessItemsAreaChartImage.png" href="" class="btn btn-primary float-right bg-flat-color-1">
                 <!-- Download Icon -->
                 <i class="fa fa-download"></i> Download Chart
             </a>
-            <input type="hidden" class="form-control" name="chart1" id="chart1" value="">
+            <!-- <input type="hidden" class="form-control" name="chart1" id="chart1" value=""> -->
         </div>
     </div>
 
@@ -23,7 +23,7 @@
                 <!-- Download Icon -->
                 <i class="fa fa-download"></i> Download Chart
             </a>
-            <input type="hidden" class="form-control" name="chart2" id="chart2" value="">
+            <!-- <input type="hidden" class="form-control" name="chart2" id="chart2" value=""> -->
         </div>
         <div class="col border border-muted rounded-lg mr-1 p-2 height:100%">
             <!-- middle right -->
@@ -32,7 +32,7 @@
                 <!-- Download Icon -->
                 <i class="fa fa-download"></i> Download
             </a>
-            <input type="hidden" class="form-control" name="chart3" id="chart3" value="">
+            <!-- <input type="hidden" class="form-control" name="chart3" id="chart3" value=""> -->
         </div>
     </div>
     <form action="/reporting/filterOverview" method="get">
@@ -47,6 +47,7 @@
         <div class="row justify-content-center">
             <div class="col-md-4">
                 <select name="form_type" class="custom-select" required>
+                
                     <option value="0" selected>Select Request Type</option>
                     <option value="1">Tree Cutting permission Requests</option>
                     <option value="2">Development project permission Requests</option>
@@ -106,6 +107,9 @@
                     @endforeach
                 </tbody>
             </table>
+            <input type="hidden" class="form-control" name="chart1" id="chart1" value="">
+            <input type="hidden" class="form-control" name="chart2" id="chart2" value="">
+            <input type="hidden" class="form-control" name="chart3" id="chart3" value="">
         </div>
         <div style="float:right;">
             <button type="submit" id="overviewReportSubmit" class="btn bd-navbar text-light">Download Request Overview Report</button>
