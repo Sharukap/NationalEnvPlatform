@@ -53,6 +53,9 @@
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-book" aria-hidden="true"></i> Reporting</a>
                             </li>
+                             <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/sytem-data/accessindex"><i class="fa fa-database" aria-hidden="true"></i> System Data</a>
+                            </li>
                         </ul>
                     </nav>
                 </div>
