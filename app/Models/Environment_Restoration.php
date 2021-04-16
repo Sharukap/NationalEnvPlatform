@@ -58,9 +58,9 @@ class Environment_Restoration extends Model
         return $this->belongsTo('App\Models\Organization');
     }
 
-    public function eco_system()
+    public function ecosystems_type()
     {
-        return $this->belongsTo('App\Models\Ecosystem');
+        return $this->belongsTo('App\Models\Env_type', 'eco_system_id');
     }
 
     public function land_parcel()
@@ -76,5 +76,9 @@ class Environment_Restoration extends Model
     public function environment_restoration_species()
     {
         return $this->hasMany('App\Models\Environment_Restoration_Species');
+    }
+    public function status()
+    {
+        return $this->belongsTo('App\Models\Status','status');
     }
 }

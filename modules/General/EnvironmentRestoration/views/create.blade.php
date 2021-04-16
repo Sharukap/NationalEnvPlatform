@@ -3,7 +3,7 @@
 @section('general')
 
 <div class="container">
-    <form action="/env-restoration/store" id="envForm" method="post">
+    <form action="/env-restoration/store" id="envForm" method="post" autocomplete="off">
         @csrf
         <!-- One "tab" for each step in the form: -->
         <div class="tab">
@@ -13,10 +13,16 @@
                         <div class="form-group">
                             <label for="title">Title:</label>
                             <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title">
+                            @error('title')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="form-group">
                             <label for="title">Restored Land Parcel Name:</label>
                             <input type="text" class="form-control" placeholder="Enter Land Parcel Name" name="landparceltitle">
+                            @error('landparceltitle')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
 
                         <div class="form-group">
@@ -26,6 +32,9 @@
                                 @foreach($restoration_activities as $restoration_activity)
                                 <option value="{{$restoration_activity->id}}">{{$restoration_activity->title}}</option>
                                 @endforeach
+                                @error('environment_restoration_activity')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                             </select>
                         </div>
 
@@ -37,6 +46,9 @@
                                 <option value="{{$ecosystem->id}}">{{$ecosystem->type}}</option>
                                 @endforeach
                             </select>
+                            @error('ecosystem')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                         <div class="card">
                             <div class="card-header">
@@ -56,7 +68,10 @@
                         </div>
                         <div class="form-group">
                             <label for="request_org">Organization to submit request to :</label>
-                            <input type="text" class="form-control typeahead1" placeholder="Enter Organization" id="request_org" name="request_org" value="{{ old('organization') }}" />
+                            <input type="text" class="form-control typeahead1" placeholder="Enter Organization" id="activity_org" name="activity_org" value="{{ old('organization') }}" />
+                            @error('activity_org')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
                         </div>
                     </div>
                     <div class="col border border-muted rounded-lg p-4">
@@ -70,7 +85,7 @@
 
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-                            <label class="custom-control-label" for="customCheck"><strong>Check if land is a protected area</strong></label>
+                            <label class="custom-control-label" for="customCheck"><strong>Demarcated land is a protected area</strong></label>
                         </div>
                     </div>
                 </div>
@@ -297,18 +312,56 @@
         //... and adds the "active" class on the current step:
         x[n].className += " active";
     }
-    ///SCRIPT FOR THE MAP
-    var center = [7.2906, 80.6337];
+    /// SCRIPT FOR THE MAP
+    var map = L.map('mapid', {
+        center: [7.2906, 80.6337], //if the location cannot be fetched it will be set to Kandy
+        zoom: 12
+    });
 
-    // Create the map
-    var map = L.map('mapid').setView(center, 10);
+    window.onload = function() {
+        var popup = L.popup();
+        //false,               ,popup, map.center
+        function geolocationErrorOccurred(geolocationSupported, popup, latLng) {
+            popup.setLatLng(latLng);
+            popup.setContent(geolocationSupported ?
+                '<b>Error:</b> Geolocation service failed. Enable Location.' :
+                '<b>Error:</b> This browser doesn\'t support geolocation.');
+            popup.openOn(map);
+        }
+        //If theres an error then 
+
+        if (navigator.geolocation) { //using an inbuilt function to get the lat and long of the user.
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var latLng = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                popup.setLatLng(latLng);
+                popup.setContent('This is your current location');
+                popup.openOn(map);
+                //setting the map to the user location
+                map.setView(latLng);
+
+            }, function() {
+                geolocationErrorOccurred(true, popup, map.getCenter());
+            });
+        } else {
+            //No browser support geolocation service
+            geolocationErrorOccurred(false, popup, map.getCenter());
+        }
+    }
 
     // Set up the OSM layer 
+    //map tiles are “square bitmap graphics displayed in a grid arrangement to show a map.”
+    //There are a number of different tile providers (or tileservers), some are free and open source. We are using OSM
     L.tileLayer(
         'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
             maxZoom: 18
         }).addTo(map);
+    //we’re calling tilelayer() to create the tile layer, passing in the OSM URL first, then the second argument is an object containing the options for our new tile 
+    //layer (including attribution is critical here to comply with licensing), and then the tile layer is added to the map using addTo().
 
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
@@ -352,12 +405,12 @@
         var type = e.layerType,
             layer = e.layer;
 
-        if (type === 'marker') {
-            layer.bindPopup('A popup!');
-        }
 
         drawnItems.addLayer(layer);
-        $('#polygon').val(JSON.stringify(layer.toGeoJSON()));
+        $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON())); //geoJSON converts a layer to JSON
+
+        ///Converting your layer to a KML
+        //$('#kml').val(tokml(drawnItems.toGeoJSON()));
     });
 </script>
 
