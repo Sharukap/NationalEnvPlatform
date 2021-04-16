@@ -75,7 +75,7 @@
                     <hr>
                     <fieldset>
                     @foreach($accesses as $access)
-                        <input type="checkbox" name="modules[]" value="{{$access->id}}" checked><label class="ml-2">{{$access->access}}</label> <br>
+                        <input type="checkbox" name="modules[]" value="{{$access->id}}" ><label class="ml-2">{{$access->access}}</label> <br>
                     @endforeach
                     </fieldset>
                 </div> 

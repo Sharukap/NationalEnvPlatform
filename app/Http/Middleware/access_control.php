@@ -33,7 +33,7 @@ class access_control
                 if($access2 == null){
                     $accesstitle=Access::find($access);
                     
-                    return redirect('/home/main')->with('message', 'You do not have access permision to '.$accesstitle->access); 
+                    return redirect('/home/main')->with('warning', 'You do not have access permision to '.$accesstitle->access); 
                 }
                 else return $next($request);
             }

@@ -22,14 +22,12 @@ Route::get('/', function () {
 
 Route::get('/home', [GeneralController::class, 'pending'])->middleware('auth','verified');
 
-Route::get('/home/main', function () {
-    return view('unauthorized');
-});
+Route::get('/home/main',  [UserController::class, 'home'])->middleware('auth','verified');
 Route::get('/search', [UserController::class, 'search']);
 
-Route::get('/markAsRead', function(){
-    auth()->user()->unreadNotifications->markAsRead();
-    return redirect()->back();
+//ROute for the GLAD plugin
+Route::get('/glad', function () {
+    return view('glad');
 });
 
 //CHART ROUTES

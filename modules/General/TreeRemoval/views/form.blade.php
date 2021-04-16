@@ -3,12 +3,19 @@
 @section('general')
 
 <div class="container">
-
+  <div class="row border-lg justify-content-end bg-white">
+    <div class="d-flex justify-content-end">
+      <button type="submit" class="btn"><a href="addlink to modal here" class="text-primary"><i class="fa fa-info-circle"></i> More Info</a></button>
+    </div>
+  </div>
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data">
     @csrf
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
       <div class="container">
+        <!-- add this part for button to link to instruction modal -->
+
+        <!-- end of part -->
         <div class="row border rounded-lg p-4 bg-white">
           <div class="col border border-muted rounded-lg mr-2 p-2">
             <div class="row p-2">
@@ -99,6 +106,7 @@
               <input type="file" name="select_file" id="select_file" />
               <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
             </div>
+            <div class="alert mt-3" id="message" style="display: none"></div>
             <br>
             <!-- ////////MAP GOES HERE -->
             <div id="mapid" style="height:400px;" name="map"></div>
@@ -588,6 +596,12 @@
       cache: false,
       processData: false,
       success: function(data) {
+
+        $('#message').css('display', 'block');
+        $('#message').html(data.message);
+        $('#message').addClass(data.class_name);
+        console.log(JSON.stringify(data.message));
+
         var tmp = data.uploaded_image;
         $('#loc').val(JSON.stringify(tmp));
         console.log(tmp);

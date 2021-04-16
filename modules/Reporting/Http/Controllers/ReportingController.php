@@ -26,11 +26,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use PDF;
 
 class ReportingController extends Controller
 {
-
+    private $processItems;
     //WELCOME PAGE CHARTS
     //Process Item per month Line Chart
     public function getAllUsers()
@@ -86,13 +86,80 @@ class ReportingController extends Controller
     }
 
 
-
-
     //OVERVIEW TAB CHARTS
     public function overview()
     {
-        return view('reporting::overview');
+        if (Auth::user()->role_id < 3) {
+            $process_items = Process_Item::all();
+        } elseif (Auth::user()->role_id == 6) {
+            $process_items = Process_Item::where('created_by_user_id', Auth::user()->id)->get();
+        } else {
+            $process_items = Process_Item::where('activity_organization', Auth::user()->organization_id)->get();
+        }
+        $req_type = null;
+        $time_period = null;
+        session()->put('processItems', $process_items);
+        session()->put('reqType', $req_type);
+        session()->put('timePeriod', $time_period);
+
+        return view('reporting::overview', ['process_items' => $process_items]);
     }
+    public function overviewReport()
+    {
+        $chart1 = request('chart1');
+        $chart2 = request('chart2');
+        $chart3 = request('chart3');
+        $process_items = session('processItems');
+        $time_period = session('timePeriod');
+        $req_type = session('reqType');
+        $pdf = PDF::loadView('reporting::overviewReport', ['process_items' => $process_items, 'time_period' => $time_period, 'req_type' => $req_type, 'chart1' => $chart1, 'chart2' => $chart2, 'chart3' => $chart3]);
+        return $pdf->stream('report.pdf');
+    }
+    public function filterOverview()
+    {
+        $formType = request('form_type');
+        $time = request('time');
+        switch ($time) {
+            case 1:
+                $process_items = Process_Item::whereMonth('created_at', now()->month)->get();
+                $time_period = "for the month of " . $process_items[0]->created_at->format('F');
+                session()->put('timePeriod', $time_period);
+                break;
+            case 2:
+                $month = (now()->month);
+                $initialmonth = $month - 3;
+                $process_items = Process_Item::whereMonth('created_at', '>', $initialmonth)->get();
+                $time_period = "in the current quarter from " . date("F", mktime(0, 0, 0, $initialmonth, 10)) . " to " . date("F", mktime(0, 0, 0, $month, 10));
+                session()->put('timePeriod', $time_period);
+                break;
+            case 3:
+                $process_items = Process_Item::whereMonth('created_at', now()->year)->get();
+                $time_period = "for the year " . now()->year;
+                session()->put('timePeriod', $time_period);
+                break;
+            default:
+                $process_items = Process_Item::all();
+                $time_period = "within the maximum time period in which data is available";
+                session()->put('timePeriod', $time_period);
+        }
+        if ($formType != 0) {
+            $process_items = $process_items->where('form_type_id', $formType);
+            $req_type = Form_Type::where('id', $formType)->value('type');
+            session()->put('reqType', $req_type);
+        }
+
+        if (Auth::user()->role_id < 3) {
+        } elseif (Auth::user()->role_id == 6) {
+            $process_items = $process_items->where('created_by_user_id', Auth::user()->id);
+        } else {
+            $process_items = $process_items->where('activity_organization', Auth::user()->organization_id);
+        }
+        session()->put('processItems', $process_items);
+        return view('reporting::overview', ['process_items' => $process_items]);
+    }
+
+
+
     //Process Item per month Line Chart
     public function getAllProcessItems()
     {
@@ -710,82 +777,81 @@ class ReportingController extends Controller
         return $monthly_crime_report_data_array;
     }
 
-        //number of requests per crime type bar chart
-        function getCrimeReportTypes()
-        {
-            $crime_types = Crime_type::all()->pluck('type');
-            $crime_types_id = 1;
-            $crime_types = json_decode($crime_types);
-            $crime_type_array = array();
-            foreach ($crime_types as $crime_type) {
-                $crime_type_array[$crime_types_id] = $crime_type;
+    //number of requests per crime type bar chart
+    function getCrimeReportTypes()
+    {
+        $crime_types = Crime_type::all()->pluck('type');
+        $crime_types_id = 1;
+        $crime_types = json_decode($crime_types);
+        $crime_type_array = array();
+        foreach ($crime_types as $crime_type) {
+            $crime_type_array[$crime_types_id] = $crime_type;
+            $crime_types_id++;
+        }
+        return $crime_type_array;
+    }
+
+    function getCrimeReportTypeCount($cid)
+    {
+        $crime_type_count = crime_report::where('crime_type_id', $cid)->count();
+        return $crime_type_count;
+    }
+
+    function getCrimeReportTypeData()
+    {
+        $crime_report_type_count_array = array();
+        $crime_report_types_array = $this->getCrimeReportTypes();
+        $crime_report_type_name_array = array();
+        $crime_types_id = 1;
+        if (!empty($crime_report_types_array)) {
+            foreach ($crime_report_types_array as $crime_type) {
+                $crime_report_type_count = $this->getCrimeReportTypeCount($crime_types_id);
+                array_push($crime_report_type_count_array, $crime_report_type_count);
+                array_push($crime_report_type_name_array, $crime_type);
                 $crime_types_id++;
             }
-            return $crime_type_array;
         }
-     
-        function getCrimeReportTypeCount($cid)
-        {
-            $crime_type_count = crime_report::where('crime_type_id', $cid)->count();
-            return $crime_type_count;
-        }
-     
-        function getCrimeReportTypeData()
-        {
-            $crime_report_type_count_array = array();
-            $crime_report_types_array = $this->getCrimeReportTypes();
-            $crime_report_type_name_array = array();
-            $crime_types_id = 1;
-            if (!empty($crime_report_types_array)) {
-                foreach ($crime_report_types_array as $crime_type) {
-                    $crime_report_type_count = $this->getCrimeReportTypeCount($crime_types_id);
-                    array_push($crime_report_type_count_array, $crime_report_type_count);
-                    array_push($crime_report_type_name_array, $crime_type);
-                    $crime_types_id++;
-                }
-            }
-            $max_no = max($crime_report_type_count_array);
-            $max = round(($max_no + 10 / 2) / 10) * 10;
-            $crime_report_crime_type_data_array = array(
-                'crime_type' => $crime_report_type_name_array,
-                'crime_report_type_count_data' => $crime_report_type_count_array,
-                'max' => $max,
-            );
-            return $crime_report_crime_type_data_array;
-        }
+        $max_no = max($crime_report_type_count_array);
+        $max = round(($max_no + 10 / 2) / 10) * 10;
+        $crime_report_crime_type_data_array = array(
+            'crime_type' => $crime_report_type_name_array,
+            'crime_report_type_count_data' => $crime_report_type_count_array,
+            'max' => $max,
+        );
+        return $crime_report_crime_type_data_array;
+    }
 
 
-        //Crime Action Taken Chart
-        function getCrimeReportActionTakenCount($cid)
-        {
-            $crime_action_taken_count = crime_report::where('action_taken', $cid)->count();
-            return $crime_action_taken_count;
+    //Crime Action Taken Chart
+    function getCrimeReportActionTakenCount($cid)
+    {
+        $crime_action_taken_count = crime_report::where('action_taken', $cid)->count();
+        return $crime_action_taken_count;
+    }
+
+    function getCrimeReportActionTakenData()
+    {
+        $crime_report_action_taken_count_array = array();
+        //$crime_report_actions_taken_array = ['0','1'];
+        $crime_report_action_taken_name_array = ["Crime Report Pending action", "Request Resolved"];
+        // if (!empty($crime_report_action_takens_array)) {
+        //     foreach ($crime_report_actions_taken_array as $crime_action_taken) {
+        //         $crime_report_action_taken_count = $this->getCrimeReportActionTakenCount($crime_action_taken_id);
+        //         array_push($crime_report_action_taken_count_array, $crime_report_action_taken_count);
+        //         $crime_action_taken_id++;
+        //     }
+        // }
+        for ($count = 0; $count < 2; $count++) {
+            $crime_report_action_taken_count = $this->getCrimeReportActionTakenCount($count);
+            array_push($crime_report_action_taken_count_array, $crime_report_action_taken_count);
         }
-     
-        function getCrimeReportActionTakenData()
-        {
-            $crime_report_action_taken_count_array = array();
-            //$crime_report_actions_taken_array = ['0','1'];
-            $crime_report_action_taken_name_array = ["Crime Report Pending action","Request Resolved"];
-            // if (!empty($crime_report_action_takens_array)) {
-            //     foreach ($crime_report_actions_taken_array as $crime_action_taken) {
-            //         $crime_report_action_taken_count = $this->getCrimeReportActionTakenCount($crime_action_taken_id);
-            //         array_push($crime_report_action_taken_count_array, $crime_report_action_taken_count);
-            //         $crime_action_taken_id++;
-            //     }
-            // }
-            for($count=0;$count<2;$count++){
-                $crime_report_action_taken_count = $this->getCrimeReportActionTakenCount($count);
-                array_push($crime_report_action_taken_count_array, $crime_report_action_taken_count);
-            }
-            $max_no = max($crime_report_action_taken_count_array);
-            $max = round(($max_no + 10 / 2) / 10) * 10;
-            $crime_report_crime_action_taken_data_array = array(
-                'crime_action_taken' => $crime_report_action_taken_name_array,
-                'crime_report_action_taken_count_data' => $crime_report_action_taken_count_array,
-                'max' => $max,
-            );
-            return $crime_report_crime_action_taken_data_array;
-        }
-        
+        $max_no = max($crime_report_action_taken_count_array);
+        $max = round(($max_no + 10 / 2) / 10) * 10;
+        $crime_report_crime_action_taken_data_array = array(
+            'crime_action_taken' => $crime_report_action_taken_name_array,
+            'crime_report_action_taken_count_data' => $crime_report_action_taken_count_array,
+            'max' => $max,
+        );
+        return $crime_report_crime_action_taken_data_array;
+    }
 }

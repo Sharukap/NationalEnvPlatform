@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class UserController extends Controller
 {
@@ -26,14 +27,14 @@ class UserController extends Controller
     {
         $organizations = Organization::all();
         $designations = Designation::all();
-        if(Auth::user()->role_id == 1 ||Auth::user()->role_id == 2){
+        if (Auth::user()->role_id == 1 || Auth::user()->role_id == 2) {
             $roles = Role::where('id', '>', 1)->get();
-        } elseif(Auth::user()->role_id == 3){
+        } elseif (Auth::user()->role_id == 3) {
             $roles = Role::where('id', '>', 2)->get();
         } elseif (Auth::user()->role_id == 4) {
             $roles = Role::where('id', '>', 3)->get();
         }
-                        
+
         return view('admin::create', [
             'designations' => $designations,
             'organizations' => $organizations,
@@ -86,10 +87,14 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            'email' => [
+                'required', 'email',
+                Rule::unique('users')->ignore($id), //This rule will ignore the user's own email and not check against that as unique
+            ],
             'designation' => 'required|exists:designations,id',
             'organization' => 'required|exists:organizations,id',
         ]);
+
 
         $user = User::find($id);
         $user->update([
@@ -186,5 +191,4 @@ class UserController extends Controller
         } else
             return redirect('/user/index')->with('danger', 'Current Password is Incorrect'); // Else show that old password is incorrect
     }
-    
 }

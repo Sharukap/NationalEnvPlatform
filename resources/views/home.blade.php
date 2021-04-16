@@ -37,21 +37,29 @@
                         <ul class="navbar-nav">
                             <li class="nav-item mt-5">
 
-                                <a class="nav-link text-light" href="/general/pending"><i class="fa fa-home" aria-hidden="true"></i> General Module</a>
+                                <a class="nav-link text-light" href="/general/pending"><i class="fa fa-home mr-3" aria-hidden="true"></i> General Module</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/user/index"><i class="fa fa-user" aria-hidden="true"></i> User Management</a>
+                                <a class="nav-link text-light" href="/user/index"><i class="fa fa-user mr-3" aria-hidden="true"></i> User Management</a>
 
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-tree" aria-hidden="true"></i>   Environment Module</a>
+                                <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-tree mr-3" aria-hidden="true"></i>   Environment Module</a>
                             </li>
                             <li class="nav-item mt-3">
-
-                                <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-arrow-down" aria-hidden="true"></i> Requests</a>
+                                <a class="nav-link text-light" href="/glad"><i class="fa fa-globe mr-3" aria-hidden="true"></i>   Tracking</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-book" aria-hidden="true"></i> Reporting</a>
+                                <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-arrow-down mr-3" aria-hidden="true"></i> Requests</a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-book mr-3" aria-hidden="true"></i> Reporting</a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/help/test"><i class="fa fa-question-circle mr-3" aria-hidden="true"></i> Help</a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/system-data/test"><i class="fa fa-cog mr-3" aria-hidden="true"></i> System Data</a>
                             </li>
                              <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/sytem-data/accessindex"><i class="fa fa-database" aria-hidden="true"></i> System Data</a>
@@ -86,28 +94,30 @@
                         @foreach(auth()->user()->unreadNotifications as $notification)
                         <ul>
                             @if($notification->type == "App\Notifications\StaffAssigned")
-                            <a href="/approval-item/investigate/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
+                            <a href="/approval-item/investigate/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
-                                </span></a>
-                            @endif
-                            @if($notification->type == "App\Notifications\AssignOrg")
-                            <a href="/approval-item/assignstaff/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
+                                    </li></span></a>
+                            @elseif($notification->type == "App\Notifications\AssignOrg")
+                            <a href="/approval-item/assignstaff/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
-                                </span></a>
-                            @endif
-                            @if($notification->type == "App\Notifications\ApplicationMade")
-                            <a href="/approval-item/assignorganization/{{$notification->data['process_id']}}"><i class="ni ni-single-02"></i><span>
+                                    </li></span></a>
+                            @elseif($notification->type == "App\Notifications\ApplicationMade")
+                            <a href="/approval-item/assignorganization/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p>New {{$notification->data['type']}} application No {{$notification->data['form_id']}} has been made.</p></i>
-                                </span></a>
-                            @endif
-                            @if($notification->type == "App\Notifications\NewUserRegistration")
-                            <a href="/user/showSelfRegistered"><i class="ni ni-single-02"></i><span>
+                                    </li></span></a>
+                            @elseif($notification->type == "App\Notifications\NewUserRegistration")
+                            <a href="/user/showSelfRegistered/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p>New User {{$notification->data['name']}} has registered using  {{$notification->data['email']}} has been made.</p></i>
-                                </span></a>
+                                    </li></span></a>
+                            @elseif($notification->type == "App\Notifications\prereqmemo")
+                            <a href="/approval-item/investigate/{{$notification->data['prerequisite_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
+                                    <li>
+                                        <p>Prerequisite no {{$notification->data['process_id']}} {{$notification->data['remark']}} .</p></i>
+                                    </li></span></a>
                             @endif
                         </ul>
                         @endforeach
@@ -174,7 +184,12 @@
                 </nav>
                 
                 <div style="background-color:#f0f0f7" class="col-md">
-
+                    <span>
+                        <h4 class="text-center bg-success text-light">{{session('message')}}</h4>
+                    </span>
+                    <span>
+                        <h4 class="text-center bg-danger text-light">{{session('warning')}}</h4>
+                    </span>
                     @yield('cont')
                     <br>
                 </div>

@@ -19,7 +19,7 @@ class UserIntructionController extends Controller
     {
        
         return view('UserIntruction::test', [
-
+            //use 'UserIntruction::viewname' when returning to a view in user instruction module
         ]);
     }
 

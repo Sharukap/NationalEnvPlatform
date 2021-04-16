@@ -5,9 +5,11 @@
 <div class="flex row border-secondary rounded-lg ml-3 justify-content-between">
     <!-- Sessions to display success or failure -->
     <span>
+        <!-- <div class="alert-success" style="display: block">{{session('message')}}</div> -->
         <h3 class="text-center bg-success text-light">{{session('message')}}</h3>
     </span>
     <span>
+        <!-- <div class="alert-danger" style="display: block">{{session('danger')}}</div> -->
         <h3 class="text-center bg-danger text-light">{{session('danger')}}</h3>
     </span>
     <span>

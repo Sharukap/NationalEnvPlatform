@@ -13,6 +13,7 @@ Route::patch('/alterPassword', [UserController::class, 'alterPassword']);       
 // user/index route will route to the UserController to route based on the user's role  
 Route::get('/index', [UserController::class, 'index'])->name('userIndex'); 
 
+
 //Role Based Access control management
 Route::get('/roleindex',[AdminController::class, 'index'])->name('roleIndex');
 Route::get('/roleedit/{id}',[AdminController::class, 'roleedit'])->name('roleedit');
@@ -34,6 +35,7 @@ Route::patch('/savePrivilege/{id}', [AdminController::class, 'savePrivilege']); 
 
 //////SELF REGISTERED SECTION
 Route::get('/showSelfRegistered', [AdminController::class, 'showSelfRegistered']);      // Open the view to show all self registered users
+Route::get('/showSelfRegistered/{nid}', [AdminController::class, 'showSelfRegistered'])->middleware(['notifiy.read']);
 Route::get('/showActivate/{id}', [AdminController::class, 'showActivate']);     // Open the view to activate a particular user.
 Route::patch('/activate/{id}', [AdminController::class, 'activate']);           // Save that user to the database.
 
