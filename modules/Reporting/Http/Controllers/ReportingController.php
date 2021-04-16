@@ -86,9 +86,6 @@ class ReportingController extends Controller
     }
 
 
-
-
-    //OVERVIEW TAB CHARTS
     //OVERVIEW TAB CHARTS
     public function overview()
     {
@@ -99,7 +96,11 @@ class ReportingController extends Controller
         } else {
             $process_items = Process_Item::where('activity_organization', Auth::user()->organization_id)->get();
         }
+        $req_type = null;
+        $time_period = null;
         session()->put('processItems', $process_items);
+        session()->put('reqType', $req_type);
+        session()->put('timePeriod', $time_period);
 
         return view('reporting::overview', ['process_items' => $process_items]);
     }
@@ -109,7 +110,9 @@ class ReportingController extends Controller
         $chart2 = request('chart2');
         $chart3 = request('chart3');
         $process_items = session('processItems');
-        $pdf = PDF::loadView('reporting::overviewReport', ['process_items' => $process_items, 'chart1' => $chart1, 'chart2' => $chart2, 'chart3' => $chart3]);
+        $time_period = session('timePeriod');
+        $req_type = session('reqType');
+        $pdf = PDF::loadView('reporting::overviewReport', ['process_items' => $process_items, 'time_period' => $time_period, 'req_type' => $req_type, 'chart1' => $chart1, 'chart2' => $chart2, 'chart3' => $chart3]);
         return $pdf->stream('report.pdf');
     }
     public function filterOverview()
@@ -119,19 +122,30 @@ class ReportingController extends Controller
         switch ($time) {
             case 1:
                 $process_items = Process_Item::whereMonth('created_at', now()->month)->get();
+                $time_period = "for the month of " . $process_items[0]->created_at->format('F');
+                session()->put('timePeriod', $time_period);
                 break;
             case 2:
-                $month = (now()->month) - 03;
-                $process_items = Process_Item::whereMonth('created_at', '>', $month)->get();
+                $month = (now()->month);
+                $initialmonth = $month - 3;
+                $process_items = Process_Item::whereMonth('created_at', '>', $initialmonth)->get();
+                $time_period = "in the current quarter from " . date("F", mktime(0, 0, 0, $initialmonth, 10)) . " to " . date("F", mktime(0, 0, 0, $month, 10));
+                session()->put('timePeriod', $time_period);
                 break;
             case 3:
                 $process_items = Process_Item::whereMonth('created_at', now()->year)->get();
+                $time_period = "for the year " . now()->year;
+                session()->put('timePeriod', $time_period);
                 break;
             default:
                 $process_items = Process_Item::all();
+                $time_period = "within the maximum time period in which data is available";
+                session()->put('timePeriod', $time_period);
         }
         if ($formType != 0) {
             $process_items = $process_items->where('form_type_id', $formType);
+            $req_type = Form_Type::where('id', $formType)->value('type');
+            session()->put('reqType', $req_type);
         }
 
         if (Auth::user()->role_id < 3) {
@@ -143,6 +157,9 @@ class ReportingController extends Controller
         session()->put('processItems', $process_items);
         return view('reporting::overview', ['process_items' => $process_items]);
     }
+
+
+
     //Process Item per month Line Chart
     public function getAllProcessItems()
     {

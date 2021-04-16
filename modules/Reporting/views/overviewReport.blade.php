@@ -22,9 +22,10 @@
             <h3>Overview Report of User Requests</h3>
         </div>
     </div>
+    @if($process_items->first()!=null)
     <div class="row p-4 bg-white">
         <div class="col border border-muted rounded-lg mr-2 p-4">
-            <p>Customized user request report for {{Auth::user()->name}}</p>
+            <p>Customized {{$req_type}} request report for {{Auth::user()->name}} {{$time_period}}</p>
             <table class="table table-striped mr-4">
                 <thead>
                     <tr>
@@ -65,6 +66,7 @@
             </table>
         </div>
     </div>
+    @endif
     <div class="row p-4 bg-white">
         <div class="col border border-muted rounded-lg mr-2 p-4">
             <p>The following depicts the number of all requests within the last 5 months</p>
