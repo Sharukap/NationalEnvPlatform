@@ -46,6 +46,21 @@ class SpeciesController extends Controller
         $species->polygon = request('polygon');
         $species->description = $request->input('description');
         $species->status_id = $request->input('status');
+        if( $request->hasFile('images')) {
+            
+            $file = $request->file('images') ;
+            $extension = $file->getClientOriginalExtension() ; //geting the image extension
+            $filename= time() . '.' . $extension;
+            $file->move('uploads/species/', $filename);
+            $species->images= $filename;
+
+        }else{
+return $request;
+$species->images = '';
+
+
+        }
+
 
         $species->created_by_user_id = $request->input('createby');
         $species->save();

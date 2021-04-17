@@ -4,17 +4,21 @@
 <kbd><a href="/environment/updatedataspecies" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
 
 <div class="container">
-<h4 style="text-align:center;" class="text-dark">Add New Species</h4>
-        <span style="display:inline-block; width: 810px;"></span>
-        <button type="button" class="btn btn-secondary" data-placement="top" title="User Instructions"><a href="/environment/userinstruct" class="text-dark"><i class="fa fa-info-circle"></i></a></button>
+    <h4 style="text-align:center;" class="text-dark">Add New Species</h4>
 
-    <hr>
+
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-lg ml-3">
+            <div class="row border-lg justify-content-end bg-white">
 
-            <h6 style="text-align:left;" class="text-dark">Species Details</h6>
-            <hr>
-            <form action='/environment/newspecies' method="post">
+                <div class="d-flex justify-content-end">
+                    <button type="button" data-placement="top" title="User Instructions"><a href="/environment/userinstructspe" class="text-dark"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a></button>
+
+                </div>
+            </div>
+
+
+            <form action='/environment/newspecies' method="post" enctype="multipart/form-data">
                 @csrf
 
                 @if(\Session::has('success'))
@@ -39,7 +43,7 @@
 
                         <div>
                             <label for="number_of_tree_species">Species Title</label>
-                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title"  name="title" placeholder="Enter Title">
+                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Enter Title">
                             @error('title')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -110,10 +114,10 @@
                             </div>
                         </div>
                         <label>Project Description</label>
-                            <textarea class="form-control" rows="5" name="description"></textarea>
-                            @error('description')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                        <textarea class="form-control" rows="5" name="description"></textarea>
+                        @error('description')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         </br>
                         </br>
 
@@ -128,6 +132,12 @@
                             <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" /> <br>
 
 
+                        </div>
+                        <div class="form-group">
+                            <label for="images">Image</label>
+                            <div class="custom-file mb-3">
+                                <input type="file" id="images" name="images">
+                            </div>
                         </div>
 
 

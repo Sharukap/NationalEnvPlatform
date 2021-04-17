@@ -9,7 +9,7 @@
     <hr>
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-6 ml-3">
-            <form>
+            <form enctype="multipart/form-data">
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">User Id</span>
@@ -23,6 +23,16 @@
                     </div>
                     <input type="text" class="form-control" placeholder="{{$ecosystems->ecosystems_type->type}}" readonly>
                 </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Images Uploaded by the User</span>
+                    </div>
+                    <img src="{{ asset('uploads/ecosystems/' . $ecosystems->images) }}" width="275px" height="100px" alt="Images">
+
+                </div>
+
+
+
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
@@ -30,11 +40,12 @@
                     </div>
                     <input type="text" class="form-control" placeholder="{{$ecosystems->description}}" readonly>
                 </div>
+
                 <div class="border border-dark border-rounded">
                     <div id="mapid" style="height:400px;" name="map"></div>
                 </div>
 
-<hr>
+                <hr>
 
 
                 <div class="input-group mb-3">

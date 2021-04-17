@@ -10,15 +10,22 @@
 
     <div class="container">
         <h4 style="text-align:center;" class="text-dark">Add New Ecosystem</h4>
-            <span style="display:inline-block; width: 810px;"></span>
-            <button type="button" class="btn btn-secondary" data-placement="top" title="User Instructions"><a href="/environment/userinstruct" class="text-dark"><i class="fa fa-info-circle"></i></a></button>
-        <hr>
+
+
         <div class="row justify-content-md-center border p-4 bg-white">
+
             <div class="col-lg ml-3">
 
-                <h6 style="text-align:left;" class="text-dark">Eco-Systems Details</h6>
-                <hr>
-                <form action="/environment/newrequest" method="post">
+
+                <div class="row border-lg justify-content-end bg-white">
+
+                    <div class="d-flex justify-content-end">
+                        <button type="button" data-placement="top" title="User Instructions"><a href="/environment/userinstruct" class="text-dark"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a></button>
+
+                    </div>
+                </div>
+
+                <form action="/environment/newrequest" method="post" enctype="multipart/form-data">
                     @csrf
 
                     @if(\Session::has('success'))

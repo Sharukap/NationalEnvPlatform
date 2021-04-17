@@ -5,7 +5,8 @@
 <div class="container">
   <div class="row border-lg justify-content-end bg-white">
     <div class="d-flex justify-content-end">
-      <button type="button" class="btn"><a href="/tree-removal/userinstruct" class="text-primary"><i class="fa fa-info-circle"></i> More Info</a></button>
+    <button type="button"  data-placement="top" title="User Instructions"><a href="/tree-removal/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a></button>
+ 
     </div>
   </div>
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data">

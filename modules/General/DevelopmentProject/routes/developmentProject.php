@@ -12,6 +12,9 @@ Route::post('/saveForm', [DevelopmentProjectController::class, 'save']);
 
 Route::get('/show/{id}',  [DevelopmentProjectController::class, 'show']); 
 
+//Route to get the FAQ View
+Route::get('/userinstruct', fn() => view('developmentProject::faq'));
+
 Route::get('/autocompleteGazette', [DevelopmentProjectController::class, 'gazetteAutocomplete'])->name('gazette');
 
 });

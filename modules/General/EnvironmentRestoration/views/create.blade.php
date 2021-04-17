@@ -3,6 +3,12 @@
 @section('general')
 
 <div class="container">
+    <div class="row border-lg justify-content-end bg-white">
+        <div class="d-flex justify-content-end">
+            <button type="button"  data-placement="top" title="User Instructions"><a href="/env-restoration/userinstruct" class="text-dark"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a></button>
+
+        </div>
+    </div>
     <form action="/env-restoration/store" id="envForm" method="post">
         @csrf
         <!-- One "tab" for each step in the form: -->

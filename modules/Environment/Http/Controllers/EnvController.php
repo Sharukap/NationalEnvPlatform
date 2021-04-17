@@ -45,6 +45,20 @@ class EnvController extends Controller
         $ecosystems->created_by_user_id = $request->input('createby');
         $ecosystems->status = $request->input('status');
 
+        if( $request->hasFile('images')) {
+            
+            $file = $request->file('images') ;
+            $extension = $file->getClientOriginalExtension() ; //geting the image extension
+            $filename= time() . '.' . $extension;
+            $file->move('uploads/ecosystems/', $filename);
+            $ecosystems->images= $filename;
+
+        }else{
+return $request;
+$ecosystems->images = '';
+
+
+        }
 
         $ecosystems->save();
 

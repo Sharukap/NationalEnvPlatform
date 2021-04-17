@@ -6,12 +6,13 @@ use Environment\Http\Controllers\TypeController;
 
 Route::get('/home', [EnvController::class, 'home'])->name('environment.home');
 //General view of the env module
-Route::get('/generalenv', fn() => view('environment::Envmain'));
+Route::get('/generalenv', fn () => view('environment::Envmain'));
 // To collect the eco systems data through a form 
 //Route::get('/createrequest', fn() => view('environment::request'));
 
 Route::get('/createrequest', [EnvController::class, 'loadform']);
-
+//Route for the user instruction view for eco systems
+Route::get('/userinstruct', fn () => view('environment::faqeco'));
 
 //Route::get('/newrequest', fn() => view('environment::environmenthome'));
 
@@ -19,7 +20,7 @@ Route::get('/createrequest', [EnvController::class, 'loadform']);
 //Route::get('/requesteco', fn() => view('environment::request')); --no need of two routes two to link to the same view
 //Route::get('/neweco', fn() => view('environment::ecohome'));
 Route::post('/newrequest', [EnvController::class, 'store']);
-Route::put('/environment/updatestatus/{id}',[EnvController::class, 'statusupdate']);
+Route::put('/environment/updatestatus/{id}', [EnvController::class, 'statusupdate']);
 
 Route::get('/updatedata', [EnvController::class, 'index']);
 
@@ -27,15 +28,15 @@ Route::get('/updatedata', [EnvController::class, 'index']);
 // To edit the request 
 Route::get('edit', [EnvController::class, 'edit']);
 
-Route::get('/deleterequest', fn() => view('environment::Envindex'));
+Route::get('/deleterequest', fn () => view('environment::Envindex'));
 //Delete the request by the authorized party
-Route::delete('delete-request/{id}',[EnvController::class, 'delete']);
+Route::delete('delete-request/{id}', [EnvController::class, 'delete']);
 
 
 
-Route::get('/requestdataeco', fn() => view('environment::trackrequesteco'));
+Route::get('/requestdataeco', fn () => view('environment::trackrequesteco'));
 
-Route::get('/trackrequsteco',[EnvController::class, 'track']);
+Route::get('/trackrequsteco', [EnvController::class, 'track']);
 //More details button , users can see the details of the request
 Route::get('/moreeco/{id}', [EnvController::class, 'more']);
 
@@ -43,14 +44,17 @@ Route::get('/moreeco/{id}', [EnvController::class, 'more']);
 //////////// Species module
 
 // To collect species info through a form 
-Route::get('/requestspecies',[SpeciesController::class, 'form']);
-Route::get('/updatedataspecies', [SpeciesController::class, 'index']); 
+Route::get('/requestspecies', [SpeciesController::class, 'form']);
+Route::get('/updatedataspecies', [SpeciesController::class, 'index']);
 //Route::get('/trackrequesteco', 'EnvController@showRequest');
-Route::get('/updatedataspecies',[SpeciesController::class, 'index']);
+Route::get('/updatedataspecies', [SpeciesController::class, 'index']);
 
-Route::delete('delete-requestspecies/{id}',[SpeciesController::class, 'delete']);
-Route::post('/newspecies',[SpeciesController::class, 'store']);
-Route::get('/trackrequst',[SpeciesController::class, 'track']);
-Route::put('/environmentspe/updatestatus/{id}',[SpeciesController::class, 'statusupdate']);
-Route::get('/newspecies', fn() => view('environment::species'));
+Route::delete('delete-requestspecies/{id}', [SpeciesController::class, 'delete']);
+Route::post('/newspecies', [SpeciesController::class, 'store']);
+Route::get('/trackrequst', [SpeciesController::class, 'track']);
+Route::put('/environmentspe/updatestatus/{id}', [SpeciesController::class, 'statusupdate']);
+//Route to store the data into the database
+Route::get('/newspecies', fn () => view('environment::species'));
 Route::get('/morespecies/{id}', [SpeciesController::class, 'more']);
+//Route foe the user instruction view of the species module
+Route::get('/userinstructspe', fn () => view('environment::faqspecies'));
