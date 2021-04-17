@@ -72,7 +72,7 @@ class GeneralController extends Controller
                 'dev_projects'=>$dev_projects
             ]);
         } else {
-            return view('admin::unauthorized');
+            return view('admin::unauthorized')->with('Msg','User is not authorized');
         }
     }
 
