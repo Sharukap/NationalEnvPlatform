@@ -18,7 +18,7 @@ class Crime_type extends Model
      */
     protected $fillable = [
         'type',
-        'status',
+       
     ];
    
     /**
@@ -33,9 +33,10 @@ class Crime_type extends Model
     ];
 
     protected $attributes = [
-        'status' => 0,
+        
     ];
-    public function process_items(){
+    public function process_items()
+    {
         return $this->hasMany('App\Models\Crime_report');
     }
 

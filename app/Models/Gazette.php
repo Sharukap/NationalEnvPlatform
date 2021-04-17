@@ -9,6 +9,9 @@ class Gazette extends Model
 {
     use HasFactory;
     protected $table = 'gazettes';
+    protected $casts =[
+          'organizations' =>'array',
+     ];
 
     public function development_projects()
     {

@@ -33,6 +33,7 @@ class CrimeReportController extends Controller
             'create_by'=>'required',
             'organization' => 'required|not_in:0',
             'polygon' => 'required',
+            'landTitle' => 'required|unique:land_parcels,title',
         ]);
         if($request->has('nonreguser')){
             $request -> validate([
