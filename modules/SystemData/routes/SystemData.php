@@ -3,16 +3,16 @@
 
 use SystemData\Http\Controllers\SystemDataController;
 
-//Route::get('/test', [SystemDataController::class, 'test']); // 'sytem-data/test' will return to this.
+//Route::get('/test', [SystemDataController::class, 'test']); // 'system-data/test' will return to this.
 
-//use sytem-data as the prefix for any routes in SystemData module
+//use system-data as the prefix for any routes in SystemData module
 
 
-Route::get('/accesscreate', [SystemDataController::class, 'accesscreate']); // 'sytem-data/test' will return to this.
-Route::post('/accesssave', [SystemDataController::class, 'accesssave']);
+// Route::get('/accesscreate', [SystemDataController::class, 'accesscreate']); // 'system-data/test' will return to this.
+// Route::post('/accesssave', [SystemDataController::class, 'accesssave']);
 Route::get('/accessedit/{id}', [SystemDataController::class, 'accessedit']);
 Route::patch('/accessupdate/{id}', [SystemDataController::class, 'accessupdate']);
-Route::delete('/accessdelete/{id}', [SystemDataController::class, 'accessdelete']);
+// Route::delete('/accessdelete/{id}', [SystemDataController::class, 'accessdelete']);
 Route::get('/accessindex', [SystemDataController::class, 'accessindex'])->name('accessindex');
 
 Route::get('/activityindex', [SystemDataController::class, 'activityindex'])->name('activityindex');

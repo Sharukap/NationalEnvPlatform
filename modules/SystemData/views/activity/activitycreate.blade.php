@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('cont')
-  <kbd><a href="/sytem-data/activityindex" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>     
+  <kbd><a href="/system-data/activityindex" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>     
 <div class="container">
    <h2 style="text-align:center;" class="text-dark">Create Activity</h2>
    <hr>
@@ -9,7 +9,7 @@
       <div class="col-6 ml-3">
          <h6 style="text-align:left;" class="text-dark">Activity Details</h6>
          <hr>
-        <form method="post" action="/sytem-data/activitysave">
+        <form method="post" action="/system-data/activitysave">
             @csrf
             <!-- Activty. -->
             <div class="input-group mb-3">

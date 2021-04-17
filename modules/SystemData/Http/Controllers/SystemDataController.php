@@ -26,7 +26,7 @@ class SystemDataController extends Controller
         return view('SystemData::index')->with('access', $access);
     }
   
-    public function accesscreate()
+    /* public function accesscreate()
     {
         return view('SystemData::access/accesscreate', [
 
@@ -40,8 +40,8 @@ class SystemDataController extends Controller
         $access->save();
 
 
-        return redirect('sytem-data/accessindex')->with('success', 'Data Stored Successfully');
-    }
+        return redirect('system-data/accessindex')->with('success', 'Data Stored Successfully');
+    } */
     public function accessedit($id)
     {
         $access=Access::find($id);
@@ -61,14 +61,14 @@ class SystemDataController extends Controller
 
         
         //direct back to the index page.
-        return redirect('sytem-data/accessindex')->with('success', 'Access Updated Successfully');
+        return redirect('system-data/accessindex')->with('success', 'Access Updated Successfully');
     }
-    public function accessdelete($id)
+    /* public function accessdelete($id)
     {
         $access =Access::find($id);
         $access->delete();
-        return redirect('sytem-data/accessindex')->with('success', 'Access Deleted');
-    }
+        return redirect('system-data/accessindex')->with('success', 'Access Deleted');
+    } */
     
     //Crime Types
     public function crimetypeindex()
@@ -90,7 +90,7 @@ class SystemDataController extends Controller
         $crimetype->save();
 
 
-        return redirect('sytem-data/crimetypeindex')->with('success', 'Data Stored Successfully');
+        return redirect('system-data/crimetypeindex')->with('success', 'Data Stored Successfully');
     }
 
     public function crime_typesedit($id)
@@ -105,14 +105,14 @@ class SystemDataController extends Controller
     
         $crimetype->save();
         //direct back to the index page.
-        return redirect('sytem-data/crimetypeindex')->with('success', 'Crime Type Updated Successfully');
+        return redirect('system-data/crimetypeindex')->with('success', 'Crime Type Updated Successfully');
     }
     public function crime_typesdelete($id)
     {
         $crimetype =Crime_type::find($id);
 
         $crimetype ->delete();
-        return redirect('sytem-data/crimetypeindex')->with('success', 'Crime Type Deleted');
+        return redirect('system-data/crimetypeindex')->with('success', 'Crime Type Deleted');
     }
      
     
@@ -137,7 +137,7 @@ class SystemDataController extends Controller
         $org_type->save();
 
 
-        return redirect('sytem-data/org_typesindex')->with('success', 'Data Stored Successfully');
+        return redirect('system-data/org_typesindex')->with('success', 'Data Stored Successfully');
     }
     public function org_typesedit($id)
     {
@@ -152,13 +152,13 @@ class SystemDataController extends Controller
         $org_type->save();
 
         //direct back to the index page.
-        return redirect('sytem-data/org_typesindex')->with('success', 'Organization Type Updated Successfully');
+        return redirect('system-data/org_typesindex')->with('success', 'Organization Type Updated Successfully');
     }
     public function org_typesdelete($id)
     {
         $org_type=Type::find($id);
         $org_type->delete();
-        return redirect('sytem-data/org_typesindex')->with('success', 'Organization Type Deleted');
+        return redirect('system-data/org_typesindex')->with('success', 'Organization Type Deleted');
     }
 
     //Eco Types
@@ -182,7 +182,7 @@ class SystemDataController extends Controller
         $env_type->save();
 
 
-        return redirect('sytem-data/eco_typesindex')->with('success', 'Data Stored Successfully');
+        return redirect('system-data/eco_typesindex')->with('success', 'Data Stored Successfully');
     }
     public function eco_typesedit($id)
     {
@@ -198,14 +198,14 @@ class SystemDataController extends Controller
 
 
         //direct back to the index page.
-        return redirect('sytem-data/eco_typesindex')->with('success', 'Eco System Type Updated Successfully');
+        return redirect('system-data/eco_typesindex')->with('success', 'Eco System Type Updated Successfully');
     }
     public function eco_typesdelete($id)
     {
         $env_type=Env_type::find($id);
 
         $env_type->delete();
-        return redirect('sytem-data/eco_typesindex')->with('success', 'Eco System Type Deleted');
+        return redirect('system-data/eco_typesindex')->with('success', 'Eco System Type Deleted');
     }
     //Gazette
     public function gazettesindex()
@@ -236,7 +236,7 @@ class SystemDataController extends Controller
         $gazette->save();
 
 
-        return redirect('sytem-data/gazetteindex')->with('success', 'Data Stored Successfully');
+        return redirect('system-data/gazetteindex')->with('success', 'Data Stored Successfully');
     }
     public function gazzettesedit($id)
     {
@@ -259,13 +259,13 @@ class SystemDataController extends Controller
 
 
         //direct back to the index page.
-        return redirect('sytem-data/gazetteindex')->with('success', 'Gazette Updated Successfully');
+        return redirect('system-data/gazetteindex')->with('success', 'Gazette Updated Successfully');
     }
     public function gazzettesdelete($id)
     {
         $gazette=Gazette::find($id);
         $gazette->delete();
-        return redirect('sytem-data/gazetteindex')->with('success', 'Gazette Deleted');
+        return redirect('system-data/gazetteindex')->with('success', 'Gazette Deleted');
     }
     public function gazzettesview(Request $request)
     {
@@ -298,7 +298,7 @@ class SystemDataController extends Controller
         $activity->save();
 
 
-        return redirect('sytem-data/activityindex')->with('success', 'Data Stored Successfully');
+        return redirect('system-data/activityindex')->with('success', 'Data Stored Successfully');
     }
     public function activityedit($id)
     {
@@ -321,12 +321,12 @@ class SystemDataController extends Controller
 
         
         //direct back to the index page.
-        return redirect('sytem-data/activityindex')->with('success', 'Activity Updated Successfully');
+        return redirect('system-data/activityindex')->with('success', 'Activity Updated Successfully');
     }
     public function activitydelete($id)
     {
         $activity =Activity::find($id);
         $activity->delete();
-        return redirect('sytem-data/activityindex')->with('success', 'Activity Deleted');
+        return redirect('system-data/activityindex')->with('success', 'Activity Deleted');
     }
 }

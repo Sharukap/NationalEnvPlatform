@@ -38,7 +38,7 @@
   
     <span>
         <!-- opens the create view -->
-        <a href="/sytem-data/org_typescreate" class="btn btn-info mr-4" role="button">Create</a>
+        <a href="/system-data/org_typescreate" class="btn btn-info mr-4" role="button">Create</a>
     </span>
     <table class="table table-light table-striped border-secondary rounded-lg mt-2 mr-4">
         <thead>
@@ -54,11 +54,11 @@
             <tr>
                 <td>{{$org_type->id}}</td>
                 <td>{{$org_type->title}}</td>
-                <td><a href="/sytem-data/org_typesedit/{{$org_type->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
+                <td><a href="/system-data/org_typesedit/{{$org_type->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
                 <td><button class="btn btn-outline-danger" onclick="event.preventDefault();
                             document.getElementById('form-delete-{{$org_type->id}}').submit()">Delete</button>
 
-                    <form id="{{'form-delete-'.$org_type->id}}" style="display:none" method="post" action="/sytem-data/org_typedelete/{{$org_type->id}}">
+                    <form id="{{'form-delete-'.$org_type->id}}" style="display:none" method="post" action="/system-data/org_typedelete/{{$org_type->id}}">
                         @csrf
                         @method('delete');
                     </form></td>

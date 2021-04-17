@@ -38,7 +38,7 @@
   
     <span>
         <!-- opens the create view -->
-        <a href="/sytem-data/activitycreate" class="btn btn-info mr-4" role="button">Create</a>
+        <a href="/system-data/activitycreate" class="btn btn-info mr-4" role="button">Create</a>
     </span>
     <table class="table table-light table-striped border-secondary rounded-lg mt-2 mr-4">
         <thead>
@@ -54,11 +54,11 @@
             <tr>
                 <td>{{$activity->id}}</td>
                 <td>{{$activity->activity}}</td>
-                <td><a href="/sytem-data/activityedit/{{$activity->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
+                <td><a href="/system-data/activityedit/{{$activity->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
                 <td><button class="btn btn-outline-danger" onclick="event.preventDefault();
                             document.getElementById('form-delete-{{$activity->id}}').submit()">Delete</button>
 
-                    <form id="{{'form-delete-'.$activity->id}}" style="display:none" method="post" action="/sytem-data/activitydelete/{{$activity->id}}">
+                    <form id="{{'form-delete-'.$activity->id}}" style="display:none" method="post" action="/system-data/activitydelete/{{$activity->id}}">
                         @csrf
                         @method('delete');
                     </form></td>
