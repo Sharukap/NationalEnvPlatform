@@ -19,28 +19,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-use Livewire\WithPagination;
 
 class EnvironmentRestorationController extends Controller
 {
-    use WithPagination;
-    // public function index()
-    // {
-    //     $restorations = Environment_Restoration::all();       //show all records for index
-    //     return view('environmentRestoration::index', [
-    //         'restorations' => Environment_Restoration::paginate(10),
-    //     ]);
-    // }
-
-    // public function myIndex()
-    // {
-    //     $userID = Auth::user()->id;
-    //     $restorations = Environment_Restoration::where('created_by_user_id','=', $userID)->get();       //show all records for index
-    //     return view('environmentRestoration::myIndex', [
-    //         'restorations' => $restorations,
-    //     ]);
-    // }
-
     public function create()
     {
         $restorations = Environment_Restoration::all();         //shows all records of enviroment restoration request
