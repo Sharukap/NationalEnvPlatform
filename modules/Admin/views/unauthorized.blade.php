@@ -3,8 +3,7 @@
 <!-- If the user is not activated then this view saying you are not an activated user will be displayed -->
 
 @section('cont')
-    <div class="jumbotron">
-        <h1>Unregistered User.</h1>
-        <h2>Access Denied.</h2>
-    </div>
+@if(!empty($Msg))
+<h5 class="alert alert-danger"> {{ $Msg }}</h5>
+@endif
 @endsection

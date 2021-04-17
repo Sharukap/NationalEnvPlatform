@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Org_Activity extends Model
 {
     use HasFactory;
-    protected $table = 'org_activityies';
+    protected $table = 'org_activities';
     public $timestamps = true;
 
     protected $fillable = [
