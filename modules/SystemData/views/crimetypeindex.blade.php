@@ -38,7 +38,7 @@
   
     <span>
         <!-- opens the create view -->
-        <a href="/sytem-data/crimetypescreate" class="btn btn-info mr-4" role="button">Create</a>
+        <a href="/system-data/crimetypescreate" class="btn btn-info mr-4" role="button">Create</a>
     </span>
     <table class="table table-light table-striped border-secondary rounded-lg mt-2 mr-4">
         <thead>
@@ -54,11 +54,11 @@
             <tr>
                 <td>{{$crimetype->id}}</td>
                 <td>{{$crimetype->type}}</td>
-                <td><a href="/sytem-data/crimetypesedit/{{$crimetype->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
+                <td><a href="/system-data/crimetypesedit/{{$crimetype->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
                 <td><button class="btn btn-outline-danger" onclick="event.preventDefault();
                             document.getElementById('form-delete-{{$crimetype->id}}').submit()">Delete</button>
 
-                    <form id="{{'form-delete-'.$crimetype->id}}" style="display:none" method="post" action="/sytem-data/crimetypesdelete/{{$crimetype->id}}">
+                    <form id="{{'form-delete-'.$crimetype->id}}" style="display:none" method="post" action="/system-data/crimetypesdelete/{{$crimetype->id}}">
                         @csrf
                         @method('delete');
                     </form></td>

@@ -1,13 +1,13 @@
 @extends('home')
 
 @section('cont')
- <kbd><a href="/sytem-data/eco_typesindex" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>   
+ <kbd><a href="/system-data/eco_typesindex" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>   
 <div class="container">
    <h2 style="text-align:center;" class="text-dark">Eco System Types</h2>
    <hr>
    <div class="row justify-content-md-center border p-4 bg-white">
       
-        <form method="post" action="/sytem-data/eco_typessave">
+        <form method="post" action="/system-data/eco_typessave">
             @csrf
             <!-- Activty. -->
             <div class="input-group mb-3">

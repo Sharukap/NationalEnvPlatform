@@ -38,7 +38,7 @@
   
     <span>
         <!-- opens the create view -->
-        <a href="/sytem-data/gazettescreate" class="btn btn-info mr-4" role="button">Create</a>
+        <a href="/system-data/gazettescreate" class="btn btn-info mr-4" role="button">Create</a>
     </span>
     <table class="table table-light table-striped border-secondary rounded-lg mt-2 mr-4">
         <thead>
@@ -55,12 +55,12 @@
             <tr>
                 <td>{{$gazette->id}}</td>
                 <td>{{$gazette->title}}</td>
-                <td><a href="/sytem-data/gazzettesview/{{$gazette->id}}" class="btn btn-outline-info mr-4" role="button">...</a></td>
-                <td><a href="/sytem-data/gazzettesedit/{{$gazette->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
+                <td><a href="/system-data/gazzettesview/{{$gazette->id}}" class="btn btn-outline-info mr-4" role="button">...</a></td>
+                <td><a href="/system-data/gazzettesedit/{{$gazette->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
                 <td><button class="btn btn-outline-danger" onclick="event.preventDefault();
                             document.getElementById('form-delete-{{$gazette->id}}').submit()">Delete</button>
 
-                    <form id="{{'form-delete-'.$gazette->id}}" style="display:none" method="post" action="/sytem-data/gazzettesdelete/{{$gazette->id}}">
+                    <form id="{{'form-delete-'.$gazette->id}}" style="display:none" method="post" action="/system-data/gazzettesdelete/{{$gazette->id}}">
                         @csrf
                         @method('delete');
                     </form></td>

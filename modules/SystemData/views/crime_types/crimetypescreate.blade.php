@@ -1,13 +1,13 @@
 @extends('home')
 
 @section('cont')
- <kbd><a href="/sytem-data/crimetypeindex" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>   
+ <kbd><a href="/system-data/crimetypeindex" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>   
 <div class="container">
    <h2 style="text-align:center;" class="text-dark">Crime Types</h2>
    <hr>
    <div class="row justify-content-md-center border p-4 bg-white">
       
-        <form method="post" action="/sytem-data/crimetypessave">
+        <form method="post" action="/system-data/crimetypessave">
             @csrf
            
             <div class="input-group mb-3">

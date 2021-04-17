@@ -37,17 +37,17 @@
         <h3 class="text-center bg-success text-light">{{session('success')}}</h3>
     </span>
   
-    <span>
-        <!-- opens the create view -->
-        <a href="/sytem-data/accesscreate" class="btn btn-info mr-4" role="button">Create Access</a>
-    </span>
+    <!-- <span>
+        opens the create view
+        <a href="/system-data/accesscreate" class="btn btn-info mr-4" role="button">Create Access</a>
+    </span> -->
     <table class="table table-light table-striped border-secondary rounded-lg mt-2 mr-4">
         <thead>
             <tr>
             <th scope="col">ID</th>
             <th scope="col">Access</th>
             <th scope="col">Edit</th>
-            <th scope="col">Delete</th>
+            <!-- <th scope="col">Delete</th> -->
             </tr>
         </thead>
         <tbody>
@@ -55,14 +55,14 @@
             <tr>
                 <td>{{$access->id}}</td>
                 <td>{{$access->access}}</td>
-                <td><a href="/sytem-data/accessedit/{{$access->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
-                <td><button class="btn btn-outline-danger" onclick="event.preventDefault();
+                <td><a href="/system-data/accessedit/{{$access->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
+                <!-- <td><button class="btn btn-outline-danger" onclick="event.preventDefault();
                             document.getElementById('form-delete-{{$access->id}}').submit()">Delete</button>
 
-                    <form id="{{'form-delete-'.$access->id}}" style="display:none" method="post" action="/sytem-data/accessdelete/{{$access->id}}">
+                    <form id="{{'form-delete-'.$access->id}}" style="display:none" method="post" action="/system-data/accessdelete/{{$access->id}}">
                         @csrf
                         @method('delete');
-                    </form></td>
+                    </form></td> -->
                 <!-- If the organization isnt null display the name of the organization else display unassigned -->            
             </tr>
            @endforeach
