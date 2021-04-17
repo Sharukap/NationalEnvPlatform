@@ -204,7 +204,9 @@ return [
         UserIntruction\Providers\RouteServiceProvider::class,
         UserIntruction\Providers\UserIntructionServiceProvider::class,
         SystemData\Providers\RouteServiceProvider::class,
-        SystemData\Providers\SystemDataServiceProvider::class
+        SystemData\Providers\SystemDataServiceProvider::class,
+        Security\Providers\RouteServiceProvider::class,
+        Security\Providers\SecurityServiceProvider::class
 
 
     ],
