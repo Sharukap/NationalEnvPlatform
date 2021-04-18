@@ -148,8 +148,11 @@ class UserController extends Controller
                     'users' => $users,
                 ]);
                 break;
+            case 5:
+                return view('admin::unauthorized')->with('Msg','User is Unauthorized. Cannot access this Module');
+                break;
             default:            //Else display the unauthorized view.
-                return view('admin::unauthorized');
+                return view('admin::unauthorized')->with('Msg','User is not registered. User must be registered to access this module');
         }
     }
 

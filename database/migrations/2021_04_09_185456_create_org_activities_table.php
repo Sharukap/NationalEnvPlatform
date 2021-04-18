@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateOrgActivityiesTable extends Migration
+class CreateOrgActivitiesTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateOrgActivityiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('org_activityies', function (Blueprint $table) {
+        Schema::create('org_activities', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('organization_id');
             $table->unsignedBigInteger('activity_id');
@@ -33,6 +33,6 @@ class CreateOrgActivityiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('org_activityies');
+        Schema::dropIfExists('org_activities');
     }
 }
