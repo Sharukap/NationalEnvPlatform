@@ -20,7 +20,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/home', [GeneralController::class, 'pending'])->middleware('auth','verified');
+Route::get('/home', [UserController::class, 'dashboard'])->middleware('auth','verified');
 
 Route::get('/home/main',  [UserController::class, 'home'])->middleware('auth','verified');
 Route::get('/search', [UserController::class, 'search']);

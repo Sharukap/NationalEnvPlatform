@@ -8,7 +8,7 @@ Route::middleware(['access.control:6'])->group(function () {
 
     Route::get('/assignorganization/{id}', [ApprovalItemController::class, 'choose_assign_organization'])->middleware(['restrict.own']);
 
-    Route::get('/changeassignOrganization/{id}/{pid}', [ApprovalItemController::class, 'change_assign_organization'])->middleware(['restrict.own']);
+    Route::get('/changeassignOrganization/{oid}/{id}', [ApprovalItemController::class, 'change_assign_organization'])->middleware(['restrict.own']);
 
     Route::post('/changeassignOrganization', [ApprovalItemController::class, 'assign_unregistered_organization']);
 });
@@ -17,7 +17,7 @@ Route::middleware(['access.control:7'])->group(function () {
 
     Route::get('/assignstaff/{id}/{nid}', [ApprovalItemController::class, 'choose_assign_staff'])->middleware(['notifiy.read','restrict.own']);
 
-    Route::get('/confirmassign/{id}/{pid}', [ApprovalItemController::class, 'confirm_assign_staff'])->middleware(['restrict.own']);
+    Route::get('/confirmassign/{uid}/{id}', [ApprovalItemController::class, 'confirm_assign_staff'])->middleware(['restrict.own']);
 });
 
 Route::middleware(['access.control:8'])->group(function () {

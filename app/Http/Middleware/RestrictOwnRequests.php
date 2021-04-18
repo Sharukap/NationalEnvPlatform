@@ -21,6 +21,7 @@ class RestrictOwnRequests
     {
         $id=$request->route('id');
         $process=Process_item::find($id);
+        //dd($process,$id);
         $user = Auth::user()->id;
         if($user == $process->created_by_user_id){    
             return back()->with('message', 'You cannot handle the approval process of your own applications '); 
