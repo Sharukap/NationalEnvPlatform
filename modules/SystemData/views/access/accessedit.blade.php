@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('cont')
-<kbd><a href="/sytem-data/accessindex" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+<kbd><a href="/system-data/accessindex" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
 <div class="container">
     <h2 style="text-align:center;" class="text-dark">Edit&nbsp;{{$access->access}}</h2>
     <hr>
@@ -9,7 +9,7 @@
         <div class="col-6 ml-3">
           
               <h6 style="text-align:left;" class="text-dark">Access Details</h6>
- <form method="post" action="/sytem-data/accessupdate/{{$access->id}}">
+ <form method="post" action="/system-data/accessupdate/{{$access->id}}">
                  @csrf
                 @method('patch')
                 <div class="input-group mb-3">

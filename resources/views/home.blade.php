@@ -59,11 +59,8 @@
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/help/test"><i class="fa fa-question-circle mr-3" aria-hidden="true"></i> Help</a>
                             </li>
-                            <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/system-data/test"><i class="fa fa-cog mr-3" aria-hidden="true"></i> System Data</a>
-                            </li>
                              <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/sytem-data/accessindex"><i class="fa fa-database" aria-hidden="true"></i> System Data</a>
+                                <a class="nav-link text-light" href="/system-data/accessindex"><i class="fa fa-database mr-3" aria-hidden="true"></i> System Data</a>
                             </li>
                         </ul>
                     </nav>
