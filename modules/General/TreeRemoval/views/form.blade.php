@@ -22,7 +22,7 @@
 
               <div class="col p-2">
                 <div class="form-group">
-                  District:*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                  District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
                   @error('district')
                   <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
@@ -30,7 +30,7 @@
               </div>
               <div class="col p-2">
                 <div class="form-group">
-                  GS Division:*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Search" name="gs_division" />
+                  GS Division*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Search" name="gs_division" />
                   @error('gs_division')
                   <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
@@ -39,7 +39,7 @@
             </div>
 
             <div class="form-group">
-              Activity Organization:*<input type="text" class="form-control typeahead3 @error('activity_organization') is-invalid @enderror" value="{{ old('activity_organization') }}" name="activity_organization" placeholder="Search Organizations" />
+              Activity Organization*<input type="text" class="form-control typeahead3 @error('activity_organization') is-invalid @enderror" value="{{ old('activity_organization') }}" name="activity_organization" placeholder="Search Organizations" />
               @error('activity_organization')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
@@ -49,7 +49,7 @@
             <!-- MAP CONTENT -->
             <h4>Land Parcel Details</h4>
             <div class="form-group">
-              <label for="title">Land Title:*</label>
+              <label for="title">Land Title*</label>
               <input type="text" class="form-control @error('landTitle') is-invalid @enderror" value="{{ old('landTitle') }}" placeholder="Enter Land Title" id="landTitle" name="landTitle">
               @error('landTitle')
               <div class="alert alert-danger">{{ $message }}</div>
@@ -131,7 +131,7 @@
             <div class="row p-2 mt-2">
               <div class="col">
                 <div class="form-group">
-                  <label for="number_of_trees">Number of Trees</label>
+                  <label for="number_of_trees">Number of Trees*</label>
                   <input type="text" class="form-control @error('number_of_trees') is-invalid @enderror" value="{{ old('number_of_trees') }}" id="number_of_trees" name="number_of_trees">
                   @error('number_of_trees')
                   <div class="alert alert-danger">{{ $message }}</div>
@@ -204,7 +204,7 @@
             </div>
 
             <div class="form-group">
-              <label for="description">Description</label>
+              <label for="description">Description*</label>
               <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" name="description">{{{ old('description') }}}</textarea>
               @error('description')
               <div class="alert alert-danger">{{ $message }}</div>
@@ -228,13 +228,13 @@
             </div>
 
             <div class="form-group">
-              External Requestor:<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
+              External Requestor<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
               @error('externalRequestor')
               <div class="alert alert-danger">The NIC format is Invalid</div>
               @enderror
             </div>
             <div class="form-group">
-              External Requestor Email:<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
+              External Requestor Email<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
               @error('erEmail')
               <div class="alert alert-danger">Please Enter a Valid Email</div>
               @enderror

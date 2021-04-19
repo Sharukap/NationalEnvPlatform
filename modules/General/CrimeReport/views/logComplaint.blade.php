@@ -49,10 +49,10 @@
                     </div>
                     <hr>
                     <div class="form-group">
-                        <input type="checkbox" name="nonreguser" value="1" ><strong>Creating on behalf of non registered user</strong>
+                        <input type="checkbox" name="nonreguser" value="1" ><strong> Creating on behalf of non registered user</strong>
                         <label for="description">Inform investigation result to Mr/Ms:</label>
                         <input type="text" class="form-control" placeholder="Enter complainant name" name="Requestor" value=""/>
-                        @error('confirm')
+                        @error('Requestor')
                             <div class="alert">
                                 <strong>{{ $message }}</strong>
                             </div>
@@ -61,7 +61,7 @@
                     <div class="form-group">
                         <label for="description">Through email:</label>
                         <input type="text" class="form-control" placeholder="Enter complainant's email" name="Requestor_email" value=""/>
-                        @error('confirm')
+                        @error('Requestor_email')
                             <div class="alert">
                                 <strong>{{ $message }}</strong>
                             </div>
@@ -69,7 +69,7 @@
                     </div>
                     <hr>
                     <div class="form-check">
-                    <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}">  `   1
+                    <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}">  `   
                         <input id="polygon" type="hidden" name="polygon" value="{{request('polygon')}}">
                         <label class="form-check-label">
                         <input type="checkbox" class="form-check-input" name="confirm" ><strong>I confirm these information to be true</strong>
@@ -86,9 +86,15 @@
                     <div class="form-group">
                         <label for="landTitle">Area name:</label>
                         <input type="text" class="form-control" placeholder="Enter Area name" id="landTitle" name="landTitle">
+                        @error('landTitle')
+                            <strong>{{ $message }}</strong>
+                        @enderror
                     </div>
                     <!-- ////////MAP GOES HERE -->
                     <div id="mapid" style="height:400px;" name="map"></div>
+                    @error('polygon')
+                        <strong>{{ $message }}</strong>
+                    @enderror
                     <br>
                 </div>
             </div>
@@ -128,70 +134,105 @@
 
 
 
-  /// SCRIPT FOR THE MAP
-  var center = [7.2906, 80.6337];
+    var map = L.map('mapid', {
+        center: [7.2906, 80.6337], //if the location cannot be fetched it will be set to Kandy
+        zoom: 12
+    });
 
-  // Create the map
-  var map = L.map('mapid').setView(center, 10);
-
-  // Set up the OSM layer 
-  L.tileLayer(
-    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
-      maxZoom: 18
-    }).addTo(map);
-
-
-
-  // Initialise the FeatureGroup to store editable layers
-  var editableLayers = new L.FeatureGroup();
-  map.addLayer(editableLayers);
-
-  var drawPluginOptions = {
-    position: 'topright',
-    draw: {
-      polygon: {
-        allowIntersection: false, // Restricts shapes to simple polygons
-        drawError: {
-          color: '#e1e100', // Color the shape will turn when intersects
-          message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
-        },
-        shapeOptions: {
-          color: '#97009c'
+    window.onload = function() {
+        var popup = L.popup();
+        //false,               ,popup, map.center
+        function geolocationErrorOccurred(geolocationSupported, popup, latLng) {
+            popup.setLatLng(latLng);
+            popup.setContent(geolocationSupported ?
+                '<b>Error:</b> Geolocation service failed. Enable Location.' :
+                '<b>Error:</b> This browser doesn\'t support geolocation.');
+            popup.openOn(map);
         }
-      },
-      // disable toolbar item by setting it to false
-      polyline: true,
-      circle: false, // Turns off this drawing tool
-      rectangle: false,
-      marker: true,
-    },
-    edit: {
-      featureGroup: editableLayers, //REQUIRED!!
-      remove: false
+        //If theres an error then 
+
+        if (navigator.geolocation) { //using an inbuilt function to get the lat and long of the user.
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var latLng = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                };
+
+                popup.setLatLng(latLng);
+                popup.setContent('This is your current location');
+                popup.openOn(map);
+                //setting the map to the user location
+                map.setView(latLng);
+
+            }, function() {
+                geolocationErrorOccurred(true, popup, map.getCenter());
+            });
+        } else {
+            //No browser support geolocation service
+            geolocationErrorOccurred(false, popup, map.getCenter());
+        }
     }
-  };
 
-  // Initialise the draw control and pass it the FeatureGroup of editable layers
-  var drawControl = new L.Control.Draw(drawPluginOptions);
-  map.addControl(drawControl);
+    // Set up the OSM layer 
+    //map tiles are “square bitmap graphics displayed in a grid arrangement to show a map.”
+    //There are a number of different tile providers (or tileservers), some are free and open source. We are using OSM
+    L.tileLayer(
+        'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
+            maxZoom: 18
+        }).addTo(map);
+    //we’re calling tilelayer() to create the tile layer, passing in the OSM URL first, then the second argument is an object containing the options for our new tile 
+    //layer (including attribution is critical here to comply with licensing), and then the tile layer is added to the map using addTo().
 
-  var editableLayers = new L.FeatureGroup();
-  map.addLayer(editableLayers);
+    var drawnItems = new L.FeatureGroup();
+    map.addLayer(drawnItems);
 
-  map.on('draw:created', function(e) {
-    var type = e.layerType,
-      layer = e.layer;
+    var drawControl = new L.Control.Draw({
+        position: 'topright',
+        draw: {
+            polygon: {
+                shapeOptions: {
+                    color: 'purple'
+                },
+                allowIntersection: false,
+                drawError: {
+                    color: 'orange',
+                    timeout: 1000
+                },
+                showArea: true,
+                metric: false,
+                repeatMode: true
+            },
+            polyline: {
+                shapeOptions: {
+                    color: 'red'
+                },
+            },
+            circlemarker: false,
+            rect: {
+                shapeOptions: {
+                    color: 'green'
+                },
+            },
+            circle: false,
+        },
+        edit: {
+            featureGroup: drawnItems
+        }
+    });
+    map.addControl(drawControl);
 
-    if (type === 'marker') {
-      layer.bindPopup('A popup!');
-    }
-    editableLayers.addLayer(layer);
+    map.on('draw:created', function(e) {
+        var type = e.layerType,
+            layer = e.layer;
 
-    //console.log(layer.toGeoJSON());
-    $('#polygon').val(JSON.stringify(layer.toGeoJSON()));
 
-  });
+        drawnItems.addLayer(layer);
+        $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON())); //geoJSON converts a layer to JSON
+
+        ///Converting your layer to a KML
+        $('#kml').val(tokml(drawnItems.toGeoJSON()));
+    });
 
 </script>
 @endsection
