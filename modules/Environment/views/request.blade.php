@@ -154,7 +154,7 @@
         },
     });
 
-    //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
+    
     // Typeahed to get the data from the district table_autocomplete
     var path3 = "{{route('organization')}}";
     $('input.typeahead3').typeahead({
