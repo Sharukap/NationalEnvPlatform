@@ -2,10 +2,20 @@
 
 @section('general')
 <div class="container">
+    
+
 <hr>
     <form action="\crime-report\crimecreate" method="post" enctype="multipart/form-data">
     @csrf
         <div class="container bg-white">
+        <div class="row border-lg justify-content-end bg-white">
+        
+        <div class="d-flex justify-content-end">
+                    <a data-placement="top" title="FAQ" href="/crime-report/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
+
+                </div>
+    </div>
+       
             <div class="row p-4 bg-white">
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     <div class="form-group">

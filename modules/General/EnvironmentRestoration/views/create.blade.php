@@ -3,7 +3,14 @@
 @section('general')
 
 <div class="container">
-    <form action="/env-restoration/store" id="envForm" method="post" autocomplete="off">
+    <div class="row border-lg justify-content-end bg-white">
+     
+        <div class="d-flex justify-content-end">
+                    <a data-placement="top" title="FAQ" href="/env-restoration/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
+
+                </div>
+    </div>
+    <form action="/env-restoration/store" id="envForm" method="post">
         @csrf
         <!-- One "tab" for each step in the form: -->
         <div class="tab">

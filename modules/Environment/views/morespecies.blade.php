@@ -9,8 +9,8 @@
     <hr>
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-6 ml-3">
-            <form>
-                 <div class="input-group mb-3">
+            <form enctype="multipart/form-data">
+                <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">User Id</span>
                     </div>
@@ -43,11 +43,18 @@
                     </div>
                     <input type="text" class="form-control" placeholder="{{$species->description}}" readonly>
                 </div>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Images Uploaded by the User</span>
+                    </div>
+                    <img src="{{ asset('uploads/species/' . $species->images) }}" width="150px" height="100px" alt="No Images">
+
+                </div>
                 <div class="border border-dark border-rounded">
                     <div id="mapid" style="height:400px;" name="map"></div>
                 </div>
 
-<hr>
+                <hr>
 
 
 
@@ -55,7 +62,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Status Of the Request</span>
                     </div>
-                 
+
                     @switch($species->status_id)
                     @case('0')
                     <input type="text" class="form-control" placeholder="Not Approved" readonly>
@@ -64,7 +71,7 @@
                     <input type="text" class="form-control" placeholder="Approved" readonly>
                     @break;
                     @endswitch
-               
+
 
 
                 </div>
