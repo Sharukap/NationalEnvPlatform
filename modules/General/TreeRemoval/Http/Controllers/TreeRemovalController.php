@@ -278,6 +278,7 @@ class TreeRemovalController extends Controller
     {
         $data = Organization::select("title")
             ->where("title", "LIKE", "%{$request->terms}%")
+            ->where('title', '!=', "Citizen")
             ->get();
 
         return response()->json($data);
