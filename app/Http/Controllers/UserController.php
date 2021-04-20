@@ -9,6 +9,13 @@ use Carbon\Carbon;
 class UserController extends Controller
 {
     public function home(){
+        return view('admin::Unauthorized', [
+            'tree_removals' =>$tree_removals,
+            'dev_projects'=>$dev_projects
+        ]);
+    }
+
+    public function dashboard(){
         $tree_removals = Process_Item::where('form_type_id',1)
         ->whereMonth('created_at', Carbon::now()->month)
         ->count(); 

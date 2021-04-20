@@ -34,8 +34,12 @@
                     </div>
                     <div class="form-group" id="dynamicAddRemove">
                         <label for="images">Photos:</label>
-                        <input type="file" id="images" name="images[0]">
-                        <button type="button" name="add" id="add-btn" class="btn btn-success">Add More</button>
+                        <input type="file" id="image" name="file[]" multiple>
+                        @if ($errors->has('file.*'))
+                            <div class="alert">
+                                <strong>{{ $errors->first('file.*') }}</strong>
+                            </div>
+                        @endif   
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
@@ -50,6 +54,7 @@
                     <hr>
                     <div class="form-group">
                         <input type="checkbox" name="nonreguser" value="1" ><strong> Creating on behalf of non registered user</strong>
+                        <br>
                         <label for="description">Inform investigation result to Mr/Ms:</label>
                         <input type="text" class="form-control" placeholder="Enter complainant name" name="Requestor" value=""/>
                         @error('Requestor')
@@ -121,18 +126,6 @@
             })
         },
     });
-
-    //photos add
-    var i = 0;
-    $("#add-btn").click(function() {
-        ++i;
-        $("#dynamicAddRemove").append(
-        '<input type="file" id="images" name="images['+ i +']">');
-    });
-    
-
-
-
 
     var map = L.map('mapid', {
         center: [7.2906, 80.6337], //if the location cannot be fetched it will be set to Kandy
@@ -232,6 +225,25 @@
 
         ///Converting your layer to a KML
         $('#kml').val(tokml(drawnItems.toGeoJSON()));
+    });
+
+    $(document).ready(function(){
+        $('#image').change(function(){
+            var fp = $("#image");
+            var lg = fp[0].files.length; // get length
+            var items = fp[0].files;
+            var fileSize = 0;
+           
+            if (lg > 0) {
+                for (var i = 0; i < lg; i++) {
+                    fileSize = fileSize+items[i].size; // get file size
+                }
+                if(fileSize > 5242880) {
+                    alert('You should not uplaod files exceeding 4 MB. Please compress files size and uplaod agian');
+                    $('#image').val('');
+                }
+            }
+        });
     });
 
 </script>
