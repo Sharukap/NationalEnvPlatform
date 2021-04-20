@@ -5,13 +5,18 @@
 
 <div class="container">
     <h4 style="text-align:center;" class="text-dark">Add New Species</h4>
-    <hr>
+
+
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-lg ml-3">
+          
+            <div class="d-flex justify-content-end">
+                    <a data-placement="top" title="FAQ" href="/environment/userinstructspe" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
 
-            <h6 style="text-align:left;" class="text-dark">Species Details</h6>
-            <hr>
-            <form action='/environment/newspecies' method="post">
+                </div>
+
+
+            <form action='/environment/newspecies' method="post" enctype="multipart/form-data">
                 @csrf
 
                 @if(\Session::has('success'))
@@ -26,8 +31,9 @@
                 <div class="row border rounded-lg p-4 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-2">
                         <div class="form-group">
-                            <label for="number_of_tree_species">Species Type</label>
-                            <input type="text" class="form-control" name="type" placeholder="Enter Type">
+                            <label for="type">Species Type</label>
+
+                            <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" placeholder="Enter Type">
                             @error('type')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -35,7 +41,7 @@
 
                         <div>
                             <label for="number_of_tree_species">Species Title</label>
-                            <input type="text" class="form-control" name="title" placeholder="Enter Title">
+                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Enter Title">
                             @error('title')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -106,10 +112,10 @@
                             </div>
                         </div>
                         <label>Project Description</label>
-                            <textarea class="form-control" rows="5" name="description"></textarea>
-                            @error('description')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                        <textarea class="form-control" rows="5" name="description"></textarea>
+                        @error('description')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
                         </br>
                         </br>
 
@@ -124,6 +130,12 @@
                             <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" /> <br>
 
 
+                        </div>
+                        <div class="form-group">
+                            <label for="images">Image</label>
+                            <div class="custom-file mb-3">
+                                <input type="file" id="images" name="images">
+                            </div>
                         </div>
 
 
@@ -140,6 +152,8 @@
         </form>
 
     </div>
+    
+    
     <script type="text/javascript">
         var path2 = "{{route('district')}}";
         $('input.typeahead2').typeahead({
@@ -158,42 +172,9 @@
                 })
             },
         });
-        var path = "{{route('gazette')}}";
-        $('input.typeahead').typeahead({
-            source: function(terms, process) {
+        
 
-                return $.get(path, {
-                    terms: terms
-                }, function(data) {
-                    console.log(data);
-                    objects = [];
-                    data.map(i => {
-                        objects.push(i.gazette_number)
-                    })
-                    console.log(objects);
-                    return process(objects);
-                })
-            },
-        });
-
-        //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
-        var path3 = "{{route('organization')}}";
-        $('input.typeahead3').typeahead({
-            source: function(terms, process) {
-
-                return $.get(path3, {
-                    terms: terms
-                }, function(data) {
-                    console.log(data);
-                    objects = [];
-                    data.map(i => {
-                        objects.push(i.title)
-                    })
-                    console.log(objects);
-                    return process(objects);
-                })
-            },
-        });
+        
 
 
         ///SCRIPT FOR THE MAP

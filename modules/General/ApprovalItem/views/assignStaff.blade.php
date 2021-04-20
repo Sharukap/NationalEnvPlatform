@@ -269,7 +269,11 @@
                     </thead>
                     <tbody>
                     @foreach($Prerequisites as $prerequisite)<tr>
+                        @if($prerequisite->requesting_organization == null)
+                            <td>{{$prerequisite->created_by_user->name}} ( {{$prerequisite->created_by_user->role->title}} )</td>
+                        @else
                             <td>{{$prerequisite->requesting_organization->title}}</td>
+                        @endif
                             <td>{{$prerequisite->Activity_organization->title}}</td>
                             <td>{{$prerequisite->remark}}</td>
                         </tr>
