@@ -12,17 +12,7 @@
   </div>
 
 
-
-  <nav class="navbar navbar-expand-sm navbar-light">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link h4" href="">Info</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link h4" href="">Quick Links</a>
-      </li>
-    </ul>
-  </nav>
+  <br>
 
   @if(count($errors) >0)
   <div class="alert alert-danger">

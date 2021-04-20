@@ -10,16 +10,7 @@
   </div>
 
   <br>
-  <nav class="navbar navbar-expand-sm navbar-light">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link h4" href="/environment/updatedata">Info</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link h4" href="/environment/updatedataspecies">Quick Links</a>
-      </li>
-    </ul>
-  </nav>
+
 
 
 

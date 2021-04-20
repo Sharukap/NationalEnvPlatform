@@ -33,8 +33,7 @@ class EnvController extends Controller
         $ecosystems->type_id = $request->input('eco_type');
         if (request('isProtected')) {
             $ecosystems->protected_area = request('isProtected');
-        }
-        else{
+        } else {
             $ecosystems->protected_area = 0;
         }
         $district_id1 = District::where('district', request('district'))->pluck('id');
@@ -45,19 +44,16 @@ class EnvController extends Controller
         $ecosystems->created_by_user_id = $request->input('createby');
         $ecosystems->status = $request->input('status');
 
-        if( $request->hasFile('images')) {
-            
-            $file = $request->file('images') ;
-            $extension = $file->getClientOriginalExtension() ; //geting the image extension
-            $filename= time() . '.' . $extension;
+        if ($request->hasFile('images')) {
+
+            $file = $request->file('images');
+            $extension = $file->getClientOriginalExtension(); //geting the image extension
+            $filename = time() . '.' . $extension;
             $file->move('uploads/ecosystems/', $filename);
-            $ecosystems->images= $filename;
-
-        }else{
-return $request;
-$ecosystems->images = '';
-
-
+            $ecosystems->images = $filename;
+        } else {
+            return $request;
+            $ecosystems->images = '';
         }
 
         $ecosystems->save();
