@@ -36,6 +36,7 @@ Route::patch('/activate/{id}', [AdminController::class, 'activate']);           
 ///////More details button for all users - Admin, HoO and Manager - One route because same functionality
 Route::get('/more/{id}', [UserController::class, 'more']);
 
+
 });
 
 Route::middleware(['access.control:9'])->group(function () {
@@ -45,5 +46,11 @@ Route::get('/roleindex',[AdminController::class, 'index'])->name('roleIndex');
 Route::get('/roleedit/{id}',[AdminController::class, 'roleedit'])->name('roleedit');
 Route::post('/rolePriviledge/{id}',[AdminController::class, 'roleupdate']);
 Route::get('/removeAccess/{id}',[AdminController::class, 'accessremove']);
+
+
+//search active users
+Route::get('/searchUsers', [UserController::class, 'searchUsers']);
+//search - activate users
+Route::get('/searchSelfRegistered', [UserController::class, 'searchSelfRegistered']);
 
 });
