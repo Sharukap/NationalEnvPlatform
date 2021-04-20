@@ -3,22 +3,27 @@
 @section('general')
 
 <div class="container">
-  <div class="row border-lg justify-content-end bg-white">
-    <div class="d-flex justify-content-end">
-    <button type="button"  data-placement="top" title="User Instructions"><a href="/tree-removal/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a></button>
- 
-    </div>
-  </div>
+
+  
+  
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data">
     @csrf
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
+    <div class="d-flex justify-content-end">
+ <a data-placement="top" title="FAQ" href="/tree-removal/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
+ 
+    </div>
       <div class="container">
         <!-- add this part for button to link to instruction modal -->
 
         <!-- end of part -->
+        <!--FAQ -->
+    
         <div class="row border rounded-lg p-4 bg-white">
+  
           <div class="col border border-muted rounded-lg mr-2 p-2">
+          
             <div class="row p-2">
 
               <div class="col p-2">

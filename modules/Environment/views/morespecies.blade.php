@@ -47,7 +47,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Images Uploaded by the User</span>
                     </div>
-                    <img src="{{ asset('uploads/species/' . $species->images) }}" width="150px" height="100px" alt="Images">
+                    <img src="{{ asset('uploads/species/' . $species->images) }}" width="150px" height="100px" alt="No Images">
 
                 </div>
                 <div class="border border-dark border-rounded">

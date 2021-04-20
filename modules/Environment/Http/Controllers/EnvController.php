@@ -52,7 +52,7 @@ class EnvController extends Controller
             $file->move('uploads/ecosystems/', $filename);
             $ecosystems->images = $filename;
         } else {
-            return $request;
+          
             $ecosystems->images = '';
         }
 

@@ -17,12 +17,9 @@
             <div class="col-lg ml-3">
 
 
-                <div class="row border-lg justify-content-end bg-white">
+                <div class="d-flex justify-content-end">
+                    <a data-placement="top" title="FAQ" href="/environment/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
 
-                    <div class="d-flex justify-content-end">
-                        <button type="button" data-placement="top" title="User Instructions"><a href="/environment/userinstruct" class="text-dark"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a></button>
-
-                    </div>
                 </div>
 
                 <form action="/environment/newrequest" method="post" enctype="multipart/form-data">
@@ -154,7 +151,7 @@
         },
     });
 
-    
+
     // Typeahed to get the data from the district table_autocomplete
     var path3 = "{{route('organization')}}";
     $('input.typeahead3').typeahead({

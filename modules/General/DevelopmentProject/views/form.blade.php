@@ -5,10 +5,12 @@
 <div class="container">
 
     <div class="row border-lg justify-content-end bg-white">
+       
+         
         <div class="d-flex justify-content-end">
-            <button type="button"  data-placement="top" title="User Instructions"><a href="/dev-project/userinstruct" class="text-dark"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a></button>
+                    <a data-placement="top" title="FAQ" href="/dev-project/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
 
-        </div>
+                </div>
     </div>
     <form action="/dev-project/saveForm" method="post" id="devForm" enctype="multipart/form-data">
         @csrf

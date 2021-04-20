@@ -55,7 +55,7 @@ class SpeciesController extends Controller
             $species->images= $filename;
 
         }else{
-return $request;
+            
 $species->images = '';
 
 
