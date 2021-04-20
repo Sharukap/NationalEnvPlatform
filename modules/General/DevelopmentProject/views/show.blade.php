@@ -14,7 +14,7 @@
 
         @if($development_project->gazette_id)
         <dt class="col-sm-3">Gazette:</dt>
-        <dd class="col-sm-9">{{$development_project->gazette->title}}</dd>
+        <dd class="col-sm-9">{{$development_project->gazette->gazette_number}}</dd>
         @endif
 
         <dt class="col-sm-3">Description:</dt>
