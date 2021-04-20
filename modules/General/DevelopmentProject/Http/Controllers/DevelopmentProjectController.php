@@ -40,6 +40,12 @@ class DevelopmentProjectController extends Controller
     // depenign on the number of governing organizations selected.
     public function save(Request $request)
     {
+        if($request->hasfile('file')){
+            request()->validate([
+                'file' => 'required',
+                'file.*' => 'mimes:jpeg,jpg,png|max:40000'
+            ]);
+        }
         $request->validate([
             'title' => 'required',
             'landTitle' => 'required|unique:land_parcels,title',
@@ -139,17 +145,17 @@ class DevelopmentProjectController extends Controller
 
             //saving the images to the db
             $latest = Development_Project::latest()->first();
-            if (request('images')) {
-                //dd($request->images);
-                $i = count($request->images);
-                for ($y = 0; $y < $i; $y++) {
-                    $file = $request->images[$y];
-                    $filename = $file->getClientOriginalName();
-                    $newname = $latest->id . 'NO' . $y . $filename;
-                    $path = $file->storeAs('developmentproject', $newname, 'public');
-                    $photoarray[$y] = $path;
+            if($request->hasfile('file')) { 
+                $y=0;
+                foreach($request->file('file') as $file){
+                    $filename =$file->getClientOriginalName();
+                    $newname = $id.'No'.$y.$filename;
+                    $path = $file->storeAs('development',$newname,'public');
+                    $photoarray[$y] = $path;  
+                    $y++;          
                 }
-                $dev = Development_Project::where('id', $latest->id)->update(['images' => json_encode($photoarray)]);
+                //dd($photoarray);
+                $devp = Development_Project::where('id',$latest->id)->update(['photos' => json_encode($photoarray)]);
             }
 
 
