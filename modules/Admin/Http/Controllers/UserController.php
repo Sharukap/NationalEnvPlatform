@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -149,11 +150,50 @@ class UserController extends Controller
                 ]);
                 break;
             case 5:
-                return view('admin::unauthorized')->with('Msg','User is Unauthorized. Cannot access this Module');
+                return view('admin::unauthorized')->with('Msg', 'User is Unauthorized. Cannot access this Module');
                 break;
             default:            //Else display the unauthorized view.
-                return view('admin::unauthorized')->with('Msg','User is not registered. User must be registered to access this module');
+                return view('admin::unauthorized')->with('Msg', 'User is not registered. User must be registered to access this module');
         }
+    }
+
+    public function searchUsers(Request $request)
+    {
+        $role = Auth::user()->role_id;
+        $org = Auth::user()->organization_id;
+
+        $search = $request->get('search');
+
+        if ($role == 1) {
+            $users = User::select()
+                ->where("name", "LIKE", '%' . $search . '%')
+                ->where('status', '=', 1)
+                ->get();
+        } else {
+            $users = User::select()
+                ->where("name", "LIKE", '%' . $search . '%')
+                ->where('status', '=', 1)
+                ->where('role_id', '>', $role)
+                ->where('organization_id', '=', $org)
+                ->get();
+        }
+
+        return view('admin::index', [
+            'users' => $users,
+        ]);
+    }
+
+    public function searchSelfRegistered(Request $request)
+    {
+        $search = $request->get('search');
+        $users = User::select()
+            ->where("name", "LIKE", '%' . $search . '%')
+            ->where('status', '=', 0)
+            ->get();
+
+        return view('admin::admin.selfRegistered', [
+            'users' => $users,
+        ]);
     }
 
     // Function to reset the password.
@@ -192,6 +232,6 @@ class UserController extends Controller
             ]);
             return redirect('/user/index')->with('message', 'Password Successfully Changed');
         } else
-            return redirect('/user/index')->with('danger', 'Current Password is Incorrect'); // Else show that old password is incorrect
+            return redirect('/user/index')->with('warning', 'Current Password is Incorrect'); // Else show that old password is incorrect
     }
 }

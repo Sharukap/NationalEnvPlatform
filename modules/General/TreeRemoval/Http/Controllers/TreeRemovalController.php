@@ -37,6 +37,14 @@ class TreeRemovalController extends Controller
 
     public function save(Request $request)
     {
+        if($request->hasfile('file')){
+            
+            request()->validate([
+                'file' => 'required',
+                'file.*' => 'mimes:jpeg,jpg,png|max:40000'
+            ]);
+        }
+
         $request->validate([
             'landTitle' => 'required|unique:land_parcels,title',
             'district' => 'required|exists:districts,district',
@@ -58,7 +66,6 @@ class TreeRemovalController extends Controller
             'land_gazettes' => 'nullable',
             'land_governing_orgs' => 'nullable',
         ]);
-
 
         DB::transaction(function () use ($request) {
 
@@ -158,17 +165,17 @@ class TreeRemovalController extends Controller
 
             //saving the images to the db
             $latest = Tree_Removal_Request::latest()->first();
-            if (request('images')) {
-                //dd($request->images);
-                $i = count($request->images);
-                for ($y = 0; $y < $i; $y++) {
-                    $file = $request->images[$y];
-                    $filename = $file->getClientOriginalName();
-                    $newname = $latest->id . 'NO' . $y . $filename;
-                    $path = $file->storeAs('treeRemoval', $newname, 'public');
-                    $photoarray[$y] = $path;
+            if($request->hasfile('file')) { 
+                $y=0;
+                foreach($request->file('file') as $file){
+                    $filename =$file->getClientOriginalName();
+                    $newname = $id.'No'.$y.$filename;
+                    $path = $file->storeAs('treeremoval',$newname,'public');
+                    $photoarray[$y] = $path;  
+                    $y++;          
                 }
-                $tree = Tree_Removal_Request::where('id', $latest->id)->update(['images' => json_encode($photoarray)]);
+                //dd($photoarray);
+                $tree = Tree_Removal_Request::where('id',$latest->id)->update(['photos' => json_encode($photoarray)]);
             }
 
             $treeProcess = new Process_Item();
@@ -271,6 +278,7 @@ class TreeRemovalController extends Controller
     {
         $data = Organization::select("title")
             ->where("title", "LIKE", "%{$request->terms}%")
+            ->where('title', '!=', "Citizen")
             ->get();
 
         return response()->json($data);

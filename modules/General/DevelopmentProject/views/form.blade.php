@@ -3,6 +3,12 @@
 @section('general')
 
 <div class="container">
+
+    <!-- FAQ button -->
+    <div class="d-flex justify-content-end">
+        <a title="User Instructions" href="/tree-removal/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
+    </div>
+
     <form action="/dev-project/saveForm" method="post" id="devForm" enctype="multipart/form-data">
         @csrf
 
@@ -50,12 +56,14 @@
                     </div>
                 </div>
                 <div class="col border border-muted rounded-lg mr-2 p-4">
-                    <div class="form-group" id="dynamicAddRemove2">
-                        <label for="images">Image (Optional)</label>
-                        <div class="custom-file mb-3">
-                            <input type="file" id="images" name="images[0]">
-                            <button type="button" name="add" id="add-btn2" class="btn btn-success">Add More</button>
-                        </div>
+                    <div class="form-group" id="dynamicAddRemove">
+                        <label for="images">Photos:</label>
+                        <input type="file" id="image" name="file[]" multiple>
+                        @if ($errors->has('file.*'))
+                            <div class="alert">
+                                <strong>{{ $errors->first('file.*') }}</strong>
+                            </div>
+                        @endif   
                     </div>
                     <br>
                     <hr><br>
@@ -157,10 +165,10 @@
                     </div>
 
                     <!-- saving the coordinates of the kml file -->
-                    <input id="polygon" type="text" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+                    <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
 
                     <!-- Saving the KML file in storage -->
-                    <input id="kml" type="text" name="kml" class="form-control" value="{{request('kml')}}" />
+                    <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
 
                     <div style="float:right;">
                         <button type="submit" class="btn bd-navbar text-light">Submit</button>
@@ -411,6 +419,24 @@
     });
 
 
+    $(document).ready(function(){
+        $('#image').change(function(){
+            var fp = $("#image");
+            var lg = fp[0].files.length; // get length
+            var items = fp[0].files;
+            var fileSize = 0;
+           
+            if (lg > 0) {
+                for (var i = 0; i < lg; i++) {
+                    fileSize = fileSize+items[i].size; // get file size
+                }
+                if(fileSize > 5242880) {
+                    alert('You should not uplaod files exceeding 4 MB. Please compress files size and uplaod agian');
+                    $('#image').val('');
+                }
+            }
+        });
+    });
 
 
 
