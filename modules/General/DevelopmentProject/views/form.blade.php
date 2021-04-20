@@ -3,6 +3,12 @@
 @section('general')
 
 <div class="container">
+
+    <!-- FAQ button -->
+    <div class="d-flex justify-content-end">
+        <a title="User Instructions" href="/tree-removal/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
+    </div>
+
     <form action="/dev-project/saveForm" method="post" id="devForm" enctype="multipart/form-data">
         @csrf
 
@@ -157,10 +163,10 @@
                     </div>
 
                     <!-- saving the coordinates of the kml file -->
-                    <input id="polygon" type="text" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+                    <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
 
                     <!-- Saving the KML file in storage -->
-                    <input id="kml" type="text" name="kml" class="form-control" value="{{request('kml')}}" />
+                    <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
 
                     <div style="float:right;">
                         <button type="submit" class="btn bd-navbar text-light">Submit</button>

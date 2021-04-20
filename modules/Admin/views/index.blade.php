@@ -3,16 +3,18 @@
 @section('admin')
 
 <div class="flex row border-secondary rounded-lg ml-3 justify-content-between">
-    <!-- Sessions to display success or failure -->
-    <span>
-        <!-- <div class="alert-success" style="display: block">{{session('message')}}</div> -->
-        <h3 class="text-center bg-success text-light">{{session('message')}}</h3>
-    </span>
-    <span>
-        <!-- <div class="alert-danger" style="display: block">{{session('danger')}}</div> -->
-        <h3 class="text-center bg-danger text-light">{{session('danger')}}</h3>
-    </span>
-    <span>
+    <div class="col-md-5">
+        <form action="/user/searchUsers" method="get">
+            <div class="input-group">
+                <input type="search" class="form-control" name="search" placeholder="Search Users">
+                <span class="form-group-button">
+                    <button type="submit" class="btn btn-primary ml-2"><i class="fa fa-search" aria-hidden="true"></i></button>
+                    <a class="btn btn-warning ml-1" href="/user/index"><i class="fa fa-retweet" aria-hidden="true"></i></a>
+                </span>
+            </div>
+        </form>
+    </div>
+    <span style="float:right;">
         <!-- Only show the self registered users button if Admin or Super Admin -->
         @if (Auth::user()->role_id == 1 ||Auth::user()->role_id == 2)
         <!-- Opens the selfRegistered view -->
