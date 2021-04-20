@@ -34,20 +34,20 @@ use Redirect;
 class ApprovalItemController extends Controller
 {
     
-    public function confirm_assign_staff($id,$pid)
+    public function confirm_assign_staff($uid,$id)
     {
-        $array=DB::transaction(function () use($id,$pid){
-            $Process_item =Process_item::find($pid);
+        $array=DB::transaction(function () use($uid,$id){
+            $Process_item =Process_item::find($id);
         $new_assign=1;
         if($Process_item->activity_user_id != null){
             $new_assign='0';
         } 
         
-        Process_item::where('id',$pid)->update([
-            'activity_user_id' => $id,
+        Process_item::where('id',$id)->update([
+            'activity_user_id' => $uid,
             'status_id' => 3
             ]);
-        $user = User::find($id);
+        $user = User::find($uid);
         Notification::send($user, new StaffAssigned($Process_item));
         return $new_assign;
         });
@@ -57,26 +57,26 @@ class ApprovalItemController extends Controller
         return back()->with('message', 'Authority assigned Successfully'); 
     }
 
-    public function change_assign_organization($id,$pid)
+    public function change_assign_organization($oid,$id)
     {
-        DB::transaction(function () use($id,$pid){
-            $Process_item =Process_item::find($pid);
+        DB::transaction(function () use($oid,$id){
+            $Process_item =Process_item::find($id);
             $Users = User::where([
                 ['role_id', '=' , 3],           
-                ['organization_id', '=', $id], 
+                ['organization_id', '=', $oid], 
             ])->orWhere([
                 ['role_id', '=' , 4],           
-                ['organization_id', '=', $id], 
+                ['organization_id', '=', $oid], 
             ])->get();
-            Process_item::where('id',$pid)->update([
-                'activity_organization' => $id ,
+            Process_item::where('id',$id)->update([
+                'activity_organization' => $oid ,
                 'status_id' => 2
                 ]);
             Process_item::where([
                 ['prerequisite_id','=',$Process_item],
                 ['prerequisite', '=' ,0],
                 ])->update([
-                    'activity_organization' => $id ,
+                    'activity_organization' => $oid ,
                     'status_id' => 2
                     ]);
             Notification::send($Users, new AssignOrg($Process_item));

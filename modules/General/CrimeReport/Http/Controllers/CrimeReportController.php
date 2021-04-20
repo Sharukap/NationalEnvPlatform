@@ -25,6 +25,13 @@ class CrimeReportController extends Controller
     
     public function create_crime_report(Request $request)
     {  
+        if($request->hasfile('file')){
+            
+            request()->validate([
+                'file' => 'required',
+                'file.*' => 'mimes:jpeg,jpg,png|max:40000'
+            ]);
+        }
         $request -> validate([
             'crime_type' => 'required|not_in:0',
             'description' => 'required',
@@ -67,16 +74,17 @@ class CrimeReportController extends Controller
             $Crime_report->status = "1";
             $Crime_report->save();
             $id = Crime_report::latest()->first()->id;
-            if($request->hasFile('images')){ 
-                $i = count($request->images);
-                for($y=0;$y<$i;$y++){
-                    $file = $request->images[$y];
+            if($request->hasfile('file')) { 
+                $y=0;
+                foreach($request->file('file') as $file){
                     $filename =$file->getClientOriginalName();
-                    $newname = $id.'NO'.$y.$filename;
-                    $path = $file->storeAs('crimeEvidence',$newname,'public');
-                    $photoarray[$y] = $path;            
+                    $newname = $id.'No'.$y.$filename;
+                    $path = $file->storeAs('crimereport',$newname,'public');
+                    $photoarray[$y] = $path;  
+                    $y++;          
                 }
-                $crime_rep = Crime_report::where('id',$id)->update(['photos' => json_encode($photoarray)]);
+                //dd($photoarray);
+                $crime = Crime_report::where('id',$id)->update(['photos' => json_encode($photoarray)]);
             }
             $org=Organization::where('title', $request['organization'])->first();
             $Process_item =new Process_item;

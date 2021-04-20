@@ -4,7 +4,7 @@
 <div class="container">
     <div class="container bg-white">
     <div class="row p-4 bg-white">
-        <kbd><a href="/security/main/{{$process_item->id}}" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+        <kbd><a href="/security/process-item/{{$process_item->id}}" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
     </div>
     <div class="row p-4 bg-white">
         <h4>Details of Audit record {{$audit['event']}} on {{date('d-m-Y',strtotime($audit['created_at']))}}</h4>
