@@ -100,7 +100,7 @@
 					},
 					title: {
 						display: true,
-						text: 'REQUESTS MADE WITHIN THE LAST 5 MONTHS',
+						text: 'Time Lapse of Requests made',
 						position: 'top'
 					},
 					legend: {

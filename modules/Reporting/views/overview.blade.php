@@ -49,10 +49,11 @@
                 <select name="form_type" class="custom-select" required>
                 
                     <option value="0" selected>Select Request Type</option>
-                    <option value="1">Tree Cutting permission Requests</option>
+                    <option value="1">Tree Removal permission Requests</option>
                     <option value="2">Development project permission Requests</option>
                     <option value="3">Restoration project permission Requests</option>
                     <option value="4">Crime Reports</option>
+                    <option value="5">Land Parcel Request</option>
                 </select>
             </div>
 
