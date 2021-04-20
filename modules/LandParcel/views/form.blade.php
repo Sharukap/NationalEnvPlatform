@@ -13,12 +13,6 @@
         @csrf
 
         <div class="container">
-        <div class="row border-lg justify-content-end bg-white">
-        <div class="d-flex justify-content-end">
-           
-            <button type="button"   " data-placement="top" title="User Instructions"><a href="/land/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a></button>
-        </div>
-    </div>
             <div class="row p-4 bg-white">
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     
