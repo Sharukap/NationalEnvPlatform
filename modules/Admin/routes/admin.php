@@ -52,5 +52,4 @@ Route::get('/removeAccess/{id}',[AdminController::class, 'accessremove']);
 Route::get('/searchUsers', [UserController::class, 'searchUsers']);
 //search - activate users
 Route::get('/searchSelfRegistered', [UserController::class, 'searchSelfRegistered']);
-
 });

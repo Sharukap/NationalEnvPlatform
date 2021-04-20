@@ -5,7 +5,7 @@ namespace Environment\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Species;
 use App\Models\Organization;
-
+use App\Models\District;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -31,6 +31,7 @@ class SpeciesController extends Controller
             'taxanomy' => 'required',
             'description' => 'required',
             'createby' => 'required',
+            'district' => 'required',
             'polygon' => 'required',
             'district' => 'required|exists:districts,district',
         ]);
@@ -39,10 +40,27 @@ class SpeciesController extends Controller
         $species->title = $request->input('title');
         $species->scientefic_name = $request->input('scientific_name');
         $species->habitats = $request->input('habitat');
+        $district_id1 = District::where('district', request('district'))->pluck('id');
+        $species->district_id = $district_id1[0];
         $species->taxa = $request->input('taxanomy');
         $species->polygon = request('polygon');
         $species->description = $request->input('description');
         $species->status_id = $request->input('status');
+        if( $request->hasFile('images')) {
+            
+            $file = $request->file('images') ;
+            $extension = $file->getClientOriginalExtension() ; //geting the image extension
+            $filename= time() . '.' . $extension;
+            $file->move('uploads/species/', $filename);
+            $species->images= $filename;
+
+        }else{
+            
+$species->images = '';
+
+
+        }
+
 
         $species->created_by_user_id = $request->input('createby');
         $species->save();

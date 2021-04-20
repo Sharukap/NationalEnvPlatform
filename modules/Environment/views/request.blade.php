@@ -6,15 +6,23 @@
     </br>
 
 
+
+
     <div class="container">
         <h4 style="text-align:center;" class="text-dark">Add New Ecosystem</h4>
-        <hr>
+
+
         <div class="row justify-content-md-center border p-4 bg-white">
+
             <div class="col-lg ml-3">
 
-                <h6 style="text-align:left;" class="text-dark">Eco-Systems Details</h6>
-                <hr>
-                <form action="/environment/newrequest" method="post">
+
+                <div class="d-flex justify-content-end">
+                    <a data-placement="top" title="FAQ" href="/environment/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
+
+                </div>
+
+                <form action="/environment/newrequest" method="post" enctype="multipart/form-data">
                     @csrf
 
                     @if(\Session::has('success'))
@@ -36,7 +44,6 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
-
 
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -126,42 +133,11 @@
         },
     });
 
-    var path = "{{route('gazette')}}";
-    $('input.typeahead').typeahead({
-        source: function(terms, process) {
+  
 
-            return $.get(path, {
-                terms: terms
-            }, function(data) {
-                console.log(data);
-                objects = [];
-                data.map(i => {
-                    objects.push(i.gazette_number)
-                })
-                console.log(objects);
-                return process(objects);
-            })
-        },
-    });
 
-    //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
-    var path3 = "{{route('organization')}}";
-    $('input.typeahead3').typeahead({
-        source: function(terms, process) {
-
-            return $.get(path3, {
-                terms: terms
-            }, function(data) {
-                console.log(data);
-                objects = [];
-                data.map(i => {
-                    objects.push(i.title)
-                })
-                console.log(objects);
-                return process(objects);
-            })
-        },
-    });
+    // Typeahed to get the data from the district table_autocomplete
+   
 
 
     ///SCRIPT FOR THE MAP

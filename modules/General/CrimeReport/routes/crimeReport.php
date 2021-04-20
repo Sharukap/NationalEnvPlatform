@@ -8,7 +8,8 @@ Route::get('/viewimage/{path}/{file}',[CrimeReportController::class, 'view_image
 Route::get('/newcrime',[CrimeReportController::class, 'crime_report_form_display'])->name("crime");
 Route::get('/viewcrime/{id}',[CrimeReportController::class, 'view_crime_reports']);
 
-
+//Route to get the FAQ View
+Route::get('/userinstruct', fn() => view('crimeReport::faq'));
 Route::get('/crimeTypeCreate', [CrimeReportController::class, 'create_crime_type']);
 Route::get('/crimeTypeEdit/{id}', [CrimeReportController::class, 'edit_crime_type']);
 Route::patch('/crimeTypeUpdate/{id}', [CrimeReportController::class, 'update_crime_type']);
