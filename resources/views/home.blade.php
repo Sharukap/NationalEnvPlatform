@@ -36,12 +36,10 @@
                         <!-- Links -->
                         <ul class="navbar-nav">
                             <li class="nav-item mt-5">
-
                                 <a class="nav-link text-light" href="/general/pending"><i class="fa fa-home mr-3" aria-hidden="true"></i> General Module</a>
                             </li>
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/user/index"><i class="fa fa-user mr-3" aria-hidden="true"></i> User Management</a>
-
                             </li>
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-tree mr-3" aria-hidden="true"></i>   Environment Module</a>
@@ -55,12 +53,10 @@
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-book mr-3" aria-hidden="true"></i> Reporting</a>
                             </li>
-                            <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/help/test"><i class="fa fa-question-circle mr-3" aria-hidden="true"></i> Help</a>
-                            </li>
-                             <li class="nav-item mt-3">
+                             <li class="nav-item mt-3" style="margin-bottom:345px;">
                                 <a class="nav-link text-light" href="/system-data/accessindex"><i class="fa fa-database mr-3" aria-hidden="true"></i> System Data</a>
                             </li>
+                            <li class="nav-item mt-3"></li>
                         </ul>
                     </nav>
                 </div>
