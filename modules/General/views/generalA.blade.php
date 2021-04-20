@@ -62,7 +62,7 @@
                 <th>Remark</th>
                 @if(Auth::user()->role_id !== 6)
                     <th>Check and Assign</th>
-                    @if(Auth::user()->role_id == 3 ||Auth::user()->role_id == 4)
+                    @if(Auth::user()->role_id <= 4)
                         <th>Audit</th>
                     @endif
 
@@ -89,6 +89,7 @@
                 <td>{{$process_item->remark}}</td>
                 @if(Auth::user()->role_id == 1 ||Auth::user()->role_id == 2)
                 <td><a href="/approval-item/assignorganization/{{$process_item->id}}" class="text-muted">Assign</a></td>
+                <td><a href="/security/process-item/{{$process_item->id}}" class="text-muted">Audit</a></td>
                 @elseif(Auth::user()->role_id == 3 ||Auth::user()->role_id == 4)
                     
                         <td><a href="/approval-item/assignstaff/{{$process_item->id}}" class="text-muted">Assign</a></td>
