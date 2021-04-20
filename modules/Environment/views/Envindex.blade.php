@@ -10,11 +10,6 @@
   </div>
 
   <br>
-
-
-
-
-
   <table class="table table-striped table-white">
     <thead>
       <tr>

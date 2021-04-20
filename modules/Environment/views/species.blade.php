@@ -152,6 +152,8 @@
         </form>
 
     </div>
+    
+    
     <script type="text/javascript">
         var path2 = "{{route('district')}}";
         $('input.typeahead2').typeahead({
@@ -170,42 +172,9 @@
                 })
             },
         });
-        var path = "{{route('gazette')}}";
-        $('input.typeahead').typeahead({
-            source: function(terms, process) {
+        
 
-                return $.get(path, {
-                    terms: terms
-                }, function(data) {
-                    console.log(data);
-                    objects = [];
-                    data.map(i => {
-                        objects.push(i.gazette_number)
-                    })
-                    console.log(objects);
-                    return process(objects);
-                })
-            },
-        });
-
-        //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
-        var path3 = "{{route('organization')}}";
-        $('input.typeahead3').typeahead({
-            source: function(terms, process) {
-
-                return $.get(path3, {
-                    terms: terms
-                }, function(data) {
-                    console.log(data);
-                    objects = [];
-                    data.map(i => {
-                        objects.push(i.title)
-                    })
-                    console.log(objects);
-                    return process(objects);
-                })
-            },
-        });
+        
 
 
         ///SCRIPT FOR THE MAP
