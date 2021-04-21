@@ -85,6 +85,7 @@
                         <th>Requested_by</th>
                         @endif
                         <th>Remark</th>
+                        <th>See Report</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -104,6 +105,7 @@
                             <td>{{$process_item->requesting_organization->title}}</td>
                         @endif
                         <td>{{$process_item->remark}}</td>
+                        <td><a href="">See Report</a></td>
                     </tr>
                     @endforeach
                 </tbody>
