@@ -6,9 +6,7 @@
 <div class="container">
     <!-- If user status is 0 -> Not activated then prevent access to the edit view -->
     @if($user->status == 0)
-    <div class="container p-3 my-3 text-danger">
-        <h2>This user is not activated. Please activate the user prior to editing details.</h2>
-    </div>
+    <h5 class="alert alert-danger">This user is not activated. Please activate the user prior to editing details.</h5>
     @else
     <h2 style="text-align:center;" class="text-dark">Edit Privileges of {{$user->name}}</h2>
     <hr>

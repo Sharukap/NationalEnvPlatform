@@ -29,6 +29,7 @@ Use App\Notifications\prereqmemo;
 use Illuminate\Support\Facades\Storage;
 use PDF;
 use Redirect;
+use OwenIt\Auditing\Facades\Auditor;
 
 
 class ApprovalItemController extends Controller
@@ -42,11 +43,16 @@ class ApprovalItemController extends Controller
         if($Process_item->activity_user_id != null){
             $new_assign='0';
         } 
-        
-        Process_item::where('id',$id)->update([
+        $Process_item->activity_user_id=$uid;
+        $Process_item->status_id=3;
+        $Process_item->save();
+        /* $Process_item->update([
             'activity_user_id' => $uid,
             'status_id' => 3
             ]);
+            if ($audit = Auditor::execute($Process_item)) {
+                Auditor::prune($Process_item);
+            } */
         $user = User::find($uid);
         Notification::send($user, new StaffAssigned($Process_item));
         return $new_assign;
@@ -68,17 +74,15 @@ class ApprovalItemController extends Controller
                 ['role_id', '=' , 4],           
                 ['organization_id', '=', $oid], 
             ])->get();
-            Process_item::where('id',$id)->update([
-                'activity_organization' => $oid ,
-                'status_id' => 2
-                ]);
-            Process_item::where([
-                ['prerequisite_id','=',$Process_item],
-                ['prerequisite', '=' ,0],
-                ])->update([
-                    'activity_organization' => $oid ,
-                    'status_id' => 2
-                    ]);
+            $Process_item->activity_organization=$oid;
+            $Process_item->status_id=2;
+            $Process_item->save();
+           
+            $Land_process = Process_Item::where('prerequisite_id', $Process_item->id)->where('prerequisite',0)->first();
+            $Land_process->activity_organization = $oid;
+            $Land_process->status_id = 2;
+            $Land_process->save();
+            
             Notification::send($Users, new AssignOrg($Process_item));
         });
         
@@ -92,13 +96,19 @@ class ApprovalItemController extends Controller
             'email' => 'required',
         ]);
         $array=DB::transaction(function () use($request){
-
-        Process_item::where('id',$request['process_id'])->update([
+            $Process_item =Process_item::find($request['process_id']);
+            $Process_item->ext_requestor=$request['organization'];
+            $Process_item->status_id=2;
+            $Process_item->save();
+        /* Process_item::where('id',$request['process_id'])->update([
             'ext_requestor' => $request['organization'],
             'status_id' => 2
-        ]);
-        $process_item =Process_item::find($request['process_id']);
-        return($process_item);
+        ]); */
+        $Land_process = Process_Item::where('prerequisite_id', $Process_item->id)->where('prerequisite',0)->first();
+        $Land_process->ext_requestor=$request['organization'];
+        $Land_process->status_id = 2;
+        $Land_process->save();
+        return($Process_item);
         });
         $user =User::find($request['create_by']);
         if($array->form_type_id == '1'){ 
@@ -140,9 +150,11 @@ class ApprovalItemController extends Controller
         
         $process_item = $array->toarray();
         if($Photos != null){
-            for($y=0;$y<count($Photos);$y++){
+            $y=0;
+            foreach ($Photos as $photo){
                 //return Storage::disk('public')->download($photo);
-                $contents[$y] =  Storage::disk('public')->get($Photos[$y]);
+                $contents[$y] =  Storage::disk('public')->get($photo);
+                $y++;
             }
         }
         if(isset($contents)){
@@ -501,10 +513,10 @@ class ApprovalItemController extends Controller
         $Process_item =Process_item::find($id);
         $User=User::find($userid);
         $remark=$Process_item->remark.' cancelled by '.$User->name.' (userId: '.$User->id.')';
-        $Process_item->update([
-            'status_id' => 8,
-            'remark' => $remark,
-        ]);
+        $Process_item->status_id = 8;
+        $Process_item->remark = $remark;
+        $Process_item->save();
+
         if($Process_item->created_by_user_id==$userid){
             return back()->with('message', 'Prerequisite is removed successfully');
         }
@@ -556,8 +568,12 @@ class ApprovalItemController extends Controller
                 
             }
             else{
-                
-                Process_item::where('id',$id)->update(['status_id' => 5]);
+                $Process_item=Process_item::where('id',$id)->first();
+                $remark=$Process_item->remark.$request['request'];
+                $Process_item->status_id = 5;
+                $Process_item->remark = $remark;
+                $Process_item->save();
+                //Process_item::where('id',$id)->update(['status_id' => 5]);
                 $Process_item_progress =new Process_item_progress;
                 $Process_item_progress->created_by_user_id = $request['create_by'];
                 $Process_item_progress->process_item_id = $request['process_id'];
@@ -565,14 +581,18 @@ class ApprovalItemController extends Controller
                 $Process_item_progress->remark = 'Final Approval of application '.$request['request'];
                 $Process_item_progress->save();
                 if($Process_item_progress->form_type_id==4){
-                    Crime_report::where('id',$Process_item_progress->form_id)->update([
-                        'action_taken' => 1,
-                        ]);
+                    $crime=Crime_report::where('id',$Process_item_progress->form_id)->first();
+                    $crime->action_taken =1;
                 }
             }
         }
         else{
-                Process_item::where('id',$id)->update(['status_id' => 6]);
+                $Process_item=Process_item::where('id',$id)->first();
+                $remark=$Process_item->remark.$request['request'];
+                $Process_item->status_id = 6;
+                $Process_item->remark = $remark;
+                $Process_item->save();
+                //Process_item::where('id',$id)->update(['status_id' => 6]);
                 $Process_item_progress =new Process_item_progress;
                 $Process_item_progress->created_by_user_id = $request['create_by'];
                 $Process_item_progress->process_item_id = $request['process_id'];
