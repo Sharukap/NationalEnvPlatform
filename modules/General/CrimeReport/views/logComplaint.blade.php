@@ -2,20 +2,13 @@
 
 @section('general')
 <div class="container">
-    
-
-<hr>
-    <form action="\crime-report\crimecreate" method="post" enctype="multipart/form-data">
-    @csrf
-        <div class="container bg-white">
-        <div class="row border-lg justify-content-end bg-white">
-        
-        <div class="d-flex justify-content-end">
-                    <a data-placement="top" title="FAQ" href="/crime-report/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
-
-                </div>
+    <!-- FAQ button -->
+    <div class="d-flex justify-content-end">
+        <a title="User Instructions" href="/crime-report/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
     </div>
-       
+    <form action="\crime-report\crimecreate" method="post" enctype="multipart/form-data">
+        @csrf
+        <div class="container bg-white">
             <div class="row p-4 bg-white">
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     <div class="form-group">
@@ -23,78 +16,78 @@
                         <select name="crime_type" class="custom-select" required>
                             <option value="0" selected>Select Crime Type</option>
                             @foreach($crime_types as $crime_type)
-                                <option value="{{$crime_type->id}}">{{$crime_type->type}}</option>
+                            <option value="{{$crime_type->id}}">{{$crime_type->type}}</option>
                             @endforeach
                         </select>
                         @error('crime_type')
-                            <div class="alert">                                   
-                                <strong>{{ $message }}</strong>
-                            </div>
+                        <div class="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="organization">Make complaint to:</label>
-                            <input type="text" class="form-control typeahead3" placeholder="Search" name="organization" value="{{ old('organization') }}"/>
-                            
+                        <input type="text" class="form-control typeahead3" placeholder="Search" name="organization" value="{{ old('organization') }}" />
+
                         @error('organization')
-                            <div class="alert">                                   
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror    
+                        <div class="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
+                        @enderror
                     </div>
                     <div class="form-group" id="dynamicAddRemove">
                         <label for="images">Photos:</label>
                         <input type="file" id="image" name="file[]" multiple>
                         @if ($errors->has('file.*'))
-                            <div class="alert">
-                                <strong>{{ $errors->first('file.*') }}</strong>
-                            </div>
-                        @endif   
+                        <div class="alert">
+                            <strong>{{ $errors->first('file.*') }}</strong>
+                        </div>
+                        @endif
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea  class="form-control" rows="3" name="description">
+                        <textarea class="form-control" rows="3" name="description">
                         </textarea>
                         @error('description')
-                            <div class="alert">
-                                <strong>{{ $message }}</strong>
-                            </div>
+                        <div class="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
                         @enderror
                     </div>
                     <hr>
                     <div class="form-group">
-                        <input type="checkbox" name="nonreguser" value="1" ><strong> Creating on behalf of non registered user</strong>
+                        <input type="checkbox" name="nonreguser" value="1"><strong> Creating on behalf of non registered user</strong>
                         <br>
                         <label for="description">Inform investigation result to Mr/Ms:</label>
-                        <input type="text" class="form-control" placeholder="Enter complainant name" name="Requestor" value=""/>
+                        <input type="text" class="form-control" placeholder="Enter complainant name" name="Requestor" value="" />
                         @error('Requestor')
-                            <div class="alert">
-                                <strong>{{ $message }}</strong>
-                            </div>
+                        <div class="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="description">Through email:</label>
-                        <input type="text" class="form-control" placeholder="Enter complainant's email" name="Requestor_email" value=""/>
+                        <input type="text" class="form-control" placeholder="Enter complainant's email" name="Requestor_email" value="" />
                         @error('Requestor_email')
-                            <div class="alert">
-                                <strong>{{ $message }}</strong>
-                            </div>
+                        <div class="alert">
+                            <strong>{{ $message }}</strong>
+                        </div>
                         @enderror
                     </div>
                     <hr>
                     <div class="form-check">
-                    <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}">  `   
+                        <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}"> `
                         <input id="polygon" type="hidden" name="polygon" value="{{request('polygon')}}">
                         <label class="form-check-label">
-                        <input type="checkbox" class="form-check-input" name="confirm" ><strong>I confirm these information to be true</strong>
-                        @error('confirm')
+                            <input type="checkbox" class="form-check-input" name="confirm"><strong>I confirm these information to be true</strong>
+                            @error('confirm')
                             <div class="alert">
                                 <strong>{{ $message }}</strong>
                             </div>
-                        @enderror
+                            @enderror
                         </label>
-                        <button type="submit" class="btn btn-primary" >Submit</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
                 <div class="col border border-muted rounded-lg p-4">
@@ -102,13 +95,13 @@
                         <label for="landTitle">Area name:</label>
                         <input type="text" class="form-control" placeholder="Enter Area name" id="landTitle" name="landTitle">
                         @error('landTitle')
-                            <strong>{{ $message }}</strong>
+                        <strong>{{ $message }}</strong>
                         @enderror
                     </div>
                     <!-- ////////MAP GOES HERE -->
                     <div id="mapid" style="height:400px;" name="map"></div>
                     @error('polygon')
-                        <strong>{{ $message }}</strong>
+                    <strong>{{ $message }}</strong>
                     @enderror
                     <br>
                 </div>
@@ -117,7 +110,6 @@
     </form>
 </div>
 <script type="text/javascript">
-
     //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
     var path3 = "{{route('organization')}}";
     $('input.typeahead3').typeahead({
@@ -237,24 +229,23 @@
         $('#kml').val(tokml(drawnItems.toGeoJSON()));
     });
 
-    $(document).ready(function(){
-        $('#image').change(function(){
+    $(document).ready(function() {
+        $('#image').change(function() {
             var fp = $("#image");
             var lg = fp[0].files.length; // get length
             var items = fp[0].files;
             var fileSize = 0;
-           
+
             if (lg > 0) {
                 for (var i = 0; i < lg; i++) {
-                    fileSize = fileSize+items[i].size; // get file size
+                    fileSize = fileSize + items[i].size; // get file size
                 }
-                if(fileSize > 5242880) {
+                if (fileSize > 5242880) {
                     alert('You should not uplaod files exceeding 4 MB. Please compress files size and uplaod agian');
                     $('#image').val('');
                 }
             }
         });
     });
-
 </script>
 @endsection
