@@ -86,7 +86,10 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                         <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" /> <br>
-
+                        <div class="form-check">
+                            <a href="https://www.globalforestwatch.org/dashboards/country/LKA/?category=summary&dashboardPrompts=eyJzaG93UHJvbXB0cyI6dHJ1ZSwicHJvbXB0c1ZpZXdlZCI6WyJ2aWV3TmF0aW9uYWxEYXNoYm9hcmRzIl0sInNldHRpbmdzIjp7Im9wZW4iOmZhbHNlLCJzdGVwSW5kZXgiOjAsInN0ZXBzS2V5IjoiIn0sIm9wZW4iOnRydWUsInN0ZXBzS2V5IjoiZG93bmxvYWREYXNoYm9hcmRTdGF0cyJ9&location=WyJjb3VudHJ5IiwiTEtBIl0%3D&map=eyJjZW50ZXIiOnsibGF0Ijo3Ljg4NjkzMTg0MzkyMjQzMywibG5nIjo4MC43NzgwNTcwOTk5NzM4OH0sInpvb20iOjYuNzMwNDAwNzIyNzExMTcsImNhbkJvdW5kIjpmYWxzZSwiZGF0YXNldHMiOlt7ImRhdGFzZXQiOiJwb2xpdGljYWwtYm91bmRhcmllcyIsImxheWVycyI6WyJkaXNwdXRlZC1wb2xpdGljYWwtYm91bmRhcmllcyIsInBvbGl0aWNhbC1ib3VuZGFyaWVzIl0sImJvdW5kYXJ5Ijp0cnVlLCJvcGFjaXR5IjoxLCJ2aXNpYmlsaXR5Ijp0cnVlfSx7ImRhdGFzZXQiOiJ0cmVlLWNvdmVyLWxvc3MiLCJsYXllcnMiOlsidHJlZS1jb3Zlci1sb3NzIl0sIm9wYWNpdHkiOjEsInZpc2liaWxpdHkiOnRydWUsInBhcmFtcyI6eyJ0aHJlc2hvbGQiOjMwLCJ2aXNpYmlsaXR5Ijp0cnVlfX1dfQ%3D%3D" target="_blank">See Affected regions in Sri Lanka</a>
+                        </div>
+                        <br />
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
                             <label class="custom-control-label" for="customCheck"><strong>Demarcated land is a protected area</strong></label>

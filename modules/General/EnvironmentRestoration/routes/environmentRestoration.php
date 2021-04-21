@@ -3,8 +3,6 @@
 use EnvironmentRestoration\Http\Controllers\EnvironmentRestorationController;
 
 Route::middleware(['auth'])->group(function () {
-Route::get('/index', [EnvironmentRestorationController::class, 'index']);
-Route::get('/myIndex', [EnvironmentRestorationController::class, 'myIndex']);
 Route::get('/show/{id}', [EnvironmentRestorationController::class, 'show']);
 //Route to get the FAQ View
 Route::get('/userinstruct', fn() => view('environmentRestoration::faq'));
