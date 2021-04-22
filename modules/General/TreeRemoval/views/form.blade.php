@@ -566,6 +566,22 @@
     $('#kml').val(tokml(drawnItems.toGeoJSON()));
   });
 
+  //SEARCH FUNCTIONALITY
+  var searchControl = new L.esri.Controls.Geosearch().addTo(map);
+
+  var results = new L.LayerGroup().addTo(map);
+
+  searchControl.on('results', function(data) {
+    results.clearLayers();
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      results.addLayer(L.marker(data.results[i].latlng));
+    }
+  });
+
+  setTimeout(function() {
+    $('.pointer').fadeOut('slow');
+  }, 3400);
+
   ///UPLOADING A FILE AND RETRIEVING AND CREATING A LAYER FROM IT.
   document.getElementById("upload").addEventListener("click", function() {
     var data = new FormData(document.getElementById("regForm"));

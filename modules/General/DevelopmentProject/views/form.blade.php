@@ -1,7 +1,6 @@
 @extends('general')
 
 @section('general')
-
 <div class="container">
 
     <!-- FAQ button -->
@@ -167,7 +166,7 @@
                     </div>
 
                     <!-- saving the coordinates of the kml file -->
-                    <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+                    <input id="polygon" type="text" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
 
                     <!-- Saving the KML file in storage -->
                     <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
@@ -376,6 +375,22 @@
         ///Converting your layer to a KML
         $('#kml').val(tokml(drawnItems.toGeoJSON()));
     });
+
+    //SEARCH FUNCTIONALITY
+    var searchControl = new L.esri.Controls.Geosearch().addTo(map);
+
+    var results = new L.LayerGroup().addTo(map);
+
+    searchControl.on('results', function(data) {
+        results.clearLayers();
+        for (var i = data.results.length - 1; i >= 0; i--) {
+            results.addLayer(L.marker(data.results[i].latlng));
+        }
+    });
+
+    setTimeout(function() {
+        $('.pointer').fadeOut('slow');
+    }, 3400);
 
     ///UPLOADING A FILE AND RETRIEVING AND CREATING A LAYER FROM IT.
     document.getElementById("upload").addEventListener("click", function() {

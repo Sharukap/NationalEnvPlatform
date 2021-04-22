@@ -21,6 +21,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous"></script>
 
+    <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet/0.0.1-beta.5/esri-leaflet.js"></script>
+    <script src="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn-geoweb.s3.amazonaws.com/esri-leaflet-geocoder/0.0.1-beta.5/esri-leaflet-geocoder.css">
 
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
     <link href="{{ url('/css/app.css') }}" rel="stylesheet">
@@ -54,7 +57,7 @@
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-fw fa-book mr-3" aria-hidden="true"></i> Reporting</a>
                             </li>
-                             <li class="nav-item mt-3" style="margin-bottom:345px;">
+                            <li class="nav-item mt-3" style="margin-bottom:345px;">
                                 <a class="nav-link text-light" href="/system-data/accessindex"><i class="fa fa-fw fa-database mr-3" aria-hidden="true"></i> System Data</a>
                             </li>
                             <li class="nav-item mt-3"></li>
@@ -91,27 +94,32 @@
                             <a href="/approval-item/investigate/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
-                                    </li></span></a>
+                                    </li>
+                                </span></a>
                             @elseif($notification->type == "App\Notifications\AssignOrg")
                             <a href="/approval-item/assignstaff/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p> {{$notification->data['type']}} application No {{$notification->data['form_id']}} {{$notification->data['action']}}</p></i>
-                                    </li></span></a>
+                                    </li>
+                                </span></a>
                             @elseif($notification->type == "App\Notifications\ApplicationMade")
                             <a href="/approval-item/assignorganization/{{$notification->data['process_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p>New {{$notification->data['type']}} application No {{$notification->data['form_id']}} has been made.</p></i>
-                                    </li></span></a>
+                                    </li>
+                                </span></a>
                             @elseif($notification->type == "App\Notifications\NewUserRegistration")
                             <a href="/user/showSelfRegistered/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
-                                        <p>New User {{$notification->data['name']}} has registered using  {{$notification->data['email']}} has been made.</p></i>
-                                    </li></span></a>
+                                        <p>New User {{$notification->data['name']}} has registered using {{$notification->data['email']}} has been made.</p></i>
+                                    </li>
+                                </span></a>
                             @elseif($notification->type == "App\Notifications\prereqmemo")
                             <a href="/approval-item/investigate/{{$notification->data['prerequisite_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
                                         <p>Prerequisite no {{$notification->data['process_id']}} {{$notification->data['remark']}} .</p></i>
-                                    </li></span></a>
+                                    </li>
+                                </span></a>
                             @endif
                         </ul>
                         @endforeach
@@ -176,7 +184,7 @@
                         @endguest
                     </ul>
                 </nav>
-                
+
                 <div style="background-color:#f0f0f7" class="col-md">
                     <span>
                         <h4 class="text-center bg-success text-light">{{session('message')}}</h4>
@@ -219,4 +227,5 @@
         </footer>
     </div>
 </body>
+
 </html>
