@@ -23,7 +23,11 @@
                         <select name="crime_type" class="custom-select" required>
                             <option value="0" selected>Select Crime Type</option>
                             @foreach($crime_types as $crime_type)
-                                <option value="{{$crime_type->id}}">{{$crime_type->type}}</option>
+                                @if (old('crime_type') == $crime_type->id)
+  		                            <option value="{{ $crime_type->id }}" selected>{{$crime_type->type}}</option>
+  	                            @else
+                                    <option value="{{$crime_type->id}}">{{$crime_type->type}}</option>
+                                @endif
                             @endforeach
                         </select>
                         @error('crime_type')
@@ -53,8 +57,7 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea  class="form-control" rows="3" name="description">
-                        </textarea>
+                        <textarea  class="form-control" rows="3" name="description">{{ old('description') }}</textarea>
                         @error('description')
                             <div class="alert">
                                 <strong>{{ $message }}</strong>
@@ -66,7 +69,7 @@
                         <input type="checkbox" name="nonreguser" value="1" ><strong> Creating on behalf of non registered user</strong>
                         <br>
                         <label for="description">Inform investigation result to Mr/Ms:</label>
-                        <input type="text" class="form-control" placeholder="Enter complainant name" name="Requestor" value=""/>
+                        <input type="text" class="form-control" placeholder="Enter complainant name" name="Requestor" value="{{ old('Requestor') }}"/>
                         @error('Requestor')
                             <div class="alert">
                                 <strong>{{ $message }}</strong>
@@ -75,7 +78,7 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Through email:</label>
-                        <input type="text" class="form-control" placeholder="Enter complainant's email" name="Requestor_email" value=""/>
+                        <input type="text" class="form-control" placeholder="Enter complainant's email" name="Requestor_email" value="{{ old('Requestor_email') }}"/>
                         @error('Requestor_email')
                             <div class="alert">
                                 <strong>{{ $message }}</strong>
@@ -100,7 +103,7 @@
                 <div class="col border border-muted rounded-lg p-4">
                     <div class="form-group">
                         <label for="landTitle">Area name:</label>
-                        <input type="text" class="form-control" placeholder="Enter Area name" id="landTitle" name="landTitle">
+                        <input type="text" class="form-control" placeholder="Enter Area name" id="landTitle" name="landTitle" value="{{ old('landTitle') }}">
                         @error('landTitle')
                             <strong>{{ $message }}</strong>
                         @enderror
@@ -136,6 +139,15 @@
             })
         },
     });
+
+    ///MAP ACTIVITIES
+
+    //var center = [7.2906, 80.6337];
+
+    // Create the map
+    //var map = L.map('mapid').setView(center, 10);    
+    //The first parameter passed into setView() represents the latitude and longitude, and the second parameter is the zoom level.
+
 
     var map = L.map('mapid', {
         center: [7.2906, 80.6337], //if the location cannot be fetched it will be set to Kandy
@@ -255,6 +267,8 @@
             }
         });
     });
+
+    
 
 </script>
 @endsection

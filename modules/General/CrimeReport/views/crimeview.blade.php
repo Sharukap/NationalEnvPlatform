@@ -76,5 +76,6 @@
     //ADDING THE JSOON COORDINATES TO MAP
     L.geoJSON(JSON.parse(polygon)).addTo(map);
     
+    
 </script>
 @endsection

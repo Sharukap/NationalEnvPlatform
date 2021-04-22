@@ -44,7 +44,7 @@ class CrimeReportController extends Controller
         ]);
         if($request->has('nonreguser')){
             $request -> validate([
-                'Requestor_email' => 'required',
+                'Requestor_email' => 'required|email',
                 'Requestor' => 'required',
             ]);
         }
@@ -85,6 +85,19 @@ class CrimeReportController extends Controller
                 }
                 //dd($photoarray);
                 $crime = Crime_report::where('id',$id)->update(['photos' => json_encode($photoarray)]);
+            }
+            if (request('kml') !== null) {  //if the file is uploaded then the kml file will not be created
+                
+                try {
+                    $kml = request('kml');
+                    //setting the new name of the coordinates as {{landid}}.kml
+                    $new_name = $landid . '.' . "kml";
+
+                    Storage::put("kml_files/$new_name", $kml);
+                    return download($kml);
+                } catch (\Exception $e) {
+                    dd($e);
+                }
             }
             $org=Organization::where('title', $request['organization'])->first();
             $Process_item =new Process_item;

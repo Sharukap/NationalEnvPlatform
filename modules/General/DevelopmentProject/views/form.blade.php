@@ -182,14 +182,7 @@
 
 
 <script type="text/javascript">
-    //photos add
-    var i = 0;
-    $("#add-btn2").click(function() {
-        ++i;
-        $("#dynamicAddRemove2").append(
-            '<input type="file" id="images" name="images[' + i + ']">');
-    });
-
+    
     ///TYPEAHEAD
     var path = "{{route('gazette')}}";
     $('input.typeahead').typeahead({
@@ -417,6 +410,8 @@
         })
 
     });
+
+  
 
 
     $(document).ready(function(){
