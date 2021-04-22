@@ -229,7 +229,7 @@
                 <label class="custom-control-label" for="customCheck2"><strong>Creating on behalf of non-registered user</strong></label>
               </div>
             </div>
-            <div class="extRequestor" style="display:none;">
+            <div class="extRequestor" id="extRequestor">
               <div class="form-group">
                 External Requestor<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
                 @error('externalRequestor')
@@ -495,6 +495,13 @@
       //No browser support geolocation service
       geolocationErrorOccurred(false, popup, map.getCenter());
     }
+
+    //keeping the dynamic components open if checked
+    if ($("#customCheck2").is(':checked')) {
+      $("#extRequestor").show();
+    } else {
+      $("#extRequestor").hide()
+    }
   }
 
   // Set up the OSM layer 
@@ -622,9 +629,13 @@
   });
 
   //toggle extra details for external requestor
-  $(document).ready(function() {
-    $('input[id="customCheck2"]').click(function() {
-      $("." + "extRequestor").toggle();
+  $(function() {
+    $("#customCheck2").click(function() {
+      if ($(this).is(":checked")) {
+        $("#extRequestor").show();
+      } else {
+        $("#extRequestor").hide();
+      }
     });
   });
 </script>

@@ -1,8 +1,8 @@
 @extends('home')
 
 @section('cont')
+<h2 class="p-3" style="display:inline">System Data</h2>
 <div class="container mt-4 bg-white border">
-
   <nav class="navbar navbar-expand-sm navbar-light">
     <ul class="navbar-nav">
       <li class="nav-item {{ Route::currentRouteName() == 'accessindex' ? 'active' : '' }}">

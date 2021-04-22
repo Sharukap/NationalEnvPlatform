@@ -1,12 +1,8 @@
 @extends('home')
 
 @section('cont')
-
-<kbd><a href="/user/index" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+<h2 class="p-3">Your Requests</h2>
 <div class="flex row border-secondary rounded-lg ml-3 justify-content-between">
-    <span>
-        <h3 class="p-3">Your Requests</h3>
-    </span>
     <table class="table table-hover table-light mr-4">
         <thead>
             <tr>
