@@ -2,7 +2,7 @@
 
 namespace Security\Http\Controllers;
 
-
+use App\Models\User;
 use App\Models\Process_Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -37,5 +37,35 @@ class SecurityController extends Controller
             'process_item' => $process_item,
         ]);
     }
+
+    public function usermoredetails($id,$uid)
+    {
+        $user = User::find($uid);
+        $audit = $user->audits()->find($id);
+        $data =$audit->old_values;
+        $datanew=$audit->new_values;
+        //dd($audit);
+        return view('Security::recordsview', [
+            'data' => $data,
+            'datanew' => $datanew,
+            'audit' => $audit,
+            'user' =>$user,
+        ]);
+    }
+
+    public function userauditdisplay($id)
+    {
+        $user = User::find($id);
+        $Audits = $user->audits()->get();
+        
+        return view('Security::mainview', [
+            'Audits' => $Audits,
+            'user' => $user,
+        ]);
+    }
+
+
+
+    
 
 }

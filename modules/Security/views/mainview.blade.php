@@ -3,11 +3,12 @@
 @section('cont')
 <div class="container">
     <div class="container bg-white">
-        <div class="row p-4 bg-white">
-            <kbd><a href="/general/pending" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
-        </div>
-        <div class="row p-4 bg-white">
-            <div class="col border border-muted rounded-lg mr-2 p-4">
+        @isset($process_item)
+            <div class="row p-4 bg-white">
+                <kbd><a href="/general/pending" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+            </div>
+            <div class="row p-4 bg-white">
+                <div class="col border border-muted rounded-lg mr-2 p-4">
                         <table class="table table-light table-striped border-secondary rounded-lg mr-4">
                             <thead>
                                 <tr>
@@ -44,8 +45,38 @@
                                 </tr>
                             </tbody>
                         </table>
+                </div>
             </div>
-        </div>
+        @endisset
+        @isset($user)
+            <div class="row p-4 bg-white">
+                <kbd><a href="/user/index" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+            </div>
+            <div class="row p-4 bg-white">
+                <div class="col border border-muted rounded-lg mr-2 p-4">
+                        <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+                            <thead>
+                                <tr>
+                                    <th>User name</th>
+                                    <th>Role</th>
+                                    <th>Organization</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{$user->name}}</td>
+                                    <td>{{$user->role->title}}</td>
+                                    @if($user->organization_id ==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                        <td>{{$user->organization->title}}</td>
+                                    @endif
+                                </tr>
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        @endisset
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <h6>Audit records for the application</h6>
@@ -67,7 +98,12 @@
                                     <td>{{ $audit['user']->name }}</td>
                                     <td>{{ $audit['user']->Organization->title }}</td>
                                     <td>{{ $audit['event'] }}</td>
+                                    @isset($process_item)
                                     <td><a href="/security/individual/{{ $audit['id'] }}/{{$process_item->id}}" class="text-muted">More</a></td></td>
+                                    @endisset
+                                    @isset($user)
+                                    <td><a href="/security/user-individual/{{ $audit['id'] }}/{{$user->id}}" class="text-muted">More</a></td></td>
+                                    @endisset
                                 </tr>
                             @endforeach
                         </tbody>
@@ -75,6 +111,7 @@
                 @endif
             </div>      
         </div>
+    
     </div>
 </div>
 
