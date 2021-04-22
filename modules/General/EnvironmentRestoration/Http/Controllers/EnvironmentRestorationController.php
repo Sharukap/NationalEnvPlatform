@@ -36,7 +36,7 @@ class EnvironmentRestorationController extends Controller
         ]);
     }
 
-    public function show($id)           //show one record for moreinfo button
+    public function show($id)           //show request
     {
         $process_item = Process_Item::find($id);
         $restoration = Environment_Restoration::find($process_item->form_id);

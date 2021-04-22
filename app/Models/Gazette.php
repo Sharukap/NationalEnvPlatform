@@ -9,6 +9,20 @@ class Gazette extends Model
 {
     use HasFactory;
     protected $table = 'gazettes';
+
+    protected $fillable = [
+        'title',
+        'gazette_number',
+        'gazetted_date',
+        'degazetted_date',
+        'organizations',
+        'content',
+    ];
+
+    protected $attributes = [
+        'degazetted_date' => NULL,
+    ];
+
     protected $casts =[
           'organizations' =>'array',
      ];

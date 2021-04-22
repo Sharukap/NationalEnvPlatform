@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('cont')
-<h3 class="p-3 display-4" style="display:inline">Reporting Module</h3>
+<h2 class="p-3" style="display:inline">Reporting Module</h2>
 <nav class="navbar navbar-expand-lg navbar-light justify-content-around">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
