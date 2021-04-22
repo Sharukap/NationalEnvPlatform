@@ -338,7 +338,7 @@ class ApprovalItemController extends Controller
             $landProcess2=Process_item::where('prerequisite_id', '=' , $process_item->id)->first();
             //dd($landProcess,$landProcess2);
             //dd($data);
-            return view('approvalItem::assignOrg1',[
+            return view('approvalItem::assignOrg',[
                 'item' => $item,
                 'process_item' =>$process_item,
                 'Organizations' => $Organizations,
@@ -351,7 +351,7 @@ class ApprovalItemController extends Controller
         else{
             $item = Land_Parcel::find($process_item->form_id);
             $Land_Organizations =Land_Has_Organization::where('land_parcel_id',$item->id)->get();
-            return view('approvalItem::assignOrg1',[
+            return view('approvalItem::assignOrg',[
                 'item' => $item,
                 'process_item' =>$process_item,
                 'Organizations' => $Organizations,
