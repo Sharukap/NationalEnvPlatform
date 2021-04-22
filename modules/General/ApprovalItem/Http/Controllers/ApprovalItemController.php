@@ -100,10 +100,6 @@ class ApprovalItemController extends Controller
             $Process_item->ext_requestor=$request['organization'];
             $Process_item->status_id=2;
             $Process_item->save();
-        /* Process_item::where('id',$request['process_id'])->update([
-            'ext_requestor' => $request['organization'],
-            'status_id' => 2
-        ]); */
         $Land_process = Process_Item::where('prerequisite_id', $Process_item->id)->where('prerequisite',0)->first();
         $Land_process->ext_requestor=$request['organization'];
         $Land_process->status_id = 2;
@@ -190,9 +186,9 @@ class ApprovalItemController extends Controller
 
     public function choose_assign_staff($id)
     {
-        $Process_item =Process_item::find($id);
+        $process_item =Process_item::find($id);
         $Organizations=Organization::all();
-        if($Process_item->status_id>2){
+        if($process_item->status_id>2){
             return redirect()->action(
                 [ApprovalItemController::class, 'investigate'], ['id' => $id]
             );
@@ -366,7 +362,6 @@ class ApprovalItemController extends Controller
     {
         $process_item =Process_item::find($id);
         $Organizations=Organization::all();
-        $Form_Types=Form_Type::all();
         $Prerequisites=Process_item::all()->where('prerequisite_id',$process_item->id);
         $Process_item_statuses=Process_item_status::all();
         $Process_item_progresses=Process_item_progress::all()->where('process_item_id',$id);
@@ -386,59 +381,51 @@ class ApprovalItemController extends Controller
         if($process_item->form_type_id == '1'){ 
             $item = Tree_Removal_Request::find($process_item->form_id);
             $Photos=Json_decode($item->images);
-            $tree_data = $item->tree_details;
+            $data = $item->tree_details;
         } 
         else if($process_item->form_type_id == '2'){
             $item = Development_Project::find($process_item->form_id);
             $Photos=null;
-            $tree_data = null;
+            $data = null;
         }
         else if($process_item->form_type_id == '3'){
             $item = Environment_Restoration::find($process_item->form_id);
             $Photos=null;
-            $tree_data = Environment_Restoration_Species::all()->where('environment_restoration_id',$item->id);
+            $data = Environment_Restoration_Species::all()->where('environment_restoration_id',$item->id);
         }
         else if($process_item->form_type_id == '4'){
             $item = Crime_report::find($process_item->form_id);
             $Photos=Json_decode($item->photos);
-            $tree_data = null;
+            $data = null;
         }
         if($process_item->form_type_id != '5'){
-            //dd($process_item,$item);
             $land_parcel = Land_Parcel::find($item->land_parcel_id);
             
             $landProcess=Process_item::where([
                 ['prerequisite_id', '=' , $process_item->id],           
                 ['prerequisite', '=', 0], 
             ])->first();
-
-            $related_treecuts = Tree_Removal_Request::all()->where('land_parcel_id',$item->land_parcel_id);
-            $related_devps = Development_Project::all()->where('land_parcel_id',$item->land_parcel_id);
-            $related_crimes = Crime_report::all()->where('land_parcel_id',$item->land_parcel_id);
-
-            return view('approvalItem::investigate',[
+            //dd($landProcess, $process_item->status_id,$process_item->status);
+            
+            return view('approvalItem::investigate1',[
                 'item' => $item,
                 'Organizations' => $Organizations,
                 'Prerequisites' => $Prerequisites,
                 'process_item' =>$process_item,
                 'polygon' => $land_parcel->polygon,
                 'land_process'=>$landProcess,
-                'Related_Treecuts' => $related_treecuts,
-                'Related_Devps' => $related_devps,
-                'Related_Crimes' => $related_crimes,
                 'Process_item_statuses' =>$Process_item_statuses,
                 'Process_item_progresses' =>$Process_item_progresses,
                 'Photos' =>$Photos,
-                'tree_data' =>$tree_data,
                 'Users' => $Users,
-                
+                'data' =>$data,
             ]);
         }
         else{
             $item = Land_Parcel::find($process_item->form_id);
             $Land_Organizations =Land_Has_Organization::where('land_parcel_id',$item->id)->get();
             //dd($process_item,$item);
-            return view('approvalItem::investigate',[
+            return view('approvalItem::investigate1',[
                 'item' => $item,
                 'process_item' =>$process_item,
                 'Organizations' => $Organizations,
@@ -449,11 +436,7 @@ class ApprovalItemController extends Controller
                 'Process_item_progresses' =>$Process_item_progresses,
                 'Prerequisites' => $Prerequisites,
             ]);
-        }
-        
-
-           
-        
+        }    
     }
     public function create_prerequisite(Request $request)
     {

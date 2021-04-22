@@ -1,5 +1,11 @@
 @extends('approvalItem::approval')
-
+@section('theme')
+<div class="container bg-white">
+    <div class="row p-4 bg-white">
+        <h4>Assigning Organization to {{$process_item->form_type->type}} application no {{$process_item->form_id}} logged on {{date('d-m-Y',strtotime($item->created_at))}}</h4>
+    </div>
+</div>
+@endsection
 @section('approval')
 <br>
 <h5 >Assigning Organizations</h5>

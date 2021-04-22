@@ -11,10 +11,14 @@
     </span>
     <span>
 </div>
-<h4>Application Information</h4>
-<hr>
+<div class="col-md">
+    @yield('theme')
+</div>
 <div class="container">
     <div class="container bg-white">
+        <div class="row p-4 bg-white">
+            <h5>Application Information</h5>
+        </div>
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <table class="table table-light table-striped border-secondary rounded-lg mr-4">
