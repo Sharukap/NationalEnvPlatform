@@ -18,6 +18,7 @@
                                     @else
                                         <th>Organization Assigned</th>
                                     @endif
+                                    <th>View Application</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,6 +29,17 @@
                                         <td>{{$process_item->ext_requestor}}</td>
                                     @else
                                         <td>{{$process_item->Activity_organization->title}}</td>
+                                    @endif
+                                    @if($process_item->form_type_id == 1)
+                                    <td><a href="/tree-removal/show/{{$process_item->id}}" class="text-dark">See full request</a></td>
+                                    @elseif($process_item->form_type_id == 2)
+                                    <td><a href="/dev-project/show/{{$process_item->id}}" class="text-dark">See full request</a></td>
+                                    @elseif($process_item->form_type_id == 3)
+                                    <td><a href="/env-restoration/show/{{$process_item->id}}" class="text-dark">See full request</a></td>
+                                    @elseif($process_item->form_type_id == 4)
+                                    <td><a href="/crime-report/viewcrime/{{$process_item->id}}" class="text-dark">See full request</a></td>
+                                    @elseif($process_item->form_type_id == 5)
+                                    <td><a href="/land/show/{{$process_item->id}}" class="text-dark">See full request</a></td>
                                     @endif
                                 </tr>
                             </tbody>
