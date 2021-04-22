@@ -98,12 +98,17 @@ class UserController extends Controller
 
 
         $user = User::find($id);
-        $user->update([
+        /* $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'designation_id' => $request->designation,
             'organization_id' => $request->organization,
-        ]);
+        ]); */
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->designation_id = $request->designation;
+        $user->organization_id = $request->organization;
+        $user->save();
         //  Redirect back to the admin view via the UserController which will 
         //  check the current user role and direct back to the index page appropriately along with a session message saying success.
         return redirect('/user/index')->with('message', 'User Updated Successfully');

@@ -434,6 +434,7 @@
 
     });
 
+
     $(document).ready(function() {
         $('#image').change(function() {
             var fp = $("#image");
