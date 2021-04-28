@@ -57,6 +57,12 @@
 
 
 <script type="text/javascript">
+   /// BACK BUTTON
+   function goBack() {
+        window.history.back();
+    }
+
+    /// MAP MODULE
     var center = [7.2906, 80.6337];
 
     // Create the map
@@ -70,12 +76,12 @@
         }).addTo(map);
 
 
-    //FROM LARAVEL THE COORDINATES ARE BEING TAKEN TO THE SCRIPT AND CONVERTED TO JSON
     var polygon = @json($polygon);
-    console.log(polygon);
+    var layer = L.geoJSON(JSON.parse(polygon)).addTo(map);
 
-    //ADDING THE JSOON COORDINATES TO MAP
-    L.geoJSON(JSON.parse(polygon)).addTo(map);
+    // Adjust map to show the kml
+    var bounds = layer.getBounds();
+    map.fitBounds(bounds);
     
     
 </script>
