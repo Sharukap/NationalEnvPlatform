@@ -8,7 +8,7 @@
     <dl class="row">
 
         <dt class="col-sm-3">Category:</dt>
-        <dd class="col-sm-9">Development Project</dd>
+        <dd class="col-sm-9">Crime Report</dd>
 
         <dt class="col-sm-3">Crime Type:</dt>
         <dd class="col-sm-9">{{$crime->Crime_type->type}}</dd>

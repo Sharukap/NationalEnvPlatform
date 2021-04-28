@@ -7,11 +7,12 @@ use App\Models\User;
 
 use App\Models\Form_Type;
 use App\Models\Organization;
+use App\Models\Land_Parcel;
 use App\Models\Process_Item;
 use App\Models\Province;
 use App\Models\District;
 use App\Models\Tree_Removal_Request;
-
+use App\Models\Land_Has_Organization;
 use App\Models\Development_Project;
 
 use App\Models\Environment_Restoration;
@@ -86,7 +87,90 @@ class ReportingController extends Controller
     }
 
 
-    //OVERVIEW TAB CHARTS
+
+
+
+
+
+    //REPORTING MODULE TAB
+    //Individual Reports
+    public function treeRemovalRequest($id)
+    {
+        $item = Process_Item::find($id);
+        $tree_removal = Tree_Removal_Request::find($item->form_id);
+        $location_data = $tree_removal->tree_details;
+        $land_data = Land_Parcel::find($tree_removal->land_parcel_id);
+        $pdf = PDF::loadView('reporting::treeRemovalIndividualReport', [
+            'tree' => $tree_removal,
+            'location' => $location_data,
+            'polygon' => $land_data->polygon,
+        ]);
+        return $pdf->stream('treeRemovalReport.pdf');
+    }
+
+
+    public function restorationRequest($id)
+    {
+        $item = Process_Item::find($id);
+        $restoration = Environment_Restoration::find($item->form_id);
+        $species = Environment_Restoration_Species::where('environment_restoration_id', ($restoration->id))->get();
+        $land = Land_Parcel::where('id', ($restoration->land_parcel_id))->get();
+        $govorgs = Land_Has_Organization::where('land_parcel_id', $land[0]->id)->pluck('organization_id');
+        $count = 1;
+        $pdf = PDF::loadView('reporting::restorationIndividualReport', [
+            'restoration' => $restoration,
+            'species' => $species,
+            'land' => $land,
+            'govorgs' => $govorgs,
+            'count' => $count
+        ]);
+        return $pdf->stream('restorationReport.pdf');
+    }
+
+    public function developmentProjectRequest($id)
+    {
+        $item = Process_Item::find($id);
+        $development_project = Development_Project::find($item->form_id);
+        $Photos = Json_decode($development_project->images);
+        $land_data = Land_Parcel::find($development_project->land_parcel_id);
+
+        // if ($Photos != null) {
+        //     foreach ($Photos as $Photo) {
+        //         $photo = base64_encode(file_get_contents('/storage/app/public/'.$Photo));
+        //         $PhotoArray[] = $photo;
+        //     }
+        // }
+        // else{
+        //     $PhotoArray[]=null;
+        // }
+
+        $count = 1;
+        $pdf = PDF::loadView('reporting::developmentProjectIndividualReport', [
+            'development_project' => $development_project,
+            'polygon' => $land_data->polygon,
+            // 'Photos' => $PhotoArray,
+            'count' => $count
+        ]);
+        return $pdf->stream('restorationReport.pdf');
+    }
+
+    public function crimeReportRequest($id)
+    {
+        $process_item=Process_item::find($id);
+        $crime = Crime_report::find($process_item->form_id);
+        $Photos=Json_decode($crime->photos);
+        $land_parcel = Land_Parcel::find($crime->land_parcel_id);
+        $pdf = PDF::loadView('reporting::crimeReportIndividualReport', [
+            'crime' => $crime,
+            'Photos' =>$Photos,
+            'polygon' =>$land_parcel->polygon,
+            'process_item' =>$process_item,
+        ]);
+        return $pdf->stream('treeRemovalReport.pdf');
+    }
+
+
+    //OVERVIEW TAB
     public function overview()
     {
         if (Auth::user()->role_id < 3) {
@@ -832,15 +916,7 @@ class ReportingController extends Controller
     function getCrimeReportActionTakenData()
     {
         $crime_report_action_taken_count_array = array();
-        //$crime_report_actions_taken_array = ['0','1'];
         $crime_report_action_taken_name_array = ["Crime Report Pending action", "Request Resolved"];
-        // if (!empty($crime_report_action_takens_array)) {
-        //     foreach ($crime_report_actions_taken_array as $crime_action_taken) {
-        //         $crime_report_action_taken_count = $this->getCrimeReportActionTakenCount($crime_action_taken_id);
-        //         array_push($crime_report_action_taken_count_array, $crime_report_action_taken_count);
-        //         $crime_action_taken_id++;
-        //     }
-        // }
         for ($count = 0; $count < 2; $count++) {
             $crime_report_action_taken_count = $this->getCrimeReportActionTakenCount($count);
             array_push($crime_report_action_taken_count_array, $crime_report_action_taken_count);

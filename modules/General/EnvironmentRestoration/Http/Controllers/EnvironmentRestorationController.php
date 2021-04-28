@@ -44,10 +44,10 @@ class EnvironmentRestorationController extends Controller
         // $species = Environment_Restoration_Species::find($restoration->id); 
         $species = Environment_Restoration_Species::where('environment_restoration_id', ($restoration->id))->get();
         $land = Land_Parcel::where('id', ($restoration->land_parcel_id))->get();
-        $polygon = $land->pluck('polygon')->first(); 
+        $polygon = $land->pluck('polygon')->first();
         //ddd($land[0]->id);
-        $govorgs = Land_Has_Organization::where('land_parcel_id',$land[0]->id)->pluck('organization_id');
-    //ddd($govorgs);
+        $govorgs = Land_Has_Organization::where('land_parcel_id', $land[0]->id)->pluck('organization_id');
+        //ddd($govorgs);
         return view('environmentRestoration::show', [
             'restoration' => $restoration,
             'species' => $species,
@@ -125,9 +125,9 @@ class EnvironmentRestorationController extends Controller
             //Adding to Environment Restoration Species Table using ajax
             $rules = array(
                 'statusSpecies.*'  => 'required',
-                'species_name.*'  => 'required',
-                'quantity.*'  => 'required',
-                'height.*'  => 'required',
+                'species_name.*'  => 'required|exists:species_information,title',
+                'quantity.*'  => 'required|integer',
+                'height.*'  => 'required|integer',
                 'dimension.*'  => 'required',
                 'remark.*'  => 'required'
             );
