@@ -6,27 +6,18 @@
 
   <!-- FAQ button -->
   <div class="d-flex justify-content-end">
-    <a title="User Instructions" href="/tree-removal/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
+    <a title="FAQ" href="/tree-removal/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
   </div>
 
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data">
     @csrf
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
-    <div class="d-flex justify-content-end">
- <a data-placement="top" title="FAQ" href="/tree-removal/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
- 
-    </div>
       <div class="container">
-        <!-- add this part for button to link to instruction modal -->
-
-        <!-- end of part -->
-        <!--FAQ -->
-    
         <div class="row border rounded-lg p-4 bg-white">
-  
+
           <div class="col border border-muted rounded-lg mr-2 p-2">
-          
+
             <div class="row p-2">
 
               <div class="col p-2">
@@ -221,14 +212,14 @@
             </div>
 
             <div class="form-group" id="dynamicAddRemove">
-                        <label for="images">Photos:</label>
-                        
-                        <input type="file" id="image" name="file[]" multiple>
-                        @if ($errors->has('file.*'))
-                            <div class="alert">
-                                <strong>{{ $errors->first('file.*') }}</strong>
-                            </div>
-                        @endif   
+              <label for="images">Photos:</label>
+
+              <input type="file" id="image" name="file[]" multiple>
+              @if ($errors->has('file.*'))
+              <div class="alert">
+                <strong>{{ $errors->first('file.*') }}</strong>
+              </div>
+              @endif
             </div>
             <br>
             <hr><br>
@@ -238,20 +229,20 @@
                 <label class="custom-control-label" for="customCheck2"><strong>Creating on behalf of non-registered user</strong></label>
               </div>
             </div>
-
-            <div class="form-group">
-              External Requestor<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
-              @error('externalRequestor')
-              <div class="alert alert-danger">The NIC format is Invalid</div>
-              @enderror
+            <div class="extRequestor" id="extRequestor">
+              <div class="form-group">
+                External Requestor<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
+                @error('externalRequestor')
+                <div class="alert alert-danger">The NIC format is Invalid</div>
+                @enderror
+              </div>
+              <div class="form-group">
+                External Requestor Email<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
+                @error('erEmail')
+                <div class="alert alert-danger">Please Enter a Valid Email</div>
+                @enderror
+              </div>
             </div>
-            <div class="form-group">
-              External Requestor Email<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
-              @error('erEmail')
-              <div class="alert alert-danger">Please Enter a Valid Email</div>
-              @enderror
-            </div>
-
           </div>
         </div>
       </div>
@@ -304,8 +295,6 @@
 
 
 <script>
-
-
   //STEPPER
   var currentTab = 0; // Current tab is set to be the first tab (0)
   showTab(currentTab); // Display the current tab
@@ -380,25 +369,6 @@
     x[n].className += " active";
   }
 
-
-  ///TYPEAHEAD
-  // var path = "{{route('province')}}";
-  // $('input.typeahead').typeahead({
-  //   source: function(terms, process) {
-
-  //     return $.get(path, {
-  //       terms: terms
-  //     }, function(data) {
-  //       console.log(data);
-  //       objects = [];
-  //       data.map(i => {
-  //         objects.push(i.province)
-  //       })
-  //       console.log(objects);
-  //       return process(objects);
-  //     })
-  //   },
-  // });
 
   var path2 = "{{route('district')}}";
   $('input.typeahead2').typeahead({
@@ -525,6 +495,13 @@
       //No browser support geolocation service
       geolocationErrorOccurred(false, popup, map.getCenter());
     }
+
+    //keeping the dynamic components open if checked
+    if ($("#customCheck2").is(':checked')) {
+      $("#extRequestor").show();
+    } else {
+      $("#extRequestor").hide()
+    }
   }
 
   // Set up the OSM layer 
@@ -589,6 +566,22 @@
     $('#kml').val(tokml(drawnItems.toGeoJSON()));
   });
 
+  //SEARCH FUNCTIONALITY
+  var searchControl = new L.esri.Controls.Geosearch().addTo(map);
+
+  var results = new L.LayerGroup().addTo(map);
+
+  searchControl.on('results', function(data) {
+    results.clearLayers();
+    for (var i = data.results.length - 1; i >= 0; i--) {
+      results.addLayer(L.marker(data.results[i].latlng));
+    }
+  });
+
+  setTimeout(function() {
+    $('.pointer').fadeOut('slow');
+  }, 3400);
+
   ///UPLOADING A FILE AND RETRIEVING AND CREATING A LAYER FROM IT.
   document.getElementById("upload").addEventListener("click", function() {
     var data = new FormData(document.getElementById("regForm"));
@@ -632,23 +625,34 @@
 
   });
 
-  $(document).ready(function(){
-        $('#image').change(function(){
-            var fp = $("#image");
-            var lg = fp[0].files.length; // get length
-            var items = fp[0].files;
-            var fileSize = 0;
-           
-            if (lg > 0) {
-                for (var i = 0; i < lg; i++) {
-                    fileSize = fileSize+items[i].size; // get file size
-                }
-                if(fileSize > 5242880) {
-                    alert('You should not uplaod files exceeding 4 MB. Please compress files size and uplaod agian');
-                    $('#image').val('');
-                }
-            }
-        });
+  $(document).ready(function() {
+    $('#image').change(function() {
+      var fp = $("#image");
+      var lg = fp[0].files.length; // get length
+      var items = fp[0].files;
+      var fileSize = 0;
+
+      if (lg > 0) {
+        for (var i = 0; i < lg; i++) {
+          fileSize = fileSize + items[i].size; // get file size
+        }
+        if (fileSize > 5242880) {
+          alert('You should not uplaod files exceeding 4 MB. Please compress files size and uplaod agian');
+          $('#image').val('');
+        }
+      }
     });
+  });
+
+  //toggle extra details for external requestor
+  $(function() {
+    $("#customCheck2").click(function() {
+      if ($(this).is(":checked")) {
+        $("#extRequestor").show();
+      } else {
+        $("#extRequestor").hide();
+      }
+    });
+  });
 </script>
 @endsection

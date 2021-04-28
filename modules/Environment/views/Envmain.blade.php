@@ -1,7 +1,7 @@
 @extends('home')
 
 @section('cont')
-<h3 class="p-3 display-4" style="display:inline">Environment Module</h3>
+<h2 class="p-3" style="display:inline">Environment Module</h2>
 
 <div class="container mt-4 bg-white border">
   <nav class="navbar navbar-expand-sm navbar-light">
