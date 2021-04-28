@@ -127,6 +127,49 @@ class ReportingController extends Controller
         return $pdf->stream('restorationReport.pdf');
     }
 
+    public function developmentProjectRequest($id)
+    {
+        $item = Process_Item::find($id);
+        $development_project = Development_Project::find($item->form_id);
+        $Photos = Json_decode($development_project->images);
+        $land_data = Land_Parcel::find($development_project->land_parcel_id);
+
+        // if ($Photos != null) {
+        //     foreach ($Photos as $Photo) {
+        //         $photo = base64_encode(file_get_contents('/storage/app/public/'.$Photo));
+        //         $PhotoArray[] = $photo;
+        //     }
+        // }
+        // else{
+        //     $PhotoArray[]=null;
+        // }
+
+        $count = 1;
+        $pdf = PDF::loadView('reporting::developmentProjectIndividualReport', [
+            'development_project' => $development_project,
+            'polygon' => $land_data->polygon,
+            // 'Photos' => $PhotoArray,
+            'count' => $count
+        ]);
+        return $pdf->stream('restorationReport.pdf');
+    }
+
+    public function crimeReportRequest($id)
+    {
+        $process_item=Process_item::find($id);
+        $crime = Crime_report::find($process_item->form_id);
+        $Photos=Json_decode($crime->photos);
+        $land_parcel = Land_Parcel::find($crime->land_parcel_id);
+        $pdf = PDF::loadView('reporting::crimeReportIndividualReport', [
+            'crime' => $crime,
+            'Photos' =>$Photos,
+            'polygon' =>$land_parcel->polygon,
+            'process_item' =>$process_item,
+        ]);
+        return $pdf->stream('treeRemovalReport.pdf');
+    }
+
+
     //OVERVIEW TAB
     public function overview()
     {

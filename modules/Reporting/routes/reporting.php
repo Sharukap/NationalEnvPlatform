@@ -24,8 +24,10 @@ Route::get('/env-restoration-report/{id}', [ReportingController::class, 'restora
 Route::get('/dev-proj', [ReportingController::class, 'devProject']); 
 Route::get('/get-developmentProject-chart-data',[ReportingController::class, 'getMonthlyDevelopmentProjectData']);
 Route::get('/get-developmentProject-organization-chart-data',[ReportingController::class, 'getDevelopmentProjectOrganizationData']);
+Route::get('/dev-project-report/{id}', [ReportingController::class, 'developmentProjectRequest']); 
 
 Route::get('/complaints', [ReportingController::class, 'crimeReport']); 
 Route::get('/get-crimeReport-chart-data',[ReportingController::class, 'getMonthlyCrimeReportData']);
 Route::get('/get-crimeReport-type-chart-data',[ReportingController::class, 'getCrimeReportTypeData']);
 Route::get('/get-crimeReport-actionTaken-chart-data',[ReportingController::class, 'getCrimeReportActionTakenData']); 
+Route::get('/crime-details-report/{id}', [ReportingController::class, 'crimeReportRequest']); 
