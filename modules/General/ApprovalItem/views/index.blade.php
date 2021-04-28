@@ -4,15 +4,17 @@
     <title>National Environment Platform</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw-src.css" integrity="sha512-vJfMKRRm4c4UupyPwGUZI8U651mSzbmmPgR3sdE3LcwBPsdGeARvUM5EcSTg34DK8YIRiIo+oJwNfZPMKEQyug==" crossorigin="anonymous" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js" integrity="sha512-ozq8xQKq6urvuU6jNgkfqAmT7jKN2XumbrX1JiB3TnF7tI48DPI4Gy1GXKD/V3EExgAs1V+pRO7vwtS1LHg0Gw==" crossorigin="anonymous"></script>
+
     <style>
-    .main-img {
-        background: url('https://ak2.picdn.net/shutterstock/videos/9057502/thumb/12.jpg');
-        background-position: center center;
-        background-repeat: no-repeat;
-        background-size: cover;
-        height: 100vh;
-        width: 100%;
-    }
+        .img {
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
@@ -159,8 +161,8 @@
                                 <tr>
                                     <td>{{$item->title}}</td>
                                     <td>{{$item->environment_restoration_activity->title}}</td>
-                                    <td>{{$item->eco_system->ecosystem_type}}</td>
-                                    <td>{{$item->eco_system->description}}</td>
+                                    <td>{{$item->ecosystems_type->type}}</td>
+                                    <td>{{$item->ecosystems_type->description}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -270,7 +272,6 @@
                 </div>             
             </div>
         @endif
-
     <div class="row p-4 bg-white">
         <div class="col border border-muted rounded-lg mr-2 p-4">
             <div class="d-flex bg-light justify-content-center">
@@ -279,9 +280,5 @@
         </div>
     </div>
 </div>
-
-
-
-</body>
 
 </html>

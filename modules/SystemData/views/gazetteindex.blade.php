@@ -44,7 +44,7 @@
         <thead>
             <tr>
             <th scope="col">ID</th>
-            <th scope="col">Gazette Title</th>
+            <th scope="col">Gazette Number</th>
             <th scope="col">More Details</th>
             <th scope="col">Edit</th>
              <th scope="col">Delete</th>
@@ -54,7 +54,7 @@
             @foreach($gazette as $gazette)
             <tr>
                 <td>{{$gazette->id}}</td>
-                <td>{{$gazette->title}}</td>
+                <td>{{$gazette->gazette_number}}</td>
                 <td><a href="/system-data/gazzettesview/{{$gazette->id}}" class="btn btn-outline-info mr-4" role="button">...</a></td>
                 <td><a href="/system-data/gazzettesedit/{{$gazette->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
                 <td><button class="btn btn-outline-danger" onclick="event.preventDefault();

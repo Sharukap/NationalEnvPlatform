@@ -287,7 +287,7 @@
   <div id="secondmain">
     <br>
     <hr><br>
-    <h2 style="text-align: center;">Performance This Month</h2>
+    <h2 style="text-align: center;">Quick Links</h2>
     <div class="row justify-content-center">
       <div class="card m-2" style="width: 18rem;">
         <img class="card-img-top" style="height:250px; width:287px;" src="images/tree.jpg" alt="Card image cap">
@@ -343,7 +343,7 @@
       <div class="card m-2" style="width: 18rem;">
         <img class="card-img-top" style="height:250px; width:287px;" src="images/complain.jpg" alt="Card image cap">
         <div class="card-body">
-          <h5 class="card-title">Complaints Handled</h5>
+          <h5 class="card-title">Complaints</h5>
           <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
         <div class="card-body">

@@ -149,13 +149,13 @@ class DevelopmentProjectController extends Controller
                 $y=0;
                 foreach($request->file('file') as $file){
                     $filename =$file->getClientOriginalName();
-                    $newname = $id.'No'.$y.$filename;
+                    $newname = $latest->id.'No'.$y.$filename;
                     $path = $file->storeAs('development',$newname,'public');
                     $photoarray[$y] = $path;  
                     $y++;          
                 }
                 //dd($photoarray);
-                $devp = Development_Project::where('id',$latest->id)->update(['photos' => json_encode($photoarray)]);
+                $devp = Development_Project::where('id',$latest->id)->update(['images' => json_encode($photoarray)]);
             }
 
 

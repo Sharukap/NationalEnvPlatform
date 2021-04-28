@@ -1,12 +1,11 @@
 @extends('general')
 
 @section('general')
-
 <div class="container">
 
     <!-- FAQ button -->
     <div class="d-flex justify-content-end">
-        <a title="User Instructions" href="/tree-removal/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
+        <a title="User Instructions" href="/dev-project/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
     </div>
 
     <form action="/dev-project/saveForm" method="post" id="devForm" enctype="multipart/form-data">
@@ -60,10 +59,10 @@
                         <label for="images">Photos:</label>
                         <input type="file" id="image" name="file[]" multiple>
                         @if ($errors->has('file.*'))
-                            <div class="alert">
-                                <strong>{{ $errors->first('file.*') }}</strong>
-                            </div>
-                        @endif   
+                        <div class="alert">
+                            <strong>{{ $errors->first('file.*') }}</strong>
+                        </div>
+                        @endif
                     </div>
                     <br>
                     <hr><br>
@@ -73,17 +72,19 @@
                             <label class="custom-control-label" for="customCheck2"><strong>Creating on behalf of non-registered user</strong></label>
                         </div>
                     </div>
-                    <div class="form-group">
-                        External Requestor<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
-                        @error('externalRequestor')
-                        <div class="alert alert-danger">The NIC format is Invalid</div>
-                        @enderror
-                    </div>
-                    <div class="form-group">
-                        External Requestor Email<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
-                        @error('erEmail')
-                        <div class="alert alert-danger">Please Enter a Valid Email</div>
-                        @enderror
+                    <div class="extRequestor" id="extRequestor">
+                        <div class="form-group">
+                            External Requestor<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
+                            @error('externalRequestor')
+                            <div class="alert alert-danger">The NIC format is Invalid</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            External Requestor Email<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
+                            @error('erEmail')
+                            <div class="alert alert-danger">Please Enter a Valid Email</div>
+                            @enderror
+                        </div>
                     </div>
                 </div>
             </div>
@@ -165,7 +166,7 @@
                     </div>
 
                     <!-- saving the coordinates of the kml file -->
-                    <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+                    <input id="polygon" type="text" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
 
                     <!-- Saving the KML file in storage -->
                     <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
@@ -182,14 +183,6 @@
 
 
 <script type="text/javascript">
-    //photos add
-    var i = 0;
-    $("#add-btn2").click(function() {
-        ++i;
-        $("#dynamicAddRemove2").append(
-            '<input type="file" id="images" name="images[' + i + ']">');
-    });
-
     ///TYPEAHEAD
     var path = "{{route('gazette')}}";
     $('input.typeahead').typeahead({
@@ -313,6 +306,13 @@
             //No browser support geolocation service
             geolocationErrorOccurred(false, popup, map.getCenter());
         }
+
+        //keeping the dynamic components open if checked
+        if ($("#customCheck2").is(':checked')) {
+            $("#extRequestor").show();
+        } else {
+            $("#extRequestor").hide()
+        }
     }
 
     // Set up the OSM layer 
@@ -376,6 +376,22 @@
         $('#kml').val(tokml(drawnItems.toGeoJSON()));
     });
 
+    //SEARCH FUNCTIONALITY
+    var searchControl = new L.esri.Controls.Geosearch().addTo(map);
+
+    var results = new L.LayerGroup().addTo(map);
+
+    searchControl.on('results', function(data) {
+        results.clearLayers();
+        for (var i = data.results.length - 1; i >= 0; i--) {
+            results.addLayer(L.marker(data.results[i].latlng));
+        }
+    });
+
+    setTimeout(function() {
+        $('.pointer').fadeOut('slow');
+    }, 3400);
+
     ///UPLOADING A FILE AND RETRIEVING AND CREATING A LAYER FROM IT.
     document.getElementById("upload").addEventListener("click", function() {
         var data = new FormData(document.getElementById("devForm"));
@@ -419,18 +435,18 @@
     });
 
 
-    $(document).ready(function(){
-        $('#image').change(function(){
+    $(document).ready(function() {
+        $('#image').change(function() {
             var fp = $("#image");
             var lg = fp[0].files.length; // get length
             var items = fp[0].files;
             var fileSize = 0;
-           
+
             if (lg > 0) {
                 for (var i = 0; i < lg; i++) {
-                    fileSize = fileSize+items[i].size; // get file size
+                    fileSize = fileSize + items[i].size; // get file size
                 }
-                if(fileSize > 5242880) {
+                if (fileSize > 5242880) {
                     alert('You should not uplaod files exceeding 4 MB. Please compress files size and uplaod agian');
                     $('#image').val('');
                 }
@@ -438,79 +454,15 @@
         });
     });
 
-
-
-
-    ///OLD SCRIPT FOR THE MAP
-    // var center = [7.2906, 80.6337];
-
-    // // Create the map
-    // var map = L.map('mapid').setView(center, 10);
-
-    // // Set up the OSM layer 
-    // L.tileLayer(
-    //     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    //         attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
-    //         maxZoom: 18
-    //     }).addTo(map);
-
-
-    // var drawnItems = new L.FeatureGroup();
-    // map.addLayer(drawnItems);
-
-    // var drawControl = new L.Control.Draw({
-    //     position: 'topright',
-    //     draw: {
-    //         polygon: {
-    //             shapeOptions: {
-    //                 color: 'purple'
-    //             },
-    //             allowIntersection: false,
-    //             drawError: {
-    //                 color: 'orange',
-    //                 timeout: 1000
-    //             },
-    //             showArea: true,
-    //             metric: false,
-    //             repeatMode: true
-    //         },
-    //         polyline: {
-    //             shapeOptions: {
-    //                 color: 'red'
-    //             },
-    //         },
-    //         circlemarker: false,
-    //         rect: {
-    //             shapeOptions: {
-    //                 color: 'green'
-    //             },
-    //         },
-    //         circle: false,
-    //     },
-    //     edit: {
-    //         featureGroup: drawnItems
-    //     }
-    // });
-    // map.addControl(drawControl);
-
-    // map.on('draw:created', function(e) {
-    //     var type = e.layerType,
-    //         layer = e.layer;
-
-    //     if (type === 'marker') {
-    //         layer.bindPopup('A popup!');
-    //     }
-
-    //     drawnItems.addLayer(layer);
-    //     $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON()));
-
-    //     ///Converting your layer to a KML
-    //     // var json = drawnItems.toGeoJSON();
-    //     // var kml = tokml(json);
-    //     // console.log(kml);
-    //     $('#kml').val(tokml(drawnItems.toGeoJSON()));
-
-
-    // });
+    //toggle extra details for external requestor
+    $(function() {
+        $("#customCheck2").click(function() {
+            if ($(this).is(":checked")) {
+                $("#extRequestor").show();
+            } else {
+                $("#extRequestor").hide();
+            }
+        });
+    });
 </script>
 @endsection

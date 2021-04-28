@@ -1,15 +1,12 @@
 @extends('general')
 
 @section('general')
-
 <div class="container">
-    <div class="row border-lg justify-content-end bg-white">
-     
-        <div class="d-flex justify-content-end">
-                    <a data-placement="top" title="FAQ" href="/env-restoration/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
-
-                </div>
+    <!-- FAQ button -->
+    <div class="d-flex justify-content-end">
+        <a title="FAQ" href="/env-restoration/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
     </div>
+
     <form action="/env-restoration/store" id="envForm" method="post">
         @csrf
         <!-- One "tab" for each step in the form: -->
@@ -422,6 +419,21 @@
         ///Converting your layer to a KML
         //$('#kml').val(tokml(drawnItems.toGeoJSON()));
     });
+    //SEARCH FUNCTIONALITY
+    var searchControl = new L.esri.Controls.Geosearch().addTo(map);
+
+    var results = new L.LayerGroup().addTo(map);
+
+    searchControl.on('results', function(data) {
+        results.clearLayers();
+        for (var i = data.results.length - 1; i >= 0; i--) {
+            results.addLayer(L.marker(data.results[i].latlng));
+        }
+    });
+
+    setTimeout(function() {
+        $('.pointer').fadeOut('slow');
+    }, 3400);
 </script>
 
 @endsection
