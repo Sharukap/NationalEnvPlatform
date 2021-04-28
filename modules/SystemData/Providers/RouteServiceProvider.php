@@ -40,7 +40,7 @@ class RouteServiceProvider extends ServiceProvider
         $this->routes(function () {
                 Route::middleware('web')
                     ->prefix('system-data')
-                    ->group(base_path('modules/SystemData/routes/systemData.php'));
+                    ->group(base_path('modules/SystemData/routes/SystemData.php'));
             });
     }
 
