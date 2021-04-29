@@ -39,36 +39,35 @@
         @csrf
         @if(Auth::user()->role_id == 6)
         <h5 class="p-3">Customize my request report</h5>
-        @elseif(Auth::user()->role_id < 3)
-        <h5 class="p-3">Customize request report of all user requests made</h5>
-        @else
-        <h5 class="p-3">Customize requests assigned to my organization report</h5>
-        @endif
-        <div class="row justify-content-center">
-            <div class="col-md-4">
-                <select name="form_type" class="custom-select" required>
-                
-                    <option value="0" selected>Select Request Type</option>
-                    <option value="1">Tree Removal permission Requests</option>
-                    <option value="2">Development project permission Requests</option>
-                    <option value="3">Restoration project permission Requests</option>
-                    <option value="4">Crime Reports</option>
-                    <option value="5">Land Parcel Request</option>
-                </select>
-            </div>
+        @elseif(Auth::user()->role_id < 3) <h5 class="p-3">Customize request report of all user requests made</h5>
+            @else
+            <h5 class="p-3">Customize requests assigned to my organization report</h5>
+            @endif
+            <div class="row justify-content-center">
+                <div class="col-md-4">
+                    <select name="form_type" class="custom-select" required>
 
-            <div class="col-md-4">
-                <select name="time" class="custom-select" required>
-                    <option value="0">Select Time Period</option>
-                    <option value="1">This Month</option>
-                    <option value="2">This Quarter </option>
-                    <option value="3">This Year </option>
-                </select>
+                        <option value="0" selected>Select Request Type</option>
+                        <option value="1">Tree Removal permission Requests</option>
+                        <option value="2">Development project permission Requests</option>
+                        <option value="3">Restoration project permission Requests</option>
+                        <option value="4">Crime Reports</option>
+                        <option value="5">Land Parcel Request</option>
+                    </select>
+                </div>
+
+                <div class="col-md-4">
+                    <select name="time" class="custom-select" required>
+                        <option value="0">Select Time Period</option>
+                        <option value="1">This Month</option>
+                        <option value="2">This Quarter </option>
+                        <option value="3">This Year </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <button type="submit" class="btn btn-primary" name="filter">Filter</button>
+                </div>
             </div>
-            <div class="col-md-3">
-                <button type="submit" class="btn btn-primary" name="filter">Filter</button>
-            </div>
-        </div>
     </form>
     <form action="/reporting/overview-report" method="post" id="overviewReport">
         @csrf
@@ -94,18 +93,28 @@
                         <td>{{$process_item->form_type->type}}</td>
                         <td>{{date('d-m-Y',strtotime($process_item->created_at))}}</td>
                         @if($process_item->request_organization==null && $process_item->other_land_owner_name==null)
-                            @if($process_item->created_by_user != null)
-                                <td>{{$process_item->created_by_user->name}}</td>
-                            @else
-                                <td>No details available</td>
-                            @endif
-                        @elseif($process_item->request_organization==null)
-                            <td>{{$process_item->other_land_owner_name}}</td>
+                        @if($process_item->created_by_user != null)
+                        <td>{{$process_item->created_by_user->name}}</td>
                         @else
-                            <td>{{$process_item->requesting_organization->title}}</td>
+                        <td>No details available</td>
+                        @endif
+                        @elseif($process_item->request_organization==null)
+                        <td>{{$process_item->other_land_owner_name}}</td>
+                        @else
+                        <td>{{$process_item->requesting_organization->title}}</td>
                         @endif
                         <td>{{$process_item->remark}}</td>
-                        <td><a href="">See Report</a></td>
+                        @if($process_item->form_type_id == 1)
+                        <td><a href="/reporting/tree-removal-report/{{$process_item->id}}" class="text-dark">See Report</a></td>
+                        @elseif($process_item->form_type_id == 2)
+                        <td><a href="/reporting/dev-project-report/{{$process_item->id}}" class="text-dark">See Report</a></td>
+                        @elseif($process_item->form_type_id == 3)
+                        <td><a href="/reporting/env-restoration-report/{{$process_item->id}}" class="text-dark">See Report</a></td>
+                        @elseif($process_item->form_type_id == 4)
+                        <td><a href="/reporting/crime-details-report/{{$process_item->id}}" class="text-dark">See Report</a></td>
+                        @elseif($process_item->form_type_id == 5)
+                        <td><a href="/reporting/land-report/{{$process_item->id}}" class="text-dark">See Report</a></td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>

@@ -45,7 +45,7 @@ class GeneralController extends Controller
         }
         //IF HOO OR MANAGER, DISPLAYS ALL THE PENDING REQUESTS OF THEIR ORGANIZATION
         if ($role == 3 || $role == 4){
-            $Process_items = Process_Item::all()->where('status_id','>=',2)->where('activity_organization',$organization);
+            $Process_items = Process_Item::all()->where('status_id','>=',2)->where('activity_organization',$organization)->where('form_type_id','<',5);
             
             return view('general::generalA', [
                 'Process_items' => $Process_items,
@@ -56,7 +56,7 @@ class GeneralController extends Controller
 
         //IF STAFF DISPLAYS ALL THE REQUESTS ASSIGNED TO THEM
         else if ($role == 5) {
-            $Process_items = Process_Item::all()->where('activity_user_id', $id);
+            $Process_items = Process_Item::all()->where('activity_user_id', $id)->where('form_type_id','<',5);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' =>$tree_removals,

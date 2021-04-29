@@ -112,7 +112,7 @@
                                     <tr>
                                         <th>Name</th>
                                         <th>Quantity</th>
-                                        <th>Height</th>
+                                        <th>Height (in metres)</th>
                                         <th>Dimensions</th>
                                         <th>Remarks</th>
                                         <th></th>

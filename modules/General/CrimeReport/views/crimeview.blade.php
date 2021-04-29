@@ -8,7 +8,7 @@
     <dl class="row">
 
         <dt class="col-sm-3">Category:</dt>
-        <dd class="col-sm-9">Development Project</dd>
+        <dd class="col-sm-9">Crime Report</dd>
 
         <dt class="col-sm-3">Crime Type:</dt>
         <dd class="col-sm-9">{{$crime->Crime_type->type}}</dd>
@@ -33,22 +33,23 @@
     </dl>
     <div id="mapid" style="height:400px;" name="map"></div>
             <div class="row">
-                @isset($Photos)
-                    @if (count($Photos) > 0)
-                            @foreach($Photos as $photo)
-                                <div class="col border border-muted rounded-lg mr-2 p-4">
-                                    <img class="img-responsive" src="{{asset('/storage/'.$photo)}}" alt="photo">
-                                    <a class="nav-link text-dark font-italic p-2" href="/crime-report/downloadimage/{{$photo}}">Download Image</a>
-                                </div>
-                            @endforeach
-                    @endif
-                    @if (count($Photos) < 1)
-                            <p>No photos included in the application</p>
-                    @endif
-                @endisset
-                @empty($Photos)
-                    <p>No photos included in the application</p>
-                @endempty
+            @isset($Photos)
+            <div class="row p-4">
+                <div class="card-deck">
+                    @foreach($Photos as $photo)
+                    <div class="card" style="background-color:#99A3A4">
+                        <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
+                        <div class="card-body text-center">
+                        <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+        @endisset
+        @empty($Photos)
+            <p>No photos included in the application</p>
+        @endempty
             </div>
 
 </div>
@@ -56,6 +57,12 @@
 
 
 <script type="text/javascript">
+   /// BACK BUTTON
+   function goBack() {
+        window.history.back();
+    }
+
+    /// MAP MODULE
     var center = [7.2906, 80.6337];
 
     // Create the map
@@ -69,12 +76,13 @@
         }).addTo(map);
 
 
-    //FROM LARAVEL THE COORDINATES ARE BEING TAKEN TO THE SCRIPT AND CONVERTED TO JSON
     var polygon = @json($polygon);
-    console.log(polygon);
+    var layer = L.geoJSON(JSON.parse(polygon)).addTo(map);
 
-    //ADDING THE JSOON COORDINATES TO MAP
-    L.geoJSON(JSON.parse(polygon)).addTo(map);
+    // Adjust map to show the kml
+    var bounds = layer.getBounds();
+    map.fitBounds(bounds);
+    
     
 </script>
 @endsection

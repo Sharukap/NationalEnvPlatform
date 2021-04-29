@@ -14,7 +14,7 @@
 
         <dt class="col-sm-3">Restoration Type:</dt>
         <dd class="col-sm-9">{{$restoration->Environment_Restoration_Activity->title}}</dd>
-        
+
         <dt class="col-sm-3">Ecosystem :</dt>
         <dd class="col-sm-9">{{$restoration->ecosystems_type->type}}</dd>
 
@@ -43,13 +43,6 @@
             </ul>
         </dd>
 
-        <dt class="col-sm-3">Logs:</dt>
-        @if($restoration->logs == 0)
-        <dd class="col-sm-9">No Logs</dd>
-        @else
-        <dd class="col-sm-9">CONFIGURE CODE TO SHOW LOGS NOT DONE - CURRENTLY SAVING COORDINATES HERE</dd>
-        @endif
-
         <dt class="col-sm-3">Land Parcel:</dt>
         <dd class="col-sm-9">{{$land[0]->title}}</dd>
 
@@ -58,6 +51,42 @@
 
         <dt class="col-sm-3">Created at:</dt>
         <dd class="col-sm-9">{{$restoration->created_at}}</dd>
+    </dl>
+
+    <dl class="row">
+        <dt class="col-sm-3">Restored Tree Species</dt>
+        @if($species==null)
+            <dd class="col-sm-12">No restored species specified in the request made</dd>
+        @else 
+        <dd class="col-sm-7">
+
+            @foreach($species as $individualSpecies)
+                <dl class="row">
+                <dt class="col-sm-3">Common Name:</dt>
+                <dd class="col-sm-9">{{$individualSpecies->Species->title}}</dd>
+
+                <dt class="col-sm-3">Scientific Name:</dt>
+                <dd class="col-sm-9">{{$individualSpecies->Species->scientefic_name}}</dd>
+
+                <dt class="col-sm-3">Height:</dt>
+                <dd class="col-sm-9">{{$individualSpecies->height}}</dd>
+
+                <dt class="col-sm-3">Dimensions:</dt>
+                <dd class="col-sm-9">{{$individualSpecies->dimensions}}</dd>
+
+                <dt class="col-sm-3">Quantity:</dt>
+                <dd class="col-sm-9">{{$individualSpecies->quantity}}</dd>
+
+                <dt class="col-sm-3">Remarks:</dt>
+                @if($individualSpecies->remarks!=null)
+                    <dd class="col-sm-9">{{$individualSpecies->remarks}}</dd>
+                @else
+                    <dd class="col-sm-9">No remarks specified</dd>
+                @endif
+                </dl>
+            @endforeach
+            </dd>
+        @endif
     </dl>
     <div class="border border-dark border-rounded">
         <div id="mapid" style="height:400px;" name="map"></div>
