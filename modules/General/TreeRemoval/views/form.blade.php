@@ -250,7 +250,7 @@
     <div class="tab">
       <div class="container">
         <div class="row border rounded-lg p-4 bg-white">
-          <table class="table" id="dynamicAddRemove">
+          <table class="table" id="dynamicAddRemoveTable">
             <tr>
               <th>Species</th>
               <th>Tree ID</th>
@@ -295,6 +295,27 @@
 
 
 <script>
+  /// SCRIPT FOR THE DYNAMIC COMPONENT
+  var i = 0;
+  $("#add-btn").click(function() {
+    ++i;
+    $("#dynamicAddRemoveTable").append(
+      '<tr><td><input type="text" name="location[' + i + '][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6"/></td>\
+      <td><input type="text" name="location[' + i + '][tree_id]" placeholder="Tree ID" class="form-control" /></td>\
+      <td><input type="text" name="location[' + i + '][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td>\
+      <td><input type="text" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" /></td>\
+      <td><input type="text" name="location[' + i + '][timber_volume]" placeholder="Enter Volume" class="form-control" /></td>\
+      <td><input type="text" name="location[' + i + '][timber_cubic]" placeholder="Enter Cubic" class="form-control" /></td>\
+      <td><input type="text" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" /></td></td>\
+      <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
+      </tr><tr><td colspan="7"><textarea name="location[' + i + '][remark]" placeholder="Enter Remarks" class="form-control" rows="3">\
+      </textarea></td></tr>');
+  });
+  $(document).on('click', '.remove-tr', function() {
+    $(this).parents('tr').next('tr').remove()
+    $(this).parents('tr').remove();
+  });
+
   //STEPPER
   var currentTab = 0; // Current tab is set to be the first tab (0)
   showTab(currentTab); // Display the current tab
@@ -441,21 +462,6 @@
       })
     },
   });
-
-  /// SCRIPT FOR THE DYNAMIC COMPONENT
-  var i = 0;
-  $("#add-btn").click(function() {
-    ++i;
-    $("#dynamicAddRemove").append(
-      '<tr><td><input type="text" name="location[' + i + '][tree_species_id]" placeholder="Enter ID" class="form-control" /></td><td><input type="text" name="location[' + i + '][tree_id]" placeholder="Tree ID" class="form-control" /></td><td><input type="text" name="location[' + i + '][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td><td><input type="text" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" /></td><td><input type="text" name="location[' + i + '][timber_volume]" placeholder="Enter Volume" class="form-control" /></td><td><input type="text" name="location[' + i + '][timber_cubic]" placeholder="Enter Cubic" class="form-control" /></td><td><input type="text" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" /></td></td><td><button type="button" class="btn btn-danger remove-tr">Remove</button></td></tr><tr><td colspan="7"><textarea name="location[' + i + '][remark]" placeholder="Enter Remarks" class="form-control" rows="3"></textarea></td></tr>');
-  });
-  $(document).on('click', '.remove-tr', function() {
-    $(this).parents('tr').next('tr').remove()
-    $(this).parents('tr').remove();
-  });
-
-
-
 
   ///MAP ACTIVITIES
   var map = L.map('mapid', {
