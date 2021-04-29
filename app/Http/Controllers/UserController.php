@@ -9,7 +9,7 @@ use Carbon\Carbon;
 class UserController extends Controller
 {
     public function home(){
-        return view('admin::Unauthorized', [
+        return view('admin::unauthorized', [
             'tree_removals' =>$tree_removals,
             'dev_projects'=>$dev_projects
         ]);
