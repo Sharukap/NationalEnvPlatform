@@ -49,9 +49,6 @@
                                 <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-fw fa-tree mr-3" aria-hidden="true"></i> Environment</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/glad"><i class="fa fa-fw fa-globe mr-3" aria-hidden="true"></i> Tracking</a>
-                            </li>
-                            <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-fw fa-arrow-down mr-3" aria-hidden="true"></i> Requests</a>
                             </li>
                             <li class="nav-item mt-3">
