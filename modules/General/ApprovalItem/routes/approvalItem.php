@@ -2,6 +2,7 @@
 
 use ApprovalItem\Http\Controllers\ApprovalItemController;
 Route::get('/showRequests', [ApprovalItemController::class, 'showRequests'])->middleware(['auth']);
+Route::get('/filterRequests', [ApprovalItemController::class, 'filterRequests']);
 Route::middleware(['access.control:6'])->group(function () {
     
     Route::get('/assignorganization/{id}/{nid}', [ApprovalItemController::class, 'choose_assign_organization'])->middleware(['notifiy.read','restrict.own']);

@@ -138,7 +138,7 @@
                                         <strong>Select 1 or More</strong>
                                         <fieldset>
                                             @foreach($gazettes as $gazette)
-                                            <input type="checkbox" name="land_gazettes[]" value="{{$gazette->id}}" @if( is_array(old('land_gazettes')) && in_array($gazette->id, old('land_gazettes'))) checked @endif> <label class="ml-2">{{$gazette->title}}</label> <br>
+                                            <input type="checkbox" name="land_gazettes[]" value="{{$gazette->id}}" @if( is_array(old('land_gazettes')) && in_array($gazette->id, old('land_gazettes'))) checked @endif> <label class="ml-2">{{$gazette->gazette_number}}</label> <br>
                                             @endforeach
                                         </fieldset>
                                     </div>
