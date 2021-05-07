@@ -37,8 +37,8 @@ class TreeRemovalController extends Controller
 
     public function save(Request $request)
     {
-        if($request->hasfile('file')){
-            
+        if ($request->hasfile('file')) {
+
             request()->validate([
                 'file' => 'required',
                 'file.*' => 'mimes:jpeg,jpg,png|max:40000'
@@ -46,7 +46,8 @@ class TreeRemovalController extends Controller
         }
 
         $request->validate([
-            'landTitle' => 'required|unique:land_parcels,title',
+            'planNo' => 'required',
+            'surveyorName' => 'required',
             'district' => 'required|exists:districts,district',
             'gs_division' => 'required|exists:gs_divisions,gs_division',
             'activity_organization' => 'required|exists:organizations,title',
@@ -70,7 +71,8 @@ class TreeRemovalController extends Controller
         DB::transaction(function () use ($request) {
 
             $land = new Land_Parcel();
-            $land->title = request('landTitle');
+            $land->title = request('planNo');
+            $land->surveyor_name = request('surveyorName');
 
             $land->polygon = request('polygon');
 
@@ -165,17 +167,17 @@ class TreeRemovalController extends Controller
 
             //saving the images to the db
             $latest = Tree_Removal_Request::latest()->first();
-            if($request->hasfile('file')) { 
-                $y=0;
-                foreach($request->file('file') as $file){
-                    $filename =$file->getClientOriginalName();
-                    $newname = $latest->id.'No'.$y.$filename;
-                    $path = $file->storeAs('treeremoval',$newname,'public');
-                    $photoarray[$y] = $path;  
-                    $y++;          
+            if ($request->hasfile('file')) {
+                $y = 0;
+                foreach ($request->file('file') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    $newname = $latest->id . 'No' . $y . $filename;
+                    $path = $file->storeAs('treeremoval', $newname, 'public');
+                    $photoarray[$y] = $path;
+                    $y++;
                 }
                 //dd($photoarray);
-                $tree = Tree_Removal_Request::where('id',$latest->id)->update(['images' => json_encode($photoarray)]);
+                $tree = Tree_Removal_Request::where('id', $latest->id)->update(['images' => json_encode($photoarray)]);
             }
 
             $treeProcess = new Process_Item();
@@ -250,9 +252,32 @@ class TreeRemovalController extends Controller
         return view('treeRemoval::show', [
             'tree' => $tree_removal,
             'location' => $location_data,
-            'polygon' => $land_data->polygon,
+            'land' => $land_data,
             'Photos' => $Photos,
+            'process' => $item,
         ]);
+    }
+
+    public function destroy($processid, $treeid, $landid)
+    {
+        $prereqs = Process_Item::where("prerequisite_id", "=", $processid)->pluck('id');
+        //ddd($processid, $treeid, $landid, $prereqs[0]);
+
+        DB::transaction(function () use ($processid, $treeid, $landid, $prereqs) {
+
+            $landParcelProcess = Process_Item::find($prereqs[0]);
+            $landParcelProcess->delete();
+
+            $treeRemovalProcess = Process_Item::find($processid);
+            $treeRemovalProcess->delete();
+
+            $treeRemoval = Tree_Removal_Request::find($treeid);
+            $treeRemoval->delete();
+
+            $landParcel = Land_Parcel::find($landid);
+            $landParcel->delete();
+        });
+        return redirect('/approval-item/showRequests')->with('message', 'Request Successfully Deleted');
     }
 
     //Typeahead AutoCompletes

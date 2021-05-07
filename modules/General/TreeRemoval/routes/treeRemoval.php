@@ -11,6 +11,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/show/{id}', [TreeRemovalController::class, 'show']);
 
+    Route::delete('/delete/{processid}/{treeid}/{landid}', [TreeRemovalController::class, 'destroy']);
+
     //Route to get the FAQ View
     Route::get('/userinstruct', fn () => view('treeRemoval::faq'));
 
