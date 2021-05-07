@@ -68,6 +68,19 @@
         <p>No photos included in the application</p>
         @endempty
     </div>
+    @if($process->status_id < 2)
+    <div class="mt-3" style="float:right;">
+        <!-- <a class="btn btn-outline-warning" href="/dev-project/edit/{{$process->id}}/{{$development_project->id}}/{{$land->id}}">Edit</a> -->
+        <button class="btn btn-outline-danger" onclick="if (confirm('Are you sure you wish to delete this request and all it\'s related data?')){
+            event.preventDefault();
+            document.getElementById('form-delete-{{$process->id}}').submit()}">Delete</button>
+
+        <form id="{{'form-delete-'.$process->id}}" style="display:none" method="post" action="/dev-project/delete/{{$process->id}}/{{$development_project->id}}/{{$land->id}}">
+            @csrf
+            @method('delete');
+        </form>
+    </div>
+    @endif
 </div>
 
 
@@ -88,7 +101,7 @@
 
 
     //FROM LARAVEL THE COORDINATES ARE BEING TAKEN TO THE SCRIPT AND CONVERTED TO JSON
-    var polygon = @json($polygon);
+    var polygon = @json($land->polygon);
     console.log(polygon);
 
     //ADDING THE JSOON COORDINATES TO MAP

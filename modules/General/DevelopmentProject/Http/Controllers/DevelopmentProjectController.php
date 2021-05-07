@@ -40,7 +40,7 @@ class DevelopmentProjectController extends Controller
     // depenign on the number of governing organizations selected.
     public function save(Request $request)
     {
-        if($request->hasfile('file')){
+        if ($request->hasfile('file')) {
             request()->validate([
                 'file' => 'required',
                 'file.*' => 'mimes:jpeg,jpg,png|max:40000'
@@ -147,17 +147,17 @@ class DevelopmentProjectController extends Controller
 
             //saving the images to the db
             $latest = Development_Project::latest()->first();
-            if($request->hasfile('file')) { 
-                $y=0;
-                foreach($request->file('file') as $file){
-                    $filename =$file->getClientOriginalName();
-                    $newname = $latest->id.'No'.$y.$filename;
-                    $path = $file->storeAs('development',$newname,'public');
-                    $photoarray[$y] = $path;  
-                    $y++;          
+            if ($request->hasfile('file')) {
+                $y = 0;
+                foreach ($request->file('file') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    $newname = $latest->id . 'No' . $y . $filename;
+                    $path = $file->storeAs('development', $newname, 'public');
+                    $photoarray[$y] = $path;
+                    $y++;
                 }
                 //dd($photoarray);
-                $devp = Development_Project::where('id',$latest->id)->update(['images' => json_encode($photoarray)]);
+                $devp = Development_Project::where('id', $latest->id)->update(['images' => json_encode($photoarray)]);
             }
 
 
@@ -231,13 +231,34 @@ class DevelopmentProjectController extends Controller
         $Photos = Json_decode($development_project->images);
 
         $land_data = Land_Parcel::find($development_project->land_parcel_id);
-        // $images = json_decode($development_project->images);
-        // $Photos=Json_decode($development_project->images);
         return view('developmentProject::show', [
             'development_project' => $development_project,
-            'polygon' => $land_data->polygon,
+            'land' => $land_data,
             'Photos' => $Photos,
+            'process' => $process_item,
         ]);
+    }
+
+    public function destroy($processid, $devid, $landid)
+    {
+        $prereqs = Process_Item::where("prerequisite_id", "=", $processid)->pluck('id');
+        //ddd($processid, $treeid, $landid, $prereqs[0]);
+
+        DB::transaction(function () use ($processid, $devid, $landid, $prereqs) {
+
+            $landParcelProcess = Process_Item::find($prereqs[0]);
+            $landParcelProcess->delete();
+
+            $devProjectProcess = Process_Item::find($processid);
+            $devProjectProcess->delete();
+
+            $devProject = Development_Project::find($devid);
+            $devProject->delete();
+
+            $landParcel = Land_Parcel::find($landid);
+            $landParcel->delete();
+        });
+        return redirect('/approval-item/showRequests')->with('message', 'Request Successfully Deleted');
     }
 
     public function gazetteAutocomplete(Request $request)
