@@ -46,7 +46,8 @@ class TreeRemovalController extends Controller
         }
 
         $request->validate([
-            'landTitle' => 'required|unique:land_parcels,title',
+            'planNo' => 'required',
+            'surveyorName' => 'required',
             'district' => 'required|exists:districts,district',
             'gs_division' => 'required|exists:gs_divisions,gs_division',
             'activity_organization' => 'required|exists:organizations,title',
@@ -70,7 +71,8 @@ class TreeRemovalController extends Controller
         DB::transaction(function () use ($request) {
 
             $land = new Land_Parcel();
-            $land->title = request('landTitle');
+            $land->title = request('planNo');
+            $land->surveyor_name = request('surveyorName');
 
             $land->polygon = request('polygon');
 

@@ -95,9 +95,17 @@
                     <h4>Land Parcel Details</h4>
                     <div class="col-lg-8">
                         <div class="form-group">
-                            <label for="title">Land Title*</label>
-                            <input type="text" class="form-control @error('landTitle') is-invalid @enderror" value="{{ old('landTitle') }}" placeholder="Enter Land Title" id="landTitle" name="landTitle">
-                            @error('landTitle')
+                            <label for="title">Plan Number:</label>
+                            <input type="text" class="form-control @error('planNo') is-invalid @enderror" value="{{ old('planNo') }}" placeholder="Enter Plan Number" id="planNo" name="planNo">
+                            @error('planNo')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title">Surveyor Name:</label>
+                            <input type="text" class="form-control @error('surveyorName') is-invalid @enderror" value="{{ old('surveyorName') }}" placeholder="Enter Surveyor Name" id="surveyorName" name="surveyorName">
+                            @error('surveyorName')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>

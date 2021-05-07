@@ -64,8 +64,11 @@
                 <dt class="col-sm-5">Special Approval:</dt>
                 <dd class="col-sm-7">{{$tree->special_approval}}</dd>
 
-                <dt class="col-sm-5">Land Parcel:</dt>
+                <dt class="col-sm-5">Plan Number:</dt>
                 <dd class="col-sm-7">{{$tree->land_parcel->title}}</dd>
+
+                <dt class="col-sm-5">Surveyor Name:</dt>
+                <dd class="col-sm-7">{{$tree->land_parcel->surveyor_name}}</dd>
 
                 <dt class="col-sm-5">Status:</dt>
                 <dd class="col-sm-7">{{$tree->status->type}}</dd>

@@ -27,8 +27,11 @@
             <p>{{$development_project->organization->title}}</p>
         </dd>
 
-        <dt class="col-sm-3">Land Parcel:</dt>
+        <dt class="col-sm-3">Plan Number:</dt>
         <dd class="col-sm-9">{{$development_project->land_parcel->title}}</dd>
+
+        <dt class="col-sm-3">Surveyor Name:</dt>
+        <dd class="col-sm-9">{{$development_project->land_parcel->surveyor_name}}</dd>
 
         @if($development_project->land_size != 0)
         <dt class="col-sm-3">Land Size:</dt>
@@ -46,23 +49,23 @@
     </div>
 
     <div class="row ml-1 mt-4">
-    <div><strong>Photos:</strong></div>
+        <div><strong>Photos:</strong></div>
         @isset($Photos)
-            <div class="row p-4">
-                <div class="card-deck">
-                    @foreach($Photos as $photo)
-                    <div class="card" style="background-color:#99A3A4">
-                        <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
-                        <div class="card-body text-center">
+        <div class="row p-4">
+            <div class="card-deck">
+                @foreach($Photos as $photo)
+                <div class="card" style="background-color:#99A3A4">
+                    <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
+                    <div class="card-body text-center">
                         <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
-                        </div>
                     </div>
-                    @endforeach
                 </div>
+                @endforeach
             </div>
+        </div>
         @endisset
         @empty($Photos)
-            <p>No photos included in the application</p>
+        <p>No photos included in the application</p>
         @endempty
     </div>
 </div>

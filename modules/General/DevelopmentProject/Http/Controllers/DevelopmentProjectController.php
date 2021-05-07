@@ -48,7 +48,8 @@ class DevelopmentProjectController extends Controller
         }
         $request->validate([
             'title' => 'required',
-            'landTitle' => 'required|unique:land_parcels,title',
+            'planNo' => 'required',
+            'surveyorName' => 'required',
             'organization' => 'required|exists:organizations,title',
             'gazette' => 'nullable|exists:gazettes,gazette_number',
             'polygon' => 'required',
@@ -66,7 +67,8 @@ class DevelopmentProjectController extends Controller
 
         DB::transaction(function () use ($request) {
             $land = new Land_Parcel();
-            $land->title = request('landTitle');
+            $land->title = request('planNo');
+            $land->surveyor_name = request('surveyorName');
 
             $land->polygon = request('polygon');
 
