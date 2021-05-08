@@ -130,6 +130,7 @@
                         </form>
                         <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
                         <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
+                        <p id="error" class="text-danger"></p>
                     </div>
                 </div>
             </div>
@@ -167,7 +168,6 @@
             "remarks": ""
         }]
 
-
         document.getElementById('uploadExcel').addEventListener("click", () => {
             XLSX.utils.json_to_sheet(data, 'out.xlsx');
             if (selectedFile) {
@@ -175,17 +175,26 @@
                 fileReader.readAsBinaryString(selectedFile);
                 fileReader.onload = (event) => {
                     let data = event.target.result;
+                    try {
+                        let workbook = XLSX.read(data, {
+                            type: "binary"
+                        });
+                    } catch (err) {
+                        document.getElementById("error").innerHTML = "Uploaded file format is not xlsx. Please upload excel";
+                    }
                     let workbook = XLSX.read(data, {
-                        type: "binary"
-                    });
+                            type: "binary"
+                        });
                     console.log(workbook);
                     workbook.SheetNames.forEach(sheet => {
                         let exceldata = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
                         dynamic_species(exceldata.length, exceldata);
                     });
+                
                 }
             }
-        });
+        }); 
+    
 
         //DYNAMIC SPECIES 
         var count = 1;
@@ -216,13 +225,13 @@
                 let dimensions = exceldata[0]['dimensions'];
                 let remarks = exceldata[0]['remarks'];
 
-                document.getElementById("species_name[]").value=name;
-                document.getElementById("quantity[]").value=quantity;
-                document.getElementById("height[]").value=height;
-                document.getElementById("dimension[]").value=dimensions;
-                document.getElementById("remark[]").value=remarks;
+                document.getElementById("species_name[]").value = name;
+                document.getElementById("quantity[]").value = quantity;
+                document.getElementById("height[]").value = height;
+                document.getElementById("dimension[]").value = dimensions;
+                document.getElementById("remark[]").value = remarks;
 
-                for(i = 1; i < (exceldata.length); i++) {
+                for (i = 1; i < (exceldata.length); i++) {
                     name = exceldata[i]['name'];
                     quantity = exceldata[i]['quantity'];
                     height = exceldata[i]['height'];
