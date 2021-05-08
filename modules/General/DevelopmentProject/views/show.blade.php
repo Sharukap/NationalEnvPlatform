@@ -12,6 +12,15 @@
         <dt class="col-sm-3">Category:</dt>
         <dd class="col-sm-9">Development Project</dd>
 
+        <dt class="col-sm-3">Province:</dt>
+        <dd class="col-sm-9">{{$land->district->province->province}}</dd>
+
+        <dt class="col-sm-3">District:</dt>
+        <dd class="col-sm-9">{{$land->district->district}}</dd>
+
+        <dt class="col-sm-3">Grama Sevaka Division:</dt>
+        <dd class="col-sm-9">{{$land->gs_division->gs_division}}</dd>
+
         @if($development_project->gazette_id)
         <dt class="col-sm-3">Gazette:</dt>
         <dd class="col-sm-9">{{$development_project->gazette->gazette_number}}</dd>
@@ -43,6 +52,13 @@
 
         <dt class="col-sm-3">Created at:</dt>
         <dd class="col-sm-9">{{$development_project->created_at}}</dd>
+
+        <dt class="col-sm-3">User handling Your Request:</dt>
+        @if($process->activity_user_id == NULL)
+        <dd class="col-sm-9">No User Assigned Yet</dd>
+        @else
+        <dd class="col-sm-9">{{$process->activity_user->name}}</dd>
+        @endif
     </dl>
     <div class="border border-dark border-rounded mt-4">
         <div id="mapid" style="height:400px;" name="map"></div>
@@ -68,8 +84,7 @@
         <p>No photos included in the application</p>
         @endempty
     </div>
-    @if($process->status_id < 2)
-    <div class="mt-3" style="float:right;">
+    @if($process->status_id < 2) <div class="mt-3" style="float:right;">
         <!-- <a class="btn btn-outline-warning" href="/dev-project/edit/{{$process->id}}/{{$development_project->id}}/{{$land->id}}">Edit</a> -->
         <button class="btn btn-outline-danger" onclick="if (confirm('Are you sure you wish to delete this request and all it\'s related data?')){
             event.preventDefault();
@@ -79,8 +94,8 @@
             @csrf
             @method('delete');
         </form>
-    </div>
-    @endif
+</div>
+@endif
 </div>
 
 
@@ -101,7 +116,7 @@
 
 
     //FROM LARAVEL THE COORDINATES ARE BEING TAKEN TO THE SCRIPT AND CONVERTED TO JSON
-    var polygon = @json($land->polygon);
+    var polygon = @json($polygon);
     console.log(polygon);
 
     //ADDING THE JSOON COORDINATES TO MAP

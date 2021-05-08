@@ -227,15 +227,14 @@ class DevelopmentProjectController extends Controller
     {
         $process_item = Process_Item::find($id);
         $development_project = Development_Project::find($process_item->form_id);
-
         $Photos = Json_decode($development_project->images);
-
         $land_data = Land_Parcel::find($development_project->land_parcel_id);
         return view('developmentProject::show', [
             'development_project' => $development_project,
             'land' => $land_data,
             'Photos' => $Photos,
             'process' => $process_item,
+            'polygon' => $land_data->polygon,
         ]);
     }
 
@@ -245,6 +244,16 @@ class DevelopmentProjectController extends Controller
         //ddd($processid, $treeid, $landid, $prereqs[0]);
 
         DB::transaction(function () use ($processid, $devid, $landid, $prereqs) {
+
+            $landhasGazettes = Land_Has_Gazette::where("land_parcel_id", "=", $landid)->get();
+            foreach ($landhasGazettes as $landhasGazette) {
+                $landhasGazette->delete();
+            }
+
+            $landHasOrganizations = Land_Has_Organization::where("land_parcel_id", "=", $landid)->get();
+            foreach ($landHasOrganizations as $landHasOrganization) {
+                $landHasOrganization->delete();
+            }
 
             $landParcelProcess = Process_Item::find($prereqs[0]);
             $landParcelProcess->delete();

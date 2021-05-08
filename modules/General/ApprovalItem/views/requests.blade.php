@@ -57,14 +57,11 @@
                     @if($item->request_organization)
                     <td>{{$item->requesting_organization->title}}</td>
                     @else
-                    <td>{{$item->other_land_owner_name}} (External)</td>
+                    <td>{{$item->ext_requestor_email}}</td>
                     @endif
 
-                    @if($item->activity_organization)
                     <td>{{$item->Activity_organization->title}}</td>
-                    @else
-                    <td>{{$item->other_removal_requestor_name}} (External)</td>
-                    @endif
+
 
                     <td>{{$item->status->type}}</td>
                     @if($item->form_type_id == 1)
