@@ -130,6 +130,8 @@
                         </form>
                         <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
                         <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
+                        <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
+                        <p id="error" class="text-danger"></p>
                     </div>
                 </div>
             </div>
@@ -167,7 +169,6 @@
             "remarks": ""
         }]
 
-
         document.getElementById('uploadExcel').addEventListener("click", () => {
             XLSX.utils.json_to_sheet(data, 'out.xlsx');
             if (selectedFile) {
@@ -175,10 +176,16 @@
                 fileReader.readAsBinaryString(selectedFile);
                 fileReader.onload = (event) => {
                     let data = event.target.result;
+                    try {
+                        let workbook = XLSX.read(data, {
+                            type: "binary"
+                        });
+                    } catch (err) {
+                        document.getElementById("error").innerHTML = "Uploaded file format is not xlsx. Please upload in excel format";
+                    }
                     let workbook = XLSX.read(data, {
                         type: "binary"
                     });
-                    console.log(workbook);
                     workbook.SheetNames.forEach(sheet => {
                         let exceldata = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
                         dynamic_species(exceldata.length, exceldata);
@@ -186,6 +193,7 @@
                 }
             }
         });
+
 
         //DYNAMIC SPECIES 
         var count = 1;
@@ -216,13 +224,13 @@
                 let dimensions = exceldata[0]['dimensions'];
                 let remarks = exceldata[0]['remarks'];
 
-                document.getElementById("species_name[]").value=name;
-                document.getElementById("quantity[]").value=quantity;
-                document.getElementById("height[]").value=height;
-                document.getElementById("dimension[]").value=dimensions;
-                document.getElementById("remark[]").value=remarks;
+                document.getElementById("species_name[]").value = name;
+                document.getElementById("quantity[]").value = quantity;
+                document.getElementById("height[]").value = height;
+                document.getElementById("dimension[]").value = dimensions;
+                document.getElementById("remark[]").value = remarks;
 
-                for(i = 1; i < (exceldata.length); i++) {
+                for (i = 1; i < (exceldata.length); i++) {
                     name = exceldata[i]['name'];
                     quantity = exceldata[i]['quantity'];
                     height = exceldata[i]['height'];
@@ -273,6 +281,21 @@
         $(document).on('click', '.remove', function() {
             count--;
             $(this).closest("tr").remove();
+        });
+
+        document.getElementById('clear').addEventListener("click", () => {
+            console.log(count);
+            var table = document.getElementById("species");
+
+            while (table.rows.length > 2) {
+                table.deleteRow(2);
+            }
+            count=1;
+            document.getElementById("species_name[]").value = "";
+            document.getElementById("quantity[]").value = "";
+            document.getElementById("height[]").value = "";
+            document.getElementById("dimension[]").value = "";
+            document.getElementById("remark[]").value = "";
         });
 
         $('#dynamic_species').on('submit', function(event) {
