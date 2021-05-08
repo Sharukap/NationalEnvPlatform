@@ -253,6 +253,7 @@ class TreeRemovalController extends Controller
             'tree' => $tree_removal,
             'location' => $location_data,
             'land' => $land_data,
+            'polygon' => $land_data->polygon,
             'Photos' => $Photos,
             'process' => $item,
         ]);
@@ -264,6 +265,16 @@ class TreeRemovalController extends Controller
         //ddd($processid, $treeid, $landid, $prereqs[0]);
 
         DB::transaction(function () use ($processid, $treeid, $landid, $prereqs) {
+
+            $landhasGazettes = Land_Has_Gazette::where("land_parcel_id", "=", $landid)->get();
+            foreach ($landhasGazettes as $landhasGazette) {
+                $landhasGazette->delete();
+            }
+
+            $landHasOrganizations = Land_Has_Organization::where("land_parcel_id", "=", $landid)->get();
+            foreach ($landHasOrganizations as $landHasOrganization) {
+                $landHasOrganization->delete();
+            }
 
             $landParcelProcess = Process_Item::find($prereqs[0]);
             $landParcelProcess->delete();
@@ -303,7 +314,7 @@ class TreeRemovalController extends Controller
     {
         $data = Organization::select("title")
             ->where("title", "LIKE", "%{$request->terms}%")
-            ->where('title', '!=', "Citizen")
+            ->where('title', '!=', "No Organization (Citizen)")
             ->get();
 
         return response()->json($data);

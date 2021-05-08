@@ -4,9 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Tree_Removal_Request extends Model
 {
+    use SoftDeletes;
     use HasFactory;
 
     protected $table = 'tree_removal_requests';

@@ -75,6 +75,13 @@
 
                 <dt class="col-sm-5">Created at:</dt>
                 <dd class="col-sm-7">{{$tree->created_at}}</dd>
+
+                <dt class="col-sm-5">User handling Your Request:</dt>
+                @if($process->activity_user_id == NULL)
+                <dd class="col-sm-7">No User Assigned Yet</dd>
+                @else
+                <dd class="col-sm-7">{{$process->activity_user->name}}</dd>
+                @endif
         </div>
         <div class="col border border-muted rounded-lg mr-2 p-2">
             <dt class="col-sm-5">Properties</dt>
@@ -141,8 +148,7 @@
         <p>No photos included in the application</p>
         @endempty
     </div>
-    @if($process->status_id < 2) 
-    <div style="float:right;">
+    @if($process->status_id < 2) <div style="float:right;">
         <button class="btn btn-outline-danger" onclick="if(confirm('Are you sure you wish to delete this request and all it\'s related data?')){ event.preventDefault();
                             document.getElementById('form-delete-{{$process->id}}').submit()}">Delete</button>
 
@@ -155,7 +161,6 @@
 </div>
 
 <script>
-
     /// MAP MODULE
     var center = [7.2906, 80.6337];
 
@@ -170,7 +175,7 @@
         }).addTo(map);
 
 
-    var polygon = @json($land->polygon);
+    var polygon = @json($polygon);
     var layer = L.geoJSON(JSON.parse(polygon)).addTo(map);
 
     // Adjust map to show the kml

@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use OwenIt\Auditing\Contracts\Auditable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Process_Item extends Model implements Auditable
 {
+    use SoftDeletes;
     use HasFactory;
     use \OwenIt\Auditing\Auditable;
     protected $table = 'process_items';
