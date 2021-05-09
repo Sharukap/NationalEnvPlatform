@@ -271,19 +271,25 @@
               <th>Age</th>
             </tr>
             <tr>
-              <td><input type="text" name="location[0][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6" /></td>
-              <td><input type="text" name="location[0][tree_id]" placeholder="Enter ID" class="form-control" /></td>
-              <td><input type="text" name="location[0][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td>
-              <td><input type="text" name="location[0][height]" placeholder="Enter Height" class="form-control" /></td>
-              <td><input type="text" name="location[0][timber_volume]" placeholder="Enter Volume" class="form-control" /></td>
-              <td><input type="text" name="location[0][timber_cubic]" placeholder="Enter Cubic" class="form-control" /></td>
-              <td><input type="text" name="location[0][age]" placeholder="Enter Age" class="form-control" /></td>
+              <td><input type="text" id="species_name" name="location[0][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6" /></td>
+              <td><input type="text" id="tree_id" name="location[0][tree_id]" placeholder="Enter ID" class="form-control" /></td>
+              <td><input type="text" id="width_at_breast_height" name="location[0][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td>
+              <td><input type="text" id="height" name="location[0][height]" placeholder="Enter Height" class="form-control" /></td>
+              <td><input type="text" id="timber_volume" name="location[0][timber_volume]" placeholder="Enter Volume" class="form-control" /></td>
+              <td><input type="text" id="timber_cubic" name="location[0][timber_cubic]" placeholder="Enter Cubic" class="form-control" /></td>
+              <td><input type="text" id="age" name="location[0][age]" placeholder="Enter Age" class="form-control" /></td>
               <td rowspan="2"><button type="button" name="add" id="add-btn" class="btn bd-navbar text-white">Add</button></td>
             </tr>
             <tr>
-              <td colspan="7"><textarea name="location[0][remark]" placeholder="Enter Remarks" class="form-control" rows="3"></textarea></td>
+              <td colspan="7"><textarea id="remarks" name="location[0][remark]" placeholder="Enter Remarks" class="form-control" rows="3"></textarea></td>
             </tr>
           </table>
+          <div>
+            <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
+            <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
+            <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
+            <p id="error" class="text-danger"></p>
+          </div>
         </div>
       </div>
     </div>
@@ -305,26 +311,121 @@
 
 
 <script>
+  let i = 0;
+
+  //Excel Import Script  
+  let selectedFile;
+  console.log(window.XLSX);
+  document.getElementById('fileUpload').addEventListener("change", (event) => {
+    selectedFile = event.target.files[0];
+  })
+
+  let data = [{
+    "species": "",
+    "tree_id": "",
+    "width_at_breast_height": "",
+    "height": "",
+    "timber_volume": "",
+    "cubic_feet": "",
+    "age": "",
+    "remarks": ""
+  }]
+
+  document.getElementById('uploadExcel').addEventListener("click", () => {
+    XLSX.utils.json_to_sheet(data, 'out.xlsx');
+    if (selectedFile) {
+      let fileReader = new FileReader();
+      fileReader.readAsBinaryString(selectedFile);
+      fileReader.onload = (event) => {
+        let data = event.target.result;
+        try {
+          let workbook = XLSX.read(data, {
+            type: "binary"
+          });
+        } catch (err) {
+          document.getElementById("error").innerHTML = "Uploaded file format is not xlsx. Please upload in excel format";
+        }
+        let workbook = XLSX.read(data, {
+          type: "binary"
+        });
+        workbook.SheetNames.forEach(sheet => {
+          let exceldata = XLSX.utils.sheet_to_row_object_array(workbook.Sheets[sheet]);
+          console.log(exceldata);
+
+          document.getElementById("species_name").value = exceldata[i]['Species'];
+    document.getElementById("tree_id").value = exceldata[i]['Tree ID'];
+    document.getElementById("width_at_breast_height").value = exceldata[i]['Width at Breast Height'];
+    document.getElementById("height").value = exceldata[i]['Height'];
+    document.getElementById("timber_volume").value = exceldata[i]['Timber Volume'];
+    document.getElementById("timber_cubic").value = exceldata[i]['Cubic Feet'];
+    document.getElementById("age").value = exceldata[i]['Age'];
+    document.getElementById("remarks").value = exceldata[i]['Remarks'];
+
+    for (j = 0; j < exceldata.length; j++) {
+      i++;
+      species = exceldata[i]['Species'];
+      tree_id = exceldata[i]['Tree ID'];
+      width_breast = exceldata[i]['Width at Breast Height'];
+      height = exceldata[i]['Height'];
+      timber_volume = exceldata[i]['Timber Volume'];
+      cubic_feet = exceldata[i]['Cubic Feet'];
+      age = exceldata[i]['Age'];
+      remarks = exceldata[i]['Remarks'];
+      $("#dynamicAddRemoveTable").append(
+        '<tr><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6" value=' + species + ' /></td>\
+      <td><input type="text" id="tree_id" name="location[' + i + '][tree_id]" placeholder="Tree ID" class="form-control" value=' + tree_id + ' /></td>\
+      <td><input type="text" id="width_at_breast_height" name="location[' + i + '][width_at_breast_height]" placeholder="Enter Width" class="form-control" value=' + width_breast + ' /></td>\
+      <td><input type="text" id="height" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" value=' + height + ' /></td>\
+      <td><input type="text" id="timber_volume" name="location[' + i + '][timber_volume]" placeholder="Enter Volume" class="form-control" value=' + timber_volume + ' /></td>\
+      <td><input type="text" id="timber_cubic" name="location[' + i + '][timber_cubic]" placeholder="Enter Cubic" class="form-control" value=' + cubic_feet + ' /></td>\
+      <td><input type="text" id="age" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" value=' + age + ' /></td></td>\
+      <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
+      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Enter Remarks" class="form-control" rows="3">'+remarks+'</textarea></td></tr>'
+      );
+    }
+        });
+      }
+    }
+  });
+
   /// SCRIPT FOR THE DYNAMIC COMPONENT
-  var i = 0;
   $("#add-btn").click(function() {
     ++i;
     $("#dynamicAddRemoveTable").append(
-      '<tr><td><input type="text" name="location[' + i + '][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6"/></td>\
-      <td><input type="text" name="location[' + i + '][tree_id]" placeholder="Tree ID" class="form-control" /></td>\
-      <td><input type="text" name="location[' + i + '][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td>\
-      <td><input type="text" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" /></td>\
-      <td><input type="text" name="location[' + i + '][timber_volume]" placeholder="Enter Volume" class="form-control" /></td>\
-      <td><input type="text" name="location[' + i + '][timber_cubic]" placeholder="Enter Cubic" class="form-control" /></td>\
-      <td><input type="text" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" /></td></td>\
+      '<tr><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6"/></td>\
+      <td><input type="text" id="tree_id" name="location[' + i + '][tree_id]" placeholder="Tree ID" class="form-control" /></td>\
+      <td><input type="text" id="width_at_breast_height" name="location[' + i + '][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td>\
+      <td><input type="text" id="height" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" /></td>\
+      <td><input type="text" id="timber_volume" name="location[' + i + '][timber_volume]" placeholder="Enter Volume" class="form-control" /></td>\
+      <td><input type="text" id="timber_cubic" name="location[' + i + '][timber_cubic]" placeholder="Enter Cubic" class="form-control" /></td>\
+      <td><input type="text" id="age" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" /></td></td>\
       <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
-      </tr><tr><td colspan="7"><textarea name="location[' + i + '][remark]" placeholder="Enter Remarks" class="form-control" rows="3">\
-      </textarea></td></tr>');
+      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Enter Remarks" class="form-control" rows="3">\
+      </textarea></td></tr>'
+    );
   });
   $(document).on('click', '.remove-tr', function() {
     $(this).parents('tr').next('tr').remove()
     $(this).parents('tr').remove();
   });
+
+  document.getElementById('clear').addEventListener("click", () => {
+            var table = document.getElementById("dynamicAddRemoveTable");
+
+            while (table.rows.length > 3) {
+                table.deleteRow(2);
+            }
+            i=1;
+            document.getElementById("species_name").value = "";
+            document.getElementById("tree_id").value = "";
+            document.getElementById("width_at_breast_height").value = "";
+            document.getElementById("height").value = "";
+            document.getElementById("timber_volume").value = "";
+            document.getElementById("timber_cubic").value = "";
+            document.getElementById("age").value = "";
+
+            document.getElementById("remarks").value = "";
+        });
 
   //STEPPER
   var currentTab = 0; // Current tab is set to be the first tab (0)
