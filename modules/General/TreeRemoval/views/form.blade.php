@@ -288,6 +288,7 @@
             <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
             <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
             <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
+            <p><strong>When importing excel, Ensure that the field names are as shown above in terms of whitespaces and letter case</strong></p>
             <p id="error" class="text-danger"></p>
           </div>
         </div>
