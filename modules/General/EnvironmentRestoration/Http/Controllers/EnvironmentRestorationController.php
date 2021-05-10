@@ -73,7 +73,7 @@ class EnvironmentRestorationController extends Controller
             $landparcel = new Land_Parcel();
             $landparcel->title = request('landparceltitle');
             $landparcel->polygon = request('polygon');
-
+            $landparcel->surveyor_name = 'not given';
             if (request('isProtected')) {
                 $landparcel->protected_area = request('isProtected');
             }

@@ -184,12 +184,12 @@
                 </nav>
 
                 <div style="background-color:#f0f0f7" class="col-md">
-                    <span>
+                    <!-- <span>
                         <h4 class="text-center bg-success text-light">{{session('message')}}</h4>
                     </span>
                     <span>
                         <h4 class="text-center bg-danger text-light">{{session('warning')}}</h4>
-                    </span>
+                    </span> -->
                     @yield('cont')
                     <br>
                 </div>
