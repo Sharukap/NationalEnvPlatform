@@ -239,7 +239,8 @@ INSERT INTO `access` (`id`, `access`, `created_at`, `updated_at`, `status`, `del
 (4, 'Reporting Module', NULL, NULL, 7, NULL),
 (6, 'Approval Item-Organization assigning', NULL, NULL, 7, NULL),
 (7, 'Approval Item-Staff assigning and final approval', NULL, NULL, 7, NULL),
-(8, 'Approval Item-Investigation', NULL, NULL, 7, NULL);
+(8, 'Approval Item-Investigation', NULL, NULL, 7, NULL),
+(9, 'System-Data and access management', NULL, NULL, 7, NULL),
 
 --
 -- Dumping data for table `role_has_access`

@@ -6,7 +6,7 @@ use SystemData\Http\Controllers\SystemDataController;
 //Route::get('/test', [SystemDataController::class, 'test']); // 'system-data/test' will return to this.
 
 //use system-data as the prefix for any routes in SystemData module
-
+Route::middleware(['access.control:9'])->group(function () {
 
 // Route::get('/accesscreate', [SystemDataController::class, 'accesscreate']); // 'system-data/test' will return to this.
 // Route::post('/accesssave', [SystemDataController::class, 'accesssave']);
@@ -57,3 +57,5 @@ Route::patch('/gazzettesupdate/{id}', [SystemDataController::class, 'gazzettesup
 Route::get('/gazzettesview/{id}', [SystemDataController::class, 'gazzettesview']);
 Route::delete('/gazzettesdelete/{id}', [SystemDataController::class, 'gazzettesdelete']);
 Route::get('/gazetteindex', [SystemDataController::class, 'gazettesindex'])->name('gazetteindex');
+
+});
