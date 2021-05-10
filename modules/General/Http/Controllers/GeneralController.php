@@ -85,11 +85,19 @@ class GeneralController extends Controller
         $organization = Auth::user()->organization_id;
         $role = Auth::user()->role_id;
         $id = Auth::user()->id;
+        $tree_removals = Process_Item::where('form_type_id',1)
+        ->whereMonth('created_at', Carbon::now()->month)
+        ->count(); 
+        $dev_projects = Process_Item::where('form_type_id',2)
+        ->whereMonth('created_at', Carbon::now()->month)
+        ->count(); 
 
         if ($role == 1 || $role == 2){
             $Process_items = Process_Item::all()->where('form_type_id',$type);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
+                'tree_removals' =>$tree_removals,
+                'dev_projects'=>$dev_projects
             ]);
         }
 
@@ -97,13 +105,23 @@ class GeneralController extends Controller
             $Process_items = Process_Item::all()->where('activity_organization', $organization)->where('form_type_id', $type)->where('status_id','>=',2);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
+                'tree_removals' =>$tree_removals,
+                'dev_projects'=>$dev_projects
             ]);
         } else if ($role == 5) {
             $Process_items = Process_Item::all()->where('activity_user_id', $id)->where('form_type_id', $type)->toArray();
-            return view('general::.generalA', compact('Process_items'));
+            return view('general::.generalA', [
+                'Process_items' => $Process_items,
+                'tree_removals' =>$tree_removals,
+                'dev_projects'=>$dev_projects
+            ]);
         } else if ($role == 6) {
             $Process_items = Process_Item::all()->where('created_by_user_id', $id)->where('form_type_id', $type)->toArray();
-            return view('general::.generalA', compact('Process_items'));
+            return view('general::.generalA', [
+                'Process_items' => $Process_items,
+                'tree_removals' =>$tree_removals,
+                'dev_projects'=>$dev_projects
+            ]);
         } else {
             return view('unauthorized')->with('message', 'No access to general module');
         }
