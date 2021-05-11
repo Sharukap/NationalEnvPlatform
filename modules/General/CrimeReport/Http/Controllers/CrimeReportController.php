@@ -53,6 +53,7 @@ class CrimeReportController extends Controller
             $land = new Land_Parcel();
             $land->title = $request['landTitle'];
             $land->polygon = request('polygon');
+            $land->surveyor_name = 'not given';
             $land->created_by_user_id = $request['create_by'];
             if (request('isProtected')) {
                 $land->protected_area = request('isProtected');

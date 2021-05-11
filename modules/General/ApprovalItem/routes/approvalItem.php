@@ -9,6 +9,8 @@ Route::middleware(['access.control:6'])->group(function () {
 
     Route::get('/assignorganization/{id}', [ApprovalItemController::class, 'choose_assign_organization'])->middleware(['restrict.own']);
 
+    Route::post('/assignorganization', [ApprovalItemController::class, 'filter_assign_organization']);
+
     Route::get('/changeassignOrganization/{oid}/{id}', [ApprovalItemController::class, 'change_assign_organization'])->middleware(['restrict.own']);
 
     Route::post('/changeassignOrganization', [ApprovalItemController::class, 'assign_unregistered_organization']);

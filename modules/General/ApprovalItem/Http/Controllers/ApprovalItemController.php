@@ -4,7 +4,7 @@ namespace ApprovalItem\Http\Controllers;
 use App\Models\User;
 use App\Models\Organization;
 use App\Models\Crime_report;
-use App\Models\tree_removal_request;
+use App\Models\Tree_Removal_Request;
 use App\Models\Development_Project;
 use App\Models\Environment_Restoration;
 use App\Models\Environment_Restoration_Species;
@@ -12,7 +12,7 @@ use App\Models\Process_Item;
 use App\Models\Form_Type;
 use App\Models\Process_item_progress;
 use App\Models\Process_item_status;
-use App\Models\land_parcel;
+use App\Models\Land_Parcel;
 use App\Models\Land_Has_Gazette;
 use App\Models\Land_Has_Organization;
 use App\Models\Environment_Restoration_Activity;
@@ -26,6 +26,9 @@ use Illuminate\Support\Facades\Mail;
 use App\Notifications\StaffAssigned;
 use App\Notifications\AssignOrg;
 use App\Notifications\prereqmemo;
+use App\Models\Activity;
+use App\Models\Province;
+use App\Models\Org_Activity;
 use Illuminate\Support\Facades\Storage;
 use PDF;
 use Redirect;
@@ -332,6 +335,8 @@ class ApprovalItemController extends Controller
 
     public function choose_assign_organization($id)
     {
+        $Activities=Activity::all();
+        $Provinces =Province::all();
         $process_item = Process_item::find($id);
         $Organizations = Organization::all();
         if ($process_item->form_type_id == '1') {
@@ -371,6 +376,8 @@ class ApprovalItemController extends Controller
                 'Photos' => $Photos,
                 'land_process' => $landProcess,
                 'data' => $data,
+                'Activities' => $Activities,
+                'Provinces' => $Provinces,
             ]);
         } else {
             $item = Land_Parcel::find($process_item->form_id);
@@ -381,6 +388,79 @@ class ApprovalItemController extends Controller
                 'Organizations' => $Organizations,
                 'polygon' => $item->polygon,
                 'LandOrganizations' => $Land_Organizations,
+                'Activities' => $Activities,
+                'Provinces' => $Provinces,
+            ]);
+        }
+    }
+
+    public function filter_assign_organization(request $request)
+    {
+        $id=$request->id;
+        $aid=$request->filter;
+        if($request->type==1){  
+            $org_acts=Org_Activity::select('organization_id')->where('activity_id',$aid)->get()->toArray();
+        }
+        else{
+            $org_acts=Org_Activity::select('organization_id')->where('province_id',$aid)->get()->toArray();
+        }
+        $Organizations=Organization::whereIn('id',$org_acts)->get();
+        $Activities=Activity::all();
+        $Provinces =Province::all();
+        //$acts=Org_Activity::find($id)
+        $process_item = Process_item::find($id);
+        //$Organizations = Organization::all();
+        if ($process_item->form_type_id == '1') {
+            $item = Tree_Removal_Request::find($process_item->form_id);
+            $Photos = Json_decode($item->images);
+            $data = $item->tree_details;
+        } else if ($process_item->form_type_id == '2') {
+            $item = Development_Project::find($process_item->form_id);
+            $Photos = Json_decode($item->images);
+            $data = null;
+        } else if ($process_item->form_type_id == '3') {
+            $item = Environment_Restoration::find($process_item->form_id);
+            //dd($process_item,$item);
+            $Photos = null;
+            $data =  Environment_Restoration_Species::all()->where('environment_restoration_id', $item->id);
+        } else if ($process_item->form_type_id == '4') {
+            $item = Crime_report::find($process_item->form_id);
+            $Photos = Json_decode($item->photos);
+            $data = null;
+        }
+
+        if ($process_item->form_type_id != '5') {
+            $land_parcel = Land_Parcel::find($item->land_parcel_id);
+
+            $landProcess = Process_item::where([
+                ['prerequisite_id', '=', $process_item->id],
+                ['prerequisite', '=', 0],
+            ])->first();
+            $landProcess2 = Process_item::where('prerequisite_id', '=', $process_item->id)->first();
+            //dd($landProcess,$landProcess2);
+            //dd($data);
+            return view('approvalItem::assignOrg', [
+                'item' => $item,
+                'process_item' => $process_item,
+                'Organizations' => $Organizations,
+                'polygon' => $land_parcel->polygon,
+                'Photos' => $Photos,
+                'land_process' => $landProcess,
+                'Activities' => $Activities,
+                'data' => $data,
+                'Provinces' => $Provinces,
+            ]);
+        } else {
+            $item = Land_Parcel::find($process_item->form_id);
+            $Land_Organizations = Land_Has_Organization::where('land_parcel_id', $item->id)->get();
+            return view('approvalItem::assignOrg', [
+                'item' => $item,
+                'process_item' => $process_item,
+                'Organizations' => $Organizations,
+                'polygon' => $item->polygon,
+                'LandOrganizations' => $Land_Organizations,
+                'Activities' => $Activities,
+                'Provinces' => $Provinces,
             ]);
         }
     }
@@ -430,7 +510,7 @@ class ApprovalItemController extends Controller
             ])->first();
             //dd($landProcess, $process_item->status_id,$process_item->status);
 
-            return view('approvalItem::investigate1', [
+            return view('approvalItem::investigate', [
                 'item' => $item,
                 'Organizations' => $Organizations,
                 'Prerequisites' => $Prerequisites,
@@ -447,7 +527,7 @@ class ApprovalItemController extends Controller
             $item = Land_Parcel::find($process_item->form_id);
             $Land_Organizations = Land_Has_Organization::where('land_parcel_id', $item->id)->get();
             //dd($process_item,$item);
-            return view('approvalItem::investigate1', [
+            return view('approvalItem::investigate', [
                 'item' => $item,
                 'process_item' => $process_item,
                 'Organizations' => $Organizations,
@@ -498,7 +578,9 @@ class ApprovalItemController extends Controller
         }
         $user = User::find($Process_item->created_by_user_id);
         $Process_item->created_by_user_id = $userid;
-        Notification::send($user, new prereqmemo($Process_item));
+        if($user != null){
+            Notification::send($user, new prereqmemo($Process_item));
+        }
         return back()->with('message', 'Prerequisite is removed and the requestor has been notified');
     }
 
@@ -576,6 +658,47 @@ class ApprovalItemController extends Controller
             $Process_item_progress->status_id = $request['status'];
             $Process_item_progress->remark = 'Final Reject of application ' . $request['request'];
             $Process_item_progress->save();
+        }
+
+        $Process_item =Process_item::find($id);
+        $user =User::find($request['create_by']);
+        switch($Process_item->form_type_id){
+            case 1: $item = Tree_Removal_Request::find($Process_item->form_id);
+            $data = $item->tree_details;
+            break;
+            case 2:
+            $item = Development_Project::find($Process_item->form_id);
+            $data = null;
+            break;
+            case 3:
+            $item = Environment_Restoration::find($Process_item->form_id);
+            $data = Environment_Restoration_Species::all()->where('environment_restoration_id', $item->id);
+            break;
+            case 4:
+            $item = Crime_report::find($Process_item->form_id);
+            $data = null;
+            break;
+        }
+        //dd($item);
+        if($Process_item->form_type_id !=5){
+            $pdf = PDF::loadView('approvalItem::certificate', [
+                'process_item' => $Process_item,
+                'user' => $user,
+                'item' => $item,
+                'tree_data' => $data,
+                'remark' => $request['request'],
+            ]);
+            $array=$Process_item->toArray();
+            if($Process_item->created_by_user_id !=null){
+                $applicant=User::find($Process_item->created_by_user_id);
+                Mail::send('emails.assignorg', $array, function ($message) use ($pdf,$applicant,$user) {
+                $message->to($applicant->email,$user->email);
+                $message->subject('Assigning application');
+                $message->attachData($pdf->output(), 'NEP Application Certificate.pdf');
+                });
+            }else{
+                return $pdf->stream();
+            }
         }
         return back()->with('message', 'Request ' . $title);
     }

@@ -1,6 +1,12 @@
 @extends('home')
 
 @section('cont')
+<span>
+    <h4 class="text-center bg-success text-light">{{session('message')}}</h4>
+</span>
+<span>
+<h4 class="text-center bg-danger text-light">{{session('warning')}}</h4>
+</span>
 <h3 class="p-3 display-4" style="display:inline">Dashboard</h3>
 <nav class="navbar navbar-expand-lg navbar-light justify-content-around">
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
