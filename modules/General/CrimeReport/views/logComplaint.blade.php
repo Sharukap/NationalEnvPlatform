@@ -12,102 +12,92 @@
             <div class="row p-4 bg-white">
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     <div class="form-group">
-                        <label for="crime_type">Crime type:</label>
-                        <select name="crime_type" class="custom-select" required>
-                            <option value="0" selected>Select Crime Type</option>
+                        <label for="crime_type">Crime type*</label>
+                        <select name="crime_type" class="custom-select">
+                            <option disabled selected value="">Select Crime Type</option>
                             @foreach($crime_types as $crime_type)
-                                @if (old('crime_type') == $crime_type->id)
-  		                            <option value="{{ $crime_type->id }}" selected>{{$crime_type->type}}</option>
-  	                            @else
-                                    <option value="{{$crime_type->id}}">{{$crime_type->type}}</option>
-                                @endif
-
+                            @if (old('crime_type') == $crime_type->id)
+                            <option value="{{ $crime_type->id }}">{{$crime_type->type}}</option>
+                            @else
+                            <option value="{{$crime_type->id}}">{{$crime_type->type}}</option>
+                            @endif
                             @endforeach
                         </select>
                         @error('crime_type')
-                        <div class="alert">
-                            <strong>{{ $message }}</strong>
-                        </div>
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="organization">Make complaint to:</label>
-                        <input type="text" class="form-control typeahead3" placeholder="Search" name="organization" value="{{ old('organization') }}" />
-
+                        <label for="organization">Make complaint to (Optional)</label>
+                        <select class="custom-select @error('organization') is-invalid @enderror" name="organization">
+                            <option disabled selected value="">Select Organization</option>
+                            @foreach ($Organizations as $organization)
+                            <option value="{{ $organization->id }}" {{ Request::old()?(Request::old('organization')==$organization->id?'selected="selected"':''):'' }}>{{ $organization->title }}</option>
+                            @endforeach
+                        </select>
                         @error('organization')
-                        <div class="alert">
-                            <strong>{{ $message }}</strong>
-                        </div>
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group" id="dynamicAddRemove">
                         <label for="images">Photos:</label>
                         <input type="file" id="image" name="file[]" multiple>
                         @if ($errors->has('file.*'))
-                        <div class="alert">
-                            <strong>{{ $errors->first('file.*') }}</strong>
-                        </div>
+                        <div class="alert alert-danger">{{ $errors->first('file.*') }}</div>
                         @endif
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea  class="form-control" rows="3" name="description">{{ old('description') }}</textarea>
+                        <textarea class="form-control" rows="3" placeholder="required" name="description">{{ old('description') }}</textarea>
                         @error('description')
-                        <div class="alert">
-                            <strong>{{ $message }}</strong>
-                        </div>
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <hr>
                     <div class="form-group">
                         <input type="checkbox" name="nonreguser" value="1"><strong> Creating on behalf of non registered user</strong>
                         <br>
-                        <label for="description">Inform investigation result to Mr/Ms:</label>
-                        <input type="text" class="form-control" placeholder="Enter complainant name" name="Requestor" value="{{ old('Requestor') }}"/>
+                        <label for="description">Requestor NIC:</label>
+                        <input type="text" class="form-control" placeholder="Enter NIC" name="Requestor" value="{{ old('Requestor') }}" />
                         @error('Requestor')
-                        <div class="alert">
-                            <strong>{{ $message }}</strong>
-                        </div>
+                        <div class="alert alert-danger">The NIC Format is Invalid</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="description">Through email:</label>
-                        <input type="text" class="form-control" placeholder="Enter complainant's email" name="Requestor_email" value="{{ old('Requestor_email') }}"/>
+                        <label for="description">Requestor email:</label>
+                        <input type="text" class="form-control" placeholder="Enter complainant's email" name="Requestor_email" value="{{ old('Requestor_email') }}" />
                         @error('Requestor_email')
-                        <div class="alert">
-                            <strong>{{ $message }}</strong>
-                        </div>
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    <hr>
                     <div class="form-check">
-                        <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}"> `
+                        <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}">
                         <input id="polygon" type="hidden" name="polygon" value="{{request('polygon')}}">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="confirm"><strong>I confirm these information to be true</strong>
-                            @error('confirm')
-                            <div class="alert">
-                                <strong>{{ $message }}</strong>
-                            </div>
-                            @enderror
-                        </label>
-                        <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
                 <div class="col border border-muted rounded-lg p-4">
                     <div class="form-group">
-                        <label for="landTitle">Area name:</label>
-                        <input type="text" class="form-control" placeholder="Enter Area name" id="landTitle" name="landTitle" value="{{ old('landTitle') }}">
+                        <label for="landTitle">Area name*</label>
+                        <input type="text" class="form-control" placeholder="Required" id="landTitle" name="landTitle" value="{{ old('landTitle') }}">
                         @error('landTitle')
-                        <strong>{{ $message }}</strong>
+                        <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <!-- ////////MAP GOES HERE -->
                     <div id="mapid" style="height:400px;" name="map"></div>
                     @error('polygon')
-                    <strong>{{ $message }}</strong>
+                    <div class="alert alert-danger">{{ $message }}</div>
                     @enderror
                     <br>
+                    <div><label class="form-check-label">
+                            <input type="checkbox" class="form-check-input" name="confirm"><strong>I confirm these information to be true</strong>
+                            @error('confirm')
+                            <div class="alert alert-danger">You must confirm that the details provided are true.</div>
+                            @enderror
+                        </label>
+                    </div>
+
+                    <div style="float:right;"><button type="submit" class="btn btn-primary">Submit</button></div>
                 </div>
             </div>
         </div>

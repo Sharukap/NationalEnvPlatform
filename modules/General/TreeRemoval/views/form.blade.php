@@ -22,7 +22,7 @@
 
               <div class="col p-2">
                 <div class="form-group">
-                  District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                  District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Required Search" name="district" />
                   @error('district')
                   <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
@@ -30,7 +30,7 @@
               </div>
               <div class="col p-2">
                 <div class="form-group">
-                  GS Division*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Search" name="gs_division" />
+                  GS Division*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Required Search" name="gs_division" />
                   @error('gs_division')
                   <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
@@ -39,8 +39,14 @@
             </div>
 
             <div class="form-group">
-              Activity Organization*<input type="text" class="form-control typeahead3 @error('activity_organization') is-invalid @enderror" value="{{ old('activity_organization') }}" name="activity_organization" placeholder="Search Organizations" />
-              @error('activity_organization')
+              <label for="organization">Activity Organization (Optional)</label>
+              <select class="custom-select @error('organization') is-invalid @enderror" name="organization">
+                <option disabled selected value="">Select Organization</option>
+                @foreach ($organizations as $organization)
+                <option value="{{ $organization->id }}" {{ Request::old()?(Request::old('organization')==$organization->id?'selected="selected"':''):'' }}>{{ $organization->title }}</option>
+                @endforeach
+              </select>
+              @error('organization')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
             </div>
@@ -50,16 +56,16 @@
             <h4>Land Parcel Details</h4>
 
             <div class="form-group">
-              <label for="title">Plan Number:</label>
-              <input type="text" class="form-control @error('planNo') is-invalid @enderror" value="{{ old('planNo') }}" placeholder="Enter Plan Number" id="planNo" name="planNo">
+              <label for="title">Plan Number*</label>
+              <input type="text" class="form-control @error('planNo') is-invalid @enderror" value="{{ old('planNo') }}" placeholder="Required" id="planNo" name="planNo">
               @error('planNo')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
             </div>
 
             <div class="form-group">
-              <label for="title">Surveyor Name:</label>
-              <input type="text" class="form-control @error('surveyorName') is-invalid @enderror" value="{{ old('surveyorName') }}" placeholder="Enter Surveyor Name" id="surveyorName" name="surveyorName">
+              <label for="title">Surveyor Name*</label>
+              <input type="text" class="form-control @error('surveyorName') is-invalid @enderror" value="{{ old('surveyorName') }}" placeholder="Required" id="surveyorName" name="surveyorName">
               @error('surveyorName')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
@@ -142,7 +148,7 @@
               <div class="col">
                 <div class="form-group">
                   <label for="number_of_trees">Number of Trees*</label>
-                  <input type="text" class="form-control @error('number_of_trees') is-invalid @enderror" value="{{ old('number_of_trees') }}" id="number_of_trees" name="number_of_trees">
+                  <input type="text" class="form-control @error('number_of_trees') is-invalid @enderror" value="{{ old('number_of_trees') }}" id="number_of_trees" name="number_of_trees" placeholder="Required">
                   @error('number_of_trees')
                   <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
@@ -215,7 +221,7 @@
 
             <div class="form-group">
               <label for="description">Description*</label>
-              <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" name="description">{{{ old('description') }}}</textarea>
+              <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" placeholder="Required" name="description">{{{ old('description') }}}</textarea>
               @error('description')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
@@ -260,28 +266,37 @@
     <div class="tab">
       <div class="container">
         <div class="row border rounded-lg p-4 bg-white">
+          @error('location.*.tree_species_id')
+          <div class="alert alert-danger">The Tree Species Field Is Required</div>
+          @enderror
+          @error('location.*.width_at_breast_height')
+          <div class="alert alert-danger">The Width At Breast Height Field Is Required</div>
+          @enderror
+          @error('location.*.height')
+          <div class="alert alert-danger">The Height Field Is Required</div>
+          @enderror
           <table class="table" id="dynamicAddRemoveTable">
             <tr>
-              <th>Species</th>
+              <th>Species*</th>
               <th>Tree ID</th>
-              <th>Width at Breast Height</th>
-              <th>Height</th>
+              <th>Width at Breast Height*</th>
+              <th>Height*</th>
               <th>Timber Volume</th>
               <th>Cubic Feet</th>
               <th>Age</th>
             </tr>
             <tr>
-              <td><input type="text" id="species_name" name="location[0][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6" /></td>
-              <td><input type="text" id="tree_id" name="location[0][tree_id]" placeholder="Enter ID" class="form-control" /></td>
-              <td><input type="text" id="width_at_breast_height" name="location[0][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td>
-              <td><input type="text" id="height" name="location[0][height]" placeholder="Enter Height" class="form-control" /></td>
-              <td><input type="text" id="timber_volume" name="location[0][timber_volume]" placeholder="Enter Volume" class="form-control" /></td>
-              <td><input type="text" id="timber_cubic" name="location[0][timber_cubic]" placeholder="Enter Cubic" class="form-control" /></td>
-              <td><input type="text" id="age" name="location[0][age]" placeholder="Enter Age" class="form-control" /></td>
+              <td><input type="text" id="species_name" name="location[0][tree_species_id]" placeholder="Required" class="form-control typeahead6 @error('location.0.tree_species_id') is-invalid @enderror" /></td>
+              <td><input type="text" id="tree_id" name="location[0][tree_id]" class="form-control" /></td>
+              <td><input type="text" id="width_at_breast_height" name="location[0][width_at_breast_height]" placeholder="Required" class="form-control @error('location.0.width_at_breast_height') is-invalid @enderror" /></td>
+              <td><input type="text" id="height" name="location[0][height]" placeholder="Required" class="form-control @error('location.0.height') is-invalid @enderror" /></td>
+              <td><input type="text" id="timber_volume" name="location[0][timber_volume]" class="form-control" /></td>
+              <td><input type="text" id="timber_cubic" name="location[0][timber_cubic]" class="form-control" /></td>
+              <td><input type="text" id="age" name="location[0][age]" class="form-control" /></td>
               <td rowspan="2"><button type="button" name="add" id="add-btn" class="btn bd-navbar text-white">Add</button></td>
             </tr>
             <tr>
-              <td colspan="7"><textarea id="remarks" name="location[0][remark]" placeholder="Enter Remarks" class="form-control" rows="3"></textarea></td>
+              <td colspan="7"><textarea id="remarks" name="location[0][remark]" class="form-control" rows="3"></textarea></td>
             </tr>
           </table>
           <div>
@@ -354,26 +369,26 @@
           console.log(exceldata);
 
           document.getElementById("species_name").value = exceldata[i]['Species'];
-    document.getElementById("tree_id").value = exceldata[i]['Tree ID'];
-    document.getElementById("width_at_breast_height").value = exceldata[i]['Width at Breast Height'];
-    document.getElementById("height").value = exceldata[i]['Height'];
-    document.getElementById("timber_volume").value = exceldata[i]['Timber Volume'];
-    document.getElementById("timber_cubic").value = exceldata[i]['Cubic Feet'];
-    document.getElementById("age").value = exceldata[i]['Age'];
-    document.getElementById("remarks").value = exceldata[i]['Remarks'];
+          document.getElementById("tree_id").value = exceldata[i]['Tree ID'];
+          document.getElementById("width_at_breast_height").value = exceldata[i]['Width at Breast Height'];
+          document.getElementById("height").value = exceldata[i]['Height'];
+          document.getElementById("timber_volume").value = exceldata[i]['Timber Volume'];
+          document.getElementById("timber_cubic").value = exceldata[i]['Cubic Feet'];
+          document.getElementById("age").value = exceldata[i]['Age'];
+          document.getElementById("remarks").value = exceldata[i]['Remarks'];
 
-    for (j = 0; j < exceldata.length; j++) {
-      i++;
-      species = exceldata[i]['Species'];
-      tree_id = exceldata[i]['Tree ID'];
-      width_breast = exceldata[i]['Width at Breast Height'];
-      height = exceldata[i]['Height'];
-      timber_volume = exceldata[i]['Timber Volume'];
-      cubic_feet = exceldata[i]['Cubic Feet'];
-      age = exceldata[i]['Age'];
-      remarks = exceldata[i]['Remarks'];
-      $("#dynamicAddRemoveTable").append(
-        '<tr><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6" value=' + species + ' /></td>\
+          for (j = 0; j < exceldata.length; j++) {
+            i++;
+            species = exceldata[i]['Species'];
+            tree_id = exceldata[i]['Tree ID'];
+            width_breast = exceldata[i]['Width at Breast Height'];
+            height = exceldata[i]['Height'];
+            timber_volume = exceldata[i]['Timber Volume'];
+            cubic_feet = exceldata[i]['Cubic Feet'];
+            age = exceldata[i]['Age'];
+            remarks = exceldata[i]['Remarks'];
+            $("#dynamicAddRemoveTable").append(
+              '<tr><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Enter Species" class="form-control typeahead6" value=' + species + ' /></td>\
       <td><input type="text" id="tree_id" name="location[' + i + '][tree_id]" placeholder="Tree ID" class="form-control" value=' + tree_id + ' /></td>\
       <td><input type="text" id="width_at_breast_height" name="location[' + i + '][width_at_breast_height]" placeholder="Enter Width" class="form-control" value=' + width_breast + ' /></td>\
       <td><input type="text" id="height" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" value=' + height + ' /></td>\
@@ -381,9 +396,9 @@
       <td><input type="text" id="timber_cubic" name="location[' + i + '][timber_cubic]" placeholder="Enter Cubic" class="form-control" value=' + cubic_feet + ' /></td>\
       <td><input type="text" id="age" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" value=' + age + ' /></td></td>\
       <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
-      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Enter Remarks" class="form-control" rows="3">'+remarks+'</textarea></td></tr>'
-      );
-    }
+      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Enter Remarks" class="form-control" rows="3">' + remarks + '</textarea></td></tr>'
+            );
+          }
         });
       }
     }
@@ -393,17 +408,34 @@
   $("#add-btn").click(function() {
     ++i;
     $("#dynamicAddRemoveTable").append(
-      '<tr><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Enter ID" class="form-control typeahead6"/></td>\
-      <td><input type="text" id="tree_id" name="location[' + i + '][tree_id]" placeholder="Tree ID" class="form-control" /></td>\
-      <td><input type="text" id="width_at_breast_height" name="location[' + i + '][width_at_breast_height]" placeholder="Enter Width" class="form-control" /></td>\
-      <td><input type="text" id="height" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" /></td>\
-      <td><input type="text" id="timber_volume" name="location[' + i + '][timber_volume]" placeholder="Enter Volume" class="form-control" /></td>\
-      <td><input type="text" id="timber_cubic" name="location[' + i + '][timber_cubic]" placeholder="Enter Cubic" class="form-control" /></td>\
-      <td><input type="text" id="age" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" /></td></td>\
+      '<tr><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Required" class="form-control typeahead6"/></td>\
+      <td><input type="text" id="tree_id" name="location[' + i + '][tree_id]" class="form-control" /></td>\
+      <td><input type="text" id="width_at_breast_height" name="location[' + i + '][width_at_breast_height]" placeholder="Required" class="form-control" /></td>\
+      <td><input type="text" id="height" name="location[' + i + '][height]" placeholder="Required" class="form-control" /></td>\
+      <td><input type="text" id="timber_volume" name="location[' + i + '][timber_volume]" class="form-control" /></td>\
+      <td><input type="text" id="timber_cubic" name="location[' + i + '][timber_cubic]" class="form-control" /></td>\
+      <td><input type="text" id="age" name="location[' + i + '][age]" class="form-control" /></td></td>\
       <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
-      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Enter Remarks" class="form-control" rows="3">\
+      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" class="form-control" rows="3">\
       </textarea></td></tr>'
     );
+    var path6 = "{{route('species')}}";
+    $('input.typeahead6').typeahead({
+      source: function(terms, process) {
+
+        return $.get(path6, {
+          terms: terms
+        }, function(data) {
+          console.log(data);
+          objects = [];
+          data.map(i => {
+            objects.push(i.title)
+          })
+          console.log(objects);
+          return process(objects);
+        })
+      },
+    });
   });
   $(document).on('click', '.remove-tr', function() {
     $(this).parents('tr').next('tr').remove()
@@ -411,22 +443,22 @@
   });
 
   document.getElementById('clear').addEventListener("click", () => {
-            var table = document.getElementById("dynamicAddRemoveTable");
+    var table = document.getElementById("dynamicAddRemoveTable");
 
-            while (table.rows.length > 3) {
-                table.deleteRow(2);
-            }
-            i=1;
-            document.getElementById("species_name").value = "";
-            document.getElementById("tree_id").value = "";
-            document.getElementById("width_at_breast_height").value = "";
-            document.getElementById("height").value = "";
-            document.getElementById("timber_volume").value = "";
-            document.getElementById("timber_cubic").value = "";
-            document.getElementById("age").value = "";
+    while (table.rows.length > 3) {
+      table.deleteRow(2);
+    }
+    i = 1;
+    document.getElementById("species_name").value = "";
+    document.getElementById("tree_id").value = "";
+    document.getElementById("width_at_breast_height").value = "";
+    document.getElementById("height").value = "";
+    document.getElementById("timber_volume").value = "";
+    document.getElementById("timber_cubic").value = "";
+    document.getElementById("age").value = "";
 
-            document.getElementById("remarks").value = "";
-        });
+    document.getElementById("remarks").value = "";
+  });
 
   //STEPPER
   var currentTab = 0; // Current tab is set to be the first tab (0)
@@ -574,6 +606,7 @@
       })
     },
   });
+
 
   ///MAP ACTIVITIES
   var map = L.map('mapid', {
