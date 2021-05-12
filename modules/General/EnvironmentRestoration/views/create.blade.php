@@ -72,10 +72,19 @@
                         </div>
                         <div class="form-group">
                             <label for="request_org">Organization to submit request to :</label>
-                            <input type="text" class="form-control typeahead1" placeholder="Enter Organization" id="activity_org" name="activity_org" value="{{ old('organization') }}" />
+                            <select name="activity_org" class="custom-select">
+                                <option selected>Select Organization</option>
+                                @foreach($organizations as $organization)
+                                <option value="{{$organization->id}}">{{$organization->title}}</option>
+                                @endforeach
+                            </select>
                             @error('activity_org')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
+                            <!-- <input type="text" class="form-control typeahead1" placeholder="Enter Organization" id="activity_org" name="activity_org" value="{{ old('organization') }}" />
+                            @error('activity_org')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror -->
                         </div>
                     </div>
                     <div class="col border border-muted rounded-lg p-4">
