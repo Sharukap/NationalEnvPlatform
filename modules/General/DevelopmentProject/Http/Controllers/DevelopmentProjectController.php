@@ -29,7 +29,7 @@ class DevelopmentProjectController extends Controller
     public function form()
     {
         $gazettes = Gazette::all();
-        $organizations = Organization::where('type_id', '=', '1')->get();
+        $organizations = Organization::where('type_id', '<', '3')->get();
         return view('developmentProject::form', [
             'organizations' => $organizations,
             'gazettes' => $gazettes,
@@ -50,7 +50,7 @@ class DevelopmentProjectController extends Controller
             'title' => 'required',
             'planNo' => 'required',
             'surveyorName' => 'required',
-            'organization' => 'required|exists:organizations,title',
+            'organization' => 'required',
             'gazette' => 'nullable|exists:gazettes,gazette_number',
             'polygon' => 'required',
             'district' => 'required|exists:districts,district',
@@ -84,8 +84,8 @@ class DevelopmentProjectController extends Controller
             $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
             $land->gs_division_id = $gs_division_id1[0];
 
-            $organization_id1 = Organization::where('title', request('organization'))->pluck('id');
-            $land->activity_organization = $organization_id1[0];
+            //$organization_id1 = Organization::where('title', request('organization'))->pluck('id');
+            $land->activity_organization = request('organization');
 
             $land->status_id = 1;
             $land->save();
@@ -130,7 +130,7 @@ class DevelopmentProjectController extends Controller
 
             $dev->description = request('description');
 
-            $dev->organization_id = $organization_id1[0];
+            $dev->organization_id = request('organization');
 
             if (request('gazette')) {
                 $gazette = Gazette::where('gazette_number', request('gazette'))->pluck('id');
@@ -172,7 +172,7 @@ class DevelopmentProjectController extends Controller
             } else {
                 $devProcess->request_organization = auth()->user()->organization_id;
             }
-            $devProcess->activity_organization = $organization_id1[0];
+            $devProcess->activity_organization = request('organization');
 
             $devProcess->status_id = 1;
 
@@ -193,9 +193,9 @@ class DevelopmentProjectController extends Controller
             } else {
                 $landProcess->request_organization = auth()->user()->organization_id;
             }
-            $organization_id1 = Organization::where('title', request('organization'))->pluck('id');
-            $landProcess->activity_organization = $organization_id1[0];
-
+            //$organization_id1 = Organization::where('title', request('organization'))->pluck('id');
+            $landProcess->activity_organization = request('organization');
+            
             $landProcess->status_id = 1;
             $landProcess->form_type_id = 5;
             $landProcess->created_by_user_id = request('createdBy');

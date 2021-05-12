@@ -21,6 +21,7 @@
     </div>
 </div>
 <hr>
+@if(Auth()->user()->role_id != 6)
 <div class="row border-secondary rounded-lg ml-3">
     @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
     <h5 class="p-3">New requests to confirm Organization assigning</h5>
@@ -104,5 +105,6 @@
         </tbody>
     </table>
 </div>
+@endif
 
 @endsection
