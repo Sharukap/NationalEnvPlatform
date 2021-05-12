@@ -15,6 +15,49 @@
         <div class="row p-4 bg-white">
             <h6>Change Assigned Organization</h6>
         </div>
+        <div class="row p-4 bg-white">
+            <div class="row justify-content-center">
+                <table>
+                    <tr>
+                        <td>
+                            <form action="/approval-item/assignorganization" method="post">
+                            @csrf
+                            <select name="filter" class="custom-select" required>
+                                <option value="0" selected>Activity</option>
+                                @foreach($Activities as $activity)
+                                <option value="{{$activity->id}}">{{$activity->activity}}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <input type="hidden" class="form-control" name="type" value="1">
+                            <input type="hidden" class="form-control" name="id" value="{{ $process_item->id }}">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-filter mr-1"></i></button>
+                            </form>
+                        </td>
+                        <td>
+                            <form action="/approval-item/assignorganization" method="post">
+                            @csrf
+                            <select name="filter" class="custom-select" required>
+                                <option value="0" selected>Province</option>
+                                @foreach($Provinces as $province)
+                                <option value="{{$province->id}}">{{$province->province}}</option>
+                                @endforeach
+                            </select>
+                        </td>
+                        <td>
+                            <input type="hidden" class="form-control" name="id" value="{{ $process_item->id }}">
+                            <input type="hidden" class="form-control" name="type" value="2">
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-fw fa-filter mr-1"></i></button>
+                            </form>
+                        </td>
+                        <td>
+                            <button type="submit" class="btn btn-primary" ><a href="/approval-item/assignorganization/{{$process_item->id}}" class="text-dark">Reset</a></button>
+                        </td>
+                    <tr>
+                </table>
+            </div>
+        </div>
     </div>
     <div class="container">
         <div class="row p-4 bg-white">
@@ -86,7 +129,7 @@
                         <input type="hidden" class="form-control" name="status" value="4">
                     </div>
                     <div class="form-check">
-                        <button type="submit" class="btn btn-primary" >Update</button>
+                        <button type="submit" class="btn btn-primary" >Reject</button>
                     </div>
                 </form>
             </div>

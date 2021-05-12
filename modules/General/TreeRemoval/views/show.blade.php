@@ -91,7 +91,7 @@
             @else
             @for($x = 0; $x < count($location); $x++) <dd class="col-sm-7">
                 <dl class="row">
-                    <dt class="col-sm-7">Tree Species ID:</dt>
+                    <dt class="col-sm-7">Tree Species:</dt>
                     <dd class="col-sm-5">{{$location[$x]['tree_species_id']}}</dd>
 
                     <dt class="col-sm-7">Tree ID:</dt>

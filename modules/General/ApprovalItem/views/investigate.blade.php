@@ -32,7 +32,11 @@
                         </thead>
                         <tbody>
                             @foreach($Prerequisites as $prerequisite)<tr>
+                                @if($prerequisite->created_by_user_id ==null)
+                                    <td>not available</td>
+                                @else
                                     <td>{{$prerequisite->created_by_user->name}}</td>
+                                @endif
                                     <td>{{$prerequisite->Activity_organization->title}}</td>
                                     <td>{{$prerequisite->remark}}</td>
                                     <td>{{$prerequisite->status->type}}</td>
@@ -68,8 +72,7 @@
                     <h6>Request</h6>
                     <div class="input-group mb-3">
                     </br>
-                        <textarea  class="form-control" rows="3" name="request">
-                        </textarea>
+                        <textarea  class="form-control" rows="3" name="request"></textarea>
                         @error('request')
                             <div class="alert">
                                 <strong>{{ $message }}</strong>
@@ -148,8 +151,7 @@
                             <h6>Remark</h6>
                             <div class="input-group mb-3">
                             </br>
-                                <textarea  class="form-control" rows="3" name="request">
-                                </textarea>
+                                <textarea  class="form-control" rows="3" name="request"></textarea>
                                 @error('request')
                                     <div class="alert">
                                         <strong>{{ $message }}</strong>
@@ -179,14 +181,13 @@
                         </form>
             </div>
             <div class="col border border-muted rounded-lg mr-2 p-4">
-                        <h6>Final approval/rejection of application<h6>
+                        <h6>Final decision on application<h6>
                         <form action="\approval-item\finalapproval\" method="post">
                     @csrf
                     <h6>Remark</h6>
                     <div class="input-group mb-3">
                     </br>
-                        <textarea  class="form-control" rows="3" name="request">
-                        </textarea>
+                        <textarea  class="form-control" rows="3" name="request"></textarea>
                         @error('request')
                             <div class="alert">
                                 <strong>{{ $message }}</strong>
@@ -210,7 +211,7 @@
                         @enderror
                     </div>
                     <div class="form-check">
-                        <button type="submit" class="btn btn-primary" >Update</button>
+                        <button type="submit" class="btn btn-primary" >Submit</button>
                     </div>
                 </form>
             </div>

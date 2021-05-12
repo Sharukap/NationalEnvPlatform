@@ -40,6 +40,21 @@
                     <nav class="navbar">
                         <!-- Links -->
                         <ul class="navbar-nav">
+                            @if(Auth()->user()->role_id == 6)
+                            <li class="nav-item mt-5">
+                                <a class="nav-link text-light" href="/general/pending"><i class="fa fa-fw fa-home mr-3" aria-hidden="true"></i> General</a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-fw fa-tree mr-3" aria-hidden="true"></i> Environment</a>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-fw fa-arrow-down mr-3" aria-hidden="true"></i> Requests</a>
+                            </li>
+                            <li class="nav-item mt-3" style="margin-bottom:485px;">
+                                <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-fw fa-book mr-3" aria-hidden="true"></i> Reporting</a>
+                            </li>
+                            <li class="nav-item mt-3"></li>
+                            @else
                             <li class="nav-item mt-5">
                                 <a class="nav-link text-light" href="/general/pending"><i class="fa fa-fw fa-home mr-3" aria-hidden="true"></i> General</a>
                             </li>
@@ -55,10 +70,11 @@
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-fw fa-book mr-3" aria-hidden="true"></i> Reporting</a>
                             </li>
-                            <li class="nav-item mt-3" style="margin-bottom:345px;">
+                            <li class="nav-item mt-3" style="margin-bottom:375px;">
                                 <a class="nav-link text-light" href="/system-data/accessindex"><i class="fa fa-fw fa-database mr-3" aria-hidden="true"></i> System Data</a>
                             </li>
                             <li class="nav-item mt-3"></li>
+                            @endif
                         </ul>
                     </nav>
                 </div>
@@ -184,12 +200,12 @@
                 </nav>
 
                 <div style="background-color:#f0f0f7" class="col-md">
-                    <span>
+                    <!-- <span>
                         <h4 class="text-center bg-success text-light">{{session('message')}}</h4>
                     </span>
                     <span>
                         <h4 class="text-center bg-danger text-light">{{session('warning')}}</h4>
-                    </span>
+                    </span> -->
                     @yield('cont')
                     <br>
                 </div>

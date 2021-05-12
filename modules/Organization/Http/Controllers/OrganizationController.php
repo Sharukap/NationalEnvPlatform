@@ -87,8 +87,8 @@ class OrganizationController extends Controller
         $province=Province::all();
         $contact = Contact::Where('org_id', $id)->get();
         $ORG_ACT= Org_Activity::Where('organization_id', $id)->get();
-        $existActs= Org_Activity::select('activity_id')->where('organization_id', $id)->get()->toArray();
-        $Activities=Activity::whereNotIn('id', $existActs)->get();
+        //$existActs= Org_Activity::select('activity_id')->where('organization_id', $id)->get()->toArray();
+        $Activities=Activity::all();
 
         //dd($ORG_ACT,$Activities);
         //direct back to the index page.
