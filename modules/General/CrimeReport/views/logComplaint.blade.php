@@ -30,6 +30,7 @@
                         </div>
                         @enderror
                     </div>
+                    @if(Auth::user()->role_id !=6) 
                     <div class="form-group">
                         <label for="organization">Make complaint to:</label>
                         <input type="text" class="form-control typeahead3" placeholder="Search" name="organization" value="{{ old('organization') }}" />
@@ -40,6 +41,7 @@
                         </div>
                         @enderror
                     </div>
+                    @endif
                     <div class="form-group" id="dynamicAddRemove">
                         <label for="images">Photos:</label>
                         <input type="file" id="image" name="file[]" multiple>
@@ -100,6 +102,20 @@
                         <input type="text" class="form-control" placeholder="Enter Area name" id="landTitle" name="landTitle" value="{{ old('landTitle') }}">
                         @error('landTitle')
                         <strong>{{ $message }}</strong>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="district">District:</label>
+                        <select class="custom-select @error('district') is-invalid @enderror" name="district">
+                            <option disabled selected value="">Select</option>
+                            @foreach ($districts as $district)
+                            <option value="{{ $district->id }}" {{ Request::old()?(Request::old('district')==$district->id?'selected="selected"':''):'' }}>{{ $district->district }}</option>
+                            @endforeach
+                        </select>
+                        @error('district')
+                            <div class="alert">                                   
+                                <strong>{{ $message }}</strong>
+                            </div>
                         @enderror
                     </div>
                     <!-- ////////MAP GOES HERE -->
