@@ -691,7 +691,7 @@ class ApprovalItemController extends Controller
             $array=$Process_item->toArray();
             if($Process_item->created_by_user_id !=null){
                 $applicant=User::find($Process_item->created_by_user_id);
-                Mail::send('emails.assignorg', $array, function ($message) use ($pdf,$applicant,$user) {
+                Mail::send('emails.finalapproval', $array, function ($message) use ($pdf,$applicant,$user) {
                 $message->to($applicant->email,$user->email);
                 $message->subject('Assigning application');
                 $message->attachData($pdf->output(), 'NEP Application Certificate.pdf');
