@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Notification;
-Use App\Notifications\ApplicationMade;
+use App\Notifications\ApplicationMade;
 use Illuminate\Http\Request;
 use App\Models\Land_Parcel;
 use App\Models\Crime_report;
@@ -24,23 +24,21 @@ use App\CustomClass\lanparcel_creation;
 class CrimeReportController extends Controller
 {
 
-    
+
     public function create_crime_report(Request $request)
-    {  
-        if($request->hasfile('file')){
-            
+    {
+        if ($request->hasfile('file')) {
             request()->validate([
                 'file' => 'required',
                 'file.*' => 'mimes:jpeg,jpg,png|max:40000'
             ]);
         }
-        $request -> validate([
+        $request->validate([
             'crime_type' => 'required|not_in:0',
             'description' => 'required',
             'confirm' => 'required',
             'create_by'=>'required',
             'district' => 'required|not_in:0',
-            'organization' => 'nullable|exists:organizations,title',
             'polygon' => 'required',
             'landTitle' => 'required|unique:land_parcels,title',
         ]);
@@ -50,17 +48,22 @@ class CrimeReportController extends Controller
                 'Requestor' => 'required',
             ]);
         }
-        $array=DB::transaction(function () use($request) {
-            
+        
+        $array = DB::transaction(function () use ($request) {
+
             $land = new Land_Parcel();
             $land->title = $request['landTitle'];
             $land->polygon = request('polygon');
             $land->district = request('district');
-            $land->surveyor_name = 'not given';
+            $land->surveyor_name = 'No Surveyor';
             $land->created_by_user_id = $request['create_by'];
             if (request('isProtected')) {
                 $land->protected_area = request('isProtected');
             }
+            if(request('organization')!=null){
+                $land->activity_organization = request('organization');
+            }
+            $land->status_id = 1;
             $land->save();
             $landid = Land_Parcel::latest()->first()->id;
 
@@ -69,10 +72,10 @@ class CrimeReportController extends Controller
             $Crime_report->crime_type_id = $request['crime_type'];
             $Crime_report->description = $request['description'];
             $Crime_report->photos = "{}";
-   
-                $Crime_report->logs = "{}";
-            
-          
+
+            $Crime_report->logs = "{}";
+
+
             $Crime_report->action_taken = "0";
             $Crime_report->land_parcel_id = $landid; //add relationship later
             $Crime_report->status = "1";
@@ -89,10 +92,10 @@ class CrimeReportController extends Controller
                     $y++;          
                 }
                 //dd($photoarray);
-                $crime = Crime_report::where('id',$id)->update(['photos' => json_encode($photoarray)]);
+                $crime = Crime_report::where('id', $id)->update(['photos' => json_encode($photoarray)]);
             }
             if (request('kml') !== null) {  //if the file is uploaded then the kml file will not be created
-                
+
                 try {
                     $kml = request('kml');
                     //setting the new name of the coordinates as {{landid}}.kml
@@ -107,17 +110,19 @@ class CrimeReportController extends Controller
             $Process_item =new Process_item;
             $Process_item->created_by_user_id = $request['create_by'];
             if(($request->organization)!=null){
-                $org_id=Organization::where('title', $request['organization'])->first()->pluck('id');
+                $org_id=request('organization');
                 $Process_item->activity_organization = $org->id;
             }
             $Process_item->activity_user_id = null;
             $Process_item->form_id =  $id;
-            $Process_item->form_type_id = "4";      
+            $Process_item->form_type_id = "4";
             $Process_item->status_id = "1";
             $Process_item->remark = "to be made yet";
-            if($request->has('nonreguser')){
+            if ($request->has('nonreguser')) {
                 $Process_item->ext_requestor_email = $request['Requestor_email'];
                 $Process_item->ext_requestor = $request['Requestor'];
+            }else{
+                $Process_item->request_organization = Auth()->user()->organization_id;
             }
             $Process_item->save();
             $latestcrimeProcess = Process_Item::latest()->first();
@@ -139,91 +144,89 @@ class CrimeReportController extends Controller
             $landProcess->save();
             $successmessage='Crime report logged Successfully the reference no of the application is '.$latestcrimeProcess->id;           
             return $successmessage;
-            
         });
-        return redirect('/general/pending')->with('message', $array); 
-               
-    }  
+        return redirect('/general/pending')->with('message', $array);
+    }
 
-    public function crime_report_form_display() {
-        $Organizations = Organization::all();
+    public function crime_report_form_display()
+    {
+        $Organizations = Organization::where('type_id', '<', '3')->get();
         $crime_types = Crime_type::all();
         $district = District::all();
         //dd($crime_types,$Organizations);
         return view('crimeReport::logComplaint', [
-            'organizations' => $Organizations,
+            'Organizations' => $Organizations,
             'crime_types' => $crime_types,
             'districts' => $district,
         ]);  
     }
 
-    public function download_image($path,$file) 
-    {   
-        //dd($path,$file);    
-        return Storage::disk('public')->download($path.'/'.$file);
-       
-    }
-
-    public function view_image($path,$file) 
-    {   
-        $url = Storage::disk('public')->url($path.'/'.$file);
-        return $url;
-       
-    }
-
-    public function display_image($path,$file)
+    public function download_image($path, $file)
     {
+        //dd($path,$file);    
+        return Storage::disk('public')->download($path . '/' . $file);
+    }
 
+    public function view_image($path, $file)
+    {
+        $url = Storage::disk('public')->url($path . '/' . $file);
+        return $url;
+    }
+
+    public function display_image($path, $file)
+    {
     }
 
     public function view_crime_reports($id)
     {
-        $process_item=Process_item::find($id);
+        $process_item = Process_item::find($id);
         $crime = Crime_report::find($process_item->form_id);
-        $Photos=Json_decode($crime->photos);
+        $Photos = Json_decode($crime->photos);
         $land_parcel = Land_Parcel::find($crime->land_parcel_id);
-        return view('crimeReport::crimeview',[
+        return view('crimeReport::crimeview', [
             'crime' => $crime,
-            'Photos' =>$Photos,
-            'polygon' =>$land_parcel->polygon,
-            'process_item' =>$process_item,
+            'Photos' => $Photos,
+            'polygon' => $land_parcel->polygon,
+            'process_item' => $process_item,
         ]);
     }
 
     //related to crime_types
-    public function create_crime_type() {
+    public function create_crime_type()
+    {
         return view('crimeReport::crimeTypeCreate');
     }
 
-    public function edit_crime_type($id) {
+    public function edit_crime_type($id)
+    {
         $crime_type = Crime_type::find($id);
         return view('crimeReport::crimeTypeEdit', [
             'crime_type' => $crime_type,
         ]);
     }
 
-    public function delete_crime_type($id) {
+    public function delete_crime_type($id)
+    {
         $Crime_types = Crime_type::find($id);
         $Crime_types->delete();
         return redirect('/crime-report/crimehome')->with('messagetypes', 'Crime type Successfully Deleted');
     }
 
-    public function store_crime_type() {
+    public function store_crime_type()
+    {
         $ctype = new Crime_type();
-        $ctype->type = request('crimetype'); 
+        $ctype->type = request('crimetype');
         $ctype->status = request('status');
         $ctype->save();
         return redirect('/crime-report/crimehome')->with('messagetypes', 'Crime Type Successfully Added');
     }
 
-    public function update_crime_type(Request $request, $id)     
+    public function update_crime_type(Request $request, $id)
     {
         $crime_type = Crime_type::find($id);
         $crime_type->update([
             'type' => $request->type,
         ]);
-        return redirect('/crime-report/crimehome')->with('messagetypes', 'Crime type Successfully Updated');   
+        return redirect('/crime-report/crimehome')->with('messagetypes', 'Crime type Successfully Updated');
     }
-    
 }
-

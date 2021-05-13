@@ -78,6 +78,7 @@ class EnvironmentRestorationController extends Controller
             if (request('isProtected')) {
                 $landparcel->protected_area = request('isProtected');
             }
+            $landparcel->surveyor_name = "No Surveyor";
             $landparcel->created_by_user_id = request('created_by');
             $landparcel->save();
 

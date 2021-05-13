@@ -16,19 +16,19 @@
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     <div class="form-group">
                         <label for="title">Title*</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}">
+                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Required" id="title" name="title" value="{{ old('title') }}">
                         @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Required Search" name="district" />
                         @error('district')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        GS Division*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Search" name="gs_division" />
+                        GS Division*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Required Search" name="gs_division" />
                         @error('gs_division')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -42,7 +42,13 @@
                     </div>
                     @if(Auth::user()->role_id !=6) 
                     <div class="form-group">
-                        Activity Organization*<input type="text" class="form-control typeahead3" placeholder="Search" name="organization" value="{{ old('organization') }}" />
+                        <label for="organization">Activity Organization (Optional)</label>
+                        <select class="custom-select @error('organization') is-invalid @enderror" name="organization">
+                            <option  selected value="">Select Organization</option>
+                            @foreach ($organizations as $organization)
+                            <option value="{{ $organization->id }}" {{ Request::old()?(Request::old('organization')==$organization->id?'selected="selected"':''):'' }}>{{ $organization->title }}</option>
+                            @endforeach
+                        </select>
                         @error('organization')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -50,7 +56,7 @@
                     @endif
                     <div class="form-group">
                         <label for="description">Description*</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" name="description">{{{ old('description') }}}</textarea>
+                        <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" placeholder="Required" name="description">{{{ old('description') }}}</textarea>
                         @error('description')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -97,16 +103,16 @@
                     <h4>Land Parcel Details</h4>
                     <div class="col-lg-8">
                         <div class="form-group">
-                            <label for="title">Plan Number:</label>
-                            <input type="text" class="form-control @error('planNo') is-invalid @enderror" value="{{ old('planNo') }}" placeholder="Enter Plan Number" id="planNo" name="planNo">
+                            <label for="title">Plan Number*</label>
+                            <input type="text" class="form-control @error('planNo') is-invalid @enderror" value="{{ old('planNo') }}" placeholder="Required" id="planNo" name="planNo">
                             @error('planNo')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Surveyor Name:</label>
-                            <input type="text" class="form-control @error('surveyorName') is-invalid @enderror" value="{{ old('surveyorName') }}" placeholder="Enter Surveyor Name" id="surveyorName" name="surveyorName">
+                            <label for="title">Surveyor Name*</label>
+                            <input type="text" class="form-control @error('surveyorName') is-invalid @enderror" value="{{ old('surveyorName') }}" placeholder="Required" id="surveyorName" name="surveyorName">
                             @error('surveyorName')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -176,7 +182,7 @@
                     </div>
 
                     <!-- saving the coordinates of the kml file -->
-                    <input id="polygon" type="text" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+                    <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
 
                     <!-- Saving the KML file in storage -->
                     <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />

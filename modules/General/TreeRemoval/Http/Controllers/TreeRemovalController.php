@@ -21,13 +21,16 @@ use App\Notifications\ApplicationMade;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use App\CustomClass\organization_assign;
+use Illuminate\Support\Facades\Validator;
+
+
 
 class TreeRemovalController extends Controller
 {
     public function openForm()
     {
         $gazettes = Gazette::all();
-        $organizations = Organization::where('type_id', '=', '1')->get();
+        $organizations = Organization::where('type_id', '<', '3')->get();
         return view('treeRemoval::form', [
             'organizations' => $organizations,
             'gazettes' => $gazettes,
@@ -36,6 +39,7 @@ class TreeRemovalController extends Controller
 
     public function save(Request $request)
     {
+
         if ($request->hasfile('file')) {
 
             request()->validate([
@@ -49,7 +53,6 @@ class TreeRemovalController extends Controller
             'surveyorName' => 'required',
             'district' => 'required|exists:districts,district',
             'gs_division' => 'required|exists:gs_divisions,gs_division',
-            'activity_organization' => 'nullable|exists:organizations,title',
             'polygon' => 'required',
             'number_of_trees' => 'required|integer',
             'description' => 'required',
@@ -65,6 +68,9 @@ class TreeRemovalController extends Controller
             'erEmail' => 'nullable|email',
             'land_gazettes' => 'nullable',
             'land_governing_orgs' => 'nullable',
+            'location.*.tree_species_id' => 'required',
+            'location.*.width_at_breast_height' => 'required',
+            'location.*.height'    => 'required|integer',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -86,9 +92,9 @@ class TreeRemovalController extends Controller
             $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
             $land->gs_division_id = $gs_division_id1[0];
 
-            if(($request->activity_organization)!=null){
-                $organization_id1 = Organization::where('title', request('activity_organization'))->pluck('id');
-                $land->activity_organization = $organization_id1[0];
+            if(($request->organization)!=null){
+                $org_id = request('organization');
+                $land->activity_organization = $org_id;
             }
             $land->status_id = 1;
             $land->save();
@@ -128,9 +134,9 @@ class TreeRemovalController extends Controller
 
             //$gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
             $tree->gs_division_id = $gs_division_id1[0];
-
-            $tree->organization_id = $organization_id1[0];
-
+            if(($request->organization)!=null){
+            $tree->organization_id = $org_id;
+            }
             //Default value/ non-compulsory fields
             if (request('land_extent')) {
                 $tree->land_size = request('land_extent');
@@ -192,7 +198,6 @@ class TreeRemovalController extends Controller
                 $treeProcess->request_organization = auth()->user()->organization_id;
             }
             if(($request->activity_organization)!=null){
-                $org_id =$organization_id1[0];
                 $treeProcess->activity_organization = $org_id;
             }
 
