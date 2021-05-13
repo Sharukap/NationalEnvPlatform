@@ -13,12 +13,14 @@ use App\Models\Env_type;
 use App\Models\Land_Has_Organization;
 use App\Models\Species;
 use App\Models\User;
+use App\Models\District;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\ApplicationMade;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use App\CustomClass\organization_assign;
 
 class EnvironmentRestorationController extends Controller
 {
@@ -65,10 +67,9 @@ class EnvironmentRestorationController extends Controller
             'environment_restoration_activity' => 'required',
             'environment_restoration_activity' => 'required',
             'ecosystem' => 'required',
-            'activity_org' => 'required|exists:organizations,title',
+            'activity_org' => 'nullable|exists:organizations,title',
             'polygon' => 'required'
         ]);
-
         DB::transaction(function () use ($request) {
             $landparcel = new Land_Parcel();
             $landparcel->title = request('landparceltitle');
@@ -113,16 +114,25 @@ class EnvironmentRestorationController extends Controller
             $Process_item->form_id = $latest->id;
             $Process_item->form_type_id = 3;
             $Process_item->created_by_user_id = request('created_by');
-            $Process_item->activity_organization = $activityorgid[0];
+            if(($request->activity_org)!=null){
+                $org_id =$activityorgid[0];
+                $Process_item->activity_organization = $org_id;
+            }
             $Process_item->status_id = 1;
             $Process_item->save();
-            //+
+            //
             $latestprocess = Process_Item::latest()->first();
-
-            //creating a notification for restoration made
-            $users = User::where('role_id', '<', 3)->get();
-            Notification::send($users, new ApplicationMade($Process_item));
-
+            //automatic assign of org 
+           
+            if(($request->activity_org)==null){
+                $district_id1 = District::where('district', request('district'))->pluck('id');
+                $org_id =organization_assign::auto_assign($latestprocess->id,$district_id1[0]);
+                Land_Parcel::where('id', $newland)->update(['activity_organization' => $org_id]);
+            }else{
+                $users = User::where('role_id', '<', 3)->get();
+                Notification::send($users, new ApplicationMade($latestprocess));
+            }
+            
             //Adding to Environment Restoration Species Table using ajax
             $rules = array(
                 'statusSpecies.*'  => 'required',
@@ -167,7 +177,7 @@ class EnvironmentRestorationController extends Controller
             $process->form_id = $latest->id;
             $process->created_by_user_id = request('created_by');
             $process->request_organization = Auth::user()->organization_id;
-            $process->activity_organization = $activityorgid[0];
+            $process->activity_organization = $org_id;
             $process->prerequisite_id = $latestprocess->id;
             $process->prerequisite = 0;
             $process->save();

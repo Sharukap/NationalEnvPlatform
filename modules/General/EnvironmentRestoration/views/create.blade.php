@@ -28,7 +28,13 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        <div class="form-group">
+                            <label for="title">District</label>
+                            <input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                            @error('district')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="form-group">
                             <label for="title">Environment Restoration Activity:</label>
                             <select name="environment_restoration_activity" class="custom-select">
@@ -54,6 +60,7 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        @if(Auth::user()->role_id !=6) 
                         <div class="card">
                             <div class="card-header">
                                 <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseOne">Governing Organization for selected Land Parcel (Optional)</a>
@@ -70,6 +77,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <div class="form-group">
                             <label for="request_org">Organization to submit request to :</label>
                             <input type="text" class="form-control typeahead1" placeholder="Enter Organization" id="activity_org" name="activity_org" value="{{ old('organization') }}" />
@@ -193,7 +201,24 @@
                 }
             }
         });
+        //District typeAhead
+        var path2 = "{{route('district')}}";
+        $('input.typeahead2').typeahead({
+            source: function(terms, process) {
 
+                return $.get(path2, {
+                    terms: terms
+                }, function(data) {
+                    console.log(data);
+                    objects = [];
+                    data.map(i => {
+                        objects.push(i.district)
+                    })
+                    console.log(objects);
+                    return process(objects);
+                })
+            },
+        });
 
         //DYNAMIC SPECIES 
         var count = 1;

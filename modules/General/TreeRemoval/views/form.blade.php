@@ -37,11 +37,11 @@
                 </div>
               </div>
             </div>
-
+            @if(Auth::user()->role_id !=6) 
             <div class="form-group">
               <label for="organization">Activity Organization (Optional)</label>
               <select class="custom-select @error('organization') is-invalid @enderror" name="organization">
-                <option disabled selected value="">Select Organization</option>
+                <option selected value="">Select Organization</option>
                 @foreach ($organizations as $organization)
                 <option value="{{ $organization->id }}" {{ Request::old()?(Request::old('organization')==$organization->id?'selected="selected"':''):'' }}>{{ $organization->title }}</option>
                 @endforeach
@@ -50,6 +50,7 @@
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
             </div>
+            @endif
             <br>
             <hr>
             <!-- MAP CONTENT -->

@@ -7,6 +7,9 @@ use App\Models\Contact;
 use App\Models\Province;
 use App\Models\Activity;
 use App\Models\Org_Activity;
+use App\Models\Organization_Activity;
+use App\Models\Form_Type;
+use App\Models\District;
 use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -190,5 +193,48 @@ class OrganizationController extends Controller
         $organization = Organization::find($id);
         $organization->delete();
         return redirect('/organization/index')->with('message', 'Organization Deleted');
+    }
+
+    public function activities() {
+        $organizations = Organization_Activity::all();
+        //direct back to the index page.
+        return view('organization::activity', [
+            'organizations' => $organizations,
+        ]);  
+    }
+
+    public function new_activity() {
+        $organizations = Organization::all();
+        $Forms =Form_Type::all();
+        $province = Province::all();
+        $district = District::all();
+        //direct back to the index page.
+        return view('organization::newactivity', [
+            'organizations' => $organizations,
+            'Forms' => $Forms,
+            'provinces' => $province,
+            'districts' => $district,
+        ]);  
+    }
+
+    public function activity_create(Request $request) {
+        $Org_act = new Organization_Activity();
+        $Org_act->form_type_id = $request->form_type;
+        if(request('district') != null){
+            $Org_act->district_id = request('district');
+        }
+        if(request('province') != null){
+            $Org_act->province_id = request('province');
+        }
+        $org_id = Organization::where('title', request('organization'))->pluck('id');
+        $Org_act->organization_id = $org_id[0];
+        $Org_act->save();
+        return redirect('/organization/actIndex')->with('message', 'Organization Successfully assigned to handle application');
+    }
+
+    public function activity_remove($id) {
+        $organization = Organization_Activity::find($id);
+        $organization->delete();
+        return redirect('/organization/actIndex')->with('message', 'Organization Successfully removed from handling application');
     }
 }
