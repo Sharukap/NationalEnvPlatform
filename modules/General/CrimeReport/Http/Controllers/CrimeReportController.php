@@ -40,7 +40,7 @@ class CrimeReportController extends Controller
             'confirm' => 'required',
             'create_by'=>'required',
             'district' => 'required|not_in:0',
-            //'organization' => 'required|not_in:0',
+            'organization' => 'nullable|exists:organizations,title',
             'polygon' => 'required',
             'landTitle' => 'required|unique:land_parcels,title',
         ]);
@@ -55,6 +55,7 @@ class CrimeReportController extends Controller
             $land = new Land_Parcel();
             $land->title = $request['landTitle'];
             $land->polygon = request('polygon');
+            $land->district = request('district');
             $land->surveyor_name = 'not given';
             $land->created_by_user_id = $request['create_by'];
             if (request('isProtected')) {
@@ -122,6 +123,9 @@ class CrimeReportController extends Controller
             $latestcrimeProcess = Process_Item::latest()->first();
             if(($request->organization)==null){
                 $org_id =organization_assign::auto_assign($latestcrimeProcess->id,request('district'));
+            }else{
+                $Users = User::where('role_id', '=', 2)->get();
+                Notification::send($Users, new ApplicationMade($latestcrimeProcess));
             }
             $landProcess = new Process_Item();
             $landProcess->form_id = $landid;
@@ -133,10 +137,7 @@ class CrimeReportController extends Controller
             $landProcess->created_by_user_id = $request['create_by'];
             $landProcess->prerequisite_id = $latestcrimeProcess->id;
             $landProcess->save();
-            $Process_itemnew =Process_item::latest()->first()->id;
-            $successmessage='Crime report logged Successfully the ID of the application is '.$Process_itemnew;
-            $Users = User::where('role_id', '=', 2)->get();
-            Notification::send($Users, new ApplicationMade($Process_item));
+            $successmessage='Crime report logged Successfully the reference no of the application is '.$latestcrimeProcess->id;           
             return $successmessage;
             
         });

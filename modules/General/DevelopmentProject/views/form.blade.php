@@ -40,12 +40,14 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    @if(Auth::user()->role_id !=6) 
                     <div class="form-group">
                         Activity Organization*<input type="text" class="form-control typeahead3" placeholder="Search" name="organization" value="{{ old('organization') }}" />
                         @error('organization')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    @endif
                     <div class="form-group">
                         <label for="description">Description*</label>
                         <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" name="description">{{{ old('description') }}}</textarea>

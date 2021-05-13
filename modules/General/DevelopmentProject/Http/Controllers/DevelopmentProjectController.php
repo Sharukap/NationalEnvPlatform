@@ -19,8 +19,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\ApplicationMade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
-
-
+use App\CustomClass\organization_assign;
 
 class DevelopmentProjectController extends Controller
 {
@@ -50,7 +49,7 @@ class DevelopmentProjectController extends Controller
             'title' => 'required',
             'planNo' => 'required',
             'surveyorName' => 'required',
-            'organization' => 'required|exists:organizations,title',
+            //'organization' => 'required|exists:organizations,title',
             'gazette' => 'nullable|exists:gazettes,gazette_number',
             'polygon' => 'required',
             'district' => 'required|exists:districts,district',
@@ -84,9 +83,10 @@ class DevelopmentProjectController extends Controller
             $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
             $land->gs_division_id = $gs_division_id1[0];
 
+            if(($request->organization)!=null){
             $organization_id1 = Organization::where('title', request('organization'))->pluck('id');
             $land->activity_organization = $organization_id1[0];
-
+            }
             $land->status_id = 1;
             $land->save();
 
@@ -129,8 +129,9 @@ class DevelopmentProjectController extends Controller
             }
 
             $dev->description = request('description');
-
-            $dev->organization_id = $organization_id1[0];
+            if (request('organization')) {
+                $dev->organization_id = $organization_id1[0];
+            }
 
             if (request('gazette')) {
                 $gazette = Gazette::where('gazette_number', request('gazette'))->pluck('id');
@@ -172,16 +173,24 @@ class DevelopmentProjectController extends Controller
             } else {
                 $devProcess->request_organization = auth()->user()->organization_id;
             }
-            $devProcess->activity_organization = $organization_id1[0];
+            if(($request->organization)!=null){
+                $org_id =$organization_id1[0];
+                $devProcess->activity_organization = $org_id;
+            }
+           
 
             $devProcess->status_id = 1;
 
             $devProcess->save();
 
-            $users = User::where('role_id', '<', 3)->get();
-            Notification::send($users, new ApplicationMade($devProcess));
-
             $latestDevProcess = Process_Item::latest()->first();
+            if(($request->organization)==null){
+                $org_id =organization_assign::auto_assign($latestDevProcess->id,$district_id1[0]);
+                Land_Parcel::where('id', $landid)->update(['activity_organization' => $org_id]);
+            }else{
+                $users = User::where('role_id', '<', 3)->get();
+                Notification::send($users, new ApplicationMade($latestDevProcess));
+            }
             $landProcess = new Process_Item();
             $landProcess->form_id = $landid;
             $landProcess->remark = "Verify these land details";
@@ -194,7 +203,7 @@ class DevelopmentProjectController extends Controller
                 $landProcess->request_organization = auth()->user()->organization_id;
             }
             $organization_id1 = Organization::where('title', request('organization'))->pluck('id');
-            $landProcess->activity_organization = $organization_id1[0];
+            $landProcess->activity_organization = $org_id;
 
             $landProcess->status_id = 1;
             $landProcess->form_type_id = 5;
@@ -215,8 +224,6 @@ class DevelopmentProjectController extends Controller
                 }
             }
 
-            $Users = User::where('role_id', '<', 3)->get();
-            Notification::send($Users, new ApplicationMade($landProcess));
         });
 
 

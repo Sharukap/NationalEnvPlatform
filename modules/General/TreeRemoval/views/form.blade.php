@@ -37,13 +37,14 @@
                 </div>
               </div>
             </div>
-
+            @if(Auth::user()->role_id !=6) 
             <div class="form-group">
               Activity Organization*<input type="text" class="form-control typeahead3 @error('activity_organization') is-invalid @enderror" value="{{ old('activity_organization') }}" name="activity_organization" placeholder="Search Organizations" />
               @error('activity_organization')
               <div class="alert alert-danger">{{ $message }}</div>
               @enderror
             </div>
+            @endif
             <br>
             <hr>
             <!-- MAP CONTENT -->
