@@ -7,7 +7,7 @@
         <a title="FAQ" href="/env-restoration/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
     </div>
 
-    <form action="/env-restoration/store" id="envForm" method="post">
+    <form action="/env-restoration/store" id="envForm" method="post" autocomplete="off">
         @csrf
         <!-- One "tab" for each step in the form: -->
         <div class="tab">
@@ -15,20 +15,26 @@
                 <div class="row p-4 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-4">
                         <div class="form-group">
-                            <label for="title">Title:*</label>
+                            <label for="title">Title:</label>
                             <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title">
                             @error('title')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="title">Restored Land Parcel Name:*</label>
+                            <label for="title">Restored Land Parcel Name:</label>
                             <input type="text" class="form-control" placeholder="Enter Land Parcel Name" name="landparceltitle">
                             @error('landparceltitle')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-
+                        <div class="form-group">
+                            <label for="title">District</label>
+                            <input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                            @error('district')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
                         <div class="form-group">
                             <label for="title">Environment Restoration Activity:</label>
                             <select name="environment_restoration_activity" class="custom-select">
@@ -54,6 +60,7 @@
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
+                        @if(Auth::user()->role_id !=6) 
                         <div class="card">
                             <div class="card-header">
                                 <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseOne">Governing Organization for selected Land Parcel (Optional)</a>
@@ -70,50 +77,16 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
                         <div class="form-group">
                             <label for="request_org">Organization to submit request to :</label>
-                            <select name="activity_org" class="custom-select">
-                                <option selected>Select Organization</option>
-                                @foreach($organizations as $organization)
-                                <option value="{{$organization->id}}">{{$organization->title}}</option>
-                                @endforeach
-                            </select>
+                            <input type="text" class="form-control typeahead1" placeholder="Enter Organization" id="activity_org" name="activity_org" value="{{ old('organization') }}" />
                             @error('activity_org')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
-                            <!-- <input type="text" class="form-control typeahead1" placeholder="Enter Organization" id="activity_org" name="activity_org" value="{{ old('organization') }}" />
-                            @error('activity_org')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror -->
                         </div>
                     </div>
                     <div class="col border border-muted rounded-lg p-4">
-                    <div class="form-group">
-                            <label for="province">District:</label>
-                            <select class="custom-select @error('district') is-invalid @enderror" name="district">
-                                <option disabled selected value="">Select</option>
-                                @foreach ($districts as $district)
-                                <option value="{{ $district->id }}" {{ Request::old()?(Request::old('district')==$district->id?'selected="selected"':''):'' }}>{{ $district->district }}</option>
-                                @endforeach
-                            </select>
-                            @error('district')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label for="province">Grama Sevaka Division:</label>
-                            <select class="custom-select @error('gs_division') is-invalid @enderror" name="gs_division">
-                                <option disabled selected value="">Select</option>
-                                @foreach ($gs as $gs_division)
-                                <option value="{{ $gs_division->id }}" {{ Request::old()?(Request::old('gs_division')==$gs_division->id?'selected="selected"':''):'' }}>{{ $gs_division->gs_division }}</option>
-                                @endforeach
-                            </select>
-                            @error('gs_division')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
                         <!-- ////////MAP GOES HERE -->
                         <div id="mapid" style="height:400px;" name="map"></div>
 
@@ -189,13 +162,11 @@
 <script type="text/javascript">
     //Species Excel Sheet Import
     $(document).ready(function() {
-
         let selectedFile;
         console.log(window.XLSX);
         document.getElementById('fileUpload').addEventListener("change", (event) => {
             selectedFile = event.target.files[0];
         })
-
         let data = [{
             "name": "",
             "quantity": "",
@@ -203,7 +174,6 @@
             "dimensions": "",
             "remarks": ""
         }]
-
         document.getElementById('uploadExcel').addEventListener("click", () => {
             XLSX.utils.json_to_sheet(data, 'out.xlsx');
             if (selectedFile) {
@@ -228,12 +198,26 @@
                 }
             }
         });
-
-
+        //District typeAhead
+        var path2 = "{{route('district')}}";
+        $('input.typeahead2').typeahead({
+            source: function(terms, process) {
+                return $.get(path2, {
+                    terms: terms
+                }, function(data) {
+                    console.log(data);
+                    objects = [];
+                    data.map(i => {
+                        objects.push(i.district)
+                    })
+                    console.log(objects);
+                    return process(objects);
+                })
+            },
+        });
         //DYNAMIC SPECIES 
         var count = 1;
         dynamic_species(count, null);
-
         function dynamic_species(number, exceldata) {
             if (exceldata == null) {
                 html = '<tr>';
@@ -244,7 +228,6 @@
                 html += '<td><input type="text" id="height[]" name="height[]" class="form-control" /></td>';
                 html += '<td><input type="text" id="dimension[]" name="dimension[]" class="form-control" /></td>';
                 html += '<td><input type="text" id="remark[]" name="remark[]" class="form-control" /></td>';
-
                 if (number > 1) {
                     html += '<td><button type="button" name="remove" id="" class="btn btn-danger remove">Remove Species</button></td></tr>';
                     $('tbody').append(html);
@@ -258,13 +241,11 @@
                 let height = exceldata[0]['height'];
                 let dimensions = exceldata[0]['dimensions'];
                 let remarks = exceldata[0]['remarks'];
-
                 document.getElementById("species_name[]").value = name;
                 document.getElementById("quantity[]").value = quantity;
                 document.getElementById("height[]").value = height;
                 document.getElementById("dimension[]").value = dimensions;
                 document.getElementById("remark[]").value = remarks;
-
                 for (i = 1; i < (exceldata.length); i++) {
                     name = exceldata[i]['name'];
                     quantity = exceldata[i]['quantity'];
@@ -279,7 +260,6 @@
                     html += '<td><input type="text" id="height[]" name="height[]" class="form-control" value=' + height + ' /></td>';
                     html += '<td><input type="text" id="dimension[]" name="dimension[]" class="form-control" value=' + dimensions + ' /></td>';
                     html += '<td><input type="text" id="remark[]" name="remark[]" class="form-control" value=' + remarks + ' /></td>';
-
                     if (number > 1) {
                         html += '<td><button type="button" name="remove" id="" class="btn btn-danger remove">Remove Species</button></td></tr>';
                         $('tbody').append(html);
@@ -292,7 +272,6 @@
             var path2 = "{{route('species')}}";
             $('input.typeahead2').typeahead({
                 source: function(terms, process) {
-
                     return $.get(path2, {
                         terms: terms
                     }, function(data) {
@@ -307,32 +286,27 @@
                 },
             });
         }
-
         $(document).on('click', '#add', function() {
             count++;
             dynamic_species(count);
         });
-
         $(document).on('click', '.remove', function() {
             count--;
             $(this).closest("tr").remove();
         });
-
         document.getElementById('clear').addEventListener("click", () => {
             console.log(count);
             var table = document.getElementById("species");
-
             while (table.rows.length > 2) {
                 table.deleteRow(2);
             }
-            count = 1;
+            count=1;
             document.getElementById("species_name[]").value = "";
             document.getElementById("quantity[]").value = "";
             document.getElementById("height[]").value = "";
             document.getElementById("dimension[]").value = "";
             document.getElementById("remark[]").value = "";
         });
-
         $('#dynamic_species').on('submit', function(event) {
             event.preventDefault();
             $.ajax({
@@ -359,13 +333,11 @@
             })
         });
     });
-
     //TYPEAHEAD 
     //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
     var path1 = "{{route('organization')}}";
     $('input.typeahead1').typeahead({
         source: function(terms, process) {
-
             return $.get(path1, {
                 terms: terms
             }, function(data) {
@@ -379,11 +351,9 @@
             })
         },
     });
-
     ///STEPPER
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
-
     function showTab(n) {
         // This function will display the specified tab of the form...
         var x = document.getElementsByClassName("tab");
@@ -402,7 +372,6 @@
         //... and run a function that will display the correct step indicator:
         fixStepIndicator(n)
     }
-
     function nextPrev(n) {
         // This function will figure out which tab to display
         var x = document.getElementsByClassName("tab");
@@ -421,7 +390,6 @@
         // Otherwise, display the correct tab:
         showTab(currentTab);
     }
-
     function validateForm() {
         // This function deals with validation of the form fields
         var x, y, i, valid = true;
@@ -443,7 +411,6 @@
         }
         return valid; // return the valid status
     }
-
     function fixStepIndicator(n) {
         // This function removes the "active" class of all steps...
         var i, x = document.getElementsByClassName("step");
@@ -458,7 +425,6 @@
         center: [7.2906, 80.6337], //if the location cannot be fetched it will be set to Kandy
         zoom: 12
     });
-
     window.onload = function() {
         var popup = L.popup();
         //false,               ,popup, map.center
@@ -470,20 +436,17 @@
             popup.openOn(map);
         }
         //If theres an error then 
-
         if (navigator.geolocation) { //using an inbuilt function to get the lat and long of the user.
             navigator.geolocation.getCurrentPosition(function(position) {
                 var latLng = {
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
                 };
-
                 popup.setLatLng(latLng);
                 popup.setContent('This is your current location');
                 popup.openOn(map);
                 //setting the map to the user location
                 map.setView(latLng);
-
             }, function() {
                 geolocationErrorOccurred(true, popup, map.getCenter());
             });
@@ -492,7 +455,6 @@
             geolocationErrorOccurred(false, popup, map.getCenter());
         }
     }
-
     // Set up the OSM layer 
     //map tiles are “square bitmap graphics displayed in a grid arrangement to show a map.”
     //There are a number of different tile providers (or tileservers), some are free and open source. We are using OSM
@@ -503,10 +465,8 @@
         }).addTo(map);
     //we’re calling tilelayer() to create the tile layer, passing in the OSM URL first, then the second argument is an object containing the options for our new tile 
     //layer (including attribution is critical here to comply with licensing), and then the tile layer is added to the map using addTo().
-
     var drawnItems = new L.FeatureGroup();
     map.addLayer(drawnItems);
-
     var drawControl = new L.Control.Draw({
         position: 'topright',
         draw: {
@@ -541,30 +501,23 @@
         }
     });
     map.addControl(drawControl);
-
     map.on('draw:created', function(e) {
         var type = e.layerType,
             layer = e.layer;
-
-
         drawnItems.addLayer(layer);
         $('#polygon').val(JSON.stringify(drawnItems.toGeoJSON())); //geoJSON converts a layer to JSON
-
         ///Converting your layer to a KML
         //$('#kml').val(tokml(drawnItems.toGeoJSON()));
     });
     //SEARCH FUNCTIONALITY
     var searchControl = new L.esri.Controls.Geosearch().addTo(map);
-
     var results = new L.LayerGroup().addTo(map);
-
     searchControl.on('results', function(data) {
         results.clearLayers();
         for (var i = data.results.length - 1; i >= 0; i--) {
             results.addLayer(L.marker(data.results[i].latlng));
         }
     });
-
     setTimeout(function() {
         $('.pointer').fadeOut('slow');
     }, 3400);
