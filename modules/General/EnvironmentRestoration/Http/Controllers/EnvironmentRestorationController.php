@@ -3,6 +3,8 @@
 namespace EnvironmentRestoration\Http\Controllers;
 
 use App\Models\Land_Parcel;
+use App\Models\District;
+use App\Models\GS_Division;
 use App\Models\Environment_Restoration;
 use App\Models\Environment_Restoration_Activity;
 use App\Models\Environment_Restoration_Species;
@@ -27,11 +29,15 @@ class EnvironmentRestorationController extends Controller
         $restorations = Environment_Restoration::all();         //shows all records of enviroment restoration request
         $organizations = Organization::where('type_id', '=', '1')->get(); //show all records for all government organizations
         $restoration_activities = Environment_Restoration_Activity::all();
+        $districts = District::all();
+        $gs = GS_Division::orderBy('gs_division')->get();
         $ecosystems = Env_type::all();
         return view('environmentRestoration::create', [
             'restorations' => $restorations,
             'organizations' => $organizations,
             'restoration_activities' => $restoration_activities,
+            'districts' => $districts,
+            'gs' => $gs,
             'ecosystems' => $ecosystems
         ]);
     }
@@ -45,6 +51,7 @@ class EnvironmentRestorationController extends Controller
         $species = Environment_Restoration_Species::where('environment_restoration_id', ($restoration->id))->get();
         $land = Land_Parcel::where('id', ($restoration->land_parcel_id))->get();
         $polygon = $land->pluck('polygon')->first();
+
         //ddd($land[0]->id);
         $govorgs = Land_Has_Organization::where('land_parcel_id', $land[0]->id)->pluck('organization_id');
         //ddd($govorgs);
@@ -65,6 +72,8 @@ class EnvironmentRestorationController extends Controller
             'environment_restoration_activity' => 'required',
             'environment_restoration_activity' => 'required',
             'ecosystem' => 'required',
+            'district' => 'required',
+            'gs_division' => 'required',
             'activity_org' => 'required',
             'polygon' => 'required'
         ]);
@@ -78,6 +87,8 @@ class EnvironmentRestorationController extends Controller
                 $landparcel->protected_area = request('isProtected');
             }
             $landparcel->surveyor_name = "No Surveyor";
+            $landparcel->district_id = $request->district;
+            $landparcel->gs_division_id = $request->gs_division;
             $landparcel->created_by_user_id = request('created_by');
             $landparcel->save();
 

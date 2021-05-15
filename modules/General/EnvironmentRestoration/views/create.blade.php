@@ -15,14 +15,14 @@
                 <div class="row p-4 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-4">
                         <div class="form-group">
-                            <label for="title">Title:</label>
+                            <label for="title">Title:*</label>
                             <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title">
                             @error('title')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="title">Restored Land Parcel Name:</label>
+                            <label for="title">Restored Land Parcel Name:*</label>
                             <input type="text" class="form-control" placeholder="Enter Land Parcel Name" name="landparceltitle">
                             @error('landparceltitle')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -88,6 +88,32 @@
                         </div>
                     </div>
                     <div class="col border border-muted rounded-lg p-4">
+                    <div class="form-group">
+                            <label for="province">District:</label>
+                            <select class="custom-select @error('district') is-invalid @enderror" name="district">
+                                <option disabled selected value="">Select</option>
+                                @foreach ($districts as $district)
+                                <option value="{{ $district->id }}" {{ Request::old()?(Request::old('district')==$district->id?'selected="selected"':''):'' }}>{{ $district->district }}</option>
+                                @endforeach
+                            </select>
+                            @error('district')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="form-group">
+                            <label for="province">Grama Sevaka Division:</label>
+                            <select class="custom-select @error('gs_division') is-invalid @enderror" name="gs_division">
+                                <option disabled selected value="">Select</option>
+                                @foreach ($gs as $gs_division)
+                                <option value="{{ $gs_division->id }}" {{ Request::old()?(Request::old('gs_division')==$gs_division->id?'selected="selected"':''):'' }}>{{ $gs_division->gs_division }}</option>
+                                @endforeach
+                            </select>
+                            @error('gs_division')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+
                         <!-- ////////MAP GOES HERE -->
                         <div id="mapid" style="height:400px;" name="map"></div>
 
@@ -299,7 +325,7 @@
             while (table.rows.length > 2) {
                 table.deleteRow(2);
             }
-            count=1;
+            count = 1;
             document.getElementById("species_name[]").value = "";
             document.getElementById("quantity[]").value = "";
             document.getElementById("height[]").value = "";
