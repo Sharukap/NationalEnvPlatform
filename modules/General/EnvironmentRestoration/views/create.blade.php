@@ -341,24 +341,6 @@
             })
         });
     });
-    //TYPEAHEAD 
-    //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
-    // var path1 = "{{route('organization')}}";
-    // $('input.typeahead1').typeahead({
-    //     source: function(terms, process) {
-    //         return $.get(path1, {
-    //             terms: terms
-    //         }, function(data) {
-    //             console.log(data);
-    //             objects = [];
-    //             data.map(i => {
-    //                 objects.push(i.title)
-    //             })
-    //             console.log(objects);
-    //             return process(objects);
-    //         })
-    //     },
-    // });
     ///STEPPER
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
