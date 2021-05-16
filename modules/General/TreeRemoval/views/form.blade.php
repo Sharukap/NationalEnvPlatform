@@ -9,7 +9,7 @@
     <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
     <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#treeHelp">HELP</a></kbd></span>
   </div>
-
+  @include('faq')
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data" autocomplete="off">
     @csrf
     <!-- One "tab" for each step in the form: -->

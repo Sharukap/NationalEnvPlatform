@@ -8,7 +8,7 @@
         <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
         <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#devHelp">HELP</a></kbd></span>
     </div>
-
+    @include('faq')
     <form action="/dev-project/saveForm" method="post" id="devForm" enctype="multipart/form-data" autocomplete="off">
         @csrf
 

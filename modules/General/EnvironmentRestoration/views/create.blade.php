@@ -3,9 +3,11 @@
 @section('general')
 <div class="container">
     <!-- FAQ button -->
-    <div class="d-flex justify-content-end">
-        <a title="FAQ" href="/env-restoration/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
+    <div class="d-flex mb-2 justify-content-end">
+        <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
+        <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#restorationHelp">HELP</a></kbd></span>
     </div>
+    @include('faq')
 
     <form action="/env-restoration/store" id="envForm" method="post" autocomplete="off">
         @csrf
