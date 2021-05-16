@@ -15,21 +15,21 @@
                 <div class="row p-4 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-4">
                         <div class="form-group">
-                            <label for="title">Title:</label>
-                            <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title">
+                            <label for="title">Title*</label>
+                            <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Required" id="title" name="title" value="{{ old('title') }}">
                             @error('title')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="title">Restored Land Parcel Name:</label>
-                            <input type="text" class="form-control" placeholder="Enter Land Parcel Name" name="landparceltitle">
+                            <label for="title">Restored Land Parcel Name*</label>
+                            <input type="text" class="form-control @error('landparceltitle') is-invalid @enderror" placeholder="Enter Land Parcel Name" name="landparceltitle" value="{{ old('landparceltitle') }}">
                             @error('landparceltitle')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="title">District</label>
+                            <label for="title">District *</label>
                             <input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
                             @error('district')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -37,10 +37,10 @@
                         </div>
                         <div class="form-group">
                             <label for="title">Environment Restoration Activity:</label>
-                            <select name="environment_restoration_activity" class="custom-select">
+                            <select name="environment_restoration_activity" class="custom-select @error('environment_restoration_activity') is-invalid @enderror">
                                 <option selected>Select Activity</option>
                                 @foreach($restoration_activities as $restoration_activity)
-                                <option value="{{$restoration_activity->id}}">{{$restoration_activity->title}}</option>
+                                <option value="{{$restoration_activity->id}}" {{ Request::old()?(Request::old('environment_restoration_activity')==$restoration_activity->id?'selected="selected"':''):'' }}>{{$restoration_activity->title}}</option>
                                 @endforeach
                                 @error('environment_restoration_activity')
                                 <div class="alert alert-danger">{{ $message }}</div>
@@ -50,37 +50,44 @@
 
                         <div class="form-group">
                             <label for="title">Ecosystem:</label>
-                            <select name="ecosystem" class="custom-select">
+                            <select name="ecosystem" class="custom-select @error('ecosystem') is-invalid @enderror">
                                 <option selected>Select Ecosystem</option>
                                 @foreach($ecosystems as $ecosystem)
-                                <option value="{{$ecosystem->id}}">{{$ecosystem->type}}</option>
+                                <option value="{{$ecosystem->id}}" {{ Request::old()?(Request::old('ecosystem')==$ecosystem->id?'selected="selected"':''):'' }}>{{$ecosystem->type}}</option>
                                 @endforeach
                             </select>
                             @error('ecosystem')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
-                        @if(Auth::user()->role_id !=6) 
-                        <div class="card">
-                            <div class="card-header">
-                                <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseOne">Governing Organization for selected Land Parcel (Optional)</a>
-                            </div>
-                            <div id="collapseOne" class="collapse">
-                                <div class="card-body">
-                                    @foreach($organizations as $organization)
-                                    <div class="form-check">
-                                        <label class="form-check-label">
-                                            <input type="checkbox" class="form-check-input" name="govOrg[]" value="{{$organization->id}}">{{$organization->title}}
-                                        </label>
+                        @if(Auth::user()->role_id !=6)
+                        <div class="form-group">
+                            <div class="card">
+                                <div class="card-header">
+                                    <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseOne">Governing Organization for selected Land Parcel (Optional)</a>
+                                </div>
+                                <div id="collapseOne" class="collapse">
+                                    <div class="card-body">
+                                        @foreach($organizations as $organization)
+                                        <div class="form-check">
+                                            <label class="form-check-label">
+                                                <input type="checkbox" class="form-check-input" name="govOrg[]" value="{{$organization->id}}">{{$organization->title}}
+                                            </label>
+                                        </div>
+                                        @endforeach
                                     </div>
-                                    @endforeach
                                 </div>
                             </div>
                         </div>
                         @endif
                         <div class="form-group">
-                            <label for="request_org">Organization to submit request to :</label>
-                            <input type="text" class="form-control typeahead1" placeholder="Enter Organization" id="activity_org" name="activity_org" value="{{ old('organization') }}" />
+                            <label for="request_org">Organization to submit request to : (optional)</label>
+                            <select name="activity_org" class="custom-select @error('activity_org') is-invalid @enderror">
+                                <option selected>Select Organization</option>
+                                @foreach($organizations as $organization)
+                                <option value="{{ $organization->id }}" {{ Request::old()?(Request::old('activity_org')==$organization->id?'selected="selected"':''):'' }}>{{ $organization->title }}</option>
+                                @endforeach
+                            </select>
                             @error('activity_org')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -118,8 +125,8 @@
                             <table class="table table-bordered table-striped" id="species">
                                 <thead>
                                     <tr>
-                                        <th>Name</th>
-                                        <th>Quantity</th>
+                                        <th>Name *</th>
+                                        <th>Quantity *</th>
                                         <th>Height (in metres)</th>
                                         <th>Dimensions</th>
                                         <th>Remarks</th>
@@ -218,6 +225,7 @@
         //DYNAMIC SPECIES 
         var count = 1;
         dynamic_species(count, null);
+
         function dynamic_species(number, exceldata) {
             if (exceldata == null) {
                 html = '<tr>';
@@ -300,7 +308,7 @@
             while (table.rows.length > 2) {
                 table.deleteRow(2);
             }
-            count=1;
+            count = 1;
             document.getElementById("species_name[]").value = "";
             document.getElementById("quantity[]").value = "";
             document.getElementById("height[]").value = "";
@@ -335,22 +343,22 @@
     });
     //TYPEAHEAD 
     //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
-    var path1 = "{{route('organization')}}";
-    $('input.typeahead1').typeahead({
-        source: function(terms, process) {
-            return $.get(path1, {
-                terms: terms
-            }, function(data) {
-                console.log(data);
-                objects = [];
-                data.map(i => {
-                    objects.push(i.title)
-                })
-                console.log(objects);
-                return process(objects);
-            })
-        },
-    });
+    // var path1 = "{{route('organization')}}";
+    // $('input.typeahead1').typeahead({
+    //     source: function(terms, process) {
+    //         return $.get(path1, {
+    //             terms: terms
+    //         }, function(data) {
+    //             console.log(data);
+    //             objects = [];
+    //             data.map(i => {
+    //                 objects.push(i.title)
+    //             })
+    //             console.log(objects);
+    //             return process(objects);
+    //         })
+    //     },
+    // });
     ///STEPPER
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
@@ -372,6 +380,7 @@
         //... and run a function that will display the correct step indicator:
         fixStepIndicator(n)
     }
+
     function nextPrev(n) {
         // This function will figure out which tab to display
         var x = document.getElementsByClassName("tab");
@@ -390,6 +399,7 @@
         // Otherwise, display the correct tab:
         showTab(currentTab);
     }
+
     function validateForm() {
         // This function deals with validation of the form fields
         var x, y, i, valid = true;
@@ -411,6 +421,7 @@
         }
         return valid; // return the valid status
     }
+
     function fixStepIndicator(n) {
         // This function removes the "active" class of all steps...
         var i, x = document.getElementsByClassName("step");

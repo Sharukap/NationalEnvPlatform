@@ -70,7 +70,6 @@ class EnvironmentRestorationController extends Controller
             'environment_restoration_activity' => 'required',
             'ecosystem' => 'required',
             'district' => 'required',
-            'activity_org' => 'nullable|exists:organizations,title',
             'polygon' => 'required'
         ]);
         DB::transaction(function () use ($request) {
@@ -113,15 +112,15 @@ class EnvironmentRestorationController extends Controller
 
             $latest = Environment_Restoration::latest()->first();
             $newres = $latest->id;
-            $activityorgname = request('activity_org');
-            $activityorgid = Organization::where('title', $activityorgname)->pluck('id');
+            $activityorgid = request('activity_org');
 
             $Process_item = new Process_Item();
             $Process_item->form_id = $latest->id;
             $Process_item->form_type_id = 3;
             $Process_item->created_by_user_id = request('created_by');
+            $Process_item->request_organization = request('organization');
             if(($request->activity_org)!=null){
-                $org_id =$activityorgid[0];
+                $org_id =$activityorgid;
                 $Process_item->activity_organization = $org_id;
             }
             $Process_item->status_id = 1;
@@ -181,7 +180,7 @@ class EnvironmentRestorationController extends Controller
             $process->form_type_id = 5;
             $process->form_id = $latest->id;
             $process->created_by_user_id = request('created_by');
-            $process->request_organization = Auth::user()->organization_id;
+            $process->request_organization = request('organization');
             $process->activity_organization = $org_id;
             $process->prerequisite_id = $latestprocess->id;
             $process->prerequisite = 0;
