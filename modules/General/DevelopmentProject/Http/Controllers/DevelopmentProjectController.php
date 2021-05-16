@@ -183,6 +183,7 @@ class DevelopmentProjectController extends Controller
             if(($request->organization)==null){
                 $org_id =organization_assign::auto_assign($latestDevProcess->id,$district_id1[0]);
                 Land_Parcel::where('id', $landid)->update(['activity_organization' => $org_id]);
+                Development_Project::where('id', $latest->id)->update(['organization_id' => $org_id]);
             }else{
                 $users = User::where('role_id', '<', 3)->get();
                 Notification::send($users, new ApplicationMade($latestDevProcess));

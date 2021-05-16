@@ -210,6 +210,7 @@ class TreeRemovalController extends Controller
             if(($request->activity_organization)==null){
                 $org_id =organization_assign::auto_assign($latestTreeProcess->id,$district_id1[0]);
                 Land_Parcel::where('id', $landid)->update(['activity_organization' => $org_id]);
+                Tree_Removal_Request::where('id', $latest->id)->update(['organization_id' => $org_id]);
             }else{
                 $users = User::where('role_id', '<', 3)->get();
                 Notification::send($users, new ApplicationMade($latestTreeProcess));
