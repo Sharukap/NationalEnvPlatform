@@ -234,7 +234,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `tw
 
 INSERT INTO `access` (`id`, `access`, `created_at`, `updated_at`, `status`, `deleted_at`) VALUES
 (1, 'General module', NULL, NULL, 7, NULL),
-(2, 'Environment Module', NULL, NULL, 7, NULL),
+(2, 'Environment Module Administrator access', NULL, NULL, 7, NULL),
 (3, 'Organization Module', NULL, NULL, 7, NULL),
 (4, 'Reporting Module', NULL, NULL, 7, NULL),
 (6, 'Approval Item-Organization assigning', NULL, NULL, 7, NULL),
