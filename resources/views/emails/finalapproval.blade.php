@@ -11,8 +11,11 @@
     <h6>Dear Mr/Mrs. {{ $created_by_user['name']}} ,</h6>
 </div>
 <div>
-    <h6>The {{$form_type['type']}} application made on the {{ date('d-m-Y',strtotime($created_at)) }} has been {{$status['type']}} by the {{$Activity_organization['title']}} </h6>
-    <h6>A pdf of the application and other supporting documents has been attached to this email</h6>
+    <h6>The {{$form_type['type']}} application made on the {{ date('d-m-Y',strtotime($created_at)) }} has been {{$status['type']}}.</h6>
+    <h6>A pdf notfying of the {{$status['type']}} Application has been attached to this email</h6>
+</div>
+<div>
+    <h6>This is a system generated email</h6>
 </div>
 </body>
 </html>

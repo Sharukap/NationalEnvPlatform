@@ -20,6 +20,7 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\ApplicationMade;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
+use App\CustomClass\organization_assign;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -52,7 +53,6 @@ class TreeRemovalController extends Controller
             'surveyorName' => 'required',
             'district' => 'required|exists:districts,district',
             'gs_division' => 'required|exists:gs_divisions,gs_division',
-            'organization' => 'required',
             'polygon' => 'required',
             'number_of_trees' => 'required|integer',
             'description' => 'required',
@@ -92,9 +92,10 @@ class TreeRemovalController extends Controller
             $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
             $land->gs_division_id = $gs_division_id1[0];
 
-            //$organization_id1 = Organization::where('title', request('activity_organization'))->pluck('id');
-            $land->activity_organization = request('organization');
-
+            if(($request->organization)!=null){
+                $org_id = request('organization');
+                $land->activity_organization = $org_id;
+            }
             $land->status_id = 1;
             $land->save();
 
@@ -133,9 +134,9 @@ class TreeRemovalController extends Controller
 
             //$gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
             $tree->gs_division_id = $gs_division_id1[0];
-
-            $tree->organization_id = request('organization');
-
+            if(($request->organization)!=null){
+            $tree->organization_id = $org_id;
+            }
             //Default value/ non-compulsory fields
             if (request('land_extent')) {
                 $tree->land_size = request('land_extent');
@@ -196,16 +197,23 @@ class TreeRemovalController extends Controller
             } else {
                 $treeProcess->request_organization = auth()->user()->organization_id;
             }
-            $treeProcess->activity_organization = request('organization');
+            if(($request->activity_organization)!=null){
+                $treeProcess->activity_organization = $org_id;
+            }
 
             $treeProcess->status_id = 1;
             //dd($treeProcess);
             $treeProcess->save();
 
-            $Users = User::where('role_id', '<', 3)->get();
-            Notification::send($Users, new ApplicationMade($treeProcess));
-
             $latestTreeProcess = Process_Item::latest()->first();
+
+            if(($request->activity_organization)==null){
+                $org_id =organization_assign::auto_assign($latestTreeProcess->id,$district_id1[0]);
+                Land_Parcel::where('id', $landid)->update(['activity_organization' => $org_id]);
+            }else{
+                $users = User::where('role_id', '<', 3)->get();
+                Notification::send($users, new ApplicationMade($latestTreeProcess));
+            }
             $landProcess = new Process_Item();
             $landProcess->form_id = $landid;
             $landProcess->remark = "Verify these land details";
@@ -217,8 +225,7 @@ class TreeRemovalController extends Controller
             } else {
                 $landProcess->request_organization = auth()->user()->organization_id;
             }
-            //$organization_id1 = Organization::where('title', request('activity_organization'))->pluck('id');
-            $landProcess->activity_organization = request('organization');
+            $landProcess->activity_organization = $org_id;
 
             $landProcess->status_id = 1;
             $landProcess->form_type_id = 5;
@@ -238,9 +245,6 @@ class TreeRemovalController extends Controller
                     dd($e);
                 }
             }
-
-            $Users = User::where('role_id', '<', 3)->get();
-            Notification::send($Users, new ApplicationMade($landProcess));
         });
         return redirect('/general/pending')->with('message', 'Request Created Successfully');
     }

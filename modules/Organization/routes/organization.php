@@ -36,3 +36,13 @@ Route::get('/removeActivity/{id}', [OrganizationController::class, 'activityremo
 
 Route::post('/contactupdate/{id}', [OrganizationController::class, 'contactupdate']);
 Route::get('/contactremove/{id}', [OrganizationController::class, 'contactremove']);
+
+//automatic assign
+
+Route::get('/actIndex', [OrganizationController::class, 'activities'])->name('orgActIndex'); 
+
+Route::get('/newActivity', [OrganizationController::class, 'new_activity']); 
+
+Route::post('/activitycreate', [OrganizationController::class, 'activity_create']); 
+
+Route::get('/activityremove/{id}', [OrganizationController::class, 'activity_remove']); 

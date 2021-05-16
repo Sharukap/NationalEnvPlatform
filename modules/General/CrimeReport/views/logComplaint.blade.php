@@ -29,10 +29,11 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    @if(Auth::user()->role_id !=6) 
                     <div class="form-group">
                         <label for="organization">Make complaint to (Optional)</label>
                         <select class="custom-select @error('organization') is-invalid @enderror" name="organization">
-                            <option disabled selected value="">Select Organization</option>
+                            <option selected value="">Select Organization</option>
                             @foreach ($Organizations as $organization)
                             <option value="{{ $organization->id }}" {{ Request::old()?(Request::old('organization')==$organization->id?'selected="selected"':''):'' }}>{{ $organization->title }}</option>
                             @endforeach
@@ -41,6 +42,7 @@
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
+                    @endif
                     <div class="form-group" id="dynamicAddRemove">
                         <label for="images">Photos:</label>
                         <input type="file" id="image" name="file[]" multiple>
@@ -83,6 +85,19 @@
                         <input type="text" class="form-control" placeholder="Required" id="landTitle" name="landTitle" value="{{ old('landTitle') }}">
                         @error('landTitle')
                         <div class="alert alert-danger">{{ $message }}</div>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="district">District*</label>
+                        <select class="custom-select @error('district') is-invalid @enderror" name="district">
+                            <option disabled selected value="">Select</option>
+                            @foreach ($districts as $district)
+                            <option value="{{ $district->id }}" {{ Request::old()?(Request::old('district')==$district->id?'selected="selected"':''):'' }}>{{ $district->district }}</option>
+                            @endforeach
+                        </select>
+                        @error('district')
+                        <div class="alert alert-danger">{{ $message }}</div>
+                            
                         @enderror
                     </div>
                     <!-- ////////MAP GOES HERE -->
