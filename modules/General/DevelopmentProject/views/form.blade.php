@@ -4,10 +4,11 @@
 <div class="container">
 
     <!-- FAQ button -->
-    <div class="d-flex justify-content-end">
-        <a title="User Instructions" href="/dev-project/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
+    <div class="d-flex mb-2 justify-content-end">
+        <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
+        <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#devHelp">HELP</a></kbd></span>
     </div>
-
+    @include('faq')
     <form action="/dev-project/saveForm" method="post" id="devForm" enctype="multipart/form-data">
         @csrf
 
@@ -72,6 +73,7 @@
                         </div>
                         @endif
                     </div>
+                    @if(Auth()->user()->role_id != 6)
                     <br>
                     <hr><br>
                     <div class="form-group">
@@ -94,6 +96,7 @@
                             @enderror
                         </div>
                     </div>
+                    @endif
                 </div>
             </div>
 
@@ -163,12 +166,14 @@
                         </div>
                     </div>
                     <div>
-                        <label>Upload KML File</label>
+                        <label>If coordinates are available as KML, upload KML File</label>
                         <input type="file" name="select_file" id="select_file" />
                         <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
                     </div>
                     <div class="alert mt-3" id="message" style="display: none"></div>
                     <br>
+                    <label>Select Location On Map*</label>
+                    <span style="float:right;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
                     <!-- ////////MAP GOES HERE -->
                     <div id="mapid" style="height:400px;" name="map"></div>
                     @error('polygon')
@@ -178,7 +183,7 @@
 
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected" {{ old('isProtected') == "1" ? 'checked' : ''}}>
-                        <label class="custom-control-label" for="customCheck"><strong>Is Land a Protected Area?</strong></label>
+                        <label class="custom-control-label" for="customCheck"><strong>Click if land is a protected area.</strong></label>
                     </div>
 
                     <!-- saving the coordinates of the kml file -->
@@ -219,23 +224,6 @@
     });
 
     //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
-    var path3 = "{{route('organization')}}";
-    $('input.typeahead3').typeahead({
-        source: function(terms, process) {
-
-            return $.get(path3, {
-                terms: terms
-            }, function(data) {
-                console.log(data);
-                objects = [];
-                data.map(i => {
-                    objects.push(i.title)
-                })
-                console.log(objects);
-                return process(objects);
-            })
-        },
-    });
 
     var path2 = "{{route('district')}}";
     $('input.typeahead2').typeahead({

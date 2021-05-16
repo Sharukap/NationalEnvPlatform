@@ -13,12 +13,8 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/delete/{processid}/{treeid}/{landid}', [TreeRemovalController::class, 'destroy']);
 
-    //Route to get the FAQ View
-    Route::get('/userinstruct', fn () => view('treeRemoval::faq'));
-
     Route::get('/autocompleteProvince', [TreeRemovalController::class, 'provinceAutocomplete'])->name('province');
     Route::get('/autocompleteDistrict', [TreeRemovalController::class, 'districtAutocomplete'])->name('district');
-    Route::get('/autocompleteOrgs', [TreeRemovalController::class, 'organizationAutocomplete'])->name('organization');
     Route::get('/autocompleteGSdiv', [TreeRemovalController::class, 'GSAutocomplete'])->name('gramasevaka');
     Route::get('/autocompleteSpecies', [TreeRemovalController::class, 'SpeciesAutocomplete'])->name('species');
 });

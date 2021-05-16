@@ -1,11 +1,10 @@
 @extends('general')
 
 @section('general')
-<hr>
 <div class="row justify-content-center">
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header bg-white text-center">Tree Removals This Month</div>
+            <div class="card-header bg-white text-center">Tree Removals Requests This Month</div>
             <div class="card-body text-center">
                 <p class="card-text display-1">{{$tree_removals}}</p>
             </div>
@@ -13,21 +12,22 @@
     </div>
     <div class="col-md-3">
         <div class="card">
-            <div class="card-header bg-white text-center">Development Projects This Month</div>
+            <div class="card-header bg-white text-center">Development Project Requests This Month</div>
             <div class="card-body text-center">
                 <p class="card-text display-1">{{$dev_projects}}</p>
             </div>
         </div>
     </div>
 </div>
-<hr>
+
 @if(Auth()->user()->role_id != 6)
+<hr>
 <div class="row border-secondary rounded-lg ml-3">
     @if(Auth::user()->role_id == 1 || Auth::user()->role_id == 2)
     <h5 class="p-3">New requests to confirm Organization assigning</h5>
     @elseif(Auth::user()->role_id == 3 || Auth::user()->role_id == 4 )
     <h5 class="p-3">New requests to be assigned to staff</h5>
-    @elseif(Auth::user()->role_id == 5) 
+    @elseif(Auth::user()->role_id == 5)
     <h5 class="p-3">Applications to be investigated</h5>
     @endif
 </div>
@@ -62,14 +62,14 @@
                 @endif
                 <th>Remark</th>
                 @if(Auth::user()->role_id !== 6)
-                    <th>Check and Assign</th>
-                    @if(Auth::user()->role_id <= 4)
-                        <th>Audit</th>
-                    @endif
-
-                @else
-                <th>Check Progress</th>
+                <th>Check and Assign</th>
+                @if(Auth::user()->role_id <= 4) 
+                    <th>Audit</th>
                 @endif
+
+                    @else
+                    <th>Check Progress</th>
+                    @endif
             </tr>
         </thead>
         <tbody>
@@ -77,11 +77,11 @@
                 <td>{{$process_item->form_type->type}}</td>
                 <td>{{date('d-m-Y',strtotime($process_item->created_at))}}</td>
                 @if($process_item->request_organization==null && $process_item->other_land_owner_name==null)
-                    @if($process_item->created_by_user != null)
-                        <td>{{$process_item->created_by_user->name}}</td>
-                    @else
-                        <td>No details available</td>
-                    @endif
+                @if($process_item->created_by_user != null)
+                <td>{{$process_item->created_by_user->name}}</td>
+                @else
+                <td>No details available</td>
+                @endif
                 @elseif($process_item->request_organization==null)
                 <td>{{$process_item->other_land_owner_name}}</td>
                 @else
@@ -92,9 +92,9 @@
                 <td><a href="/approval-item/assignorganization/{{$process_item->id}}" class="text-muted">Assign</a></td>
                 <td><a href="/security/process-item/{{$process_item->id}}" class="text-muted">Audit</a></td>
                 @elseif(Auth::user()->role_id == 3 ||Auth::user()->role_id == 4)
-                    
-                        <td><a href="/approval-item/assignstaff/{{$process_item->id}}" class="text-muted">Assign</a></td>
-                        <td><a href="/security/process-item/{{$process_item->id}}" class="text-muted">Audit</a></td>
+
+                <td><a href="/approval-item/assignstaff/{{$process_item->id}}" class="text-muted">Assign</a></td>
+                <td><a href="/security/process-item/{{$process_item->id}}" class="text-muted">Audit</a></td>
                 @elseif(Auth::user()->role_id == 5)
                 <td><a href="/approval-item/investigate/{{$process_item->id}}" class="text-muted">Investigate</a></td>
                 @elseif(Auth::user()->role_id == 6)

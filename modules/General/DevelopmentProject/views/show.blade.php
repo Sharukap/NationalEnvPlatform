@@ -86,9 +86,9 @@
     </div>
     @if($process->status_id < 2) <div class="mt-3" style="float:right;">
         <!-- <a class="btn btn-outline-warning" href="/dev-project/edit/{{$process->id}}/{{$development_project->id}}/{{$land->id}}">Edit</a> -->
-        <button class="btn btn-outline-danger" onclick="if (confirm('Are you sure you wish to delete this request and all it\'s related data?')){
+        <button class="btn btn-danger text-white" onclick="if (confirm('Are you sure you wish to delete this request and all it\'s related data?')){
             event.preventDefault();
-            document.getElementById('form-delete-{{$process->id}}').submit()}">Delete</button>
+            document.getElementById('form-delete-{{$process->id}}').submit()}">Delete Request</button>
 
         <form id="{{'form-delete-'.$process->id}}" style="display:none" method="post" action="/dev-project/delete/{{$process->id}}/{{$development_project->id}}/{{$land->id}}">
             @csrf
