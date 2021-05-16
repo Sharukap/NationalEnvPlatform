@@ -8,7 +8,7 @@
     <hr>
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-6 ml-3">
-            <form method="post" action="/crime-report/crimeTypeStore">
+            <form method="post" action="/crime-report/crimeTypeStore" autocomplete="off">
                 @csrf
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">

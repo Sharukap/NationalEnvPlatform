@@ -8,7 +8,7 @@
         <a title="User Instructions" href="/dev-project/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
     </div>
 
-    <form action="/dev-project/saveForm" method="post" id="devForm" enctype="multipart/form-data">
+    <form action="/dev-project/saveForm" method="post" id="devForm" enctype="multipart/form-data" autocomplete="off">
         @csrf
 
         <div class="container">

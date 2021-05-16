@@ -9,7 +9,7 @@
     <a title="FAQ" href="/tree-removal/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
   </div>
 
-  <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data">
+  <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data" autocomplete="off">
     @csrf
     <!-- One "tab" for each step in the form: -->
     <div class="tab">
