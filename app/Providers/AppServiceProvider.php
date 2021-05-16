@@ -26,7 +26,7 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         if (app()->environment('remote')) {
-            URL::forceSchema('https');
+            URL::forceScheme('https');
         }
     }
 }
