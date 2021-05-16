@@ -2,7 +2,12 @@
 
 @section('cont')
 <h2 class="p-3" style="display:inline">Environment Module</h2>
-
+<span>
+    <h4 class="text-center bg-success text-light">{{session('message')}}</h4>
+</span>
+<span>
+<h4 class="text-center bg-danger text-light">{{session('warning')}}</h4>
+</span>
 <div class="container mt-4 bg-white border">
   <nav class="navbar navbar-expand-sm navbar-light">
     <ul class="navbar-nav">
