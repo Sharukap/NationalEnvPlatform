@@ -149,8 +149,8 @@
         @endempty
     </div>
     @if($process->status_id < 2) <div style="float:right;">
-        <button class="btn btn-outline-danger" onclick="if(confirm('Are you sure you wish to delete this request and all it\'s related data?')){ event.preventDefault();
-                            document.getElementById('form-delete-{{$process->id}}').submit()}">Delete</button>
+        <button class="btn btn-danger text-white" onclick="if(confirm('Are you sure you wish to delete this request and all it\'s related data?')){ event.preventDefault();
+                            document.getElementById('form-delete-{{$process->id}}').submit()}">Delete Request</button>
 
         <form id="{{'form-delete-'.$process->id}}" style="display:none" method="post" action="/tree-removal/delete/{{$process->id}}/{{$tree->id}}/{{$land->id}}">
             @csrf

@@ -7,9 +7,12 @@
     <h4 style="text-align:center;" class="text-dark">Add New Ecosystem</h4>
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-lg ml-3">
-            <div class="d-flex justify-content-end">
-                <a data-placement="top" title="FAQ" href="/environment/userinstruct" class="text-white"><i class="fa fa-info-circle" style="font-size:30px; color:black"></i></a>
+            <!-- FAQ button -->
+            <div class="d-flex mb-2 justify-content-end">
+                <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
+                <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#ecoHelp">HELP</a></kbd></span>
             </div>
+            @include('faq')
 
             <form action="/environment/newrequest" method="post" enctype="multipart/form-data">
                 @csrf

@@ -3,9 +3,11 @@
 @section('general')
 <div class="container">
     <!-- FAQ button -->
-    <div class="d-flex justify-content-end">
-        <a title="User Instructions" href="/crime-report/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
+    <div class="d-flex mb-2 justify-content-end">
+        <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
+        <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#complaintsHelp">HELP</a></kbd></span>
     </div>
+    @include('faq')
     <form action="\crime-report\crimecreate" method="post" enctype="multipart/form-data">
         @csrf
         <div class="container bg-white">
@@ -119,17 +121,6 @@
     </form>
 </div>
 <script type="text/javascript">
-    
-
-    ///MAP ACTIVITIES
-
-    //var center = [7.2906, 80.6337];
-
-    // Create the map
-    //var map = L.map('mapid').setView(center, 10);    
-    //The first parameter passed into setView() represents the latitude and longitude, and the second parameter is the zoom level.
-
-
     var map = L.map('mapid', {
         center: [7.2906, 80.6337], //if the location cannot be fetched it will be set to Kandy
         zoom: 12

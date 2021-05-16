@@ -11,9 +11,6 @@ Route::get('/generalenv', fn () => view('environment::Envmain'));
 //Route::get('/createrequest', fn() => view('environment::request'));
 
 Route::get('/createrequest', [EnvController::class, 'loadform']);
-//Route for the user instruction view for eco systems
-Route::get('/userinstruct', fn () => view('environment::faqeco'));
-
 //Route::get('/newrequest', fn() => view('environment::environmenthome'));
 
 
@@ -56,5 +53,3 @@ Route::put('/environmentspe/updatestatus/{id}', [SpeciesController::class, 'stat
 //Route to store the data into the database
 Route::get('/newspecies', fn () => view('environment::species'));
 Route::get('/morespecies/{id}', [SpeciesController::class, 'more']);
-//Route foe the user instruction view of the species module
-Route::get('/userinstructspe', fn () => view('environment::faqspecies'));
