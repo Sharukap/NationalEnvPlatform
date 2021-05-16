@@ -5,6 +5,7 @@ use Organization\Http\Controllers\OrganizationController;
 use Organization\Http\Controllers\UserController;
 use Organization\Http\Controllers\TypeController;
 
+Route::middleware(['access.control:3'])->group(function () {
 Route::get('/index', [OrganizationController::class, 'index'])->name('orgIndex');
 
 // Open create view.
@@ -46,3 +47,5 @@ Route::get('/newActivity', [OrganizationController::class, 'new_activity']);
 Route::post('/activitycreate', [OrganizationController::class, 'activity_create']); 
 
 Route::get('/activityremove/{id}', [OrganizationController::class, 'activity_remove']); 
+
+});
