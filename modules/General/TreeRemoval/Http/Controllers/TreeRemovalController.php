@@ -315,16 +315,6 @@ class TreeRemovalController extends Controller
         return response()->json($data);
     }
 
-    public function organizationAutocomplete(Request $request)
-    {
-        $data = Organization::select("title")
-            ->where("title", "LIKE", "%{$request->terms}%")
-            ->where('title', '!=', "No Organization (Citizen)")
-            ->get();
-
-        return response()->json($data);
-    }
-
     public function GSAutocomplete(Request $request)
     {
         $data = GS_Division::select("gs_division")

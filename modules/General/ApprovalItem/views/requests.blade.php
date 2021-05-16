@@ -3,6 +3,14 @@
 @section('cont')
 <h2 class="p-3">Your Requests</h2>
 <div class="row">
+    <div class="col-7">
+        <span>
+            <h4 class="text-center bg-success text-light">{{session('message')}}</h4>
+        </span>
+        <span>
+            <h4 class="text-center bg-danger text-light">{{session('warning')}}</h4>
+        </span>
+    </div>
     <div class="col">
         <!-- Filter Dropdown -->
         <div class="dropdown" style="float:right;">
@@ -65,15 +73,15 @@
 
                     <td>{{$item->status->type}}</td>
                     @if($item->form_type_id == 1)
-                    <td><a href="/tree-removal/show/{{$item->id}}" class="text-dark">See full request</a></td>
+                    <td><a href="/tree-removal/show/{{$item->id}}" class="btn btn-info text-light">See full request</a></td>
                     @elseif($item->form_type_id == 2)
-                    <td><a href="/dev-project/show/{{$item->id}}" class="text-dark">See full request</a></td>
+                    <td><a href="/dev-project/show/{{$item->id}}" class="btn btn-info text-light">See full request</a></td>
                     @elseif($item->form_type_id == 3)
-                    <td><a href="/env-restoration/show/{{$item->id}}" class="text-dark">See full request</a></td>
+                    <td><a href="/env-restoration/show/{{$item->id}}" class="btn btn-info text-light">See full request</a></td>
                     @elseif($item->form_type_id == 4)
-                    <td><a href="/crime-report/viewcrime/{{$item->id}}" class="text-dark">See full request</a></td>
+                    <td><a href="/crime-report/viewcrime/{{$item->id}}" class="btn btn-info text-light">See full request</a></td>
                     @elseif($item->form_type_id == 5)
-                    <td><a href="/land/show/{{$item->id}}" class="text-dark">See full request</a></td>
+                    <td><a href="/land/show/{{$item->id}}" class="btn btn-info text-light">See full request</a></td>
                     @endif
                 </tr>
                 @endforeach

@@ -42,13 +42,13 @@
                         <ul class="navbar-nav">
                             @if(Auth()->user()->role_id == 6)
                             <li class="nav-item mt-5">
-                                <a class="nav-link text-light" href="/general/pending"><i class="fa fa-fw fa-home mr-3" aria-hidden="true"></i> General</a>
+                                <a class="nav-link text-light" href="/general/pending"><i class="fa fa-fw fa-home mr-3" aria-hidden="true"></i> Make a Request</a>
                             </li>
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-fw fa-tree mr-3" aria-hidden="true"></i> Environment</a>
                             </li>
                             <li class="nav-item mt-3">
-                                <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-fw fa-arrow-down mr-3" aria-hidden="true"></i> Requests</a>
+                                <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-fw fa-arrow-down mr-3" aria-hidden="true"></i> View Your Requests</a>
                             </li>
                             <li class="nav-item mt-3" style="margin-bottom:485px;">
                                 <a class="nav-link text-light" href="/reporting/overview"><i class="fa fa-fw fa-book mr-3" aria-hidden="true"></i> Reporting</a>

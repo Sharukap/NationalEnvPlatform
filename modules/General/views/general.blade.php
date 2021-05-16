@@ -13,26 +13,26 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="nav nav-tabs">
             @if(Auth()->user()->role_id != 6)
-            <li class="nav-item {{ Route::currentRouteName() == 'pending' ? 'active' : '' }}">
-                <a class="nav-link h4" href="{{ route('pending') }}">Pending Request<span class="sr-only">(current)</span></a>
+            <li class="nav-item ">
+                <a class="nav-link h4 mr-4 text-dark {{ Route::currentRouteName() == 'pending' ? 'active' : '' }}" href="{{ route('pending') }}">Pending Request<span class="sr-only">(current)</span></a>
             </li>
             @endif
-            <li class="nav-item {{ Route::currentRouteName() == 'treeremoval' ? 'active' : '' }}">
-                <a class="nav-link h4" href="{{ route('treeremoval') }}">Tree Removal</a>
+            <li class="nav-item ">
+                <a class="nav-link h4 mr-4 text-dark {{ Route::currentRouteName() == 'treeremoval' ? 'active' : '' }}" href="{{ route('treeremoval') }}">Tree Removal</a>
             </li>
-            <li class="nav-item {{ Route::currentRouteName() == 'devproject' ? 'active' : '' }}">
-                <a class="nav-link h4" href="{{ route('devproject') }}">Development Project</a>
+            <li class="nav-item ">
+                <a class="nav-link h4 mr-4 text-dark {{ Route::currentRouteName() == 'devproject' ? 'active' : '' }}" href="{{ route('devproject') }}">Development Project</a>
             </li>
-            <li class="nav-item {{ Route::currentRouteName() == 'envrestoration' ? 'active' : '' }}">
-                <a class="nav-link h4" href="{{ route('envrestoration') }}">Environment Restoration</a>
+            <li class="nav-item ">
+                <a class="nav-link h4 mr-4 text-dark {{ Route::currentRouteName() == 'envrestoration' ? 'active' : '' }}" href="{{ route('envrestoration') }}">Environment Restoration</a>
             </li>
             <!-- <li class="nav-item {{ Route::currentRouteName() == 'land' ? 'active' : '' }}">
                 <a class="nav-link h4" href="{{ route('land') }}">Register Land</a>
             </li> -->
-            <li class="nav-item {{ Route::currentRouteName() == 'crime' ? 'active' : '' }}">
-                <a class="nav-link h4" href="{{ route('crime') }}">Crime Reporting</a>
+            <li class="nav-item ">
+                <a class="nav-link h4 text-dark {{ Route::currentRouteName() == 'crime' ? 'active' : '' }}" href="{{ route('crime') }}">Environmental Complaints</a>
             </li>
         </ul>
     </div>

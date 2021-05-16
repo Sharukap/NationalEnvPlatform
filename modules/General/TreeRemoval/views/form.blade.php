@@ -5,10 +5,11 @@
 <div class="container">
 
   <!-- FAQ button -->
-  <div class="d-flex justify-content-end">
-    <a title="FAQ" href="/tree-removal/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
+  <div class="d-flex mb-2 justify-content-end">
+    <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
+    <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#treeHelp">HELP</a></kbd></span>
   </div>
-
+  @include('faq')
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data">
     @csrf
     <!-- One "tab" for each step in the form: -->
@@ -116,14 +117,16 @@
               </div>
             </div>
 
-
+            @if(Auth()->user()->role_id != 6)
             <div>
               <label>Upload KML File</label>
               <input type="file" name="select_file" id="select_file" />
               <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
             </div>
             <div class="alert mt-3" id="message" style="display: none"></div>
-            <br>
+            @endif
+            <label>Select Location On Map*</label>
+            <span style="float:right;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
             <!-- ////////MAP GOES HERE -->
             <div id="mapid" style="height:400px;" name="map"></div>
             @error('polygon')
@@ -133,7 +136,7 @@
 
             <div class="custom-control custom-checkbox">
               <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected" {{ old('isProtected') == "1" ? 'checked' : ''}}>
-              <label class="custom-control-label" for="customCheck"><strong>Is Land a Protected Area?</strong></label>
+              <label class="custom-control-label" for="customCheck"><strong>Click if Land is a Protected Area.</strong></label>
             </div>
 
             <!-- saving the coordinates of the kml file -->
@@ -228,7 +231,7 @@
             </div>
 
             <div class="form-group" id="dynamicAddRemove">
-              <label for="images">Photos:</label>
+              <label for="images">Photos (Optional)</label>
 
               <input type="file" id="image" name="file[]" multiple>
               @if ($errors->has('file.*'))
@@ -237,6 +240,7 @@
               </div>
               @endif
             </div>
+            @if(Auth()->user()->role_id != 6)
             <br>
             <hr><br>
             <div class="form-group">
@@ -259,6 +263,7 @@
                 @enderror
               </div>
             </div>
+            @endif
           </div>
         </div>
       </div>
@@ -277,6 +282,7 @@
           @enderror
           <table class="table" id="dynamicAddRemoveTable">
             <tr>
+              <th>No.</th>
               <th>Species*</th>
               <th>Tree ID</th>
               <th>Width at Breast Height*</th>
@@ -286,6 +292,7 @@
               <th>Age</th>
             </tr>
             <tr>
+              <td>1</td>
               <td><input type="text" id="species_name" name="location[0][tree_species_id]" placeholder="Required" class="form-control typeahead6 @error('location.0.tree_species_id') is-invalid @enderror" /></td>
               <td><input type="text" id="tree_id" name="location[0][tree_id]" class="form-control" /></td>
               <td><input type="text" id="width_at_breast_height" name="location[0][width_at_breast_height]" placeholder="Required" class="form-control @error('location.0.width_at_breast_height') is-invalid @enderror" /></td>
@@ -296,10 +303,11 @@
               <td rowspan="2"><button type="button" name="add" id="add-btn" class="btn bd-navbar text-white">Add</button></td>
             </tr>
             <tr>
-              <td colspan="7"><textarea id="remarks" name="location[0][remark]" class="form-control" rows="3"></textarea></td>
+              <td colspan="7"><textarea id="remarks" name="location[0][remark]" placeholder="Optional Remark" class="form-control" rows="3"></textarea></td>
             </tr>
           </table>
           <div>
+          <label>If data is available as an excel file:</label>
             <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
             <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
             <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
@@ -388,7 +396,7 @@
             age = exceldata[i]['Age'];
             remarks = exceldata[i]['Remarks'];
             $("#dynamicAddRemoveTable").append(
-              '<tr><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Enter Species" class="form-control typeahead6" value=' + species + ' /></td>\
+              '<tr><td>' + (i + 1) + '</td><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Enter Species" class="form-control typeahead6" value=' + species + ' /></td>\
       <td><input type="text" id="tree_id" name="location[' + i + '][tree_id]" placeholder="Tree ID" class="form-control" value=' + tree_id + ' /></td>\
       <td><input type="text" id="width_at_breast_height" name="location[' + i + '][width_at_breast_height]" placeholder="Enter Width" class="form-control" value=' + width_breast + ' /></td>\
       <td><input type="text" id="height" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" value=' + height + ' /></td>\
@@ -396,7 +404,7 @@
       <td><input type="text" id="timber_cubic" name="location[' + i + '][timber_cubic]" placeholder="Enter Cubic" class="form-control" value=' + cubic_feet + ' /></td>\
       <td><input type="text" id="age" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" value=' + age + ' /></td></td>\
       <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
-      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Enter Remarks" class="form-control" rows="3">' + remarks + '</textarea></td></tr>'
+      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Optional Remarks" class="form-control" rows="3">' + remarks + '</textarea></td></tr>'
             );
           }
         });
@@ -408,15 +416,15 @@
   $("#add-btn").click(function() {
     ++i;
     $("#dynamicAddRemoveTable").append(
-      '<tr><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Required" class="form-control typeahead6"/></td>\
-      <td><input type="text" id="tree_id" name="location[' + i + '][tree_id]" class="form-control" /></td>\
-      <td><input type="text" id="width_at_breast_height" name="location[' + i + '][width_at_breast_height]" placeholder="Required" class="form-control" /></td>\
-      <td><input type="text" id="height" name="location[' + i + '][height]" placeholder="Required" class="form-control" /></td>\
-      <td><input type="text" id="timber_volume" name="location[' + i + '][timber_volume]" class="form-control" /></td>\
-      <td><input type="text" id="timber_cubic" name="location[' + i + '][timber_cubic]" class="form-control" /></td>\
-      <td><input type="text" id="age" name="location[' + i + '][age]" class="form-control" /></td></td>\
+      '<tr><td>' + (i + 1) + '</td><td><input type="text" id="species_name' + i + '" name="location[' + i + '][tree_species_id]" placeholder="Required" class="form-control typeahead6"/></td>\
+      <td><input type="text" id="tree_id' + i + '" name="location[' + i + '][tree_id]" class="form-control" /></td>\
+      <td><input type="text" id="width_at_breast_height' + i + '" name="location[' + i + '][width_at_breast_height]" placeholder="Required" class="form-control" /></td>\
+      <td><input type="text" id="height' + i + '" name="location[' + i + '][height]" placeholder="Required" class="form-control" /></td>\
+      <td><input type="text" id="timber_volume' + i + '" name="location[' + i + '][timber_volume]" class="form-control" /></td>\
+      <td><input type="text" id="timber_cubic' + i + '" name="location[' + i + '][timber_cubic]" class="form-control" /></td>\
+      <td><input type="text" id="age' + i + '" name="location[' + i + '][age]" class="form-control" /></td></td>\
       <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
-      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" class="form-control" rows="3">\
+      </tr><tr><td colspan="7"><textarea id="remarks' + i + '" name="location[' + i + '][remark]" placeholder="Optional Remark" class="form-control" rows="3">\
       </textarea></td></tr>'
     );
     var path6 = "{{route('species')}}";
@@ -553,23 +561,6 @@
     },
   });
 
-  var path3 = "{{route('organization')}}";
-  $('input.typeahead3').typeahead({
-    source: function(terms, process) {
-
-      return $.get(path3, {
-        terms: terms
-      }, function(data) {
-        console.log(data);
-        objects = [];
-        data.map(i => {
-          objects.push(i.title)
-        })
-        console.log(objects);
-        return process(objects);
-      })
-    },
-  });
 
   var path4 = "{{route('gramasevaka')}}";
   $('input.typeahead4').typeahead({
