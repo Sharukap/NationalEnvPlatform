@@ -7,6 +7,9 @@ use Environment\Http\Controllers\TypeController;
 Route::middleware(['auth'])->group(function () {
 Route::get('/viewdata', [EnvController::class, 'index2']);
 Route::get('/viewdataspecies', [SpeciesController::class, 'index2']);
+//More details button , users can see the details of the request
+Route::get('/moreeco/{id}', [EnvController::class, 'more']);
+Route::get('/morespecies/{id}', [SpeciesController::class, 'more']);
 });
 
 Route::middleware(['access.control:2'])->group(function () {
@@ -41,8 +44,7 @@ Route::delete('delete-request/{id}', [EnvController::class, 'delete']);
 Route::get('/requestdataeco', fn () => view('environment::trackrequesteco'));
 
 Route::get('/trackrequsteco', [EnvController::class, 'track']);
-//More details button , users can see the details of the request
-Route::get('/moreeco/{id}', [EnvController::class, 'more']);
+
 
 
 //////////// Species module
@@ -59,6 +61,6 @@ Route::get('/trackrequst', [SpeciesController::class, 'track']);
 Route::put('/environmentspe/updatestatus/{id}', [SpeciesController::class, 'statusupdate'])->middleware(['restrict.systemdata:2']);
 //Route to store the data into the database
 Route::get('/newspecies', fn () => view('environment::species'));
-Route::get('/morespecies/{id}', [SpeciesController::class, 'more']);
+
 
 });
