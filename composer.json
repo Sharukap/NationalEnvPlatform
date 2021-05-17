@@ -18,8 +18,7 @@
         "laravel/framework": "^8.0",
         "laravel/tinker": "^2.0",
         "livewire/livewire": "^2.3",
-        "owen-it/laravel-auditing": "^12.0",
-        "unicodeveloper/laravel-cloudinary": "1.0.0-beta"
+        "owen-it/laravel-auditing": "^12.0"
     },
     "require-dev": {
         "facade/ignition": "^2.3.6",
