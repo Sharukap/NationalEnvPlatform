@@ -178,10 +178,8 @@ class TreeRemovalController extends Controller
                 foreach ($request->file('file') as $file) {
                     $filename = $file->getClientOriginalName();
                     $newname = $latest->id . 'No' . $y . $filename;
-                    $path = $file->storeAs('treeremoval', $newname, 'public');
-                    $photoarray[$y] = $path;
                     $result = $file->storeOnCloudinaryAs('treeremoval', $newname);
-                    $result->getSecurePath(); // Get the url of the uploaded file; https
+                    $photoarray[$y] = $result->getSecurePath();; // Get the url of the uploaded file; https
                     $y++;
                 }
                 //dd($photoarray);
