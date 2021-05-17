@@ -285,7 +285,7 @@
                     <div class="card-deck">
                         @foreach($Photos as $photo)
                         <div class="card" style="background-color:#99A3A4">
-                            <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
+                            <img class="card-img-top" src="$photo" alt="photo">
                             <div class="card-body text-center">
                             <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
                             </div>
