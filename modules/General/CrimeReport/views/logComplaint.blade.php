@@ -14,9 +14,9 @@
             <div class="row p-4 bg-white">
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     <div class="form-group">
-                        <label for="crime_type">Crime type*</label>
+                        <label for="crime_type">Complaint Type*</label>
                         <select name="crime_type" class="custom-select">
-                            <option disabled selected value="">Select Crime Type</option>
+                            <option disabled selected value="">Select Complaint Type</option>
                             @foreach($crime_types as $crime_type)
                             @if (old('crime_type') == $crime_type->id)
                             <option value="{{ $crime_type->id }}">{{$crime_type->type}}</option>
@@ -52,7 +52,7 @@
                     </div>
                     <div class="form-group">
                         <label for="description">Description:</label>
-                        <textarea class="form-control" rows="3" placeholder="required" name="description">{{ old('description') }}</textarea>
+                        <textarea class="form-control" rows="3" placeholder="Required" name="description">{{ old('description') }}</textarea>
                         @error('description')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror

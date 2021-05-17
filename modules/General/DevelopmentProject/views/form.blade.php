@@ -8,7 +8,7 @@
         <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
         <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#devHelp">HELP</a></kbd></span>
     </div>
-
+    @include('faq')
     <form action="/dev-project/saveForm" method="post" id="devForm" enctype="multipart/form-data" autocomplete="off">
         @csrf
 
@@ -23,19 +23,19 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Required Search" name="district" />
+                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
                         @error('district')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        GS Division*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Required Search" name="gs_division" />
+                        GS Division<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Required Search" name="gs_division" />
                         @error('gs_division')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        Gazette for Development Project (Optional)
+                        Gazette for Development Project
                         <input type="text" class="form-control typeahead" placeholder="Search for Gazette Number" name="gazette" value="{{ old('gazette') }}" />
                         @error('gazette')
                         <div class="alert alert-danger">{{ $message }}</div>
@@ -43,7 +43,7 @@
                     </div>
                     @if(Auth::user()->role_id !=6) 
                     <div class="form-group">
-                        <label for="organization">Activity Organization (Optional)</label>
+                        <label for="organization">Organization to Submit Request to (Optional)</label>
                         <select class="custom-select @error('organization') is-invalid @enderror" name="organization">
                             <option  selected value="">Select Organization</option>
                             @foreach ($organizations as $organization)
@@ -183,7 +183,7 @@
 
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected" {{ old('isProtected') == "1" ? 'checked' : ''}}>
-                        <label class="custom-control-label" for="customCheck"><strong>Click if land is a protected area.</strong></label>
+                        <label class="custom-control-label" for="customCheck"><strong>Click if Demarcated Land is a Protected Area.</strong></label>
                     </div>
 
                     <!-- saving the coordinates of the kml file -->

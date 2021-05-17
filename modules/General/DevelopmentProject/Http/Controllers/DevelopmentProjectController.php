@@ -52,7 +52,7 @@ class DevelopmentProjectController extends Controller
             'gazette' => 'nullable|exists:gazettes,gazette_number',
             'polygon' => 'required',
             'district' => 'required|exists:districts,district',
-            'gs_division' => 'required|exists:gs_divisions,gs_division',
+            'gs_division' => 'nullable|exists:gs_divisions,gs_division',
             'description' => 'required',
             'externalRequestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
             'erEmail' => 'nullable|email',
@@ -79,12 +79,15 @@ class DevelopmentProjectController extends Controller
             $district_id1 = District::where('district', request('district'))->pluck('id');
             $land->district_id = $district_id1[0];
 
-            $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
-            $land->gs_division_id = $gs_division_id1[0];
+            if (request('gs_division')) {
+                $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
+                $land->gs_division_id = $gs_division_id1[0];
+            }
 
-            if(($request->organization)!=null){
-            $org_id = $request->organization;
-            $land->activity_organization = $org_id;
+
+            if (($request->organization) != null) {
+                $org_id = $request->organization;
+                $land->activity_organization = $org_id;
             }
             $land->status_id = 1;
             $land->save();
@@ -172,7 +175,7 @@ class DevelopmentProjectController extends Controller
             } else {
                 $devProcess->request_organization = auth()->user()->organization_id;
             }
-            if(($request->organization)!=null){
+            if (($request->organization) != null) {
                 $devProcess->activity_organization = $org_id;
             }
             $devProcess->status_id = 1;
@@ -180,8 +183,8 @@ class DevelopmentProjectController extends Controller
             $devProcess->save();
 
             $latestDevProcess = Process_Item::latest()->first();
-            if(($request->organization)==null){
-                $org_id =organization_assign::auto_assign($latestDevProcess->id,$district_id1[0]);
+            if (($request->organization) == null) {
+                $org_id = organization_assign::auto_assign($latestDevProcess->id, $district_id1[0]);
                 Land_Parcel::where('id', $landid)->update(['activity_organization' => $org_id]);
                 Development_Project::where('id', $latest->id)->update(['organization_id' => $org_id]);
             }else{
@@ -219,7 +222,6 @@ class DevelopmentProjectController extends Controller
                     dd($e);
                 }
             }
-
         });
 
 

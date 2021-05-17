@@ -52,7 +52,7 @@ class TreeRemovalController extends Controller
             'planNo' => 'required',
             'surveyorName' => 'required',
             'district' => 'required|exists:districts,district',
-            'gs_division' => 'required|exists:gs_divisions,gs_division',
+            'gs_division' => 'nullable|exists:gs_divisions,gs_division',
             'polygon' => 'required',
             'number_of_trees' => 'required|integer',
             'description' => 'required',
@@ -69,8 +69,8 @@ class TreeRemovalController extends Controller
             'land_gazettes' => 'nullable',
             'land_governing_orgs' => 'nullable',
             'location.*.tree_species_id' => 'required',
-            'location.*.width_at_breast_height' => 'required',
-            'location.*.height'    => 'required|integer',
+            'location.*.circumference_at_breast_height' => 'required|numeric|between:0,999.999',
+            'location.*.height'    => 'required||numeric|between:0,999.999',
         ]);
 
         DB::transaction(function () use ($request) {
@@ -89,10 +89,13 @@ class TreeRemovalController extends Controller
             $district_id1 = District::where('district', request('district'))->pluck('id');
             $land->district_id = $district_id1[0];
 
-            $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
-            $land->gs_division_id = $gs_division_id1[0];
+            if (request('gs_division')) {
+                $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
+                $land->gs_division_id = $gs_division_id1[0];
+            }
 
-            if(($request->organization)!=null){
+
+            if (($request->organization) != null) {
                 $org_id = request('organization');
                 $land->activity_organization = $org_id;
             }
@@ -133,9 +136,11 @@ class TreeRemovalController extends Controller
             $tree->district_id = $district_id1[0];
 
             //$gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
-            $tree->gs_division_id = $gs_division_id1[0];
-            if(($request->organization)!=null){
-            $tree->organization_id = $org_id;
+            if (request('gs_division')) {
+                $tree->gs_division_id = $gs_division_id1[0];
+            }
+            if (($request->organization) != null) {
+                $tree->organization_id = $org_id;
             }
             //Default value/ non-compulsory fields
             if (request('land_extent')) {
@@ -167,7 +172,14 @@ class TreeRemovalController extends Controller
 
             $tree->land_parcel_id = $landid;
 
-            $tree->tree_details = request('location');
+            //calculating volume
+            $locations = request('location');
+            foreach ($locations as &$location) {
+                $radius = $location['circumference_at_breast_height']/(2*pi());
+                $volume = pi()* $radius * $radius * $location['height'];
+                $location['timber_volume'] = $volume;
+            }
+            $tree->tree_details = $locations;
             $tree->images = "{}";
             $tree->save();
 
@@ -197,7 +209,7 @@ class TreeRemovalController extends Controller
             } else {
                 $treeProcess->request_organization = auth()->user()->organization_id;
             }
-            if(($request->activity_organization)!=null){
+            if (($request->activity_organization) != null) {
                 $treeProcess->activity_organization = $org_id;
             }
 
@@ -207,8 +219,8 @@ class TreeRemovalController extends Controller
 
             $latestTreeProcess = Process_Item::latest()->first();
 
-            if(($request->activity_organization)==null){
-                $org_id =organization_assign::auto_assign($latestTreeProcess->id,$district_id1[0]);
+            if (($request->activity_organization) == null) {
+                $org_id = organization_assign::auto_assign($latestTreeProcess->id, $district_id1[0]);
                 Land_Parcel::where('id', $landid)->update(['activity_organization' => $org_id]);
                 Tree_Removal_Request::where('id', $latest->id)->update(['organization_id' => $org_id]);
             }else{
@@ -302,19 +314,11 @@ class TreeRemovalController extends Controller
     }
 
     //Typeahead AutoCompletes
-    public function provinceAutocomplete(Request $request)
-    {
-        $data = Province::select("province")
-            ->where("province", "LIKE", "%{$request->terms}%")
-            ->get();
-
-        return response()->json($data);
-    }
-
     public function districtAutocomplete(Request $request)
     {
         $data = District::select("district")
             ->where("district", "LIKE", "%{$request->terms}%")
+            ->where("district", "!=", "All island")
             ->get();
 
         return response()->json($data);
