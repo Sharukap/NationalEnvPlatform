@@ -23,29 +23,29 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Required Search" name="district" />
+                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
                         @error('district')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        GS Division*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Required Search" name="gs_division" />
+                        GS Division<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Search" name="gs_division" />
                         @error('gs_division')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        Gazette for Development Project (Optional)
-                        <input type="text" class="form-control typeahead" placeholder="Search for Gazette Number" name="gazette" value="{{ old('gazette') }}" />
+                        Gazette for Development Project
+                        <input type="text" class="form-control typeahead" placeholder="Search" name="gazette" value="{{ old('gazette') }}" />
                         @error('gazette')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
-                    @if(Auth::user()->role_id !=6) 
+                    @if(Auth::user()->role_id !=6)
                     <div class="form-group">
-                        <label for="organization">Activity Organization (Optional)</label>
+                        <label for="organization">Organization to Submit Request to (Optional)</label>
                         <select class="custom-select @error('organization') is-invalid @enderror" name="organization">
-                            <option  selected value="">Select Organization</option>
+                            <option selected value="">Select Organization</option>
                             @foreach ($organizations as $organization)
                             <option value="{{ $organization->id }}" {{ Request::old()?(Request::old('organization')==$organization->id?'selected="selected"':''):'' }}>{{ $organization->title }}</option>
                             @endforeach
@@ -103,7 +103,27 @@
             <div class="row p-4 bg-white">
                 <div class="col border border-muted rounded-lg p-4">
                     <!-- MAP CONTENT -->
-                    <h4>Land Parcel Details</h4>
+                    <h5>
+                        If Land is Already Registered:
+                        <span class="ml-2" style="font-size:19px; cursor:pointer;" title="How do I register a land?"><i class="fa fa-info-circle" aria-hidden="true" data-toggle="modal" data-target="#landHelp"></i></span>
+                    </h5>
+                    <div class="col-lg-8">
+                        <div class="form-group">
+                            <label for="registered_land">Select Registered Land</label>
+                            <select class="custom-select @error('registered_land') is-invalid @enderror" name="registered_land">
+                                <option selected disabled value="">Select Land Plan Number</option>
+                                @foreach ($registered_lands as $registered_land)
+                                <option value="{{ $registered_land->id }}" {{ Request::old()?(Request::old('registered_land')==$registered_land->id?'selected="selected"':''):'' }}>{{ $registered_land->title }}</option>
+                                @endforeach
+                            </select>
+                            @error('registered_land')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
+                    </div>
+
+                    <h5>OR</h5>
+                    <h5>Enter New Land Parcel Details</h5>
                     <div class="col-lg-8">
                         <div class="form-group">
                             <label for="title">Plan Number*</label>
@@ -173,7 +193,7 @@
                     <div class="alert mt-3" id="message" style="display: none"></div>
                     <br>
                     <label>Select Location On Map*</label>
-                    <span style="float:right;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
+                    <span style="float:right; cursor:pointer;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
                     <!-- ////////MAP GOES HERE -->
                     <div id="mapid" style="height:400px;" name="map"></div>
                     @error('polygon')
@@ -183,7 +203,7 @@
 
                     <div class="custom-control custom-checkbox">
                         <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected" {{ old('isProtected') == "1" ? 'checked' : ''}}>
-                        <label class="custom-control-label" for="customCheck"><strong>Click if land is a protected area.</strong></label>
+                        <label class="custom-control-label" for="customCheck"><strong>Click if Demarcated Land is a Protected Area.</strong></label>
                     </div>
 
                     <!-- saving the coordinates of the kml file -->

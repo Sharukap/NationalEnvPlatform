@@ -4,6 +4,16 @@ use Environment\Http\Controllers\EnvController;
 use Environment\Http\Controllers\SpeciesController;
 use Environment\Http\Controllers\TypeController;
 
+Route::middleware(['auth'])->group(function () {
+Route::get('/viewdata', [EnvController::class, 'index2']);
+Route::get('/viewdataspecies', [SpeciesController::class, 'index2']);
+//More details button , users can see the details of the request
+Route::get('/moreeco/{id}', [EnvController::class, 'more']);
+Route::get('/morespecies/{id}', [SpeciesController::class, 'more']);
+});
+
+Route::middleware(['access.control:2'])->group(function () {
+
 Route::get('/home', [EnvController::class, 'home'])->name('environment.home');
 //General view of the env module
 Route::get('/generalenv', fn () => view('environment::Envmain'));
@@ -17,7 +27,7 @@ Route::get('/createrequest', [EnvController::class, 'loadform']);
 //Route::get('/requesteco', fn() => view('environment::request')); --no need of two routes two to link to the same view
 //Route::get('/neweco', fn() => view('environment::ecohome'));
 Route::post('/newrequest', [EnvController::class, 'store']);
-Route::put('/environment/updatestatus/{id}', [EnvController::class, 'statusupdate']);
+Route::put('/environment/updatestatus/{id}', [EnvController::class, 'statusupdate'])->middleware(['restrict.systemdata:1']);
 
 Route::get('/updatedata', [EnvController::class, 'index']);
 
@@ -34,8 +44,7 @@ Route::delete('delete-request/{id}', [EnvController::class, 'delete']);
 Route::get('/requestdataeco', fn () => view('environment::trackrequesteco'));
 
 Route::get('/trackrequsteco', [EnvController::class, 'track']);
-//More details button , users can see the details of the request
-Route::get('/moreeco/{id}', [EnvController::class, 'more']);
+
 
 
 //////////// Species module
@@ -49,7 +58,9 @@ Route::get('/updatedataspecies', [SpeciesController::class, 'index']);
 Route::delete('delete-requestspecies/{id}', [SpeciesController::class, 'delete']);
 Route::post('/newspecies', [SpeciesController::class, 'store']);
 Route::get('/trackrequst', [SpeciesController::class, 'track']);
-Route::put('/environmentspe/updatestatus/{id}', [SpeciesController::class, 'statusupdate']);
+Route::put('/environmentspe/updatestatus/{id}', [SpeciesController::class, 'statusupdate'])->middleware(['restrict.systemdata:2']);
 //Route to store the data into the database
 Route::get('/newspecies', fn () => view('environment::species'));
-Route::get('/morespecies/{id}', [SpeciesController::class, 'more']);
+
+
+});

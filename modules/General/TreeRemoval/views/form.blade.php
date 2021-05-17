@@ -7,7 +7,7 @@
   <!-- FAQ button -->
   <div class="d-flex mb-2 justify-content-end">
     <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
-    <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#treeHelp">HELP</a></kbd></span>
+    <span style="cursor:pointer;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#treeHelp">HELP</a></kbd></span>
   </div>
   @include('faq')
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data" autocomplete="off">
@@ -16,11 +16,8 @@
     <div class="tab">
       <div class="container">
         <div class="row border rounded-lg p-4 bg-white">
-
           <div class="col border border-muted rounded-lg mr-2 p-2">
-
             <div class="row p-2">
-
               <div class="col p-2">
                 <div class="form-group">
                   District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Required Search" name="district" />
@@ -31,16 +28,16 @@
               </div>
               <div class="col p-2">
                 <div class="form-group">
-                  GS Division*<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Required Search" name="gs_division" />
+                  GS Division<input type="text" class="form-control typeahead4 @error('gs_division') is-invalid @enderror" value="{{ old('gs_division') }}" placeholder="Search" name="gs_division" />
                   @error('gs_division')
                   <div class="alert alert-danger">{{ $message }}</div>
                   @enderror
                 </div>
               </div>
             </div>
-            @if(Auth::user()->role_id !=6) 
+            @if(Auth::user()->role_id !=6)
             <div class="form-group">
-              <label for="organization">Activity Organization (Optional)</label>
+              <label for="organization">Organization to Submit Request to (Optional)</label>
               <select class="custom-select @error('organization') is-invalid @enderror" name="organization">
                 <option selected value="">Select Organization</option>
                 @foreach ($organizations as $organization)
@@ -52,10 +49,28 @@
               @enderror
             </div>
             @endif
-            <br>
             <hr>
             <!-- MAP CONTENT -->
-            <h4>Land Parcel Details</h4>
+            <h5>
+              If Land is Already Registered:
+              <span title="How do I Register Land" class="ml-2" style="font-size:19px; cursor:pointer;"><i class="fa fa-info-circle" aria-hidden="true" data-toggle="modal" data-target="#landHelp"></i></span>
+            </h5>
+            <div class="form-group">
+              <label for="registered_land">Select Registered Land</label>
+              <select class="custom-select @error('registered_land') is-invalid @enderror" name="registered_land">
+                <option selected disabled value="">Select Land Plan Number</option>
+                @foreach ($registered_lands as $registered_land)
+                <option value="{{ $registered_land->id }}" {{ Request::old()?(Request::old('registered_land')==$registered_land->id?'selected="selected"':''):'' }}>{{ $registered_land->title }}</option>
+                @endforeach
+              </select>
+              @error('registered_land')
+              <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
+            </div>
+
+
+            <h5>OR</h5>
+            <h5>Enter New Land Parcel Details</h5>
 
             <div class="form-group">
               <label for="title">Plan Number*</label>
@@ -117,35 +132,6 @@
                 </div>
               </div>
             </div>
-
-            @if(Auth()->user()->role_id != 6)
-            <div>
-              <label>Upload KML File</label>
-              <input type="file" name="select_file" id="select_file" />
-              <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
-            </div>
-            <div class="alert mt-3" id="message" style="display: none"></div>
-            @endif
-            <label>Select Location On Map*</label>
-            <span style="float:right;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
-            <!-- ////////MAP GOES HERE -->
-            <div id="mapid" style="height:400px;" name="map"></div>
-            @error('polygon')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-            <br>
-
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected" {{ old('isProtected') == "1" ? 'checked' : ''}}>
-              <label class="custom-control-label" for="customCheck"><strong>Click if Land is a Protected Area.</strong></label>
-            </div>
-
-            <!-- saving the coordinates of the kml file -->
-            <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
-
-            <!-- Saving the KML file in storage -->
-            <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
-
           </div>
           <div class="col border border-muted rounded-lg">
             <div class="row p-2 mt-2">
@@ -267,6 +253,37 @@
             @endif
           </div>
         </div>
+        <div class="row border rounded-lg p-4 bg-white">
+          <div class="col-lg border border-muted rounded-lg">
+            @if(Auth()->user()->role_id != 6)
+            <div>
+              <label>If coordinates are available as KML, upload KML File</label>
+              <input type="file" name="select_file" id="select_file" />
+              <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
+            </div>
+            <div class="alert mt-3" id="message" style="display: none"></div>
+            @endif
+            <label>Select Location On Map*</label>
+            <span style="float:right; cursor:pointer;"><kbd><a title="How to Draw Shapes on the Map" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
+            <!-- ////////MAP GOES HERE -->
+            <div id="mapid" style="height:400px;" name="map"></div>
+            @error('polygon')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <br>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected" {{ old('isProtected') == "1" ? 'checked' : ''}}>
+              <label class="custom-control-label" for="customCheck"><strong>Click if Demarcated Land is a Protected Area.</strong></label>
+            </div>
+
+            <!-- saving the coordinates of the kml file -->
+            <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+
+            <!-- Saving the KML file in storage -->
+            <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
+          </div>
+        </div>
       </div>
     </div>
     <div class="tab">
@@ -275,45 +292,45 @@
           @error('location.*.tree_species_id')
           <div class="alert alert-danger">The Tree Species Field Is Required</div>
           @enderror
-          @error('location.*.width_at_breast_height')
-          <div class="alert alert-danger">The Width At Breast Height Field Is Required</div>
+          @error('location.*.circumference_at_breast_height')
+          <div class="alert alert-danger">The Circumference At Breast Height Field Is Required and it must be a number</div>
           @enderror
           @error('location.*.height')
-          <div class="alert alert-danger">The Height Field Is Required</div>
+          <div class="alert alert-danger">The Height Field Is Required and it must be a number</div>
           @enderror
           <table class="table" id="dynamicAddRemoveTable">
             <tr>
               <th>No.</th>
               <th>Species*</th>
               <th>Tree ID</th>
-              <th>Width at Breast Height*</th>
-              <th>Height*</th>
-              <th>Timber Volume</th>
-              <th>Cubic Feet</th>
+              <th>Circumference at Breast Height(meters)* </th>
+              <th>Height(meters)*</th>
               <th>Age</th>
             </tr>
             <tr>
               <td>1</td>
               <td><input type="text" id="species_name" name="location[0][tree_species_id]" placeholder="Required" class="form-control typeahead6 @error('location.0.tree_species_id') is-invalid @enderror" /></td>
               <td><input type="text" id="tree_id" name="location[0][tree_id]" class="form-control" /></td>
-              <td><input type="text" id="width_at_breast_height" name="location[0][width_at_breast_height]" placeholder="Required" class="form-control @error('location.0.width_at_breast_height') is-invalid @enderror" /></td>
+              <td><input type="text" id="circumference_at_breast_height" name="location[0][circumference_at_breast_height]" placeholder="Required" class="form-control @error('location.0.circumference_at_breast_height') is-invalid @enderror" /></td>
               <td><input type="text" id="height" name="location[0][height]" placeholder="Required" class="form-control @error('location.0.height') is-invalid @enderror" /></td>
-              <td><input type="text" id="timber_volume" name="location[0][timber_volume]" class="form-control" /></td>
-              <td><input type="text" id="timber_cubic" name="location[0][timber_cubic]" class="form-control" /></td>
+
               <td><input type="text" id="age" name="location[0][age]" class="form-control" /></td>
               <td rowspan="2"><button type="button" name="add" id="add-btn" class="btn bd-navbar text-white">Add</button></td>
             </tr>
             <tr>
-              <td colspan="7"><textarea id="remarks" name="location[0][remark]" placeholder="Optional Remark" class="form-control" rows="3"></textarea></td>
+              <td colspan="7"><textarea id="remarks" name="location[0][remark]" placeholder="Remark (Optional)" class="form-control" rows="3"></textarea></td>
+              <td><input type="hidden" id="timber_volume" name="location[0][timber_volume]" class="form-control" /></td>
             </tr>
           </table>
-          <div>
-          <label>If data is available as an excel file:</label>
-            <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
-            <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
-            <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
-            <p><strong>When importing excel, Ensure that the field names are as shown above in terms of whitespaces and letter case</strong></p>
-            <p id="error" class="text-danger"></p>
+          <div class="col-lg">
+            <div><kbd style="cursor:pointer;"><a title="How To Import As Excel" class="text-white" data-toggle="modal" data-target="#excelHelp">How To Import Excel</a></kbd></div>
+            <div>
+              <label>If data is available as an excel file:</label>
+              <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
+              <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
+              <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
+              <p id="error" class="text-danger"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -348,10 +365,8 @@
   let data = [{
     "species": "",
     "tree_id": "",
-    "width_at_breast_height": "",
+    "circumference_at_breast_height": "",
     "height": "",
-    "timber_volume": "",
-    "cubic_feet": "",
     "age": "",
     "remarks": ""
   }]
@@ -379,10 +394,8 @@
 
           document.getElementById("species_name").value = exceldata[i]['Species'];
           document.getElementById("tree_id").value = exceldata[i]['Tree ID'];
-          document.getElementById("width_at_breast_height").value = exceldata[i]['Width at Breast Height'];
+          document.getElementById("circumference_at_breast_height").value = exceldata[i]['Circumference at Breast Height'];
           document.getElementById("height").value = exceldata[i]['Height'];
-          document.getElementById("timber_volume").value = exceldata[i]['Timber Volume'];
-          document.getElementById("timber_cubic").value = exceldata[i]['Cubic Feet'];
           document.getElementById("age").value = exceldata[i]['Age'];
           document.getElementById("remarks").value = exceldata[i]['Remarks'];
 
@@ -390,7 +403,7 @@
             i++;
             species = exceldata[i]['Species'];
             tree_id = exceldata[i]['Tree ID'];
-            width_breast = exceldata[i]['Width at Breast Height'];
+            circumference_breast = exceldata[i]['Circumference at Breast Height'];
             height = exceldata[i]['Height'];
             timber_volume = exceldata[i]['Timber Volume'];
             cubic_feet = exceldata[i]['Cubic Feet'];
@@ -399,13 +412,11 @@
             $("#dynamicAddRemoveTable").append(
               '<tr><td>' + (i + 1) + '</td><td><input type="text" id="species_name" name="location[' + i + '][tree_species_id]" placeholder="Enter Species" class="form-control typeahead6" value=' + species + ' /></td>\
       <td><input type="text" id="tree_id" name="location[' + i + '][tree_id]" placeholder="Tree ID" class="form-control" value=' + tree_id + ' /></td>\
-      <td><input type="text" id="width_at_breast_height" name="location[' + i + '][width_at_breast_height]" placeholder="Enter Width" class="form-control" value=' + width_breast + ' /></td>\
+      <td><input type="text" id="circumference_at_breast_height" name="location[' + i + '][circumference_at_breast_height]" placeholder="Enter circumference" class="form-control" value=' + circumference_breast + ' /></td>\
       <td><input type="text" id="height" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" value=' + height + ' /></td>\
-      <td><input type="text" id="timber_volume" name="location[' + i + '][timber_volume]" placeholder="Enter Volume" class="form-control" value=' + timber_volume + ' /></td>\
-      <td><input type="text" id="timber_cubic" name="location[' + i + '][timber_cubic]" placeholder="Enter Cubic" class="form-control" value=' + cubic_feet + ' /></td>\
       <td><input type="text" id="age" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" value=' + age + ' /></td></td>\
       <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
-      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Optional Remarks" class="form-control" rows="3">' + remarks + '</textarea></td></tr>'
+      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Remark (Optional)" class="form-control" rows="3">' + remarks + '</textarea></td></tr>'
             );
           }
         });
@@ -419,14 +430,13 @@
     $("#dynamicAddRemoveTable").append(
       '<tr><td>' + (i + 1) + '</td><td><input type="text" id="species_name' + i + '" name="location[' + i + '][tree_species_id]" placeholder="Required" class="form-control typeahead6"/></td>\
       <td><input type="text" id="tree_id' + i + '" name="location[' + i + '][tree_id]" class="form-control" /></td>\
-      <td><input type="text" id="width_at_breast_height' + i + '" name="location[' + i + '][width_at_breast_height]" placeholder="Required" class="form-control" /></td>\
+      <td><input type="text" id="circumference_at_breast_height' + i + '" name="location[' + i + '][circumference_at_breast_height]" placeholder="Required" class="form-control" /></td>\
       <td><input type="text" id="height' + i + '" name="location[' + i + '][height]" placeholder="Required" class="form-control" /></td>\
-      <td><input type="text" id="timber_volume' + i + '" name="location[' + i + '][timber_volume]" class="form-control" /></td>\
-      <td><input type="text" id="timber_cubic' + i + '" name="location[' + i + '][timber_cubic]" class="form-control" /></td>\
       <td><input type="text" id="age' + i + '" name="location[' + i + '][age]" class="form-control" /></td></td>\
       <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
-      </tr><tr><td colspan="7"><textarea id="remarks' + i + '" name="location[' + i + '][remark]" placeholder="Optional Remark" class="form-control" rows="3">\
-      </textarea></td></tr>'
+      </tr><tr><td colspan="7"><textarea id="remarks' + i + '" name="location[' + i + '][remark]" placeholder="Remark (Optional)" class="form-control" rows="3">\
+      </textarea></td>\
+      <td><input type="hidden" id="timber_volume' + i + '" name="location[' + i + '][timber_volume]" class="form-control" /></td>\</tr>'
     );
     var path6 = "{{route('species')}}";
     $('input.typeahead6').typeahead({
@@ -447,6 +457,7 @@
     });
   });
   $(document).on('click', '.remove-tr', function() {
+    --i;
     $(this).parents('tr').next('tr').remove()
     $(this).parents('tr').remove();
   });
@@ -457,13 +468,12 @@
     while (table.rows.length > 3) {
       table.deleteRow(2);
     }
-    i = 1;
+    i = 0;
     document.getElementById("species_name").value = "";
     document.getElementById("tree_id").value = "";
-    document.getElementById("width_at_breast_height").value = "";
+    document.getElementById("circumference_at_breast_height").value = "";
     document.getElementById("height").value = "";
     document.getElementById("timber_volume").value = "";
-    document.getElementById("timber_cubic").value = "";
     document.getElementById("age").value = "";
 
     document.getElementById("remarks").value = "";

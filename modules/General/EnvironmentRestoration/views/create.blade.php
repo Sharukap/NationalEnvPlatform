@@ -31,14 +31,14 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="title">District *</label>
+                            <label for="title">District*</label>
                             <input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
                             @error('district')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="title">Environment Restoration Activity:</label>
+                            <label for="title">Environment Restoration Activity</label>
                             <select name="environment_restoration_activity" class="custom-select @error('environment_restoration_activity') is-invalid @enderror">
                                 <option selected>Select Activity</option>
                                 @foreach($restoration_activities as $restoration_activity)
@@ -51,7 +51,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Ecosystem:</label>
+                            <label for="title">Ecosystem</label>
                             <select name="ecosystem" class="custom-select @error('ecosystem') is-invalid @enderror">
                                 <option selected>Select Ecosystem</option>
                                 @foreach($ecosystems as $ecosystem)
@@ -83,7 +83,7 @@
                         </div>
                         @endif
                         <div class="form-group">
-                            <label for="request_org">Organization to submit request to : (optional)</label>
+                            <label for="request_org">Organization to submit request to (optional)</label>
                             <select name="activity_org" class="custom-select @error('activity_org') is-invalid @enderror">
                                 <option selected>Select Organization</option>
                                 @foreach($organizations as $organization)
@@ -96,6 +96,8 @@
                         </div>
                     </div>
                     <div class="col border border-muted rounded-lg p-4">
+                        <label>Select Location On Map*</label>
+                        <span style="float:right;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
                         <!-- ////////MAP GOES HERE -->
                         <div id="mapid" style="height:400px;" name="map"></div>
 
@@ -109,7 +111,7 @@
                         <br />
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-                            <label class="custom-control-label" for="customCheck"><strong>Demarcated land is a protected area</strong></label>
+                            <label class="custom-control-label" for="customCheck"><strong>Click if Demarcated Land is a Protected Area</strong></label>
                         </div>
                     </div>
                 </div>
@@ -145,10 +147,14 @@
                             <input type="hidden" class="form-control" name="created_by" value="{{Auth::user()->id}}">
                             <input type="hidden" class="form-control" name="logs" value="0">
                         </form>
-                        <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
-                        <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
-                        <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
-                        <p id="error" class="text-danger"></p>
+                        <div><kbd style="cursor:pointer;"><a title="How To Import As Excel" class="text-white" data-toggle="modal" data-target="#excel2Help">How To Import Excel</a></kbd></div>
+                        <div>
+                            <label>If data is available as an excel file:</label>
+                            <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
+                            <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
+                            <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
+                            <p id="error" class="text-danger"></p>
+                        </div>
                     </div>
                 </div>
             </div>

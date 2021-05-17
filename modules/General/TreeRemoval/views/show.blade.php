@@ -14,8 +14,10 @@
                 <dt class="col-sm-5">District:</dt>
                 <dd class="col-sm-7">{{$tree->district->district}}</dd>
 
+                @if($tree->gs_division_id)
                 <dt class="col-sm-5">Grama Sevaka Division:</dt>
                 <dd class="col-sm-7">{{$tree->gs_division->gs_division}}</dd>
+                @endif
 
                 <dt class="col-sm-5">Description:</dt>
                 <dd class="col-sm-7">
@@ -35,6 +37,27 @@
                 <dd class="col-sm-7">{{$tree->land_size}} acres</dd>
                 @endif
 
+                <dt class="col-sm-5">Plan Number:</dt>
+                <dd class="col-sm-7">{{$tree->land_parcel->title}}</dd>
+
+                <dt class="col-sm-5">Surveyor Name:</dt>
+                <dd class="col-sm-7">{{$tree->land_parcel->surveyor_name}}</dd>
+
+                <dt class="col-sm-5">Status:</dt>
+                <dd class="col-sm-7">{{$tree->status->type}}</dd>
+
+                <dt class="col-sm-5">Created at:</dt>
+                <dd class="col-sm-7">{{$tree->created_at}}</dd>
+
+                <dt class="col-sm-5">User handling Your Request:</dt>
+                @if($process->activity_user_id == NULL)
+                <dd class="col-sm-7">No User Assigned Yet</dd>
+                @else
+                <dd class="col-sm-7">{{$process->activity_user->name}}</dd>
+                @endif
+        </div>
+        <div class="col border border-muted rounded-lg mr-2 p-2">
+            <dl class="row">
                 <dt class="col-sm-5">Number of Trees:</dt>
                 <dd class="col-sm-7">{{$tree->no_of_trees}}</dd>
 
@@ -63,65 +86,41 @@
 
                 <dt class="col-sm-5">Special Approval:</dt>
                 <dd class="col-sm-7">{{$tree->special_approval}}</dd>
-
-                <dt class="col-sm-5">Plan Number:</dt>
-                <dd class="col-sm-7">{{$tree->land_parcel->title}}</dd>
-
-                <dt class="col-sm-5">Surveyor Name:</dt>
-                <dd class="col-sm-7">{{$tree->land_parcel->surveyor_name}}</dd>
-
-                <dt class="col-sm-5">Status:</dt>
-                <dd class="col-sm-7">{{$tree->status->type}}</dd>
-
-                <dt class="col-sm-5">Created at:</dt>
-                <dd class="col-sm-7">{{$tree->created_at}}</dd>
-
-                <dt class="col-sm-5">User handling Your Request:</dt>
-                @if($process->activity_user_id == NULL)
-                <dd class="col-sm-7">No User Assigned Yet</dd>
-                @else
-                <dd class="col-sm-7">{{$process->activity_user->name}}</dd>
-                @endif
-        </div>
-        <div class="col border border-muted rounded-lg mr-2 p-2">
-            <dt class="col-sm-5">Properties</dt>
-            <hr>
-            @if($location==0)
-            <dd class="col-sm-7">No Properties</dd>
-            @else
-            @for($x = 0; $x < count($location); $x++) <dd class="col-sm-7">
-                <dl class="row">
-                    <dt class="col-sm-7">Tree Species:</dt>
-                    <dd class="col-sm-5">{{$location[$x]['tree_species_id']}}</dd>
-
-                    <dt class="col-sm-7">Tree ID:</dt>
-                    <dd class="col-sm-5">{{$location[$x]['tree_id']}}</dd>
-
-                    <dt class="col-sm-7">Width at Breast Height:</dt>
-                    <dd class="col-sm-5">{{$location[$x]['width_at_breast_height']}}</dd>
-
-                    <dt class="col-sm-7">Height:</dt>
-                    <dd class="col-sm-5">{{$location[$x]['height']}}</dd>
-
-                    <dt class="col-sm-7">Timber Volume:</dt>
-                    <dd class="col-sm-5">{{$location[$x]['timber_volume']}}</dd>
-
-                    <dt class="col-sm-7">Cubic Feet:</dt>
-                    <dd class="col-sm-5">{{$location[$x]['timber_cubic']}}</dd>
-
-                    <dt class="col-sm-7">Age</dt>
-                    <dd class="col-sm-5">{{$location[$x]['age']}}</dd>
-
-                    <dt class="col-7">Remarks</dt>
-                    <dd class="col-5">{{$location[$x]['remark']}}</dd>
-                </dl>
-                </dd>
-                @endfor
-                @endif
-                </dl>
+            </dl>
         </div>
     </div>
 
+    <div class="border border-muted rounded-lg mr-2 p-2 mt-4">
+        <h4 class="mb-3">Properties</h4>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>Tree Species:</th>
+                    <th>Tree ID:</th>
+                    <th>Circumference at Breast Height:</th>
+                    <th>Height:</th>
+                    <th>Approx. Timber Volume:</th>
+                    <th>Age</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                @for($x = 0; $x < count($location); $x++) <dd class="col-sm-7">
+                    <tr>
+                        <td>{{$x+1}}</td>
+                        <td>{{$location[$x]['tree_species_id']}}</td>
+                        <td>{{$location[$x]['tree_id']}}</td>
+                        <td>{{$location[$x]['circumference_at_breast_height']}} meter(s)</td>
+                        <td>{{$location[$x]['height']}} meter(s)</td>
+                        <td>{{$location[$x]['timber_volume']}} m<sup>3</sup></td>
+                        <td>{{$location[$x]['age']}}</td>
+                        <td>{{$location[$x]['remark']}}</td>
+                    </tr>
+                    @endfor
+            </tbody>
+        </table>
+    </div>
 
 
     <div class="border border-dark border-rounded mt-4">
