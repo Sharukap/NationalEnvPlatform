@@ -84,8 +84,8 @@ class CrimeReportController extends Controller
                 foreach ($request->file('file') as $file) {
                     $filename = $file->getClientOriginalName();
                     $newname = $id . 'No' . $y . $filename;
-                    $path = $file->storeAs('crimereport', $newname, 'public');
-                    $photoarray[$y] = $path;
+                    $result = $file->storeOnCloudinaryAs('crimereport', $newname);
+                    $photoarray[$y] = $result->getSecurePath();; // Get the url of the uploaded file; https
                     $y++;
                 }
                 //dd($photoarray);
