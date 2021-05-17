@@ -7,7 +7,7 @@
   <!-- FAQ button -->
   <div class="d-flex mb-2 justify-content-end">
     <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
-    <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#treeHelp">HELP</a></kbd></span>
+    <span style="cursor:pointer;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#treeHelp">HELP</a></kbd></span>
   </div>
   @include('faq')
   <form action="/tree-removal/save" method="post" id="regForm" enctype="multipart/form-data" autocomplete="off">
@@ -51,7 +51,26 @@
             @endif
             <hr>
             <!-- MAP CONTENT -->
-            <h4>Land Parcel Details</h4>
+            <h5>
+              If Land is Already Registered:
+              <span title="How do I Register Land" class="ml-2" style="font-size:19px; cursor:pointer;"><i class="fa fa-info-circle" aria-hidden="true" data-toggle="modal" data-target="#landHelp"></i></span>
+            </h5>
+            <div class="form-group">
+              <label for="registered_land">Select Registered Land</label>
+              <select class="custom-select @error('registered_land') is-invalid @enderror" name="registered_land">
+                <option selected disabled value="">Select Land Plan Number</option>
+                @foreach ($registered_lands as $registered_land)
+                <option value="{{ $registered_land->id }}" {{ Request::old()?(Request::old('registered_land')==$registered_land->id?'selected="selected"':''):'' }}>{{ $registered_land->title }}</option>
+                @endforeach
+              </select>
+              @error('registered_land')
+              <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
+            </div>
+
+
+            <h5>OR</h5>
+            <h5>Enter New Land Parcel Details</h5>
 
             <div class="form-group">
               <label for="title">Plan Number*</label>
@@ -113,35 +132,6 @@
                 </div>
               </div>
             </div>
-
-            @if(Auth()->user()->role_id != 6)
-            <div>
-              <label>Upload KML File</label>
-              <input type="file" name="select_file" id="select_file" />
-              <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
-            </div>
-            <div class="alert mt-3" id="message" style="display: none"></div>
-            @endif
-            <label>Select Location On Map*</label>
-            <span style="float:right;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
-            <!-- ////////MAP GOES HERE -->
-            <div id="mapid" style="height:400px;" name="map"></div>
-            @error('polygon')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
-            <br>
-
-            <div class="custom-control custom-checkbox">
-              <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected" {{ old('isProtected') == "1" ? 'checked' : ''}}>
-              <label class="custom-control-label" for="customCheck"><strong>Click if Demarcated Land is a Protected Area.</strong></label>
-            </div>
-
-            <!-- saving the coordinates of the kml file -->
-            <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
-
-            <!-- Saving the KML file in storage -->
-            <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
-
           </div>
           <div class="col border border-muted rounded-lg">
             <div class="row p-2 mt-2">
@@ -263,6 +253,37 @@
             @endif
           </div>
         </div>
+        <div class="row border rounded-lg p-4 bg-white">
+          <div class="col-lg border border-muted rounded-lg">
+            @if(Auth()->user()->role_id != 6)
+            <div>
+              <label>If coordinates are available as KML, upload KML File</label>
+              <input type="file" name="select_file" id="select_file" />
+              <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
+            </div>
+            <div class="alert mt-3" id="message" style="display: none"></div>
+            @endif
+            <label>Select Location On Map*</label>
+            <span style="float:right; cursor:pointer;"><kbd><a title="How to Draw Shapes on the Map" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
+            <!-- ////////MAP GOES HERE -->
+            <div id="mapid" style="height:400px;" name="map"></div>
+            @error('polygon')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
+            <br>
+
+            <div class="custom-control custom-checkbox">
+              <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected" {{ old('isProtected') == "1" ? 'checked' : ''}}>
+              <label class="custom-control-label" for="customCheck"><strong>Click if Demarcated Land is a Protected Area.</strong></label>
+            </div>
+
+            <!-- saving the coordinates of the kml file -->
+            <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" />
+
+            <!-- Saving the KML file in storage -->
+            <input id="kml" type="hidden" name="kml" class="form-control" value="{{request('kml')}}" />
+          </div>
+        </div>
       </div>
     </div>
     <div class="tab">
@@ -297,17 +318,19 @@
               <td rowspan="2"><button type="button" name="add" id="add-btn" class="btn bd-navbar text-white">Add</button></td>
             </tr>
             <tr>
-              <td colspan="7"><textarea id="remarks" name="location[0][remark]" placeholder="Optional Remark" class="form-control" rows="3"></textarea></td>
+              <td colspan="7"><textarea id="remarks" name="location[0][remark]" placeholder="Remark (Optional)" class="form-control" rows="3"></textarea></td>
               <td><input type="hidden" id="timber_volume" name="location[0][timber_volume]" class="form-control" /></td>
             </tr>
           </table>
-          <div>
-            <label>If data is available as an excel file:</label>
-            <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
-            <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
-            <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
-            <p><strong>When importing excel, Ensure that the field names are as shown above in terms of whitespaces and letter case</strong></p>
-            <p id="error" class="text-danger"></p>
+          <div class="col-lg">
+            <div><kbd style="cursor:pointer;"><a title="How To Import As Excel" class="text-white" data-toggle="modal" data-target="#excelHelp">How To Import Excel</a></kbd></div>
+            <div>
+              <label>If data is available as an excel file:</label>
+              <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
+              <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
+              <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
+              <p id="error" class="text-danger"></p>
+            </div>
           </div>
         </div>
       </div>
@@ -393,7 +416,7 @@
       <td><input type="text" id="height" name="location[' + i + '][height]" placeholder="Enter Height" class="form-control" value=' + height + ' /></td>\
       <td><input type="text" id="age" name="location[' + i + '][age]" placeholder="Enter Age" class="form-control" value=' + age + ' /></td></td>\
       <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
-      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Optional Remarks" class="form-control" rows="3">' + remarks + '</textarea></td></tr>'
+      </tr><tr><td colspan="7"><textarea id="remarks" name="location[' + i + '][remark]" placeholder="Remark (Optional)" class="form-control" rows="3">' + remarks + '</textarea></td></tr>'
             );
           }
         });
@@ -411,7 +434,7 @@
       <td><input type="text" id="height' + i + '" name="location[' + i + '][height]" placeholder="Required" class="form-control" /></td>\
       <td><input type="text" id="age' + i + '" name="location[' + i + '][age]" class="form-control" /></td></td>\
       <td><button type="button" class="btn btn-danger remove-tr">Remove</button></td>\
-      </tr><tr><td colspan="7"><textarea id="remarks' + i + '" name="location[' + i + '][remark]" placeholder="Optional Remark" class="form-control" rows="3">\
+      </tr><tr><td colspan="7"><textarea id="remarks' + i + '" name="location[' + i + '][remark]" placeholder="Remark (Optional)" class="form-control" rows="3">\
       </textarea></td>\
       <td><input type="hidden" id="timber_volume' + i + '" name="location[' + i + '][timber_volume]" class="form-control" /></td>\</tr>'
     );

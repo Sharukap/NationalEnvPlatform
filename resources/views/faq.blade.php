@@ -100,13 +100,18 @@
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
 							<div class="card-body">
 								<ul>
-									<li>District</li>
-									<li>Grama Sevaka Division</li>
-									<li>Activity Organization (The organization you determine should handle the request)</li>
-									<li>Land title (a unique title given to identify your land)</li>
-									<li>Map coordinate has to be selected</li>
-									<li>Number of Trees (the number of trees to be removed)</li>
-									<li>Description (A description about the need for the tree removal form)</li>
+									<li><strong>District</strong></li>
+									<li>If a registered land isn't selected;</li>
+									<ul>
+										<li><strong>Plan Number</strong> given to your land parcel.</li>
+										<li>Surveyor Name</li>
+										<li>Map coordinate has to be selected</li>
+									</ul>
+									<li><strong>Number of Trees</strong> (the number of trees to be removed)</li>
+									<li><strong>Description</strong> (A description about the need for the tree removal form)</li>
+									<li><strong>Species</strong> of the tree/s being removed.</li>
+									<li>Approximate <strong>Height</strong> of the trees being removed.</li>
+									<li><strong>Circumference</strong> of the trees being removed.</li>
 								</ul>
 							</div>
 						</div>
@@ -130,11 +135,13 @@
 						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample">
 							<div class="card-body">
 								<ul>
-									<li> If your device location is enabled, the app will locate you. From your point drag and move the map to where the land of the tree removal <br>
-										in question exists. From there use the tooltip available at the top right hand corner of the map to select either a polygon, polyline,
-										marker <br> or rectangle to mark your coordinates.</li><br>
+									<li> If your device location is enabled, the app will locate you.</li>
+									<li>From your point drag and move the map to where the land of the tree removal in question exists or search using the search button.</li>
+									<li>From there use the tooltip available at the top right hand corner of the map to select either a polygon, polyline,
+										marker or rectangle to mark your coordinates.</li>
 									<li>Select one option and demarcate your area. This does not have to be an exact location as
-										it will be checked onsite by ministry personnel.<br> If a mistake is made, use the bin button to remove the drawn shapes.</li>
+										it will be checked onsite by ministry personnel.</li>
+									<li>If a mistake is made, use the bin button to remove the drawn shapes.</li>
 								</ul>
 							</div>
 						</div>
@@ -152,7 +159,7 @@
 					<div class="card">
 						<div class="card-header" id="headingSix">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"><i class="fa fa-chevron-circle-down"></i> How many coordinates can i mark ? </a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"><i class="fa fa-chevron-circle-down"></i> How many coordinates can I mark? </a>
 							</h2>
 						</div>
 						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample">
@@ -162,7 +169,7 @@
 					<div class="card">
 						<div class="card-header" id="headingSeven">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven"><i class="fa fa-chevron-circle-down"></i> How can i view my request ? </a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven"><i class="fa fa-chevron-circle-down"></i> How can I view my request? </a>
 							</h2>
 						</div>
 						<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionExample">
@@ -207,13 +214,15 @@
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample1">
 							<div class="card-body">
 								<ul>
-									<li>A Title (The name given to the project)</li>
-									<li>District</li>
-									<li>Grama Sevaka Division</li>
-									<li>Activity Organization (The organization you determine should handle the request)</li>
-									<li>Description (A description about the need for the tree removal form</li>
-									<li> Land title (a unique title given to identify your land)</li>
-									<li> Map coordinate has to be marked</li>
+									<li>A <strong>Title</strong> (The name given to the project)</li>
+									<li><strong>District</strong></li>
+									<li>If a registered land isn't selected;</li>
+									<ul>
+										<li><strong>Plan Number</strong> given to your land parcel.</li>
+										<li>Surveyor Name</li>
+										<li>Map coordinate has to be demarcated.</li>
+									</ul>
+									<li><strong>Description</strong> (A description about the need for the development project form)</li>
 								</ul>
 							</div>
 						</div>
@@ -227,8 +236,13 @@
 						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample1">
 							<div class="card-body">
 								<ul>
-									<li>If your device location is enabled, the app will locate you. From your point drag and move the map to where the land of the ongoing project. From there use the tooltip available at the top right hand corner of the map to select either a polygon, polyline, marker or rectangle to mark your coordinates.</li><br>
-									<li>Select one option and demarcate your area. This does not have to be an exact location as it will be checked onsite by ministry personnel. If a mistake is made, use the bin button to remove the drawn shapes. </li>
+									<li> If your device location is enabled, the app will locate you.</li>
+									<li>From your point drag and move the map to where the land of the tree removal in question exists or search using the search button.</li>
+									<li>From there use the tooltip available at the top right hand corner of the map to select either a polygon, polyline,
+										marker or rectangle to mark your coordinates.</li>
+									<li>Select one option and demarcate your area. This does not have to be an exact location as
+										it will be checked onsite by ministry personnel.</li>
+									<li>If a mistake is made, use the bin button to remove the drawn shapes.</li>
 								</ul>
 							</div>
 						</div>
@@ -241,6 +255,26 @@
 						</div>
 						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample1">
 							<div class="card-body"> Visit the requests tab from the side mounted navbar.</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingFive">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i> What is I already have a KML file with all the coordinates?</a>
+							</h2>
+						</div>
+						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample1">
+							<div class="card-body">Click on the Choose file button, under Upload a KML file section and click upload and avoid drawing coordinates. </div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingSix">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"><i class="fa fa-chevron-circle-down"></i> How many coordinates can I mark? </a>
+							</h2>
+						</div>
+						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample1">
+							<div class="card-body">As many as required.</div>
 						</div>
 					</div>
 				</div>
@@ -527,6 +561,54 @@
 	</div>
 </div>
 
+<!-- How to fill in land details -->
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="landHelp" role="dialog" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<h1 class="page-title">How do I fill in land details?</h1>
+				<div class="accordion" id="accordionExample6">
+					<div class="card">
+						<div class="card-header" id="headingOne">
+							<h2 class="clearfix mb-0">
+								<a class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-chevron-circle-down"></i>Do you want to perform this activity on a land that you have already registered with the system?</a>
+							</h2>
+						</div>
+						<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample6">
+							<div class="card-body">Select the Plan Number of the land from the drop down list and click submit.</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingTwo">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i>Do you want to perform this activity on a land you have not yet registered with the system?</a>
+							</h2>
+						</div>
+						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample6">
+							<div class="card-body">Do not select anything from the drop down list and fill in the necessary land details to register a new land.</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingThree">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-chevron-circle-down"></i>I have already registered a land with the system, but it doesnt appear in the drop down?</a>
+							</h2>
+						</div>
+						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample6">
+							<div class="card-body">The details of the land you have registered may not have been validated by an authority, it cannot be used until the details are verified.</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
 
 <!-- How to fill map modal -->
 <!-- Modal -->
@@ -579,6 +661,53 @@
 						<dd>Click on the last point again to finish drawing the polygon.</dd>
 					</dl>
 				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- How to upload an excel file -->
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="excelHelp" role="dialog" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<h1 class="page-title">How do I Structure the Excel File?</h1>
+				<img src="../images/shapes/excel.PNG" class="img-fluid" alt="Responsive image">
+				<ul>
+					<li>Starting position does not matter. (Column B, C, etc)</li>
+					<li>Order of columns does not matter.</li>
+					<li>Order of rows does not matter.</li>
+					<li>Field names <strong>must</strong> match above field names in terms of whitespaces and letter case.</li>
+				</ul>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade bd-example-modal-lg" id="excel2Help" role="dialog" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-lg">
+
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-body">
+				<h1 class="page-title">How do I Structure the Excel File?</h1>
+				<img src="../images/shapes/excel2.PNG" class="img-fluid" alt="Responsive image">
+				<ul>
+					<li>Starting position does not matter. (Column B, C, etc)</li>
+					<li>Order of columns does not matter.</li>
+					<li>Order of rows does not matter.</li>
+					<li>Field names <strong>must</strong> match above field names in terms of whitespaces and letter case.</li>
+				</ul>
 			</div>
 			<div class="modal-footer">
 				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
