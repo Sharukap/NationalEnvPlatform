@@ -18,8 +18,10 @@
         <dt class="col-sm-3">District:</dt>
         <dd class="col-sm-9">{{$land->district->district}}</dd>
 
+        @if($land->gs_division_id)
         <dt class="col-sm-3">Grama Sevaka Division:</dt>
         <dd class="col-sm-9">{{$land->gs_division->gs_division}}</dd>
+        @endif
 
         @if($development_project->gazette_id)
         <dt class="col-sm-3">Gazette:</dt>

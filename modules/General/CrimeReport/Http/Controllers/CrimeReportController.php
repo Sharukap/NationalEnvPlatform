@@ -36,19 +36,16 @@ class CrimeReportController extends Controller
         $request->validate([
             'crime_type' => 'required|not_in:0',
             'description' => 'required',
+            'landTitle' => 'required',
             'confirm' => 'required',
-            'create_by'=>'required',
-            'district' => 'required|not_in:0',
+            'create_by' => 'required',
             'polygon' => 'required',
-            'landTitle' => 'required|unique:land_parcels,title',
+            'landTitle' => 'required',
+            'Requestor_email' => 'nullable|email',
+            'Requestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
         ]);
-        if($request->has('nonreguser')){
-            $request -> validate([
-                'Requestor_email' => 'required|email',
-                'Requestor' => 'required',
-            ]);
-        }
-        
+
+
         $array = DB::transaction(function () use ($request) {
 
             $land = new Land_Parcel();
@@ -60,7 +57,7 @@ class CrimeReportController extends Controller
             if (request('isProtected')) {
                 $land->protected_area = request('isProtected');
             }
-            if(request('organization')!=null){
+            if (request('organization') != null) {
                 $land->activity_organization = request('organization');
             }
             $land->status_id = 1;
@@ -81,15 +78,15 @@ class CrimeReportController extends Controller
             $Crime_report->status = "1";
             $Crime_report->save();
             $id = Crime_report::latest()->first()->id;
-            
-            if($request->hasfile('file')) { 
-                $y=0;
-                foreach($request->file('file') as $file){
-                    $filename =$file->getClientOriginalName();
-                    $newname = $id.'No'.$y.$filename;
-                    $path = $file->storeAs('crimereport',$newname,'public');
-                    $photoarray[$y] = $path;  
-                    $y++;          
+
+            if ($request->hasfile('file')) {
+                $y = 0;
+                foreach ($request->file('file') as $file) {
+                    $filename = $file->getClientOriginalName();
+                    $newname = $id . 'No' . $y . $filename;
+                    $path = $file->storeAs('crimereport', $newname, 'public');
+                    $photoarray[$y] = $path;
+                    $y++;
                 }
                 //dd($photoarray);
                 $crime = Crime_report::where('id', $id)->update(['photos' => json_encode($photoarray)]);
@@ -107,10 +104,10 @@ class CrimeReportController extends Controller
                     dd($e);
                 }
             }
-            $Process_item =new Process_item;
+            $Process_item = new Process_item;
             $Process_item->created_by_user_id = $request['create_by'];
-            if(($request->organization)!=null){
-                $org_id=request('organization');
+            if (($request->organization) != null) {
+                $org_id = request('organization');
                 $Process_item->activity_organization = $org->id;
             }
             $Process_item->activity_user_id = null;
@@ -121,14 +118,14 @@ class CrimeReportController extends Controller
             if ($request->has('nonreguser')) {
                 $Process_item->ext_requestor_email = $request['Requestor_email'];
                 $Process_item->ext_requestor = $request['Requestor'];
-            }else{
+            } else {
                 $Process_item->request_organization = Auth()->user()->organization_id;
             }
             $Process_item->save();
             $latestcrimeProcess = Process_Item::latest()->first();
-            if(($request->organization)==null){
-                $org_id =organization_assign::auto_assign($latestcrimeProcess->id,request('district'));
-            }else{
+            if (($request->organization) == null) {
+                $org_id = organization_assign::auto_assign($latestcrimeProcess->id, request('district'));
+            } else {
                 $Users = User::where('role_id', '=', 2)->get();
                 Notification::send($Users, new ApplicationMade($latestcrimeProcess));
             }
@@ -136,13 +133,13 @@ class CrimeReportController extends Controller
             $landProcess->form_id = $landid;
             $landProcess->remark = "Verify these land details";
             $landProcess->prerequisite = 0;
-            $landProcess->activity_organization =$org_id;
+            $landProcess->activity_organization = $org_id;
             $landProcess->status_id = 1;
             $landProcess->form_type_id = 5;
             $landProcess->created_by_user_id = $request['create_by'];
             $landProcess->prerequisite_id = $latestcrimeProcess->id;
             $landProcess->save();
-            $successmessage='Crime report logged Successfully the reference no of the application is '.$latestcrimeProcess->id;           
+            $successmessage = 'Crime report logged Successfully the reference no of the application is ' . $latestcrimeProcess->id;
             return $successmessage;
         });
         return redirect('/general/pending')->with('message', $array);
@@ -158,7 +155,7 @@ class CrimeReportController extends Controller
             'Organizations' => $Organizations,
             'crime_types' => $crime_types,
             'districts' => $district,
-        ]);  
+        ]);
     }
 
     public function download_image($path, $file)

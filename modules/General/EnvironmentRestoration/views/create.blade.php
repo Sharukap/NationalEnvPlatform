@@ -3,9 +3,11 @@
 @section('general')
 <div class="container">
     <!-- FAQ button -->
-    <div class="d-flex justify-content-end">
-        <a title="FAQ" href="/env-restoration/userinstruct"><i class="fa fa-info-circle" style="font-size:25px; color:black"></i></a>
+    <div class="d-flex mb-2 justify-content-end">
+        <span class="mr-3" style="font-size:20px;"><strong>* means required field </strong></span>
+        <span><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#restorationHelp">HELP</a></kbd></span>
     </div>
+    @include('faq')
 
     <form action="/env-restoration/store" id="envForm" method="post" autocomplete="off">
         @csrf
@@ -29,14 +31,14 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="title">District *</label>
+                            <label for="title">District*</label>
                             <input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
                             @error('district')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="title">Environment Restoration Activity:</label>
+                            <label for="title">Environment Restoration Activity</label>
                             <select name="environment_restoration_activity" class="custom-select @error('environment_restoration_activity') is-invalid @enderror">
                                 <option selected>Select Activity</option>
                                 @foreach($restoration_activities as $restoration_activity)
@@ -49,7 +51,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label for="title">Ecosystem:</label>
+                            <label for="title">Ecosystem</label>
                             <select name="ecosystem" class="custom-select @error('ecosystem') is-invalid @enderror">
                                 <option selected>Select Ecosystem</option>
                                 @foreach($ecosystems as $ecosystem)
@@ -81,7 +83,7 @@
                         </div>
                         @endif
                         <div class="form-group">
-                            <label for="request_org">Organization to submit request to : (optional)</label>
+                            <label for="request_org">Organization to submit request to (optional)</label>
                             <select name="activity_org" class="custom-select @error('activity_org') is-invalid @enderror">
                                 <option selected>Select Organization</option>
                                 @foreach($organizations as $organization)
@@ -94,6 +96,8 @@
                         </div>
                     </div>
                     <div class="col border border-muted rounded-lg p-4">
+                        <label>Select Location On Map*</label>
+                        <span style="float:right;"><kbd><a title="FAQ" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
                         <!-- ////////MAP GOES HERE -->
                         <div id="mapid" style="height:400px;" name="map"></div>
 
@@ -107,7 +111,7 @@
                         <br />
                         <div class="custom-control custom-checkbox">
                             <input type="checkbox" class="custom-control-input" id="customCheck" value="1" name="isProtected">
-                            <label class="custom-control-label" for="customCheck"><strong>Demarcated land is a protected area</strong></label>
+                            <label class="custom-control-label" for="customCheck"><strong>Click if Demarcated Land is a Protected Area</strong></label>
                         </div>
                     </div>
                 </div>
@@ -341,24 +345,7 @@
             })
         });
     });
-    //TYPEAHEAD 
-    //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
-    // var path1 = "{{route('organization')}}";
-    // $('input.typeahead1').typeahead({
-    //     source: function(terms, process) {
-    //         return $.get(path1, {
-    //             terms: terms
-    //         }, function(data) {
-    //             console.log(data);
-    //             objects = [];
-    //             data.map(i => {
-    //                 objects.push(i.title)
-    //             })
-    //             console.log(objects);
-    //             return process(objects);
-    //         })
-    //     },
-    // });
+
     ///STEPPER
     var currentTab = 0; // Current tab is set to be the first tab (0)
     showTab(currentTab); // Display the current tab
