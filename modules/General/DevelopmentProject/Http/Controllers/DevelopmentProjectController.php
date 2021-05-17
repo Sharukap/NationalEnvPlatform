@@ -27,11 +27,19 @@ class DevelopmentProjectController extends Controller
     //Returns the view for the application form passing in data of lands, organziations and gazettes
     public function form()
     {
+        $landbyuser = Process_Item::where([
+            ['status_id', '=', 5],
+            ['form_type_id', '=', 5],
+            ['created_by_user_id', '=', Auth()->user()->id],
+            ['request_organization', '!=', NULL],
+        ])->get()->pluck('form_id');
+        $landsdetails = Land_Parcel::whereIn('id', $landbyuser)->get();
         $gazettes = Gazette::all();
         $organizations = Organization::where('type_id', '<', '3')->get();
         return view('developmentProject::form', [
             'organizations' => $organizations,
             'gazettes' => $gazettes,
+            'registered_lands' => $landsdetails,
         ]);
     }
 
@@ -45,74 +53,96 @@ class DevelopmentProjectController extends Controller
                 'file.*' => 'mimes:jpeg,jpg,png|max:40000'
             ]);
         }
-        $request->validate([
-            'title' => 'required',
-            'planNo' => 'required',
-            'surveyorName' => 'required',
-            'gazette' => 'nullable|exists:gazettes,gazette_number',
-            'polygon' => 'required',
-            'district' => 'required|exists:districts,district',
-            'gs_division' => 'nullable|exists:gs_divisions,gs_division',
-            'description' => 'required',
-            'externalRequestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
-            'erEmail' => 'nullable|email',
-            'land_extent' => 'nullable|numeric|between:0,99.999',
-            'land_gazettes' => 'nullable',
-            'land_governing_orgs' => 'nullable',
-        ]);
+        if (request('registered_land')) {
+            $request->validate([
+                'title' => 'required',
+                'gazette' => 'nullable|exists:gazettes,gazette_number',
+                'district' => 'required|exists:districts,district',
+                'gs_division' => 'nullable|exists:gs_divisions,gs_division',
+                'description' => 'required',
+                'externalRequestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
+                'erEmail' => 'nullable|email',
 
+                'registered_land' => 'required|exists:land_parcels,id',
+                'polygon' => 'nullable',
+                'planNo' => 'nullable',
+                'surveyorName' => 'nullable',
+                'land_extent' => 'nullable|numeric|between:0,99.999',
+                'land_gazettes' => 'nullable',
+                'land_governing_orgs' => 'nullable',
+            ]);
+        } else {
+            $request->validate([
+                'title' => 'required',
+                'planNo' => 'required',
+                'surveyorName' => 'required',
+                'gazette' => 'nullable|exists:gazettes,gazette_number',
+                'polygon' => 'required',
+                'district' => 'required|exists:districts,district',
+                'gs_division' => 'nullable|exists:gs_divisions,gs_division',
+                'description' => 'required',
+                'externalRequestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
+                'erEmail' => 'nullable|email',
+                'land_extent' => 'nullable|numeric|between:0,99.999',
+                'land_gazettes' => 'nullable',
+                'land_governing_orgs' => 'nullable',
+            ]);
+        }
 
 
         DB::transaction(function () use ($request) {
-            $land = new Land_Parcel();
-            $land->title = request('planNo');
-            $land->surveyor_name = request('surveyorName');
-
-            $land->polygon = request('polygon');
-
-            $land->created_by_user_id = request('createdBy');
-
-            if (request('isProtected')) {
-                $land->protected_area = request('isProtected');
-            }
-
+            //used later on for auto assigning organization
             $district_id1 = District::where('district', request('district'))->pluck('id');
-            $land->district_id = $district_id1[0];
+            $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
+            $org_id = $request->organization;
 
-            if (request('gs_division')) {
-                $gs_division_id1 = GS_Division::where('gs_division', request('gs_division'))->pluck('id');
-                $land->gs_division_id = $gs_division_id1[0];
-            }
+            if (!(request('registered_land'))) {
+                $land = new Land_Parcel();
+                $land->title = request('planNo');
+                $land->surveyor_name = request('surveyorName');
 
+                $land->polygon = request('polygon');
 
-            if (($request->organization) != null) {
-                $org_id = $request->organization;
-                $land->activity_organization = $org_id;
-            }
-            $land->status_id = 1;
-            $land->save();
+                $land->created_by_user_id = request('createdBy');
 
-            $landid = Land_Parcel::latest()->first()->id;
-
-            if (request('land_governing_orgs')) {
-                $governing_organizations = request('land_governing_orgs');
-
-                foreach ($governing_organizations as $governing_organization) {
-                    $land_has_organization = new Land_Has_Organization();
-                    $land_has_organization->land_parcel_id = $landid;
-                    $land_has_organization->organization_id = $governing_organization;
-                    $land_has_organization->save();
+                if (request('isProtected')) {
+                    $land->protected_area = request('isProtected');
                 }
-            }
 
-            if (request('land_gazettes')) {
-                $gazettes = request('land_gazettes');
+                $land->district_id = $district_id1[0];
 
-                foreach ($gazettes as $gazette) {
-                    $land_has_gazette = new Land_Has_Gazette();
-                    $land_has_gazette->land_parcel_id = $landid;
-                    $land_has_gazette->gazette_id = $gazette;
-                    $land_has_gazette->save();
+                if (request('gs_division')) {
+                    $land->gs_division_id = $gs_division_id1[0];
+                }
+
+                if (($request->organization) != null) {
+                    $land->activity_organization = $org_id;
+                }
+                $land->status_id = 1;
+                $land->save();
+
+                $landid = Land_Parcel::latest()->first()->id;
+
+                if (request('land_governing_orgs')) {
+                    $governing_organizations = request('land_governing_orgs');
+
+                    foreach ($governing_organizations as $governing_organization) {
+                        $land_has_organization = new Land_Has_Organization();
+                        $land_has_organization->land_parcel_id = $landid;
+                        $land_has_organization->organization_id = $governing_organization;
+                        $land_has_organization->save();
+                    }
+                }
+
+                if (request('land_gazettes')) {
+                    $gazettes = request('land_gazettes');
+
+                    foreach ($gazettes as $gazette) {
+                        $land_has_gazette = new Land_Has_Gazette();
+                        $land_has_gazette->land_parcel_id = $landid;
+                        $land_has_gazette->gazette_id = $gazette;
+                        $land_has_gazette->save();
+                    }
                 }
             }
 
@@ -142,7 +172,11 @@ class DevelopmentProjectController extends Controller
 
             $dev->status_id = 1;
 
-            $dev->land_parcel_id = $landid;
+            if (request('registered_land')) {
+                $dev->land_parcel_id = request('registered_land');
+            } else {
+                $dev->land_parcel_id = $landid;
+            }
 
             $dev->images = "{}";
 
@@ -185,30 +219,35 @@ class DevelopmentProjectController extends Controller
             $latestDevProcess = Process_Item::latest()->first();
             if (($request->organization) == null) {
                 $org_id = organization_assign::auto_assign($latestDevProcess->id, $district_id1[0]);
-                Land_Parcel::where('id', $landid)->update(['activity_organization' => $org_id]);
+                if (!(request('registered_land'))) {
+                    Land_Parcel::where('id', $landid)->update(['activity_organization' => $org_id]);
+                }
                 Development_Project::where('id', $latest->id)->update(['organization_id' => $org_id]);
-            }else{
+            } else {
                 $users = User::where('role_id', '<', 3)->get();
                 Notification::send($users, new ApplicationMade($latestDevProcess));
             }
-            $landProcess = new Process_Item();
-            $landProcess->form_id = $landid;
-            $landProcess->remark = "Verify these land details";
-            $landProcess->prerequisite = 0;
 
-            if (request('checkExternalRequestor')) {
-                $landProcess->ext_requestor = request('externalRequestor');
-                $landProcess->ext_requestor_email = request('erEmail');
-            } else {
-                $landProcess->request_organization = auth()->user()->organization_id;
+            if (!(request('registered_land'))) {
+                $landProcess = new Process_Item();
+                $landProcess->form_id = $landid;
+                $landProcess->remark = "Verify these land details";
+                $landProcess->prerequisite = 0;
+
+                if (request('checkExternalRequestor')) {
+                    $landProcess->ext_requestor = request('externalRequestor');
+                    $landProcess->ext_requestor_email = request('erEmail');
+                } else {
+                    $landProcess->request_organization = auth()->user()->organization_id;
+                }
+                $landProcess->activity_organization = $org_id;
+
+                $landProcess->status_id = 1;
+                $landProcess->form_type_id = 5;
+                $landProcess->created_by_user_id = request('createdBy');
+                $landProcess->prerequisite_id = $latestDevProcess->id;
+                $landProcess->save();
             }
-            $landProcess->activity_organization = $org_id;
-
-            $landProcess->status_id = 1;
-            $landProcess->form_type_id = 5;
-            $landProcess->created_by_user_id = request('createdBy');
-            $landProcess->prerequisite_id = $latestDevProcess->id;
-            $landProcess->save();
 
             //making a downloadable version of the KML file
             if (request('kml') !== null) { //if the file is uploaded then the kml file will not be created
@@ -223,8 +262,6 @@ class DevelopmentProjectController extends Controller
                 }
             }
         });
-
-
         return redirect('/general/pending')->with('message', 'Request Created Successfully');
     }
 
@@ -247,30 +284,31 @@ class DevelopmentProjectController extends Controller
     {
         $prereqs = Process_Item::where("prerequisite_id", "=", $processid)->pluck('id');
         //ddd($processid, $treeid, $landid, $prereqs[0]);
-
         DB::transaction(function () use ($processid, $devid, $landid, $prereqs) {
 
-            $landhasGazettes = Land_Has_Gazette::where("land_parcel_id", "=", $landid)->get();
-            foreach ($landhasGazettes as $landhasGazette) {
-                $landhasGazette->delete();
-            }
+            if (!($prereqs->isEmpty())) {
+                $landhasGazettes = Land_Has_Gazette::where("land_parcel_id", "=", $landid)->get();
+                foreach ($landhasGazettes as $landhasGazette) {
+                    $landhasGazette->delete();
+                }
 
-            $landHasOrganizations = Land_Has_Organization::where("land_parcel_id", "=", $landid)->get();
-            foreach ($landHasOrganizations as $landHasOrganization) {
-                $landHasOrganization->delete();
-            }
+                $landHasOrganizations = Land_Has_Organization::where("land_parcel_id", "=", $landid)->get();
+                foreach ($landHasOrganizations as $landHasOrganization) {
+                    $landHasOrganization->delete();
+                }
 
-            $landParcelProcess = Process_Item::find($prereqs[0]);
-            $landParcelProcess->delete();
+                $landParcelProcess = Process_Item::find($prereqs[0]);
+                $landParcelProcess->delete();
+
+                $landParcel = Land_Parcel::find($landid);
+                $landParcel->delete();
+            }
 
             $devProjectProcess = Process_Item::find($processid);
             $devProjectProcess->delete();
 
             $devProject = Development_Project::find($devid);
             $devProject->delete();
-
-            $landParcel = Land_Parcel::find($landid);
-            $landParcel->delete();
         });
         return redirect('/approval-item/showRequests')->with('message', 'Request Successfully Deleted');
     }

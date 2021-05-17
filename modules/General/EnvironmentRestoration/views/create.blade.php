@@ -147,10 +147,14 @@
                             <input type="hidden" class="form-control" name="created_by" value="{{Auth::user()->id}}">
                             <input type="hidden" class="form-control" name="logs" value="0">
                         </form>
-                        <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
-                        <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
-                        <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
-                        <p id="error" class="text-danger"></p>
+                        <div><kbd style="cursor:pointer;"><a title="How To Import As Excel" class="text-white" data-toggle="modal" data-target="#excel2Help">How To Import Excel</a></kbd></div>
+                        <div>
+                            <label>If data is available as an excel file:</label>
+                            <input type="file" id="fileUpload" name="fileUpload" accept=".xks,.xlsx" />
+                            <a type="button" name="uploadExcel" id="uploadExcel" class="btn btn-info">Import as Excel</a>
+                            <a type="button" name="clear" id="clear" class="btn btn-danger">Clear All</a>
+                            <p id="error" class="text-danger"></p>
+                        </div>
                     </div>
                 </div>
             </div>
