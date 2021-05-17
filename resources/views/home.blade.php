@@ -61,9 +61,15 @@
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/user/index"><i class="fa fa-fw fa-user mr-3" aria-hidden="true"></i> User</a>
                             </li>
+                            @if(Auth::user()->role_id == 1)
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/environment/updatedata"><i class="fa fa-fw fa-tree mr-3" aria-hidden="true"></i> Environment</a>
                             </li>
+                            @else
+                            <li class="nav-item mt-3">
+                                <a class="nav-link text-light" href="/environment/viewdata"><i class="fa fa-fw fa-tree mr-3" aria-hidden="true"></i> Environment</a>
+                            </li>
+                            @endif
                             <li class="nav-item mt-3">
                                 <a class="nav-link text-light" href="/approval-item/showRequests"><i class="fa fa-fw fa-arrow-down mr-3" aria-hidden="true"></i> Requests</a>
                             </li>

@@ -84,6 +84,12 @@ $species->images = '';
         return view('environment::Spcindex', compact('species', $species));
     }
 
+    public function index2()
+    {
+        $species = Species::all();
+        return view('environment::SpcGeneral', compact('species', $species));
+    }
+
 
     /* public function showRequest()
     {

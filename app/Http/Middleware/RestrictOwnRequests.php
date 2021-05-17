@@ -24,7 +24,7 @@ class RestrictOwnRequests
         //dd($process,$id);
         $user = Auth::user()->id;
         if($user == $process->created_by_user_id){    
-            return back()->with('message', 'You cannot handle the approval process of your own applications '); 
+            return back()->with('warning', 'You cannot handle the approval process of your own applications '); 
         }
         return $next($request);
     }

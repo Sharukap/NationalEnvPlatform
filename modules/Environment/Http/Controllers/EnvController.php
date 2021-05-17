@@ -67,6 +67,12 @@ class EnvController extends Controller
         $ecosystems = Env::all();
         return view('environment::Envindex', compact('ecosystems', $ecosystems));
     }
+
+    public function index2()
+    {
+        $ecosystems = Env::all();
+        return view('environment::EnvGeneral', compact('ecosystems', $ecosystems));
+    }
     //Get eco system types from database.
     public function loadform()
     {
