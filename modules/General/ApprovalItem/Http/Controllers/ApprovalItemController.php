@@ -690,7 +690,7 @@ class ApprovalItemController extends Controller
                 'remark' => $request['request'],
                 'land' =>$land,
             ]);
-            return $pdf->stream();
+            //return $pdf->stream();
             $array=$Process_item->toArray();
             if($Process_item->created_by_user_id !=null){
                 $applicant=User::find($Process_item->created_by_user_id);
