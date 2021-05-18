@@ -24,7 +24,7 @@
                             @enderror
                         </div>
                         <div class="form-group">
-                            <label for="title">Restored Land Parcel Name*</label>
+                            <label for="title">Area Name*</label>
                             <input type="text" class="form-control @error('landparceltitle') is-invalid @enderror" placeholder="Enter Land Parcel Name" name="landparceltitle" value="{{ old('landparceltitle') }}">
                             @error('landparceltitle')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -85,7 +85,7 @@
                         <div class="form-group">
                             <label for="request_org">Organization to submit request to (optional)</label>
                             <select name="activity_org" class="custom-select @error('activity_org') is-invalid @enderror">
-                                <option selected>Select Organization</option>
+                                <option selected value="0">Select Organization</option>
                                 @foreach($organizations as $organization)
                                 <option value="{{ $organization->id }}" {{ Request::old()?(Request::old('activity_org')==$organization->id?'selected="selected"':''):'' }}>{{ $organization->title }}</option>
                                 @endforeach
@@ -120,6 +120,13 @@
         <div class="tab">
             <div class="container">
                 <div class="row border rounded-lg p-4 bg-white">
+                    @error('speciesname')
+                    <div class="alert alert-danger">The Restored Species Field Is Required</div>
+                    @enderror
+                    @error('quantity')
+                    <div class="alert alert-danger">The Quantity field of the Relevant Restored Species Is Required and it must be a number</div>
+                    @enderror
+
                     <!-- creating the species table followed by ajax script to add and remove species in the table -->
                     <div class="table-responsive">
                         <h4> Species </h4>
