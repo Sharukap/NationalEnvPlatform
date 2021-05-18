@@ -8,6 +8,8 @@ use App\Models\Env;
 use App\Models\Env_type;
 use App\Models\District;
 use App\Http\Controllers\Controller;
+use App\Models\Role_has_access;
+
 use Illuminate\Support\Facades\Auth;
 
 class EnvController extends Controller
@@ -70,8 +72,17 @@ class EnvController extends Controller
 
     public function index2()
     {
-        $ecosystems = Env::all();
-        return view('environment::EnvGeneral', compact('ecosystems', $ecosystems));
+        $role = Auth::user()->role_id;
+        if($role != 1){
+            $access1 = Role_has_access::where('role_id',$role)->where('access_id',2)->first();;
+            if($access1 == null)
+            {
+                $ecosystems = Env::all();
+                return view('environment::EnvGeneral', compact('ecosystems', $ecosystems));
+            }
+        }
+        return redirect()->action([EnvController::class, 'index']);
+       
     }
     //Get eco system types from database.
     public function loadform()

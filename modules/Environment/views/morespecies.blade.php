@@ -2,7 +2,7 @@
 
 @section('env')
 
-<kbd><a href="/environment/updatedataspecies" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+<kbd><a href="/environment/viewdataspecies" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
 
 <div class="container">
     <h2 style="text-align:center;" class="text-dark">Details of the Request</h2>
