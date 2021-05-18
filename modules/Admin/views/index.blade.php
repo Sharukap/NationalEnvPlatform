@@ -77,12 +77,13 @@
                 <td class="text-center"><a href="/admin/changePrivilege/{{$user->id}}" class="btn btn-outline-info" role="button">Privilege</a></td>
                 <!-- Invisible form to delete a user and send a delete request to the controller -->
                 <td>
-                    <button class="btn btn-outline-danger" onclick="event.preventDefault();
-                            document.getElementById('form-delete-{{$user->id}}').submit()">Delete</button>
+                    <button class="btn btn-outline-danger" onclick="if (confirm('Are you sure you wish to delete this user?')){
+                        event.preventDefault();
+                        document.getElementById('form-delete-{{$user->id}}').submit()}">Delete</button>
 
                     <form id="{{'form-delete-'.$user->id}}" style="display:none" method="post" action="/admin/delete/{{$user->id}}">
                         @csrf
-                        @method('delete');
+                        @method('patch')
                     </form>
                 </td>
                 @endif
