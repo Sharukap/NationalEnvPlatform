@@ -240,14 +240,19 @@ class OrganizationController extends Controller
         ]);
     }
 
-    public function activity_create(Request $request)
-    {
+    public function activity_create(Request $request) {
+        $request -> validate([
+            'province' => 'required',
+            'district' => 'required',
+            'form_type' => 'required',
+            'organization' => 'required|exists:organizations,title',
+        ]);
         $Org_act = new Organization_Activity();
         $Org_act->form_type_id = $request->form_type;
-        if (request('district') != null) {
+        if(request('district') != 27){
             $Org_act->district_id = request('district');
         }
-        if (request('province') != null) {
+        else{
             $Org_act->province_id = request('province');
         }
         $org_id = Organization::where('title', request('organization'))->pluck('id');
@@ -261,5 +266,14 @@ class OrganizationController extends Controller
         $organization = Organization_Activity::find($id);
         $organization->delete();
         return redirect('/organization/actIndex')->with('message', 'Organization Successfully removed from handling application');
+    }
+
+    public function organizationAutocomplete(Request $request)
+    {
+        $data = Organization::select("title")
+            ->where("title", "LIKE", "%{$request->terms}%")
+            ->get();
+
+        return response()->json($data);
     }
 }
