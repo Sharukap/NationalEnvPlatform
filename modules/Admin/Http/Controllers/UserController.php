@@ -59,7 +59,11 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->organization_id = $request->organization;
+        if ($request->role == 6) {
+            $user->organization_id = 6;
+        } else {
+            $user->organization_id = $request->organization;
+        }
         $user->role_id = $request->role;
         $user->designation_id = $request->designation;
         $user->created_by_user_id = $request->created_by;
@@ -235,8 +239,8 @@ class UserController extends Controller
             $user->update([
                 'password' => bcrypt($request->newpassword),    // If matched update the db witht he new password
             ]);
-            return redirect('/user/index')->with('message', 'Password Successfully Changed');
+            return redirect('/general/pending')->with('message', 'Password Successfully Changed');
         } else
-            return redirect('/user/index')->with('warning', 'Current Password is Incorrect'); // Else show that old password is incorrect
+            return redirect('/general/pending')->with('warning', 'Current Password is Incorrect'); // Else show that old password is incorrect
     }
 }

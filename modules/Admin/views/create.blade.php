@@ -30,7 +30,7 @@
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
 
-                @if(Auth::user()->role_id == 1 ||Auth::user()->role_id == 2)
+                @if(Auth::user()->role_id == 1)
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
                         <span class="input-group-text">Organization</span>
@@ -78,7 +78,7 @@
                 @enderror
 
                 <!-- If the user is not super admin then pass in the user's organization id as well -->
-                @if (Auth::user()->role_id == 3 ||Auth::user()->role_id == 4)
+                @if (Auth::user()->role_id == 2 ||Auth::user()->role_id == 3 ||Auth::user()->role_id == 4)
                 <input type="hidden" class="form-control" name="organization" value="{{Auth::user()->organization_id}}">
                 @endif
 
