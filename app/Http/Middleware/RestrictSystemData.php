@@ -21,13 +21,12 @@ class RestrictSystemData
     public function handle(Request $request, Closure $next , $type)
     {
         $id=$request->route('id');
-        if($type=1){
+        if($type==1){
             $record=Env::find($id);
         }
         else{
             $record=Species::find($id);
         }
-        //dd($process,$id);
         $user = Auth::user()->id;
         if($user == $record->created_by_user_id){    
             return back()->with('warning', 'You cannot approve your own records '); 
