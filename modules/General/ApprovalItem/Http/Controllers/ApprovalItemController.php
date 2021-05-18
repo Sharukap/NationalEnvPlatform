@@ -659,7 +659,7 @@ class ApprovalItemController extends Controller
             $Process_item_progress->remark = 'Final Reject of application ' . $request['request'];
             $Process_item_progress->save();
         }
-
+        if($Process_item->form_type_id !=5){
         $Process_item =Process_item::find($id);
         $user =User::find($request['create_by']);
         switch($Process_item->form_type_id){
@@ -679,15 +679,17 @@ class ApprovalItemController extends Controller
             $data = null;
             break;
         }
+        $land = Land_Parcel::find($item);
         //dd($item);
-        if($Process_item->form_type_id !=5){
             $pdf = PDF::loadView('approvalItem::certificate', [
                 'process_item' => $Process_item,
                 'user' => $user,
                 'item' => $item,
                 'tree_data' => $data,
                 'remark' => $request['request'],
+                'land' =>$land,
             ]);
+            return $pdf->stream();
             $array=$Process_item->toArray();
             if($Process_item->created_by_user_id !=null){
                 $applicant=User::find($Process_item->created_by_user_id);
