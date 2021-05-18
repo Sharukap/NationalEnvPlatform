@@ -8,14 +8,14 @@
 
   <nav class="navbar navbar-expand-sm navbar-light">
     <ul class="navbar-nav">
-      <li class="nav-item {{ Route::currentRouteName() == 'userIndex' ? 'active' : '' }}">
+      <li class="nav-item mr-4 {{ Route::currentRouteName() == 'userIndex' ? 'active' : '' }}">
         <a class="nav-link h4" href="{{ route('userIndex') }}">Users</a>
       </li>
-      <li class="nav-item {{ Route::currentRouteName() == 'orgIndex' ? 'active' : '' }}">
+      <li class="nav-item mr-4 {{ Route::currentRouteName() == 'orgIndex' ? 'active' : '' }}">
         <a class="nav-link h4" href="{{ route('orgIndex') }}">Organizations</a>
       </li>
       @if(Auth::user()->role_id < 3)
-      <li class="nav-item {{ Route::currentRouteName() == 'roleIndex' ? 'active' : '' }}">
+      <li class="nav-item mr-4 {{ Route::currentRouteName() == 'roleIndex' ? 'active' : '' }}">
         <a class="nav-link h4" href="{{ route('roleIndex') }}">Roles</a>
       </li>
       @endif
@@ -27,6 +27,7 @@
     </ul>
   </nav>
   <div class="col-md">
+  <hr>
     @yield('admin')
   </div>
 </div>
