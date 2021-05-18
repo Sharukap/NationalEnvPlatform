@@ -20,6 +20,7 @@ class RestrictSystemData
      */
     public function handle(Request $request, Closure $next , $type)
     {
+        $record1=0;
         $id=$request->route('id');
         if($type=1){
             $record=Env::find($id);
