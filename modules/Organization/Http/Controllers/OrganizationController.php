@@ -27,6 +27,18 @@ class OrganizationController extends Controller
     // When the user fills in the details of the new organization and clicks submit it will be handled here. organization details and contact details will store database.
     public function store(Request $request)
     {
+        $request->validate([
+           
+            'title' => 'required',
+            'city' => 'required',
+            'organization_type' => 'required',
+            'type' => 'required',
+           'contact_signature' => 'required',
+           'province'=>'required',
+            'primary'=> 'required',
+             
+   ]);
+
         $org_type = Type::all();
 
         //dd($request->all());
@@ -181,29 +193,40 @@ class OrganizationController extends Controller
     // Routing logic
     public function index()
     {
-        $organization = Organization::all();
+        $organization = Organization::where('status', '!=', -1)->get();
         $contact = Contact::all();
         $ORG_ACT= Org_Activity::all();
         //direct back to the index page.
         return view('organization::index')->with('organization', $organization)->with('contact', $contact);
     }
-
     public function destroy($id)
     {
         $organization = Organization::find($id);
-        $organization->delete();
+        $contacts = Contact::where('org_id', '=', $id)->get();
+        foreach ($contacts as $contact) {
+            $contact->delete();
+        }
+        $Org_act =Org_Activity::where('organization_id', '=', $id)->get();
+        foreach ($Org_act as $ORG_ACT) {
+            $ORG_ACT ->delete();
+        }
+        $organization->update([
+            'status' => -1,
+        ]);
         return redirect('/organization/index')->with('message', 'Organization Deleted');
     }
 
-    public function activities() {
+    public function activities()
+    {
         $organizations = Organization_Activity::all();
         //direct back to the index page.
         return view('organization::activity', [
             'organizations' => $organizations,
-        ]);  
+        ]);
     }
 
-    public function new_activity() {
+    public function new_activity()
+    {
         $organizations = Organization::all();
         $Forms =Form_Type::all();
         $province = Province::all();
@@ -214,16 +237,17 @@ class OrganizationController extends Controller
             'Forms' => $Forms,
             'provinces' => $province,
             'districts' => $district,
-        ]);  
+        ]);
     }
 
-    public function activity_create(Request $request) {
+    public function activity_create(Request $request)
+    {
         $Org_act = new Organization_Activity();
         $Org_act->form_type_id = $request->form_type;
-        if(request('district') != null){
+        if (request('district') != null) {
             $Org_act->district_id = request('district');
         }
-        if(request('province') != null){
+        if (request('province') != null) {
             $Org_act->province_id = request('province');
         }
         $org_id = Organization::where('title', request('organization'))->pluck('id');
@@ -232,7 +256,8 @@ class OrganizationController extends Controller
         return redirect('/organization/actIndex')->with('message', 'Organization Successfully assigned to handle application');
     }
 
-    public function activity_remove($id) {
+    public function activity_remove($id)
+    {
         $organization = Organization_Activity::find($id);
         $organization->delete();
         return redirect('/organization/actIndex')->with('message', 'Organization Successfully removed from handling application');

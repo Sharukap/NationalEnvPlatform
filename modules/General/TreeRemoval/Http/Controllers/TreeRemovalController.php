@@ -204,6 +204,9 @@ class TreeRemovalController extends Controller
             if (request('number_of_tree_species')) {
                 $tree->no_of_tree_species = request('number_of_tree_species');
             }
+            if (request('number_of_ambhibian_species')) {
+                $tree->no_of_ambhibian_species = request('number_of_ambhibian_species');
+            }
             if (request('species_special_notes')) {
                 $tree->species_special_notes = request('species_special_notes');
             }
