@@ -29,6 +29,7 @@ class RestrictSystemData
         }
         //dd($process,$id);
         $user = Auth::user()->id;
+        dd($record);
         if($user == $record->created_by_user_id){    
             return back()->with('warning', 'You cannot approve your own records '); 
         }
