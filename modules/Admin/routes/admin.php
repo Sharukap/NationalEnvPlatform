@@ -22,7 +22,7 @@ Route::get('/create', [UserController::class, 'create']);      // Open create vi
 Route::post('/store', [UserController::class, 'store']);       // Store data in the database. 
 Route::get('/edit/{id}', [UserController::class, 'edit']);         // Open edit view
 Route::patch('/update/{id}', [UserController::class, 'update']);   // Store changes in the db.
-Route::delete('/delete/{id}', [AdminController::class, 'destroy']);     // Delete a user.
+Route::patch('/delete/{id}', [AdminController::class, 'destroy']);     // Delete a user.
 Route::get('/changePrivilege/{id}', [AdminController::class, 'changePrivilege'])->name('privilegeview');   // Open the view to change privileges.
 Route::patch('/savePrivilege/{id}', [AdminController::class, 'savePrivilege']);     // Save those changes to the db.
 

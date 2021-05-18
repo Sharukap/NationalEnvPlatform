@@ -17,7 +17,9 @@ class AdminController extends Controller
     public function destroy($id)     
     {
         $user = User::find($id);
-        $user->delete();
+        $user->update([
+            'status' => -1,
+        ]);
         return redirect('/user/index')->with('message', 'User Successfully Deleted');
     }
 

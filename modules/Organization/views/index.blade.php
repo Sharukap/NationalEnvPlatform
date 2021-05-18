@@ -63,7 +63,7 @@
 
                     <form id="{{'form-delete-'.$organization->id}}" style="display:none" method="post" action="/organization/delete/{{$organization->id}}">
                         @csrf
-                        @method('delete');
+                        @method('patch');
                     </form>
                 </td>
             </tr>

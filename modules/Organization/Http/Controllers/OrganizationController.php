@@ -193,7 +193,7 @@ class OrganizationController extends Controller
     // Routing logic
     public function index()
     {
-        $organization = Organization::all();
+        $organization = Organization::where('status', '!=', -1)->get();
         $contact = Contact::all();
         $ORG_ACT= Org_Activity::all();
         //direct back to the index page.
@@ -213,8 +213,6 @@ class OrganizationController extends Controller
         $organization->update([
             'status' => -1,
         ]);
-
-      
         return redirect('/organization/index')->with('message', 'Organization Deleted');
     }
 
