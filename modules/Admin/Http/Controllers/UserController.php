@@ -59,7 +59,11 @@ class UserController extends Controller
         $user = new User();
         $user->name = $request->name;
         $user->email = $request->email;
-        $user->organization_id = $request->organization;
+        if ($request->role == 6) {
+            $user->organization_id = 6;
+        } else {
+            $user->organization_id = $request->organization;
+        }
         $user->role_id = $request->role;
         $user->designation_id = $request->designation;
         $user->created_by_user_id = $request->created_by;
@@ -122,7 +126,10 @@ class UserController extends Controller
 
         switch ($role) {
             case 1:         // Role = 1 means super administrator. Display all users.
-                $users = User::where('role_id', '>', 0)->orWhereNull('role_id')->get();        // Get null (self registered) users as well
+                $users = User::where([
+                    ['role_id', '>', 0],
+                    ['status', '=', 1],
+                ])->get();        // Get null (self registered) users as well
                 return view('admin::index', [
                     'users' => $users,
                 ]);
@@ -131,6 +138,7 @@ class UserController extends Controller
                 $users = User::where([
                     ['role_id', '>', 1],           // where role id = 1
                     ['organization_id', '=', $org], // and org=current user's org
+                    ['status', '=', 1],
                 ])->get();
                 return view('admin::index', [
                     'users' => $users,
@@ -140,6 +148,7 @@ class UserController extends Controller
                 $users = User::where([
                     ['role_id', '>', 3],   //Get all users whose role is > 3. Means less than the HoO role. 
                     ['organization_id', '=', $org],  //Get users from the same org as the logged in user.
+                    ['status', '=', 1],
                 ])->get();
                 return view('admin::index', [
                     'users' => $users,
@@ -149,6 +158,7 @@ class UserController extends Controller
                 $users = User::where([
                     ['role_id', '>', 4],       // Role = 4 means manager.
                     ['organization_id', '=', $org],
+                    ['status', '=', 1],
                 ])->get();
                 return view('admin::index', [
                     'users' => $users,
@@ -235,8 +245,8 @@ class UserController extends Controller
             $user->update([
                 'password' => bcrypt($request->newpassword),    // If matched update the db witht he new password
             ]);
-            return redirect('/user/index')->with('message', 'Password Successfully Changed');
+            return redirect('/general/pending')->with('message', 'Password Successfully Changed');
         } else
-            return redirect('/user/index')->with('warning', 'Current Password is Incorrect'); // Else show that old password is incorrect
+            return redirect('/general/pending')->with('warning', 'Current Password is Incorrect'); // Else show that old password is incorrect
     }
 }

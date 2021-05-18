@@ -15,7 +15,7 @@
             @include('faq')
 
 
-            <form action='/environment/newspecies' method="post" enctype="multipart/form-data">
+            <form action='/environment/newspecies' method="post" enctype="multipart/form-data" autocomplete="off">
                 @csrf
 
                 @if(\Session::has('success'))

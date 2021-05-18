@@ -7,25 +7,22 @@
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
+        <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a class="nav-link h4" href="/reporting/overview">Overview<span class="sr-only">(current)</span></a>
+                <a class="nav-link h4 mr-4 text-dark {{ Route::currentRouteName() == 'reportingOverview' ? 'active' : '' }}" href="{{ route('reportingOverview') }}">Overview<span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-                <a class="nav-link h4" href="/reporting/tree-removal">Tree Removal</a>
+                <a class="nav-link h4 mr-4 text-dark {{ Route::currentRouteName() == 'reportingTreeRemoval' ? 'active' : '' }}" href="{{ route('reportingTreeRemoval') }}">Tree Removal</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link h4" href="/reporting/dev-proj">Development Project</a>
+                <a class="nav-link h4 mr-4 text-dark {{ Route::currentRouteName() == 'reportingDevProj' ? 'active' : '' }}" href="{{ route('reportingDevProj') }}">Development Project</a>
             </li>
             <li class="nav-item">
-
-                <a class="nav-link h4" href="/reporting/restoration">Restoration</a>
-
+                <a class="nav-link h4 mr-4 text-dark {{ Route::currentRouteName() == 'reportingRestoration' ? 'active' : '' }}" href="{{ route('reportingRestoration') }}">Restoration</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link h4" href="/reporting/complaints">Complaints</a>
+                <a class="nav-link h4 text-dark {{ Route::currentRouteName() == 'reportingComplaints' ? 'active' : '' }}" href="{{ route('reportingComplaints') }}">Complaints</a>
             </li>
-
         </ul>
     </div>
 </nav>

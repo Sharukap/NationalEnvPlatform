@@ -99,7 +99,7 @@
 
 
         </td>
-        <td> <img src="{{ asset('uploads/species/' . $row->images) }}" width="100px" height="100px" alt=" No Images"></td>
+        <td> <img src="{{ $row->images }}" width="100px" height="100px" alt=" No Images"></td>
       </tr>
 
       @endforeach

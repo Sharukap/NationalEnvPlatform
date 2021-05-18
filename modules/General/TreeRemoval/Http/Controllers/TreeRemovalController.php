@@ -47,7 +47,6 @@ class TreeRemovalController extends Controller
 
     public function save(Request $request)
     {
-
         if ($request->hasfile('file')) {
 
             request()->validate([
@@ -85,7 +84,7 @@ class TreeRemovalController extends Controller
             ]);
         } else {
             $request->validate([
-                'planNo' => 'required',
+                'planNo' => 'required|regex:/^[A-Za-z0-9\-]+$/u',
                 'surveyorName' => 'required',
                 'district' => 'required|exists:districts,district',
                 'gs_division' => 'nullable|exists:gs_divisions,gs_division',
@@ -205,6 +204,9 @@ class TreeRemovalController extends Controller
             if (request('number_of_tree_species')) {
                 $tree->no_of_tree_species = request('number_of_tree_species');
             }
+            if (request('number_of_ambhibian_species')) {
+                $tree->no_of_ambhibian_species = request('number_of_ambhibian_species');
+            }
             if (request('species_special_notes')) {
                 $tree->species_special_notes = request('species_special_notes');
             }
@@ -297,17 +299,17 @@ class TreeRemovalController extends Controller
 
 
             //making a downloadable version of the KML file
-            if (request('kml') !== null) {  //if the file is uploaded then the kml file will not be created
-                try {
-                    $kml = request('kml');
-                    //setting the new name of the coordinates as {{landid}}.kml
-                    $new_name = $landid . '.' . "kml";
+            // if (request('kml') !== null) {  //if the file is uploaded then the kml file will not be created
+            //     try {
+            //         $kml = request('kml');
+            //         //setting the new name of the coordinates as {{landid}}.kml
+            //         $new_name = $landid . '.' . "kml";
 
-                    Storage::put("kml_files/$new_name", $kml);
-                } catch (\Exception $e) {
-                    dd($e);
-                }
-            }
+            //         Storage::put("kml_files/$new_name", $kml);
+            //     } catch (\Exception $e) {
+            //         dd($e);
+            //     }
+            // }
         });
         return redirect('/general/pending')->with('message', 'Request Created Successfully');
     }
