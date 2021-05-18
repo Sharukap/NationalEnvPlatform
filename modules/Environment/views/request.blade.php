@@ -14,7 +14,7 @@
             </div>
             @include('faq')
 
-            <form action="/environment/newrequest" method="post" enctype="multipart/form-data">
+            <form action="/environment/newrequest" method="post" enctype="multipart/form-data" autocomplete="off">
                 @csrf
                 @if(\Session::has('success'))
                 <div class="alert alert-success">

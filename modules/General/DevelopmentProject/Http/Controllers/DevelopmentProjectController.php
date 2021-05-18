@@ -74,7 +74,7 @@ class DevelopmentProjectController extends Controller
         } else {
             $request->validate([
                 'title' => 'required',
-                'planNo' => 'required',
+                'planNo' => 'required|regex:/^[A-Za-z0-9\-]+$/u',
                 'surveyorName' => 'required',
                 'gazette' => 'nullable|exists:gazettes,gazette_number',
                 'polygon' => 'required',
@@ -250,17 +250,17 @@ class DevelopmentProjectController extends Controller
             }
 
             //making a downloadable version of the KML file
-            if (request('kml') !== null) { //if the file is uploaded then the kml file will not be created
-                try {
-                    $kml = request('kml');
-                    //setting the new name of the coordinates as {{landid}}.kml
-                    $new_name = $landid . '.' . "kml";
+            // if (request('kml') !== null) { //if the file is uploaded then the kml file will not be created
+            //     try {
+            //         $kml = request('kml');
+            //         //setting the new name of the coordinates as {{landid}}.kml
+            //         $new_name = $landid . '.' . "kml";
 
-                    Storage::put("kml_files/$new_name", $kml);
-                } catch (\Exception $e) {
-                    dd($e);
-                }
-            }
+            //         Storage::put("kml_files/$new_name", $kml);
+            //     } catch (\Exception $e) {
+            //         dd($e);
+            //     }
+            // }
         });
         return redirect('/general/pending')->with('message', 'Request Created Successfully');
     }

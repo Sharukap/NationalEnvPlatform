@@ -52,9 +52,8 @@ class SpeciesController extends Controller
             $file = $request->file('images') ;
             $extension = $file->getClientOriginalExtension() ; //geting the image extension
             $filename= time() . '.' . $extension;
-            $file->move('uploads/species/', $filename);
-            $species->images= $filename;
-
+            $result = $file->storeOnCloudinaryAs('species', $filename);
+            $species->images = $result->getSecurePath(); // Get the url of the uploaded file; https 
         }else{
             
 $species->images = '';

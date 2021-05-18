@@ -21,7 +21,7 @@ Route::get('/edit/{id}', [OrganizationController::class, 'edit']);
 Route::patch('/update/{id}', [OrganizationController::class, 'update']);
 
 // Delete a organization.
-Route::delete('/delete/{id}', [OrganizationController::class, 'destroy']);
+Route::patch('/delete/{id}', [OrganizationController::class, 'destroy']);
 
 //More details.
 Route::get('/more/{id}', [OrganizationController::class, 'more']);
