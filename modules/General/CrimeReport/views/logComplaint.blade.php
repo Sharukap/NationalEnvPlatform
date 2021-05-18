@@ -59,20 +59,24 @@
                     </div>
                     <hr>
                     <div class="form-group">
-                        <input type="checkbox" name="nonreguser" value="1"><strong> Creating on behalf of non registered user</strong>
-                        <br>
-                        <label for="description">Requestor NIC:</label>
-                        <input type="text" class="form-control" placeholder="Enter NIC" name="Requestor" value="{{ old('Requestor') }}" />
-                        @error('Requestor')
-                        <div class="alert alert-danger">The NIC Format is Invalid</div>
-                        @enderror
+                        <div class="custom-control custom-checkbox">
+                            <input type="checkbox" class="custom-control-input" id="customCheck2" value="1" name="checkExternalRequestor" {{ old('checkExternalRequestor') == "1" ? 'checked' : ''}}>
+                            <label class="custom-control-label" for="customCheck2"><strong>Creating on behalf of non-registered user</strong></label>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label for="description">Requestor email:</label>
-                        <input type="text" class="form-control" placeholder="Enter complainant's email" name="Requestor_email" value="{{ old('Requestor_email') }}" />
-                        @error('Requestor_email')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                    <div class="extRequestor" id="extRequestor">
+                        <div class="form-group">
+                            Requestor NIC<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
+                            @error('externalRequestor')
+                            <div class="alert alert-danger">The NIC format is Invalid</div>
+                            @enderror
+                        </div>
+                        <div class="form-group">
+                            External Requestor Email<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
+                            @error('erEmail')
+                            <div class="alert alert-danger">Please Enter a Valid Email</div>
+                            @enderror
+                        </div>
                     </div>
                     <div class="form-check">
                         <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}">
@@ -88,16 +92,9 @@
                         @enderror
                     </div>
                     <div class="form-group">
-                        <label for="district">District*</label>
-                        <select class="custom-select @error('district') is-invalid @enderror" name="district">
-                            <option disabled selected value="">Select</option>
-                            @foreach ($districts as $district)
-                            <option value="{{ $district->id }}" {{ Request::old()?(Request::old('district')==$district->id?'selected="selected"':''):'' }}>{{ $district->district }}</option>
-                            @endforeach
-                        </select>
+                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
                         @error('district')
                         <div class="alert alert-danger">{{ $message }}</div>
-                            
                         @enderror
                     </div>
                     <!-- ////////MAP GOES HERE -->
@@ -237,6 +234,23 @@
         $('.pointer').fadeOut('slow');
     }, 3400);
 
+    var path2 = "{{route('district')}}";
+    $('input.typeahead2').typeahead({
+        source: function(terms, process) {
+
+            return $.get(path2, {
+                terms: terms
+            }, function(data) {
+                console.log(data);
+                objects = [];
+                data.map(i => {
+                    objects.push(i.district)
+                })
+                console.log(objects);
+                return process(objects);
+            })
+        },
+    });
     //adding images
     $(document).ready(function() {
         $('#image').change(function() {
@@ -253,6 +267,17 @@
                     alert('You should not uplaod files exceeding 4 MB. Please compress files size and uplaod agian');
                     $('#image').val('');
                 }
+            }
+        });
+    });
+
+    //toggle extra details for external requestor
+    $(function() {
+        $("#customCheck2").click(function() {
+            if ($(this).is(":checked")) {
+                $("#extRequestor").show();
+            } else {
+                $("#extRequestor").hide();
             }
         });
     });
