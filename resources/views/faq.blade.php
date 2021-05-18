@@ -619,7 +619,7 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<h3>Overview</h3>
-				<img src="../images/shapes/overview.PNG" class="img-fluid" alt="Responsive image">
+				<img src="https://res.cloudinary.com/hf13bqd1g/image/upload/v1621331104/faq/overview_tjolgo.png" class="img-fluid" alt="Responsive image">
 				<div>
 					<dl>
 						<dt>How do I begin drawing a particular shape?</dt>
@@ -634,10 +634,10 @@
 				</div>
 				<hr>
 				<h3>Shapes</h3>
-				<img src="../images/shapes/all_shapes.PNG" class="img-fluid" alt="Responsive image">
+				<img src="https://res.cloudinary.com/hf13bqd1g/image/upload/v1621331102/faq/all_shapes_qcex5s.png" class="img-fluid" alt="Responsive image">
 				<hr>
 				<h3>Polygon</h3>
-				<img src="../images/shapes/polygon.PNG" class="img-fluid" alt="Responsive image">
+				<img src="https://res.cloudinary.com/hf13bqd1g/image/upload/v1621331106/faq/polygon_ejxyzr.png" class="img-fluid" alt="Responsive image">
 				<div>
 					<dl>
 						<dt>I haven't saved the polygon to the map and I want to remove it.</dt>
@@ -650,7 +650,7 @@
 				</div>
 				<hr>
 				<h3>Polyline</h3>
-				<img src="../images/shapes/polyline.PNG" class="img-fluid" alt="Responsive image">
+				<img src="https://res.cloudinary.com/hf13bqd1g/image/upload/v1621331100/faq/polyline_r9oifx.png" class="img-fluid" alt="Responsive image">
 				<div>
 					<dl>
 						<dt>I haven't saved the polygon to the map and I want to remove it.</dt>
@@ -678,7 +678,7 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<h1 class="page-title">How do I Structure the Excel File?</h1>
-				<img src="../images/shapes/excel.PNG" class="img-fluid" alt="Responsive image">
+				<img src="https://res.cloudinary.com/hf13bqd1g/image/upload/v1621331060/faq/excel_tbqe61.png" class="img-fluid" alt="Responsive image">
 				<ul>
 					<li>Starting position does not matter. (Column B, C, etc)</li>
 					<li>Order of columns does not matter.</li>
@@ -701,7 +701,7 @@
 		<div class="modal-content">
 			<div class="modal-body">
 				<h1 class="page-title">How do I Structure the Excel File?</h1>
-				<img src="../images/shapes/excel2.PNG" class="img-fluid" alt="Responsive image">
+				<img src="https://res.cloudinary.com/hf13bqd1g/image/upload/v1621331074/faq/excel2_zowmum.png" class="img-fluid" alt="Responsive image">
 				<ul>
 					<li>Starting position does not matter. (Column B, C, etc)</li>
 					<li>Order of columns does not matter.</li>
