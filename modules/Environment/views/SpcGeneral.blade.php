@@ -4,13 +4,6 @@
 
 
 <div class="container">
-
-@if(Auth::user()->role_id != 6)
-  <div>
-    <a href="/environment/updatedataspecies" class="btn bd-navbar text-light" role="button">Admin Mode</a>
-  </div>
-@endif
-
   <br>
 
   @if(count($errors) >0)
@@ -74,7 +67,7 @@
 
 
         </td>
-        <td> <img src="{{ asset('uploads/species/' . $row->images) }}" width="100px" height="100px" alt=" No Images"></td>
+        <td> <img src="{{ $row->images }}" width="100px" height="100px" alt=" No Images"></td>
       </tr>
 
       @endforeach

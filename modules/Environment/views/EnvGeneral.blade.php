@@ -4,11 +4,6 @@
 
 
 <div class="container">
-@if(Auth::user()->role_id != 6)
-  <div>
-    <a href="/environment/updatedata" class="btn bd-navbar text-light" role="button">Admin mode</a>
-  </div>
-@endif
   <br>
   <table class="table table-striped table-white">
     <thead>
@@ -44,7 +39,7 @@
         <!-- opens the more view -->
         <td class="text-center"><a href="/environment/moreeco/{{$row->id}}" class="btn btn-outline-info mr-4" role="button">...</a></td>
 
-        <td> <img src="{{ asset('uploads/ecosystems/' . $row->images) }}" width="100px" height="100px" alt=" No Images"></td>
+        <td> <img src="{{ $row->images }}" width="100px" height="100px" alt=" No Images"></td>
 
       </tr>
 

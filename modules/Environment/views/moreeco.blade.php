@@ -2,7 +2,7 @@
 
 @section('env')
 
-<kbd><a href="/environment/updatedata" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+<kbd><a href="/environment/viewdata" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
 
 <div class="container">
     <h2 style="text-align:center;" class="text-dark">Details of the Request</h2>
@@ -27,7 +27,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Images Uploaded by the User</span>
                     </div>
-                    <img src="{{ asset('uploads/ecosystems/' . $ecosystems->images) }}" width="275px" height="100px" alt=" No Images">
+                    <img src="{{ $ecosystems->images }}" width="275px" height="100px" alt=" No Images">
 
                 </div>
 

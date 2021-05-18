@@ -119,9 +119,8 @@ class EnvironmentRestorationController extends Controller
             $Process_item->form_type_id = 3;
             $Process_item->created_by_user_id = request('created_by');
             $Process_item->request_organization = request('organization');
-            if(($request->activity_org)!=null){
-                $org_id =$activityorgid;
-                $Process_item->activity_organization = $org_id;
+            if(($activityorgid)!=0){
+                $Process_item->activity_organization = $activityorgid;
             }
             $Process_item->status_id = 1;
             $Process_item->save();
@@ -129,7 +128,7 @@ class EnvironmentRestorationController extends Controller
             $latestprocess = Process_Item::latest()->first();
             //automatic assign of org 
            
-            if(($request->activity_org)==null){
+            if($activityorgid==0){
                 $org_id =organization_assign::auto_assign($latestprocess->id,$district_id);
                 Land_Parcel::where('id', $newland)->update(['activity_organization' => $org_id]);
             }else{

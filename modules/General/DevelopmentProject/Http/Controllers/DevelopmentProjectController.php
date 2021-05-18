@@ -189,8 +189,8 @@ class DevelopmentProjectController extends Controller
                 foreach ($request->file('file') as $file) {
                     $filename = $file->getClientOriginalName();
                     $newname = $latest->id . 'No' . $y . $filename;
-                    $path = $file->storeAs('development', $newname, 'public');
-                    $photoarray[$y] = $path;
+                    $result = $file->storeOnCloudinaryAs('developmentProject', $newname);
+                    $photoarray[$y] = $result->getSecurePath();; // Get the url of the uploaded file; https
                     $y++;
                 }
                 //dd($photoarray);

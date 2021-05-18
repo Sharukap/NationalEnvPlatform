@@ -2,7 +2,7 @@
 
 @section('env')
 
-<kbd><a href="/environment/updatedataspecies" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
+<kbd><a href="/environment/viewdataspecies" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
 
 <div class="container">
     <h2 style="text-align:center;" class="text-dark">Details of the Request</h2>
@@ -47,7 +47,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Images Uploaded by the User</span>
                     </div>
-                    <img src="{{ asset('uploads/species/' . $species->images) }}" width="150px" height="100px" alt="No Images">
+                    <img src="{{ $species->images }}" width="150px" height="100px" alt="No Images">
 
                 </div>
                 <div class="border border-dark border-rounded">
