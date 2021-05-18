@@ -99,11 +99,13 @@ class ReportingController extends Controller
         $item = Process_Item::find($id);
         $tree_removal = Tree_Removal_Request::find($item->form_id);
         $location_data = $tree_removal->tree_details;
+        $Photos = Json_decode($tree_removal->images);
         $land_data = Land_Parcel::find($tree_removal->land_parcel_id);
         $pdf = PDF::loadView('reporting::treeRemovalIndividualReport', [
             'tree' => $tree_removal,
             'location' => $location_data,
             'polygon' => $land_data->polygon,
+            'Photos' => $Photos,
         ]);
         return $pdf->stream('treeRemovalReport.pdf');
     }
