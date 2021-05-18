@@ -47,7 +47,6 @@ class TreeRemovalController extends Controller
 
     public function save(Request $request)
     {
-
         if ($request->hasfile('file')) {
 
             request()->validate([
@@ -85,7 +84,7 @@ class TreeRemovalController extends Controller
             ]);
         } else {
             $request->validate([
-                'planNo' => 'required',
+                'planNo' => 'required|regex:/^[A-Za-z0-9\-]+$/u',
                 'surveyorName' => 'required',
                 'district' => 'required|exists:districts,district',
                 'gs_division' => 'nullable|exists:gs_divisions,gs_division',

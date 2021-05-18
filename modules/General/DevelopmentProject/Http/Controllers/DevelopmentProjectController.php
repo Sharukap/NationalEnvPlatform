@@ -74,7 +74,7 @@ class DevelopmentProjectController extends Controller
         } else {
             $request->validate([
                 'title' => 'required',
-                'planNo' => 'required',
+                'planNo' => 'required|regex:/^[A-Za-z0-9\-]+$/u',
                 'surveyorName' => 'required',
                 'gazette' => 'nullable|exists:gazettes,gazette_number',
                 'polygon' => 'required',

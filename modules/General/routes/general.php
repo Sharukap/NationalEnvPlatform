@@ -1,6 +1,8 @@
 <?php
 
 use General\Http\Controllers\GeneralController;
+use ApprovalItem\Http\Controllers\ApprovalItemController;
+
 Route::middleware(['access.control:1'])->group(function () {
 
 Route::get('/home', [ApprovalItemController::class, 'home'])->name('approvalitem.home');
