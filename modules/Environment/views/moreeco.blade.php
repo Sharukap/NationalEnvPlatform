@@ -27,7 +27,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Images Uploaded by the User</span>
                     </div>
-                    <img src="{{ asset('uploads/ecosystems/' . $ecosystems->images) }}" width="275px" height="100px" alt=" No Images">
+                    <img src="{{ $ecosystems->images) }}" width="275px" height="100px" alt=" No Images">
 
                 </div>
 

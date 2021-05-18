@@ -49,8 +49,8 @@ class EnvController extends Controller
             $file = $request->file('images');
             $extension = $file->getClientOriginalExtension(); //geting the image extension
             $filename = time() . '.' . $extension;
-            $file->move('uploads/ecosystems/', $filename);
-            $ecosystems->images = $filename;
+            $result = $file->storeOnCloudinaryAs('ecosystems', $filename);
+            $ecosystems->images = $result->getSecurePath(); // Get the url of the uploaded file; https           
         } else {
           
             $ecosystems->images = '';
