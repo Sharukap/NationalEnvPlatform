@@ -48,4 +48,6 @@ Route::post('/activitycreate', [OrganizationController::class, 'activity_create'
 
 Route::get('/activityremove/{id}', [OrganizationController::class, 'activity_remove']); 
 
+Route::get('/autocompleteOrgs', [OrganizationController::class, 'organizationAutocomplete'])->name('organizationTH');
+
 });
