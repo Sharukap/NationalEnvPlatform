@@ -8,6 +8,7 @@ use App\Models\Organization;
 use App\Models\District;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Role_has_access;
 
 class SpeciesController extends Controller
 {
@@ -85,8 +86,17 @@ $species->images = '';
 
     public function index2()
     {
-        $species = Species::all();
-        return view('environment::SpcGeneral', compact('species', $species));
+        $role = Auth::user()->role_id;
+        if($role != 1){
+            $access1 = Role_has_access::where('role_id',$role)->where('access_id',2)->first();;
+            if($access1 == null)
+            {
+                $species = Species::all();
+                return view('environment::SpcGeneral', compact('species', $species));
+            }
+        }
+        return redirect()->action([SpeciesController::class, 'index']);
+       
     }
 
 

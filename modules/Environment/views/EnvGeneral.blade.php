@@ -4,11 +4,6 @@
 
 
 <div class="container">
-@if(Auth::user()->role_id != 6)
-  <div>
-    <a href="/environment/updatedata" class="btn bd-navbar text-light" role="button">Admin mode</a>
-  </div>
-@endif
   <br>
   <table class="table table-striped table-white">
     <thead>
