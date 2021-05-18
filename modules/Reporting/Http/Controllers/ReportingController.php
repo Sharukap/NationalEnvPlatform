@@ -135,22 +135,11 @@ class ReportingController extends Controller
         $development_project = Development_Project::find($item->form_id);
         $Photos = Json_decode($development_project->images);
         $land_data = Land_Parcel::find($development_project->land_parcel_id);
-
-        // if ($Photos != null) {
-        //     foreach ($Photos as $Photo) {
-        //         $photo = base64_encode(file_get_contents('/storage/app/public/'.$Photo));
-        //         $PhotoArray[] = $photo;
-        //     }
-        // }
-        // else{
-        //     $PhotoArray[]=null;
-        // }
-
         $count = 1;
         $pdf = PDF::loadView('reporting::developmentProjectIndividualReport', [
             'development_project' => $development_project,
             'polygon' => $land_data->polygon,
-            // 'Photos' => $PhotoArray,
+            'Photos' => $Photos,
             'count' => $count
         ]);
         return $pdf->stream('restorationReport.pdf');
