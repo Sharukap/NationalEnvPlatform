@@ -146,22 +146,28 @@
                         <table class="table table-light table-striped border-secondary rounded-lg mr-4">
                             <thead>
                                 <tr>
+                                    <th>Land Title/Land Area</th>
+                                    <th>Surveyor</th>
                                     <th>District</th>
-                                    <th>Grama Niladari Division</th>
                                     <th>Protected Area</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    @if($item->title==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                    <td>{{$item->title}}</td>
+                                    @endif
+                                    @if($item->surveyor_name==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                    <td>{{$item->surveyor_name}}</td>
+                                    @endif
                                     @if($item->district==null)
                                         <td>Not assigned</td>
                                     @else
                                         <td>{{$item->district->district}}</td>
-                                    @endif
-                                    @if($item->gs_division==null)
-                                        <td>Not assigned</td>
-                                    @else
-                                    <td>{{$item->gs_division->gs_division}}</td>
                                     @endif
                                     @if($item->special_approval==0)
                                         <td>Not a protected area</td>
@@ -285,9 +291,9 @@
                     <div class="card-deck">
                         @foreach($Photos as $photo)
                         <div class="card" style="background-color:#99A3A4">
-                            <img class="card-img-top" src="$photo" alt="photo">
+                            <img class="card-img-top" src="{{$photo}}" alt="photo">
                             <div class="card-body text-center">
-                            <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
+                                <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
                             </div>
                         </div>
                         @endforeach
