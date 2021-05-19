@@ -27,7 +27,7 @@
                     </div>
                     <div class="form-group">
                         <label for="organization">Organization in charge</label>
-                            <input type="text" class="form-control typeahead3" placeholder="Search" name="organization" value="{{ old('organization') }}"/>
+                            <input type="text" class="form-control typeahead" placeholder="Search" name="organization" value="{{ old('organization') }}"/>
                             
                         @error('organization')
                             <div class="alert">                                   
@@ -52,7 +52,7 @@
                     <div class="form-group">
                         <label for="district">District:</label>
                         <select class="custom-select @error('district') is-invalid @enderror" name="district">
-                            <option disabled selected value="">Select</option>
+                            <option selected value="27">All districts of the province</option>
                             @foreach ($districts as $district)
                             <option value="{{ $district->id }}" {{ Request::old()?(Request::old('district')==$district->id?'selected="selected"':''):'' }}>{{ $district->district }}</option>
                             @endforeach
@@ -76,11 +76,11 @@
 <script type="text/javascript">
 
     //THIS USES THE AUTOMECOMPLETE FUNCTION IN TREE REMOVAL CONTROLLER
-    var path3 = "{{route('organization')}}";
-    $('input.typeahead3').typeahead({
+    var path = "{{route('organizationTH')}}";
+    $('input.typeahead').typeahead({
         source: function(terms, process) {
 
-            return $.get(path3, {
+            return $.get(path, {
                 terms: terms
             }, function(data) {
                 console.log(data);
@@ -94,7 +94,5 @@
         },
     });
 
-    
-    
 </script>
 @endsection

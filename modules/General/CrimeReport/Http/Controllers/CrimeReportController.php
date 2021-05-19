@@ -37,12 +37,13 @@ class CrimeReportController extends Controller
             'crime_type' => 'required|not_in:0',
             'description' => 'required',
             'landTitle' => 'required',
+            'district' => 'required|exists:districts,district',
             'confirm' => 'required',
             'create_by' => 'required',
             'polygon' => 'required',
             'landTitle' => 'required',
-            'Requestor_email' => 'nullable|email',
-            'Requestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
+            'erEmail' => 'nullable|email',
+            'externalRequestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
         ]);
 
 
@@ -51,7 +52,8 @@ class CrimeReportController extends Controller
             $land = new Land_Parcel();
             $land->title = $request['landTitle'];
             $land->polygon = request('polygon');
-            $land->district = request('district');
+            $district_id1 = District::where('district', request('district'))->pluck('id');
+            $land->district_id = $district_id1[0];
             $land->surveyor_name = 'No Surveyor';
             $land->created_by_user_id = $request['create_by'];
             if (request('isProtected')) {
@@ -61,7 +63,9 @@ class CrimeReportController extends Controller
                 $land->activity_organization = request('organization');
             }
             $land->status_id = 1;
+            
             $land->save();
+           
             $landid = Land_Parcel::latest()->first()->id;
 
             $Crime_report = new Crime_report;
@@ -108,7 +112,7 @@ class CrimeReportController extends Controller
             $Process_item->created_by_user_id = $request['create_by'];
             if (($request->organization) != null) {
                 $org_id = request('organization');
-                $Process_item->activity_organization = $org->id;
+                $Process_item->activity_organization = $org_id;
             }
             $Process_item->activity_user_id = null;
             $Process_item->form_id =  $id;
@@ -116,15 +120,15 @@ class CrimeReportController extends Controller
             $Process_item->status_id = "1";
             $Process_item->remark = "to be made yet";
             if ($request->has('nonreguser')) {
-                $Process_item->ext_requestor_email = $request['Requestor_email'];
-                $Process_item->ext_requestor = $request['Requestor'];
+                $Process_item->ext_requestor_email = $request['erEmail'];
+                $Process_item->ext_requestor = $request['externalRequestor'];
             } else {
                 $Process_item->request_organization = Auth()->user()->organization_id;
             }
             $Process_item->save();
             $latestcrimeProcess = Process_Item::latest()->first();
             if (($request->organization) == null) {
-                $org_id = organization_assign::auto_assign($latestcrimeProcess->id, request('district'));
+                $org_id = organization_assign::auto_assign($latestcrimeProcess->id, $district_id1[0]);
             } else {
                 $Users = User::where('role_id', '=', 2)->get();
                 Notification::send($Users, new ApplicationMade($latestcrimeProcess));
