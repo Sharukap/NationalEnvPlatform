@@ -105,14 +105,14 @@ class SystemDataController extends Controller
     
         $crimetype->save();
         //direct back to the index page.
-        return redirect('system-data/crimetypeindex')->with('success', 'Crime Type Updated Successfully');
+        return redirect('system-data/crimetypeindex')->with('success', 'Complaint Type Updated Successfully');
     }
     public function crime_typesdelete($id)
     {
         $crimetype =Crime_type::find($id);
 
         $crimetype ->delete();
-        return redirect('system-data/crimetypeindex')->with('success', 'Crime Type Deleted');
+        return redirect('system-data/crimetypeindex')->with('success', 'Complaint Type Deleted');
     }
      
     
