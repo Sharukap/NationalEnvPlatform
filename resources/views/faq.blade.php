@@ -100,19 +100,12 @@
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
 							<div class="card-body">
 								<ul>
-									<li>District</li>
-									<li>Grama Niladari Division</li>
-									<li>Activity Organization (The organization you determine should handle the request)</li>
-									<li>Land title (a unique title given to identify your land)</li>
-									<li>Map coordinate has to be selected</li>
-									<li>Number of Trees (the number of trees to be removed)</li>
-									<li>Description (A description about the need for the tree removal form)</li>
 									<li><strong>District</strong></li>
 									<li>If a registered land isn't selected;</li>
 									<ul>
 										<li><strong>Plan Number</strong> given to your land parcel.</li>
-										<li>Surveyor Name</li>
-										<li>Map coordinate has to be selected</li>
+										<li><strong>Surveyor Name</strong></li>
+										<li><strong>Map coordinate</strong> has to be selected</li>
 									</ul>
 									<li><strong>Number of Trees</strong> (the number of trees to be removed)</li>
 									<li><strong>Description</strong> (A description about the need for the tree removal form)</li>
@@ -130,7 +123,7 @@
 							</h2>
 						</div>
 						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-							<div class="card-body">If the tree removal request is made for an external user by the currently logged in user, simply check the <strong>"Creating on behalf of non-registered user"</strong> checkbox and fill in the NIC and the email of the non-registered user.</div>
+							<div class="card-body">If the tree removal request is made for an external user by the currently logged in user, simply check the <strong>"Creating on behalf of non-registered user"</strong> checkbox and fill in the <strong>NIC</strong> and the <strong>email</strong> of the non-registered user.</div>
 						</div>
 					</div>
 					<div class="card">
@@ -156,7 +149,7 @@
 					<div class="card">
 						<div class="card-header" id="headingFive">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i> What is I already have a KML file with all the coordinates?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i> What if I already have a KML file with all the coordinates?</a>
 							</h2>
 						</div>
 						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
@@ -226,8 +219,8 @@
 									<li>If a registered land isn't selected;</li>
 									<ul>
 										<li><strong>Plan Number</strong> given to your land parcel.</li>
-										<li>Surveyor Name</li>
-										<li>Map coordinate has to be demarcated.</li>
+										<li><strong>Surveyor Name</strong></li>
+										<li><strong>Map coordinate</strong> has to be demarcated.</li>
 									</ul>
 									<li><strong>Description</strong> (A description about the need for the development project form)</li>
 								</ul>
@@ -398,7 +391,7 @@
 								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i>What if I don't know the exact coordinates to mark on the map?</a>
 							</h2>
 						</div>
-						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample4">
+						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample3">
 							<div class="card-body">
 								<ul>
 									<li>The location does not have to be EXACT, mark as close to your land as possible. It will be checked by ministry personnel via an onsite visit. </li>
@@ -412,12 +405,13 @@
 								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"><i class="fa fa-chevron-circle-down"></i>How do I search for a location ?</a>
 							</h2>
 						</div>
-						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample4">
+						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample3">
 							<div class="card-body">
 								<ul>
 									<li>Clicking the search button allows you to search for a location. </li>
 								</ul>
 							</div>
+
 						</div>
 					</div>
 					<div class="card">
@@ -427,7 +421,7 @@
 									I drew shapes but made an error, how do I clear the map?</a>
 							</h2>
 						</div>
-						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample4">
+						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample3">
 							<div class="card-body">
 								<ul>
 									<li> If an error was made when drawing a layer, click on the bin button and confirm to delete all layers.</li>
@@ -464,7 +458,6 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 			<div class="modal-footer">
@@ -632,11 +625,11 @@
 					<div class="card">
 						<div class="card-header" id="headingTwo">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> How do I fill restoration project name and restored land title name ?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> How do I fill restoration project name and area name ?</a>
 							</h2>
 						</div>
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample5">
-							<div class="card-body">Restoration project name refers to the unique project name you may assign to your restoration project. Restored land parcel title refers to the title of the land parcel you are carrying out your restoration in.</div>
+							<div class="card-body">Restoration project name refers to the unique project name you may assign to your restoration project. Area name refers to name of the region you are carrying out your restoration in.</div>
 						</div>
 					</div>
 					<div class="card">

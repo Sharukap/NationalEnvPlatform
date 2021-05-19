@@ -1,14 +1,6 @@
 @extends('adminorg')
 
-@section('admin')
-<!-- Sessions to display success or failure -->
-<span>
-        <h3 class="text-center bg-success text-light">{{session('message')}}</h3>
-    </span>
-    <span>
-        <h3 class="text-center bg-danger text-light">{{session('danger')}}</h3>
-    </span>
-   
+@section('admin')  
 <div class="container">
     <div class="row justify-content-md-center border p-4 bg-white">  
         <span>
@@ -31,6 +23,8 @@
                     <td>{{$organization->form_type->type}}</td>
                     @if($organization->district == null)
                     <td>{{$organization->province->province}} Province</td>
+                    @elseif($organization->district_id == 26)
+                    <td>{{$organization->district->district}}</td>
                     @else
                     <td>{{$organization->district->district}} District</td>
                     @endif

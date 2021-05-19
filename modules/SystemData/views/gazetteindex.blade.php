@@ -14,7 +14,7 @@
       </li>
       <br>
       <li class="nav-item {{ Route::currentRouteName() == 'crimetypeindex' ? 'active' : '' }}">
-        <a class="nav-link h4" href="{{ route('crimetypeindex') }}">Crime Types</a>
+        <a class="nav-link h4" href="{{ route('crimetypeindex') }}">Complaint Types</a>
       </li>
       <br>
       <li class="nav-item {{ Route::currentRouteName() == 'orgtypeindex' ? 'active' : '' }}">
@@ -47,7 +47,6 @@
             <th scope="col">Gazette Number</th>
             <th scope="col">More Details</th>
             <th scope="col">Edit</th>
-             <th scope="col">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -57,13 +56,13 @@
                 <td>{{$gazette->gazette_number}}</td>
                 <td><a href="/system-data/gazzettesview/{{$gazette->id}}" class="btn btn-outline-info mr-4" role="button">...</a></td>
                 <td><a href="/system-data/gazzettesedit/{{$gazette->id}}"class="btn btn-outline-warning" role="button">Edit</a></td>
-                <td><button class="btn btn-outline-danger" onclick="event.preventDefault();
+             <!--   <td><button class="btn btn-outline-danger" onclick="event.preventDefault();
                             document.getElementById('form-delete-{{$gazette->id}}').submit()">Delete</button>
 
                     <form id="{{'form-delete-'.$gazette->id}}" style="display:none" method="post" action="/system-data/gazzettesdelete/{{$gazette->id}}">
                         @csrf
                         @method('delete');
-                    </form></td>
+                    </form></td> -->
                 <!-- If the organization isnt null display the name of the organization else display unassigned -->            
             </tr>
            @endforeach

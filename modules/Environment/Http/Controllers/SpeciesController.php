@@ -23,7 +23,6 @@ class SpeciesController extends Controller
     // Store the data in the database
     public function store(Request $request)
     {
-
         $request->validate([
             'type' => 'required',
             'habitat' => 'required',
@@ -64,13 +63,8 @@ class SpeciesController extends Controller
 
             $species->images = '';
         }
-
-
         $species->created_by_user_id = $request->input('createby');
         $species->save();
-
-
-
         return redirect('/environment/newspecies')->with('success', 'Data Added successfully');
     }
 

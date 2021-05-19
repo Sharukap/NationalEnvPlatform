@@ -146,22 +146,28 @@
                         <table class="table table-light table-striped border-secondary rounded-lg mr-4">
                             <thead>
                                 <tr>
+                                    <th>Land Title/Land Area</th>
+                                    <th>Surveyor</th>
                                     <th>District</th>
-                                    <th>Grama Niladari Division</th>
                                     <th>Protected Area</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
+                                    @if($item->title==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                    <td>{{$item->title}}</td>
+                                    @endif
+                                    @if($item->surveyor_name==null)
+                                        <td>Not assigned</td>
+                                    @else
+                                    <td>{{$item->surveyor_name}}</td>
+                                    @endif
                                     @if($item->district==null)
                                         <td>Not assigned</td>
                                     @else
                                         <td>{{$item->district->district}}</td>
-                                    @endif
-                                    @if($item->gs_division==null)
-                                        <td>Not assigned</td>
-                                    @else
-                                    <td>{{$item->gs_division->gs_division}}</td>
                                     @endif
                                     @if($item->special_approval==0)
                                         <td>Not a protected area</td>
@@ -176,7 +182,7 @@
             </div>
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <div id="mapid" style="height:400px;" name="map"></div>
-                @if($process_item->form_type_id!=5 && $process_item->status_id > 2)
+                @if($process_item->form_type_id!=5 && $process_item->status_id > 2 && $land_process != null)
                     <button type="submit" class="btn btn-primary" ><a href="/approval-item/investigate/{{$land_process->id}}" class="text-dark">View More details</a></button>
                 @endif
             </div>
@@ -285,9 +291,9 @@
                     <div class="card-deck">
                         @foreach($Photos as $photo)
                         <div class="card" style="background-color:#99A3A4">
-                            <img class="card-img-top" src="$photo" alt="photo">
+                            <img class="card-img-top" src="{{$photo}}" alt="photo">
                             <div class="card-body text-center">
-                            <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
+                                <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
                             </div>
                         </div>
                         @endforeach
@@ -349,6 +355,18 @@
     // Adjust map to show the kml
     var bounds = layer.getBounds();
     map.fitBounds(bounds);
+
+    //SEARCH FUNCTIONALITY
+    var searchControl = new L.esri.Controls.Geosearch().addTo(map);
+
+    var results = new L.LayerGroup().addTo(map);
+
+    searchControl.on('results', function(data) {
+        results.clearLayers();
+        for (var i = data.results.length - 1; i >= 0; i--) {
+            results.addLayer(L.marker(data.results[i].latlng));
+        }
+    });
     
 </script>
 @endsection
