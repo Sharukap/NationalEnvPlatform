@@ -391,7 +391,7 @@
 								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i>What if I don't know the exact coordinates to mark on the map?</a>
 							</h2>
 						</div>
-						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample4">
+						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample3">
 							<div class="card-body">
 								<ul>
 									<li>The location does not have to be EXACT, mark as close to your land as possible. It will be checked by ministry personnel via an onsite visit. </li>
@@ -405,7 +405,7 @@
 								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"><i class="fa fa-chevron-circle-down"></i>How do I search for a location ?</a>
 							</h2>
 						</div>
-						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample4">
+						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample3">
 							<div class="card-body">
 								<ul>
 									<li>Clicking the search button allows you to search for a location. </li>
@@ -420,7 +420,7 @@
 									I drew shapes but made an error, how do I clear the map?</a>
 							</h2>
 						</div>
-						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample4">
+						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample3">
 							<div class="card-body">
 								<ul>
 									<li> If an error was made when drawing a layer, click on the bin button and confirm to delete all layers.</li>
