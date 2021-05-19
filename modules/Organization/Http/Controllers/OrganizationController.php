@@ -1,4 +1,5 @@
 <?php
+
 namespace Organization\Http\Controllers;
 
 use App\Models\User;
@@ -27,17 +28,25 @@ class OrganizationController extends Controller
     // When the user fills in the details of the new organization and clicks submit it will be handled here. organization details and contact details will store database.
     public function store(Request $request)
     {
-        $request->validate([
-           
-            'title' => 'required',
-            'city' => 'required',
-            'organization_type' => 'required',
-            'type' => 'required',
-           'contact_signature' => 'required',
-           'province'=>'required',
-            'primary'=> 'required',
-             
-   ]);
+
+        if($request->type[0] == 'Mobile Number'||'Land Number')
+        {
+            $request->validate([
+            'contact_signature.0' => 'required | numeric | digits:10 | starts_with: 07',
+        ]);
+        }
+        else if($request->type[0] == 'Fax')
+        {
+            $request->validate([
+            'contact_signature.0' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:11',
+        ]);
+        }
+        else if($request->type[0] == 'Email')
+        {
+            $request->validate([
+            'contact_signature.0' => 'required|email',
+        ]);
+        }
 
         $org_type = Type::all();
 
@@ -50,12 +59,12 @@ class OrganizationController extends Controller
         $organization->status = $request->status;
         $organization->save();
         $type = $request->type;
-        
+
 
         $contact_signature = $request->contact_signature;
         $count = count((array)$type);
-        
-        for ($i = 0;$i < $count;$i++) {
+
+        for ($i = 0; $i < $count; $i++) {
             $contact = new Contact();
             $contact->org_id = $organization->id;
             $contact->type = $request->type[$i];
@@ -67,14 +76,14 @@ class OrganizationController extends Controller
         $ORG_ACT = $request->activity;
         $act_count = count((array)$ORG_ACT);
 
-        for ($i = 0;$i < $act_count;$i++) {
+        for ($i = 0; $i < $act_count; $i++) {
             $ORG_ACT = new Org_Activity();
             $ORG_ACT->organization_id = $organization->id;
-            $ORG_ACT->activity_id= $request->activity[$i];
-            $ORG_ACT->province_id= $request->province;
+            $ORG_ACT->activity_id = $request->activity[$i];
+            $ORG_ACT->province_id = $request->province;
             $ORG_ACT->save();
         }
-     
+
 
         //direct back to the index page.
         return redirect('/organization/index')->with('message', 'Organization created Successfully ');
@@ -86,40 +95,41 @@ class OrganizationController extends Controller
         $organization = Organization::find($request->id);
         //$contact = Contact::all();
         $contact = Contact::Where('org_id', $request->id)->get();
-        $ORG_ACT= Org_Activity::Where('organization_id', $request->id)->get();
+        $ORG_ACT = Org_Activity::Where('organization_id', $request->id)->get();
 
         //dd($contact);
         //direct back to the index page.
         return view('organization::more', compact("organization", "contact", "ORG_ACT"));
     }
 
-    
+
     // Returns the edit view for organization.
     public function edit($id)
     {
-        $org_type=Type::all();
+        $org_type = Type::all();
         $organization = Organization::find($id);
-        $province=Province::all();
+        $province = Province::all();
         $contact = Contact::Where('org_id', $id)->get();
-        $ORG_ACT= Org_Activity::Where('organization_id', $id)->get();
+        $ORG_ACT = Org_Activity::Where('organization_id', $id)->get();
         //$existActs= Org_Activity::select('activity_id')->where('organization_id', $id)->get()->toArray();
-        $Activities=Activity::all();
+        $Activities = Activity::all();
 
         //dd($ORG_ACT,$Activities);
         //direct back to the index page.
         return view(
             'organization::edit',
-            ['organization' => $organization,
-        'contact' => $contact,
-         'ORG_ACT' => $ORG_ACT,
-         'org_type'=> $org_type,
-          'Activities'=>$Activities,
-          'province'=>$province
-         ]
+            [
+                'organization' => $organization,
+                'contact' => $contact,
+                'ORG_ACT' => $ORG_ACT,
+                'org_type' => $org_type,
+                'Activities' => $Activities,
+                'province' => $province
+            ]
         );
     }
 
-    
+
     // When the admin clicks the submit button in the edit view, the following data will be
     // patched for the relavant organization who is being edited and saved in the db.
     public function update(Request $request, $id)
@@ -127,29 +137,29 @@ class OrganizationController extends Controller
         // ddd($request->all());
 
         $organization = Organization::find($id);
-       
+
         $organization->title = $request->title;
-        $organization-> city =$request->city;
+        $organization->city = $request->city;
         // $organization-> country =$request->country;
-        $organization-> type_id = $request->organization_type;
-        $organization-> description = $request->description;
-        $organization-> status = $request->status;
+        $organization->type_id = $request->organization_type;
+        $organization->description = $request->description;
+        $organization->status = $request->status;
         $organization->save();
-        
+
         //direct back to the index page.
         return redirect('/organization/index')->with('message', 'Organization Updated Successfully');
     }
     public function contactupdate(Request $request, $id)
     {
         $type = $request->type;
-        
+
 
         $contact_signature = $request->contact_signature;
         $count = count((array)$type);
-        
-        for ($i = 0;$i < $count;$i++) {
+
+        for ($i = 0; $i < $count; $i++) {
             $contact = new Contact();
-            $contact->org_id =$id;
+            $contact->org_id = $id;
             $contact->type = $request->type[$i];
             $contact->contact_signature = $request->contact_signature[$i];
             $contact->primary = $request->primary;
@@ -160,25 +170,25 @@ class OrganizationController extends Controller
         return redirect('/organization/index')->with('message', 'Contact updated Successfully');
     }
 
-    
+
     public function contactremove($id)
     {
         Contact::where('id', $id)->delete();
         return redirect('/organization/index')->with('message', 'Contact removed Successfully');
     }
-    
+
 
     public function activityupdate(Request $request, $id)
     {
-        $request -> validate([
+        $request->validate([
             'province' => 'required|not_in:0',
         ]);
-        
+
         foreach ($request->modules as $newactivity) {
-            $orgact=new Org_Activity();
-            $orgact->organization_id=$id;
-            $orgact->activity_id=$newactivity;
-            $orgact->province_id=$request->province;
+            $orgact = new Org_Activity();
+            $orgact->organization_id = $id;
+            $orgact->activity_id = $newactivity;
+            $orgact->province_id = $request->province;
             $orgact->save();
         }
         return redirect('/organization/index')->with('message', 'Activity updated Successfully');
@@ -195,7 +205,7 @@ class OrganizationController extends Controller
     {
         $organization = Organization::where('status', '!=', -1)->get();
         $contact = Contact::all();
-        $ORG_ACT= Org_Activity::all();
+        $ORG_ACT = Org_Activity::all();
         //direct back to the index page.
         return view('organization::index')->with('organization', $organization)->with('contact', $contact);
     }
@@ -206,9 +216,9 @@ class OrganizationController extends Controller
         foreach ($contacts as $contact) {
             $contact->delete();
         }
-        $Org_act =Org_Activity::where('organization_id', '=', $id)->get();
+        $Org_act = Org_Activity::where('organization_id', '=', $id)->get();
         foreach ($Org_act as $ORG_ACT) {
-            $ORG_ACT ->delete();
+            $ORG_ACT->delete();
         }
         $organization->update([
             'status' => -1,
@@ -228,7 +238,7 @@ class OrganizationController extends Controller
     public function new_activity()
     {
         $organizations = Organization::all();
-        $Forms =Form_Type::all();
+        $Forms = Form_Type::all();
         $province = Province::all();
         $district = District::all();
         //direct back to the index page.
@@ -240,8 +250,9 @@ class OrganizationController extends Controller
         ]);
     }
 
-    public function activity_create(Request $request) {
-        $request -> validate([
+    public function activity_create(Request $request)
+    {
+        $request->validate([
             'province' => 'required',
             'district' => 'required',
             'form_type' => 'required',
@@ -249,10 +260,9 @@ class OrganizationController extends Controller
         ]);
         $Org_act = new Organization_Activity();
         $Org_act->form_type_id = $request->form_type;
-        if(request('district') != 27){
+        if (request('district') != 27) {
             $Org_act->district_id = request('district');
-        }
-        else{
+        } else {
             $Org_act->province_id = request('province');
         }
         $org_id = Organization::where('title', request('organization'))->pluck('id');

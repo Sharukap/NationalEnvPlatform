@@ -40,21 +40,11 @@
             @error('gazettedate')
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
-            <div class="input-group mb-3">
-               <div class="input-group-prepend">
-                  <span class="input-group-text">Degazetted Date</span>
-               </div>
-               <input type="date" class="form-control" name="degazetteddate" placeholder="Enter here">
-            </div>
-            @error('degazetteddate')
-            <div class="alert alert-danger">{{ $message }}</div>
-            @enderror
             <br>
             <h6>Organizations</h6>
             <hr>
             <div class="input-group mb-3">
                <input type="text" class="form-control" id="org_1"name="organizations[]" placeholder="Organization 1,Organization 2">
-               
             </div>
             @error('organizations')
             <div class="alert alert-danger">{{ $message }}</div>

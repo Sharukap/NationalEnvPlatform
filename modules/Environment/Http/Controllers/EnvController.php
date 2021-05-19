@@ -26,7 +26,7 @@ class EnvController extends Controller
         $request->validate([
             'title' => 'required',
             'eco_type' => 'required',
-            'description' => 'required',
+           
             'polygon' => 'required',
             'district' => 'required|exists:districts,district',
 
@@ -42,7 +42,12 @@ class EnvController extends Controller
         $ecosystems->district_id = $district_id1[0];
         $ecosystems->title = $request->input('title');
         $ecosystems->polygon = request('polygon');
-        $ecosystems->description = $request->input('description');
+        if (request('description')) {
+            $ecosystems->description = $request->input('description');
+        } else {
+            $ecosystems->description = "No Description Given";
+        }
+       
         $ecosystems->created_by_user_id = $request->input('createby');
         $ecosystems->status = $request->input('status');
 
