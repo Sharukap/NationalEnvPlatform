@@ -1,16 +1,22 @@
 @extends('home')
 
 @section('cont')
+<span>
+    <h3 class="text-center bg-success text-light">{{session('message')}}</h3>
+</span>
+<span>
+    <h3 class="text-center bg-danger text-light">{{session('danger')}}</h3>
+</span>
 <div>
     <kbd><a href="/user/index" class="text-white font-weight-bolder"><i class="fas fa-chevron-left"></i></i> BACK</a></kbd>
 </div><br>
 <div class="row">
     <div class="col-md-8">
-        <h3 class="p-3 display-4">Activate Users</h3>
+        <h2 class="p-3" style="display:inline">Activate Users</h2>
     </div>
 
     <!-- Search Bar and Buttons -->
-    <div class="col-md-4 mt-5">
+    <div class="col-md-4">
         <form action="/user/searchSelfRegistered" method="get">
             <div class="input-group">
                 <input type="search" class="form-control" name="search" placeholder="Search Self Registered Users">

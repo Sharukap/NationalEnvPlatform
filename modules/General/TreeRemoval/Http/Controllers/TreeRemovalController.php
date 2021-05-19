@@ -37,7 +37,10 @@ class TreeRemovalController extends Controller
         ])->get()->pluck('form_id');
         $landsdetails = Land_Parcel::whereIn('id', $landbyuser)->get();
         $gazettes = Gazette::all();
-        $organizations = Organization::where('type_id', '<', '3')->get();
+        $organizations = Organization::where([
+            ['type_id', '<', '3'],
+            ['status', '!=', '-1'],
+        ])->get();
         return view('treeRemoval::form', [
             'organizations' => $organizations,
             'gazettes' => $gazettes,

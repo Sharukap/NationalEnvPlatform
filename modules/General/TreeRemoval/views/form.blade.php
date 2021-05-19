@@ -58,7 +58,7 @@
             <div class="form-group">
               <label for="registered_land">Select Registered Land</label>
               <select class="custom-select @error('registered_land') is-invalid @enderror" name="registered_land">
-                <option selected disabled value="">Select Land Plan Number</option>
+                <option selected value="">None</option>
                 @foreach ($registered_lands as $registered_land)
                 <option value="{{ $registered_land->id }}" {{ Request::old()?(Request::old('registered_land')==$registered_land->id?'selected="selected"':''):'' }}>{{ $registered_land->title }}</option>
                 @endforeach
@@ -255,14 +255,12 @@
         </div>
         <div class="row border rounded-lg p-4 bg-white">
           <div class="col-lg border border-muted rounded-lg">
-            @if(Auth()->user()->role_id != 6)
             <div>
               <label>If coordinates are available as KML, upload KML File</label>
               <input type="file" name="select_file" id="select_file" />
               <input type="button" name="upload" id="upload" class="btn btn-primary" value="Upload">
             </div>
             <div class="alert mt-3" id="message" style="display: none"></div>
-            @endif
             <label>Select Location On Map*</label>
             <span style="float:right; cursor:pointer;"><kbd><a title="How to Draw Shapes on the Map" class="text-white" data-toggle="modal" data-target="#mapHelp">How To Mark Location</a></kbd></span>
             <!-- ////////MAP GOES HERE -->
