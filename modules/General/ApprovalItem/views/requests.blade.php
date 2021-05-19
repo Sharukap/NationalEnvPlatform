@@ -88,6 +88,9 @@
             </tbody>
         </table>
     </div>
+    <div class="col-sm-12" style="display:flex; align-items:center; justify-content:center;">
+    {!!$items->links();!!}
+    </div>
 </div>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css" />
 <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.5.0/css/bootstrap-datepicker.css" rel="stylesheet">

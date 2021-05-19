@@ -14,7 +14,7 @@ class GeneralController extends Controller
 
     public function showRequests()
     {
-        $items = Process_Item::where('created_by_user_id', '=', Auth::user()->id)->get();
+        $items = Process_Item::where('created_by_user_id', '=', Auth::user()->id)->orderby('id','desc')->paginate(10);
         return view('approvalItem::requests', [
             'items' => $items,
         ]);
@@ -37,7 +37,7 @@ class GeneralController extends Controller
             $Process_items = Process_Item::where([
                 ['status_id', '=', 1],
                 ['form_type_id', '<', 5],
-            ])->get();
+            ])->orderby('id','desc')->paginate(10);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' => $tree_removals,
@@ -46,7 +46,7 @@ class GeneralController extends Controller
         }
         //IF HOO OR MANAGER, DISPLAYS ALL THE PENDING REQUESTS OF THEIR ORGANIZATION
         if ($role == 3 || $role == 4) {
-            $Process_items = Process_Item::all()->where('status_id', '>=', 2)->where('activity_organization', $organization)->where('form_type_id', '<', 5);
+            $Process_items = Process_Item::all()->where('status_id', '>=', 2)->where('activity_organization', $organization)->where('form_type_id', '<', 5)->orderby('id','desc')->paginate(10);
 
             return view('general::generalA', [
                 'Process_items' => $Process_items,
@@ -57,7 +57,7 @@ class GeneralController extends Controller
 
         //IF STAFF DISPLAYS ALL THE REQUESTS ASSIGNED TO THEM
         else if ($role == 5) {
-            $Process_items = Process_Item::all()->where('activity_user_id', $id)->where('form_type_id', '<', 5);
+            $Process_items = Process_Item::all()->where('activity_user_id', $id)->where('form_type_id', '<', 5)->orderby('id','desc')->paginate(10);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' => $tree_removals,
@@ -76,7 +76,7 @@ class GeneralController extends Controller
                 ['created_by_user_id', '=', Auth()->user()->id]
             ])->whereMonth('created_at', Carbon::now()->month)
                 ->count();
-            $Process_items = Process_Item::all()->where('created_by_user_id', $id);
+            $Process_items = Process_Item::all()->where('created_by_user_id', $id)->orderby('id','desc')->paginate(10);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' => $citizen_tree_removals,
@@ -104,7 +104,7 @@ class GeneralController extends Controller
             ->count();
 
         if ($role == 1 || $role == 2) {
-            $Process_items = Process_Item::all()->where('form_type_id', $type);
+            $Process_items = Process_Item::where('form_type_id', $type)->orderby('id')->paginate(10);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' => $tree_removals,
@@ -113,21 +113,21 @@ class GeneralController extends Controller
         }
 
         if ($role == 3 || $role == 4) {
-            $Process_items = Process_Item::all()->where('activity_organization', $organization)->where('form_type_id', $type)->where('status_id', '>=', 2);
+            $Process_items = Process_Item::where('activity_organization', $organization)->where('form_type_id', $type)->where('status_id', '>=', 2)->orderby('id','desc')->paginate(10);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' => $tree_removals,
                 'dev_projects' => $dev_projects
             ]);
         } else if ($role == 5) {
-            $Process_items = Process_Item::all()->where('activity_user_id', $id)->where('form_type_id', $type)->toArray();
+            $Process_items = Process_Item::where('activity_user_id', $id)->where('form_type_id', $type)->orderby('id','desc')->paginate(10);
             return view('general::.generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' => $tree_removals,
                 'dev_projects' => $dev_projects
             ]);
         } else if ($role == 6) {
-            $Process_items = Process_Item::all()->where('created_by_user_id', $id)->where('form_type_id', $type)->toArray();
+            $Process_items = Process_Item::where('created_by_user_id', $id)->where('form_type_id', $type)->orderby('id','desc')->paginate(10);
             return view('general::.generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' => $tree_removals,
