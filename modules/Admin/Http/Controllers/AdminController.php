@@ -53,7 +53,7 @@ class AdminController extends Controller
     // will open the selfRegistered view.
     public function showSelfRegistered()           
     {
-        $users = User::where('status', 0)->get();   //get only records where the status = 0 = self registered users.
+        $users = User::where('status', 0)->paginate(10);;   //get only records where the status = 0 = self registered users.
         return view('admin::admin.selfRegistered', [
             'users' => $users,
         ]);

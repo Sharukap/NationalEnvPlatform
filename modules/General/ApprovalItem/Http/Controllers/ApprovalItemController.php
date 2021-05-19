@@ -176,7 +176,7 @@ class ApprovalItemController extends Controller
             ['created_by_user_id', '=', Auth::user()->id],
             ['form_type_id', '<', 5],
            // ['created_at', '>', '2021-05-18'],
-        ])->get();
+        ])->orderby('id','desc')->paginate(10);
         $organizations = Organization::all();
         return view('approvalItem::requests', [
             'items' => $items,
@@ -192,7 +192,7 @@ class ApprovalItemController extends Controller
                 ['created_by_user_id', '=', Auth::user()->id],
                 ['activity_organization', '=', $request->organization],
                 ['form_type_id', '<', 5],
-            ])->whereDate('created_at', '=', $request->date)->get();
+            ])->whereDate('created_at', '=', $request->date)->orderby('id','desc')->paginate(10);
             return view('approvalItem::requests', [
                 'items' => $items,
                 'organizations' => $organizations,
@@ -201,7 +201,7 @@ class ApprovalItemController extends Controller
             $items = Process_Item::where([
                 ['created_by_user_id', '=', Auth::user()->id],
                 ['form_type_id', '<', 5],
-            ])->whereDate('created_at', '=', $request->date)->get();
+            ])->whereDate('created_at', '=', $request->date)->orderby('id','desc')->paginate(10);
             return view('approvalItem::requests', [
                 'items' => $items,
                 'organizations' => $organizations,
@@ -211,7 +211,7 @@ class ApprovalItemController extends Controller
                 ['created_by_user_id', '=', Auth::user()->id],
                 ['activity_organization', '=', $request->organization],
                 ['form_type_id', '<', 5],
-            ])->get();
+            ])->orderby('id','desc')->paginate(10);
             return view('approvalItem::requests', [
                 'items' => $items,
                 'organizations' => $organizations,
@@ -220,7 +220,7 @@ class ApprovalItemController extends Controller
             $items = Process_Item::where([
                 ['created_by_user_id', '=', Auth::user()->id],
                 ['form_type_id', '<', 5],
-            ])->get();
+            ])->orderby('id','desc')->paginate(10);
             return view('approvalItem::requests', [
                 'items' => $items,
                 'organizations' => $organizations,
