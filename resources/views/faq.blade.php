@@ -514,11 +514,11 @@
 					<div class="card">
 						<div class="card-header" id="headingTwo">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> How do I fill restoration project name and restored land title name ?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> How do I fill restoration project name and area name ?</a>
 							</h2>
 						</div>
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample5">
-							<div class="card-body">Restoration project name refers to the unique project name you may assign to your restoration project. Restored land parcel title refers to the title of the land parcel you are carrying out your restoration in.</div>
+							<div class="card-body">Restoration project name refers to the unique project name you may assign to your restoration project. Area name refers to name of the region you are carrying out your restoration in.</div>
 						</div>
 					</div>
 					<div class="card">
