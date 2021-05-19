@@ -249,6 +249,9 @@ class SystemDataController extends Controller
         $gazette->title = $request->title;
         $gazette->gazette_number = $request->gazettenumber;
         $gazette->gazetted_date = $request->gazetteddate;
+        if(request('degazetteddate')){
+            $gazette->degazetted_date = $request->degazetteddate;
+        }
         $gazette->organizations = $request->organizations;
         $gazette->content= $request->content;
         $gazette->status=$request->status;
