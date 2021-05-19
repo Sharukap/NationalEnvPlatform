@@ -264,21 +264,22 @@
 
 
     <div id="pitch">
-      <p class="text-light">Duis iaculis urna vel massa ultricies suscipit. Phasellus diam sapien, fermentum a eleifend non, luctus non augue. Quisque scelerisque purus quis eros sollicitudin gravida.</p>
+      <p class="text-light">Deforestation is one of the most serious environmental issues in Sri Lanka. In 1920, the island had a 49% percentage coverage of forests and by the end of 2005, this had fallen up to approximately 29%.</p>
     </div>
     <div id="main">
       <h2><a href="#">Lorem ipsum dolor sit amet</a></h2>
       <img src="images/img.gif" class="img left" alt="" />
-      <p>Nunc eget nunc libero. Nunc commodo euismod massa quis vestibulum. Proin mi nibh, dignissim a pellentesque at, ultricies sit amet sapien. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque vel lorem eu libero laoreet facilisis. Aenean placerat, ligula quis placerat iaculis, mi magna luctus nibh, adipiscing pretium erat neque vitae augue. Quisque consectetur odio ut sem semper commodo. Maecenas iaculis leo a ligula euismod condimentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut enim risus, rhoncus sit amet ultricies vel, aliquet ut dolor. Duis iaculis urna vel massa ultricies suscipit. Phasellus diam sapien, fermentum a eleifend non, luctus non augue. Quisque scelerisque purus quis eros sollicitudin gravida. Aliquam erat volutpat. Donec a sem consequat tortor posuere dignissim sit amet at ipsum.</p>
-      <p>Aenean placerat, ligula quis placerat iaculis, mi magna luctus nibh, adipiscing pretium erat neque vitae augue. Quisque consectetur odio ut sem semper commodo. Maecenas iaculis leo a ligula euismod condimentum. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Ut enim risus, rhoncus sit amet ultricies vel, aliquet ut dolor. Duis iaculis urna vel massa ultricies suscipit. Phasellus diam sapien, fermentum a eleifend non, luctus non augue. Quisque scelerisque purus quis eros sollicitudin gravida. Aliquam erat volutpat. Donec a sem consequat tortor posuere dignissim sit amet at ipsum. </p>
+      <p>Deforestation is one of the most serious environmental issues in Sri Lanka. In 1920, the island had a 49% percentage coverage of forests and by the end of 2005, this had fallen up to approximately 29%. In 1990 the national policy for wildlife conservation was approved and the prime objective of this policy was to enhance the sustainability of ecosystems. Sri Lanka also introduced a logging ban for all the natural forests under the forestry sector development program. </p>
+      <p>To ensure the sustainability of this natural resource we need to have a proper system to solve the problems above mentioned, which are currently in the environment sector. One of the major issues of the current system is the mismanagement within the authorities which ultimately delay the whole process which is being done by the ministries. This is what leads the people to get work done through illegal means. By using a digitalized system, we can make the system more reliable. For example, data can be created only when they get a request to cut down a tree.</p>
+      <p>By using our digitized platform we would be able to provide a system which provides reports and statistical data with better transparency, processing applications easily with the integrated environment which is embedded in the system and also a system which works under the rules, regulations and requirements expected by our client.</p>
       <div class="x"></div>
     </div>
     <div class="col last">
-      <h4>Lorem ipsum dolor sit amet</h4>
+      <h4>Reforest Sri Lanka & LSF</h4>
       <div>
-        <p>Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a href="#">&raquo;</a></p>
-        <p>Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a href="#">&raquo;</a></p>
-        <p>Dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. <a href="#">&raquo;</a></p>
+        <p>There is a necessity to capture and maintain data to ensure transparency in the system which would ensure proper procedure is carried out without being held down by administrative bureaucracy and political intervention. <a href="#">&raquo;</a></p>
+        <p> The Ministry of Environment should have a simple transparent process to grant permission to cut down trees. The lack of clear documentation and transparency has allowed inefficiencies and mismanagement within such ministries to go unchecked.<a href="#">&raquo;</a></p>
+        <p>By using our digitized platform we would be able to provide a system which provides reports and statistical data with better transparency, processing applications easily and also a system which works under the rules, regulations and requirements expected by our client.<a href="#">&raquo;</a></p>
       </div>
     </div>
   </div>
@@ -293,7 +294,6 @@
         <img class="card-img-top" style="height:250px; width:287px;" src="images/tree.jpg" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">Tree Removals</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
         <div class="card-body">
           @if(auth()->user())
@@ -310,7 +310,6 @@
         <img class="card-img-top" style="height:250px; width:287px;" src="images/dev.jpg" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">Development Projects</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
         <div class="card-body">
           @if(auth()->user())
@@ -327,7 +326,6 @@
         <img class="card-img-top" style="height:250px; width:287px;" src="/images/restore2.jpg" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">Restorations</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
         <div class="card-body">
           @if(auth()->user())
@@ -344,7 +342,6 @@
         <img class="card-img-top" style="height:250px; width:287px;" src="images/complain.jpg" alt="Card image cap">
         <div class="card-body">
           <h5 class="card-title">Complaints</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
         </div>
         <div class="card-body">
           @if(auth()->user())
