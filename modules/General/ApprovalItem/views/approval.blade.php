@@ -182,7 +182,7 @@
             </div>
             <div class="col border border-muted rounded-lg mr-2 p-4">
                 <div id="mapid" style="height:400px;" name="map"></div>
-                @if($process_item->form_type_id!=5 && $process_item->status_id > 2)
+                @if($process_item->form_type_id!=5 && $process_item->status_id > 2 && $land_process != null)
                     <button type="submit" class="btn btn-primary" ><a href="/approval-item/investigate/{{$land_process->id}}" class="text-dark">View More details</a></button>
                 @endif
             </div>
@@ -355,6 +355,18 @@
     // Adjust map to show the kml
     var bounds = layer.getBounds();
     map.fitBounds(bounds);
+
+    //SEARCH FUNCTIONALITY
+    var searchControl = new L.esri.Controls.Geosearch().addTo(map);
+
+    var results = new L.LayerGroup().addTo(map);
+
+    searchControl.on('results', function(data) {
+        results.clearLayers();
+        for (var i = data.results.length - 1; i >= 0; i--) {
+            results.addLayer(L.marker(data.results[i].latlng));
+        }
+    });
     
 </script>
 @endsection

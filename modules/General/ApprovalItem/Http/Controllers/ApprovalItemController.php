@@ -541,6 +541,76 @@ class ApprovalItemController extends Controller
             ]);
         }
     }
+
+    public function view_prerequisite($id)
+    {
+        $process_item = Process_item::find($id);
+        $Organizations = Organization::all();
+        $Prerequisites = Process_item::all()->where('prerequisite_id', $process_item->id);
+        $Process_item_statuses = Process_item_status::all();
+        $Process_item_progresses = Process_item_progress::all()->where('process_item_id', $id);
+        $organization = Auth::user()->organization_id;
+        if (Auth::user()->role_id == '3') {
+            $Users = User::where([
+                ['role_id', '>', 3],
+                ['organization_id', '=', $organization],
+            ])->get();
+        } else {
+            $Users = User::where([
+                ['role_id', '=', 5],
+                ['organization_id', '=', $organization],
+            ])->get();
+        }
+        if ($process_item->form_type_id == '1') {
+            $item = Tree_Removal_Request::find($process_item->form_id);
+            $Photos = Json_decode($item->images);
+            $data = $item->tree_details;
+        } else if ($process_item->form_type_id == '2') {
+            $item = Development_Project::find($process_item->form_id);
+            $Photos = null;
+            $data = null;
+        } else if ($process_item->form_type_id == '3') {
+            $item = Environment_Restoration::find($process_item->form_id);
+            $Photos = null;
+            $data = Environment_Restoration_Species::all()->where('environment_restoration_id', $item->id);
+        } else if ($process_item->form_type_id == '4') {
+            $item = Crime_report::find($process_item->form_id);
+            $Photos = Json_decode($item->photos);
+            $data = null;
+        }
+        if ($process_item->form_type_id != '5') {
+            $land_parcel = Land_Parcel::find($item->land_parcel_id);
+
+            $landProcess = Process_item::where([
+                ['prerequisite_id', '=', $process_item->id],
+                ['prerequisite', '=', 0],
+            ])->first();
+            //dd($landProcess, $process_item->status_id,$process_item->status);
+
+            return view('approvalItem::viewPrerequisite', [
+                'item' => $item,
+                'Prerequisites' => $Prerequisites,
+                'process_item' => $process_item,
+                'polygon' => $land_parcel->polygon,
+                'land_process' => $landProcess,
+                'Process_item_progresses' => $Process_item_progresses,
+                'Photos' => $Photos,
+                'data' => $data,
+            ]);
+        } else {
+            $item = Land_Parcel::find($process_item->form_id);
+            $Land_Organizations = Land_Has_Organization::where('land_parcel_id', $item->id)->get();
+            //dd($process_item,$item);
+            return view('approvalItem::viewPrerequisite', [
+                'item' => $item,
+                'process_item' => $process_item,
+                'polygon' => $item->polygon,
+                'LandOrganizations' => $Land_Organizations,
+                'Process_item_progresses' => $Process_item_progresses,
+                'Prerequisites' => $Prerequisites,
+            ]);
+        }
+    }
     public function create_prerequisite(Request $request)
     {
 
