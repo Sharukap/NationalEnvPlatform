@@ -411,6 +411,7 @@
 									<li>Clicking the search button allows you to search for a location. </li>
 								</ul>
 							</div>
+
 						</div>
 					</div>
 					<div class="card">
@@ -456,7 +457,6 @@
 							</div>
 						</div>
 					</div>
-
 				</div>
 			</div>
 			<div class="modal-footer">
