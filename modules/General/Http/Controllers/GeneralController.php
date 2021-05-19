@@ -46,7 +46,7 @@ class GeneralController extends Controller
         }
         //IF HOO OR MANAGER, DISPLAYS ALL THE PENDING REQUESTS OF THEIR ORGANIZATION
         if ($role == 3 || $role == 4) {
-            $Process_items = Process_Item::all()->where('status_id', '>=', 2)->where('activity_organization', $organization)->where('form_type_id', '<', 5)->orderby('id','desc')->paginate(10);
+            $Process_items = Process_Item::where('status_id', '>=', 2)->where('activity_organization', $organization)->where('form_type_id', '<', 5)->orderby('id','desc')->paginate(10);
 
             return view('general::generalA', [
                 'Process_items' => $Process_items,
@@ -57,7 +57,7 @@ class GeneralController extends Controller
 
         //IF STAFF DISPLAYS ALL THE REQUESTS ASSIGNED TO THEM
         else if ($role == 5) {
-            $Process_items = Process_Item::all()->where('activity_user_id', $id)->where('form_type_id', '<', 5)->orderby('id','desc')->paginate(10);
+            $Process_items = Process_Item::where('activity_user_id', $id)->where('form_type_id', '<', 5)->orderby('id','desc')->paginate(10);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' => $tree_removals,
@@ -76,7 +76,7 @@ class GeneralController extends Controller
                 ['created_by_user_id', '=', Auth()->user()->id]
             ])->whereMonth('created_at', Carbon::now()->month)
                 ->count();
-            $Process_items = Process_Item::all()->where('created_by_user_id', $id)->orderby('id','desc')->paginate(10);
+            $Process_items = Process_Item::where('created_by_user_id', $id)->orderby('id','desc')->paginate(10);
             return view('general::generalA', [
                 'Process_items' => $Process_items,
                 'tree_removals' => $citizen_tree_removals,
