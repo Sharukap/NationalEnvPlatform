@@ -28,7 +28,7 @@
                 <div class="row p-2 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-4">
                         <div class="form-group">
-                            <label for="type">Species Type</label>
+                            <label for="type">Species Type<strong>*</strong></label>
 
                             <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" placeholder="Enter Type">
                             @error('type')
@@ -39,9 +39,7 @@
                         <div>
                             <label for="number_of_tree_species">Species Title</label>
                             <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Enter Title">
-                            @error('title')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
+                            
                         </div>
 
 
@@ -49,14 +47,12 @@
                         <h6>Scientific Name</h6>
                         <div class="form-group">
                             <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
-                            @error('scientific_name')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
+                           
                         </div>
 
                         </br>
                         <div class="form-group">
-                            District:<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                            District:<strong>*</strong><input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
                             @error('district')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -66,7 +62,7 @@
                             <div class="card mb-3">
                                 <div class="card-header bg-white">
                                     <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseone">
-                                        Taxanomy
+                                        Taxanomy<strong>*</strong>
                                     </a>
                                 </div>
                                 <div id="collapseone" class="collapse" data-parent="#accordion">
@@ -89,7 +85,7 @@
                             <div class="card">
                                 <div class="card-header bg-white">
                                     <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapsetwo">
-                                        Habitats
+                                        Habitats<strong>*</strong>
                                     </a>
                                 </div>
                                 <div id="collapsetwo" class="collapse" data-parent="#accordion">
@@ -110,9 +106,7 @@
                         </div>
                         <label>Project Description</label>
                         <textarea class="form-control" rows="5" name="description"></textarea>
-                        @error('description')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                       
                         </br>
                         </br>
 

@@ -34,16 +34,16 @@
   <table class="table table-striped table-white">
     <thead>
       <tr>
-        <th scope="col">ID</th>
-        <th scope="col">Type</th>
-        <th scope="col">Title</th>
-        <th scope="col">Scientific Name</th>
-        <th scope="col">Description</th>
+        <th scope="col"> ID</th>
+        <th scope="col"> Type</th>
+        <th scope="col"> Title</th>
+        <th scope="col"> Scientific Name</th>
+        <th scope="col"> Description</th>
         <th scope="col">Status</th>
-        <th scope="col">Approve</th>
-        <th scope="col">Delete</th>
-        <th scope="col">More</th>
-        <th scope="col">Images</th>
+        <th scope="col"> Approve</th>
+        <th scope="col"> Delete</th>
+        <th scope="col"> More</th>
+        <th scope="col"> Images</th>
 
 
 

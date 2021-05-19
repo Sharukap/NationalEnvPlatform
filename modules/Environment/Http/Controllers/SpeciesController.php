@@ -26,11 +26,11 @@ class SpeciesController extends Controller
 
         $request->validate([
             'type' => 'required',
-            'title' => 'required',
-            'scientific_name' => 'required',
+
+
             'habitat' => 'required',
             'taxanomy' => 'required',
-            'description' => 'required',
+
             'createby' => 'required',
             'district' => 'required',
             'polygon' => 'required',
@@ -38,27 +38,40 @@ class SpeciesController extends Controller
         ]);
         $species = new Species;
         $species->type = $request->input('type');
-        $species->title = $request->input('title');
-        $species->scientefic_name = $request->input('scientific_name');
+
+        if (request('title')) {
+            $species->title = $request->input('title');
+        } else {
+            $species->title = "No Title Given";
+        }
+
+        if (request('scientific_name')) {
+            $species->scientefic_name = $request->input('scientific_name');
+        } else {
+            $species->scientefic_name = "No Scientific Name Given";
+        }
         $species->habitats = $request->input('habitat');
         $district_id1 = District::where('district', request('district'))->pluck('id');
         $species->district_id = $district_id1[0];
         $species->taxa = $request->input('taxanomy');
         $species->polygon = request('polygon');
-        $species->description = $request->input('description');
+
+        if (request('description')) {
+            $species->description = $request->input('description');
+        } else {
+            $species->description = "No Description Given";
+        }
         $species->status_id = $request->input('status');
-        if( $request->hasFile('images')) {
-            
-            $file = $request->file('images') ;
-            $extension = $file->getClientOriginalExtension() ; //geting the image extension
-            $filename= time() . '.' . $extension;
+        if ($request->hasFile('images')) {
+
+            $file = $request->file('images');
+            $extension = $file->getClientOriginalExtension(); //geting the image extension
+            $filename = time() . '.' . $extension;
             $result = $file->storeOnCloudinaryAs('species', $filename);
             $species->images = $result->getSecurePath(); // Get the url of the uploaded file; https 
-        }else{
-            
-$species->images = '';
+        } else {
 
-
+            $species->images = '';
         }
 
 
@@ -87,16 +100,14 @@ $species->images = '';
     public function index2()
     {
         $role = Auth::user()->role_id;
-        if($role != 1){
-            $access1 = Role_has_access::where('role_id',$role)->where('access_id',2)->first();;
-            if($access1 == null)
-            {
+        if ($role != 1) {
+            $access1 = Role_has_access::where('role_id', $role)->where('access_id', 2)->first();;
+            if ($access1 == null) {
                 $species = Species::all();
                 return view('environment::SpcGeneral', compact('species', $species));
             }
         }
         return redirect()->action([SpeciesController::class, 'index']);
-       
     }
 
 
@@ -120,10 +131,10 @@ $species->images = '';
 
         $species = Species::find($id);
         $polygon = Species::find($id)->polygon;
-        return view('environment::morespecies',[
+        return view('environment::morespecies', [
             'species' => $species,
             'polygon' => $polygon,
-            ]);
+        ]);
         return view('environment::morespecies', compact('species', $species));
     }
     public function delete($id)
