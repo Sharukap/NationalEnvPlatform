@@ -7,7 +7,7 @@
 <div class="container">
     <h2 style="text-align:center;" class="text-dark">Details of {{$user->name}}</h2>
     <hr>
-    @if($user->status_id == 1)
+    @if($user->status == 1)
     <div class="row justify-content-md-center border p-4 bg-white">
         <a href="/security/user/{{$user->id}}" class="btn btn-outline-warning" role="button">Audit</a>
     </div>
