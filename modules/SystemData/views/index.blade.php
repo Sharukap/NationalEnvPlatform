@@ -14,7 +14,7 @@
       </li>
       <br>
       <li class="nav-item {{ Route::currentRouteName() == 'crimetypeindex' ? 'active' : '' }}">
-        <a class="nav-link h4" href="{{ route('crimetypeindex') }}">Crime Types</a>
+        <a class="nav-link h4" href="{{ route('crimetypeindex') }}">Complaint Types</a>
       </li>
       <br>
       <li class="nav-item {{ Route::currentRouteName() == 'orgtypeindex' ? 'active' : '' }}">
