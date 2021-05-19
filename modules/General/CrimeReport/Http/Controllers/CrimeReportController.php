@@ -168,15 +168,7 @@ class CrimeReportController extends Controller
         return Storage::disk('public')->download($path . '/' . $file);
     }
 
-    public function view_image($path, $file)
-    {
-        $url = Storage::disk('public')->url($path . '/' . $file);
-        return $url;
-    }
 
-    public function display_image($path, $file)
-    {
-    }
 
     public function view_crime_reports($id)
     {
