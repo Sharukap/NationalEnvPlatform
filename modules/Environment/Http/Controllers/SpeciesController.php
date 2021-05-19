@@ -26,10 +26,15 @@ class SpeciesController extends Controller
         $request->validate([
             'type' => 'required',
             'habitat' => 'required',
-            'taxanomy' => 'required',
             'createby' => 'required',
             'polygon' => 'required',
-            'district' => 'required|exists:districts,district',
+
+            'kingdom'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'phylum'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'class'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'order'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'family'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'genus'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
         ]);
         $species = new Species;
         $species->type = $request->input('type');
@@ -46,9 +51,17 @@ class SpeciesController extends Controller
             $species->scientefic_name = "No Scientific Name Given";
         }
         $species->habitats = $request->input('habitat');
-        $district_id1 = District::where('district', request('district'))->pluck('id');
-        $species->district_id = $district_id1[0];
-        $species->taxa = $request->input('taxanomy');
+
+        $kingdom = $request->input('kingdom');
+        $phylum = $request->input('phylum');
+        $class = $request->input('class');
+        $order = $request->input('order');
+        $family = $request->input('family');
+        $genus = $request->input('genus');
+
+        $taxanomy[] = [$kingdom, $phylum, $class, $order, $family, $genus];
+        $species->taxa = $taxanomy;
+
         $species->polygon = request('polygon');
 
         if (request('description')) {
