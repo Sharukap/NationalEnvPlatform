@@ -35,11 +35,9 @@ class UserController extends Controller
                 ['created_by_user_id', '=', Auth()->user()->id]
             ])->whereMonth('created_at', Carbon::now()->month)
                 ->count();
-            $Process_items = Process_Item::all()->where('created_by_user_id', Auth()->user()->id);
-            return view('general::generalA', [
-                'Process_items' => $Process_items,
+            return view('unauthorized', [
                 'tree_removals' => $citizen_tree_removals,
-                'dev_projects' => $citizen_dev_projects
+                'dev_projects' => $citizen_dev_projects,
             ]);
         } else {
             $tree_removals = Process_Item::where('form_type_id', 1)
