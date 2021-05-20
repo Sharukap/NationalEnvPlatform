@@ -90,7 +90,11 @@
                 <tbody>
                     @foreach ($contact as $key => $value)
                     <tr>
-                  
+                        @if($value->primary == 1)
+                            <td>(Primary) {{$value->type}}</td>
+                        @else
+                            <td>{{$value->type}}</td>
+                        @endif 
                         <td>{{$value->type}}</td>
                         <td>{{$value->contact_signature}}</td>
                     </tr>

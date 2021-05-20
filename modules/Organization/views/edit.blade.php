@@ -72,13 +72,13 @@
                 <div style="float:right;">
                     <button type="submit" name="status" value="1" class="btn btn-warning">Submit</button>
                 </div>  
-                </form>   
-                <br>
-                <br>
-                <h6 style="text-align:left;" class="text-dark">Contact Details</h6>
-                <br>
-                <br>
-                <table class="table table-light table-striped border-secondary rounded-lg mr-4">
+            </form>   
+            <br>
+            <br>
+            <h6 style="text-align:left;" class="text-dark">Contact Details</h6>
+            <br>
+            <br>
+            <table class="table table-light table-striped border-secondary rounded-lg mr-4">
                     <thead>
                         <tr>
                         <th scope="col">Type</th>
@@ -87,98 +87,53 @@
                     <tbody>
                         @foreach ($contact as $key => $value)
                         <tr>
+                        @if($value->primary == 1)
+                            <td><input type="text" class="form-control" name="type" value="(Primary) {{$value->type}}"></td>
+                        @else
                             <td><input type="text" class="form-control" name="type" value="{{$value->type}}"></td>
+                        @endif  
                             <td><input type="text" class="form-control" name="contact_signature" value="{{$value->contact_signature}}"></td>
                            <td><input class="form-check-input" type="hidden" name='primary' id='1'  value=1 checked/></td>
                              <td><a href="/organization/contactremove/{{$value->id}}" class="btn btn-outline-warning" role="button">Remove</a></td>
                         </tr>
                         @endforeach
                          </tbody>
-                </table>
-                <br>
-                  <form method="post" action="/organization/contactupdate/{{$organization->id}}">
-                   @csrf
+            </table>
+            <br>
+            <form method="post" action="/organization/contactupdate/{{$organization->id}}">
+                @csrf
                 <div class="form-check border-secondary rounded-lg mb-4" style="background-color:#ebeef0">
                     <label class="mt-2"> Add new Contact: </label>
                     <hr>
-                     <div class="container" id="addnew">
-               <div class="row">
-                  <div class="col-sm-4">
-                     <select name="type[0]" class="custom-select">
-                        <option selected>Mobile Number</option>
-                        <option>Land Number</option>
-                        <option>Email</option>
-                        <option>Fax</option>
-                        <option>Address</option>
-                     </select>
-                     @error('type')
-                     <div class="alert alert-danger">{{ $message }}</div>
-                     @enderror
-                  </div>
-                  <div class="col-sm-6 pl-0 pr-0 ml-0 mr-0">
-                     <input type='text' class="form-control" name='contact_signature[0]' id='contact_signature' placeholder="Type here"/>
-                  </div>
-                  <div class="col-sm pl-4 pr-0 ml-0 mr-0 form-check">
-                     <input class="form-check-input" type="checkbox" name='primary' id='1'  value=1 />&nbsp<label for='primary'>Primary</label>
-                  </div>
-               </div>
-               </div>
+                     <div class="container">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <select name="type" class="custom-select">
+                                    <option disabled selected value >Contact Type</option>
+                                    <option value ="1" >Mobile Phone</option>
+                                    <option value ="2">Fixed Line</option>
+                                    <option value ="3">Email</option>
+                                    <option value ="4">Address</option>
+                                </select>
+                                @error('type')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                            </div>
+                            <div class="col-sm-6 pl-0 pr-0 ml-0 mr-0">
+                                <input type='text' class="form-control" name='contact_signature' id='contact_signature' placeholder="Details"/>
+                            </div>
+                            <div class="col-sm pl-4 pr-0 ml-0 mr-0 form-check">
+                                <input class="form-check-input" type="checkbox" name='primary' id='1'  value=1 />&nbsp<label for='primary'>Primary</label>
+                            </div>
+                        </div>
                     </div>
-                     <br>
-            
-            <input type="button" class="btn btn-outline-secondary btn-sm" id="add" value="Add"> <input type="button" id="remove" value="Remove" class="btn btn-outline-secondary btn-sm"/>
-            <br>
-            <br>
+                </div>
+                <br>
                 <div style="float:right;">
                     <button type="submit" name="status" value ="1" class="btn btn-warning">Add</button>
                 </div>
             </form>
-            <script>  
-            var signatureInputCount=1;
-            var typeInputCount=1;
-            
-               $(document).ready(function() 
-            {  
-                   $("#add").on("click", function() 
-            {           
-                        
-                        $("<div class='row' id='typeboxDiv0'>").appendTo("#addnew");
-                        $("<div class='col-sm-4' id='1st'>").appendTo("#typeboxDiv0");
-                        $("<select class='custom-select'>").attr("name", `type[${typeInputCount++}]`).appendTo("#1st").append(
-                        $("<option>").val("mobile").text("Mobile Number"),
-                        $("</option><option>").val("land").text("Land Number"),
-                        $("</option><option>").val("email").text("Email"),
-                        $("</option><option>").val("fax").text("Fax"),
-                        $("</option><option>").val("address").text("Address"));
-                        $("#1st").append("</option></select>");  
-                        $("#1st").append("</div>");    
-            
-                        $("<div class='col-sm-6 pl-0 pr-0 ml-0 mr-0' id='2nd'>").appendTo("#typeboxDiv0");
-                        $("#2nd").append(`<input type='text' class='form-control' name='contact_signature[${signatureInputCount++}]' id='value' placeholder='Type here'/>`); 
-                        $("#2nd").append("</div>"); 
-
-                        $("<div class='col-sm pl-4 pr-0 ml-0 mr-0 form-check' id='3rd'>").appendTo("#typeboxDiv0");
-                        $("#3rd").append(`<input type='checkbox' class ='form-check-input' name='primary' id='1' value='1'/>`); 
-                        $("#3rd").append(`<label for='primary'>Primary</label>`); 
-                        $("#3rd").append("<div>");
-                        $("#typeboxDiv0").append("<div>");
-                        $("#addnew").append("<div>");
-            });
-            
-            $("#remove").on("click", function() 
-            {  
-            
-                         $("#3rd").children().last().remove(); 
-                        $("#3rd").children().last().remove(); 
-                         $("#3rd").children().last().remove();  
-                      $("#2nd").children().last().remove();  
-                       $("#1st").children().last().remove(); 
-         
-                      
-                                            
-            });  
-               });  
-         </script>  
+       
             <br>
             <br>
             <hr>

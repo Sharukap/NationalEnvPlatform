@@ -65,15 +65,16 @@ class OrganizationController extends Controller
         $contact->type ="Address";
         $contact->contact_signature = $request->address;
         $contact->primary = 0;
+        $contact->save();
 
         $contact = new Contact();
         $contact->org_id = $organization->id;
         if($request->type==1){
             $contact->type ="Phone Number";
         }elseif($request->type==2){
-            $contact->type ="email";
+            $contact->type ="Fixed Line";
         }else{
-            $contact->type ="Fax";
+            $contact->type ="Email";
         }
         $contact->contact_signature = $request->contact;
         $contact->primary = 1;
@@ -156,21 +157,39 @@ class OrganizationController extends Controller
     }
     public function contactupdate(Request $request, $id)
     {
-        $type = $request->type;
+        $request->validate([
+            'type' => 'required',
+        ]);
 
-
-        $contact_signature = $request->contact_signature;
-        $count = count((array)$type);
-
-        for ($i = 0; $i < $count; $i++) {
+        if($request->type==1 || $request->type == 2){
+            $condition= "required|digits:10";
+        }elseif($request->type==3){
+            $condition = "required|email";
+        }else{
+            $condition = "required";
+        }
+        $request->validate([
+            'contact_signature' => $condition,
+        ]);
             $contact = new Contact();
             $contact->org_id = $id;
-            $contact->type = $request->type[$i];
-            $contact->contact_signature = $request->contact_signature[$i];
-            $contact->primary = $request->primary;
-            //$contact->status = $request->status;
+            if($request->type==1){
+                $contact->type ="Mobile Phone";
+            }elseif($request->type==2){
+                $contact->type ="Fixed Line";
+            }elseif($request->type==3){
+                $contact->type ="Email";
+            }else{
+                $contact->type ="Address";
+            }
+            $contact->contact_signature = $request->contact_signature;
+            if($request->primary != null){
+                $contact->primary = $request->primary;
+            }else{
+                $contact->primary = 0;
+            }
+            
             $contact->save();
-        }
 
         return redirect('/organization/index')->with('message', 'Contact updated Successfully');
     }
