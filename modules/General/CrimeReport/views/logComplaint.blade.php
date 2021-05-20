@@ -55,26 +55,28 @@
                         @enderror
                     </div>
                     <hr>
-                    <div class="form-group">
-                        <div class="custom-control custom-checkbox">
-                            <input type="checkbox" class="custom-control-input" id="customCheck2" value="1" name="checkExternalRequestor" {{ old('checkExternalRequestor') == "1" ? 'checked' : ''}}>
-                            <label class="custom-control-label" for="customCheck2"><strong>Creating on behalf of non-registered user</strong></label>
-                        </div>
-                    </div>
-                    <div class="extRequestor" id="extRequestor">
+                    @if(Auth::user()->role_id !=6) 
                         <div class="form-group">
-                            Requestor NIC<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
-                            @error('externalRequestor')
-                            <div class="alert alert-danger">The NIC format is Invalid</div>
-                            @enderror
+                            <div class="custom-control custom-checkbox">
+                                <input type="checkbox" class="custom-control-input" id="customCheck2" value="1" name="checkExternalRequestor" {{ old('checkExternalRequestor') == "1" ? 'checked' : ''}}>
+                                <label class="custom-control-label" for="customCheck2"><strong>Creating on behalf of non-registered user</strong></label>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            External Requestor Email<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
-                            @error('erEmail')
-                            <div class="alert alert-danger">Please Enter a Valid Email</div>
-                            @enderror
+                        <div class="extRequestor" id="extRequestor">
+                            <div class="form-group">
+                                Requestor NIC<input type="text" class="form-control @error('externalRequestor') is-invalid @enderror" value="{{ old('externalRequestor') }}" name="externalRequestor" placeholder="Enter NIC" />
+                                @error('externalRequestor')
+                                <div class="alert alert-danger">The NIC format is Invalid</div>
+                                @enderror
+                            </div>
+                            <div class="form-group">
+                                External Requestor Email<input type="text" class="form-control @error('erEmail') is-invalid @enderror" value="{{ old('erEmail') }}" placeholder="Enter email" name="erEmail" />
+                                @error('erEmail')
+                                <div class="alert alert-danger">Please Enter a Valid Email</div>
+                                @enderror
+                            </div>
                         </div>
-                    </div>
+                    @endif
                     <div class="form-check">
                         <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}">
                         <input id="polygon" type="hidden" name="polygon" value="{{request('polygon')}}">
