@@ -91,5 +91,8 @@
             @endforeach
         </tbody>
     </table>
+    <div class="col-sm-12" style="display:flex; align-items:center; justify-content:center;">
+    {!!$users->links();!!}
+    </div>
 </div>
 @endsection

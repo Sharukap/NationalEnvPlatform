@@ -27,6 +27,8 @@
 
                 <div class="row p-2 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-4">
+                    <div class="row p-2 mt-2">
+                            <div class="col">
                         <div class="form-group">
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Species Type<strong>*</strong></span>
@@ -60,54 +62,85 @@
                             <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
 
                         </div>
-
+                            </div>
+                        </div>
                         </br>
                     
 
-                        <div id="accordion" class="mb-3">
-                            <div class="card mb-3">
-                                <div class="card-header bg-white">
-                                    <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseone">
-                                        Taxanomy
-                                    </a>
+                        <h6>Other Taxanomic Heirachy Details</h6>
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Kingdom</label>
+                                    <input type="text" name="kingdom" class="form-control" placeholder="Enter name">
+                                    @error('kingdom')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div id="collapseone" class="collapse" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <strong>Select Multiple</strong>
-                                        <fieldset>
-                                            <input type="checkbox" name="taxanomy[]" value="Clone"><label class="ml-2">Clone</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="Domain"><label class="ml-2">Domain</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="Species"><label class="ml-2">Species</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="Kingdom"><label class="ml-2">Kingdom</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="Phylum"><label class="ml-2">Phylum</label> <br>
-                                        </fieldset>
-                                    </div>
+                                <div class="form-group">
+                                    <label>Class</label>
+                                    <input type="text" name="class" class="form-control" placeholder="Enter name">
+                                    @error('class')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                @error('taxanomy')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
+                                <div class="form-group">
+                                    <label>Family</label>
+                                    <input type="text" name="family" class="form-control" placeholder="Enter name">
+                                    @error('family')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
                             </div>
-
-                            <div class="card">
-                                <div class="card-header bg-white">
-                                    <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapsetwo">
-                                        Habitats<strong>*</strong>
-                                    </a>
+                            <div class="col">
+                                <div class="form-group">
+                                    <label>Phylum</label>
+                                    <input type="text" name="phylum" class="form-control" placeholder="Enter name">
+                                    @error('phylum')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div id="collapsetwo" class="collapse" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <strong>Select Multiple</strong>
-                                        <fieldset>
-                                            <input type="checkbox" name="habitat[]" value="Montane forest"><label class="ml-2">Montane forest</label> <br>
-                                            <input type="checkbox" name="habitat[]" value="Sub-Montane forest"><label class="ml-2">Sub-Montane forest</label> <br>
-                                            <input type="checkbox" name="habitat[]" value="Low land wet evergreen forest"><label class="ml-2">Low land wet evergreen forest</label> <br>
-                                            <input type="checkbox" name="habitat[]" value="Dry mixed evergreen forest"><label class="ml-2">Dry mixed evergreen forest</label> <br>
-                                        </fieldset>
+                                <div class="form-group">
+                                    <label>Order</label>
+                                    <input type="text" name="order" class="form-control" placeholder="Enter name">
+                                    @error('order')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                                <div class="form-group">
+                                    <label>Genus</label>
+                                    <input type="text" name="genus" class="form-control" placeholder="Enter name">
+                                    @error('genus')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <div id="accordion" class="mb-3">
+                                    <div class="card">
+                                        <div class="card-header bg-white">
+                                            <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapsetwo">
+                                                Habitats<strong>*</strong>
+                                            </a>
+                                        </div>
+                                        <div id="collapsetwo" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <strong>Select Multiple</strong>
+                                                <fieldset>
+                                                    <input type="checkbox" name="habitat[]" value="Montane forest"><label class="ml-2">Montane forest</label> <br>
+                                                    <input type="checkbox" name="habitat[]" value="Sub-Montane forest"><label class="ml-2">Sub-Montane forest</label> <br>
+                                                    <input type="checkbox" name="habitat[]" value="Low land wet evergreen forest"><label class="ml-2">Low land wet evergreen forest</label> <br>
+                                                    <input type="checkbox" name="habitat[]" value="Dry mixed evergreen forest"><label class="ml-2">Dry mixed evergreen forest</label> <br>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        @error('habitat')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
-                                @error('habitat')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
                         <div>
@@ -118,6 +151,7 @@
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                         </div>
+
                         </br>
                         </br>
 
