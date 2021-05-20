@@ -16,7 +16,7 @@
                <div class="input-group-prepend">
                   <span class="input-group-text">Activity </span>
                </div>
-               <input type="text" class="form-control" name="activity" placeholder="Enter Activity">
+               <input type="text" class="form-control" name="activity" placeholder="Enter Activity" required>
             </div>
             @error('activity')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -26,7 +26,7 @@
                <div class="input-group-prepend">
                   <span class="input-group-text">Description</span>
                </div>
-               <input type="textarea" class="form-control" name="description" placeholder="Enter Description">
+               <input type="textarea" class="form-control" name="description" placeholder="Enter Description" required>
             </div>
             @error('description')
             <div class="alert alert-danger">{{ $message }}</div>
