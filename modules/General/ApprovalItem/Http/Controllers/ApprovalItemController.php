@@ -49,13 +49,6 @@ class ApprovalItemController extends Controller
             $Process_item->activity_user_id = $uid;
             $Process_item->status_id = 3;
             $Process_item->save();
-            /* $Process_item->update([
-            'activity_user_id' => $uid,
-            'status_id' => 3
-            ]);
-            if ($audit = Auditor::execute($Process_item)) {
-                Auditor::prune($Process_item);
-            } */
             $user = User::find($uid);
             Notification::send($user, new StaffAssigned($Process_item));
             return $new_assign;
@@ -231,7 +224,7 @@ class ApprovalItemController extends Controller
     public function choose_assign_staff($id)
     {
         $process_item = Process_Item::find($id);
-        $Organizations = Organization::all();
+        $Organizations = Organization::where('type_id', '<', '3')->get();
         if ($process_item->status_id > 2) {
             return redirect()->action(
                 [ApprovalItemController::class, 'investigate'],
@@ -339,7 +332,7 @@ class ApprovalItemController extends Controller
         $Activities=Activity::all();
         $Provinces =Province::all();
         $process_item = Process_Item::find($id);
-        $Organizations = Organization::all();
+        $Organizations = Organization::where('type_id', '<', '3')->get();
         if ($process_item->form_type_id == '1') {
             $item = Tree_Removal_Request::find($process_item->form_id);
             $Photos = Json_decode($item->images);
@@ -475,7 +468,7 @@ class ApprovalItemController extends Controller
     public function investigate($id)
     {
         $process_item = Process_Item::find($id);
-        $Organizations = Organization::all();
+        $Organizations = Organization::where('type_id', '<', '3')->get();
         $Prerequisites = Process_Item::all()->where('prerequisite_id', $process_item->id);
         $Process_item_statuses = Process_item_status::all();
         $Process_item_progresses = Process_item_progress::all()->where('process_item_id', $id);
