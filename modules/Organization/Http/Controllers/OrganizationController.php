@@ -28,16 +28,22 @@ class OrganizationController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'type' => 'required',
+        ]);
+
+        if($request->type==1 || $request->type == 2){
+            $condition= "required|digits:10";
+        }else{
+            $condition = "required|email";
+        }
+        $request->validate([
            
             'title' => 'required',
             'city' => 'required',
             'organization_type' => 'required',
-            'type' => 'required',
-           'contact_signature' => 'required',
-           'province'=>'required',
-            'primary'=> 'required',
-             
-   ]);
+            'contact' => $condition,
+            'province'=>'required',
+        ]);
 
         $org_type = Type::all();
 
@@ -55,15 +61,20 @@ class OrganizationController extends Controller
         $contact_signature = $request->contact_signature;
         $count = count((array)$type);
         
-        for ($i = 0;$i < $count;$i++) {
+
             $contact = new Contact();
             $contact->org_id = $organization->id;
-            $contact->type = $request->type[$i];
-            $contact->contact_signature = $request->contact_signature[$i];
-            $contact->primary = $request->primary;
+            if($request->type==1){
+                $contact->type ="Phone Number";
+            }elseif($request->type==2){
+                $contact->type ="email";
+            }else{
+                $contact->type ="Fax";
+            }
+            $contact->contact_signature = $request->contact;
+            $contact->primary = 1;
             // $contact->status = $request->status;
             $contact->save();
-        }
         $ORG_ACT = $request->activity;
         $act_count = count((array)$ORG_ACT);
 
