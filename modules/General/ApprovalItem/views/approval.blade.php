@@ -66,14 +66,18 @@
                         <table class="table table-light table-striped border-secondary rounded-lg mr-4">
                             <thead>
                                 <tr>
-                                    <th>Land Size</th>
+                                    <th>Special Approval</th>
                                     <th>Number of Trees</th>
                                     <th>Number of Tree Species</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td>{{$item->land_size}}</td>
+                                @if($item->special_approval ==0)
+                                    <td>required</td>
+                                @else
+                                    <td>not applied for</td>
+                                @endif
                                     <td>{{$item->no_of_trees}}</td>
                                     <td>{{$item->no_of_tree_species}}<td>
                                 </tr>
@@ -130,7 +134,7 @@
                                 <tr>
                                     <th>Crime Type</th>
                                     <th>Description</th>
-                                    <th>Land Parcel</th>
+                                    <th>Land Area</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -267,15 +271,17 @@
                         <tbody>
                             @foreach($data as $species)
                             <tr>
-                                <td>{{$species->species->type}}</td>
-                                <td>{{$species->species->title}}</td>
-                                <td>{{$species->species->scientefic_name}}</td>
+                                <td>{{$species->Species->title}}</td>
+                                <td>{{$species->Species->scientefic_name}}</td>
                                 <td>....</td>
                                 <td>{{$species->quantity}}</td>
                                 <td>{{$species->height}}</td>
                                 <td>{{$species->dimensions}}</td>
-                                <td>{{$species->remarks}}</td>
-                                
+                                @if($individualSpecies->remarks!=null)
+                                    <td>No remarks</td>
+                                @else
+                                    <td>{{$species->remarks}}</td>
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
