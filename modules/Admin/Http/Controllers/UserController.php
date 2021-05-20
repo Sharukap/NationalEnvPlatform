@@ -129,7 +129,7 @@ class UserController extends Controller
                 $users = User::where([
                     ['role_id', '>', 0],
                     ['status', '=', 1],
-                ])->paginate(10);        // Get null (self registered) users as well
+                ])->orderby('id')->paginate(10);        // Get null (self registered) users as well
                 return view('admin::index', [
                     'users' => $users,
                 ]);
