@@ -111,7 +111,7 @@
                         <div class="form-group">
                             <label for="registered_land">Select Registered Land</label>
                             <select class="custom-select @error('registered_land') is-invalid @enderror" name="registered_land">
-                                <option selected disabled value="">Select Land Plan Number</option>
+                                <option selected value="">None</option>
                                 @foreach ($registered_lands as $registered_land)
                                 <option value="{{ $registered_land->id }}" {{ Request::old()?(Request::old('registered_land')==$registered_land->id?'selected="selected"':''):'' }}>{{ $registered_land->title }}</option>
                                 @endforeach
