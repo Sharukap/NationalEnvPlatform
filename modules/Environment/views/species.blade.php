@@ -27,92 +27,94 @@
 
                 <div class="row p-2 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-4">
-                    <div class="row p-2 mt-2">
-                            <div class="col">
-                        <div class="form-group">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text">Species Type<strong>*</strong></span>
-                           
-                            <select name="type" input type="text" class="form-control @error('type') is-invalid @enderror" id="type"  placeholder="Required">
-                            <option disabled selected value="">Select the species type</option>
-                            
-                                <option value="Flora">Flora</option>
-                                <option value="Fauna">Fauna</option>
-                               
-                            </select>
-                            </div>
-                        
-                            @error('type')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label for="number_of_tree_species">Species Title<strong>*</strong></label>
-                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Required">
-                            @error('title')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-
-                        </br>
-                        <h6>Scientific Name</h6>
-                        <div class="form-group">
-                            <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
-
-                        </div>
-                            </div>
-                        </div>
-                        </br>
-                    
-
-                        <h6>Other Taxanomic Heirachy Details</h6>
                         <div class="row p-2 mt-2">
                             <div class="col">
                                 <div class="form-group">
-                                    <label>Kingdom</label>
-                                    <input type="text" name="kingdom" class="form-control" placeholder="Enter name">
-                                    @error('kingdom')
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Species Type<strong>*</strong></span>
+
+                                        <select name="type" input type="text" class="form-control @error('type') is-invalid @enderror" id="type" placeholder="Required">
+                                            <option disabled selected value="">Select the species type</option>
+
+                                            <option value="Flora">Flora</option>
+                                            <option value="Fauna">Fauna</option>
+
+                                        </select>
+                                    </div>
+
+                                    @error('type')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
-                                <div class="form-group">
-                                    <label>Class</label>
-                                    <input type="text" name="class" class="form-control" placeholder="Enter name">
-                                    @error('class')
+
+                                <div>
+                                    <label for="number_of_tree_species">Species Title<strong>*</strong></label>
+                                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Required">
+                                    @error('title')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
+
+
+                                </br>
+                                <h6>Scientific Name</h6>
                                 <div class="form-group">
-                                    <label>Family</label>
-                                    <input type="text" name="family" class="form-control" placeholder="Enter name">
-                                    @error('family')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+                                    <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
+
                                 </div>
                             </div>
+                        </div>
+
+                        <div class="row p-2 mt-2">
                             <div class="col">
-                                <div class="form-group">
-                                    <label>Phylum</label>
-                                    <input type="text" name="phylum" class="form-control" placeholder="Enter name">
-                                    @error('phylum')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Order</label>
-                                    <input type="text" name="order" class="form-control" placeholder="Enter name">
-                                    @error('order')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group">
-                                    <label>Genus</label>
-                                    <input type="text" name="genus" class="form-control" placeholder="Enter name">
-                                    @error('genus')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
+                                <h6>Other Taxanomic Heirachy Details</h6>
+                                <div class="row p-2 mt-2">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Kingdom</label>
+                                            <input type="text" name="kingdom" class="form-control" placeholder="Enter name">
+                                            @error('kingdom')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Class</label>
+                                            <input type="text" name="class" class="form-control" placeholder="Enter name">
+                                            @error('class')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Family</label>
+                                            <input type="text" name="family" class="form-control" placeholder="Enter name">
+                                            @error('family')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Phylum</label>
+                                            <input type="text" name="phylum" class="form-control" placeholder="Enter name">
+                                            @error('phylum')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Order</label>
+                                            <input type="text" name="order" class="form-control" placeholder="Enter name">
+                                            @error('order')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Genus</label>
+                                            <input type="text" name="genus" class="form-control" placeholder="Enter name">
+                                            @error('genus')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -143,38 +145,44 @@
                                 </div>
                             </div>
                         </div>
-                        <div>
-                        <label>Species Description</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" rows="5" name="description"></textarea>
-                       
-                        @error('description')
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <label>Species Description</label>
+                                <textarea class="form-control @error('description') is-invalid @enderror" rows="5" name="description"></textarea>
+
+                                @error('description')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
-                        </div>
-
-                        </br>
-                        </br>
-
-                        </br>
-                        <h5><strong>Regions where species is commonly found </strong></h5>
-                        <div class="col border border-muted rounded-lg p-4">
-                            <!-- ////////MAP GOES HERE -->
-                            <div id="mapid" style="height:400px;" name="map"></div>
-
-                            @error('polygon')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                            <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" /> <br>
-
-
-                        </div>
-                        <div class="form-group">
-                            <label for="images">Image</label>
-                            <div class="custom-file mb-3">
-                                <input type="file" id="images" name="images">
                             </div>
                         </div>
+                        </br>
 
+                        </br>
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <h5><strong>Regions where species is commonly found </strong></h5>
+                                <div class="col border border-muted rounded-lg p-4">
+                                    <!-- ////////MAP GOES HERE -->
+                                    <div id="mapid" style="height:400px;" name="map"></div>
+
+                                    @error('polygon')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                    <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" /> <br>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="images">Image</label>
+                                    <div class="custom-file mb-3">
+                                        <input type="file" id="images" name="images">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="p-3" style="float:right;">
                             <button type="submit" name="submit" class="btn bd-navbar text-white">Submit</button>
@@ -191,24 +199,6 @@
 
 
 <script type="text/javascript">
-    var path2 = "{{route('district')}}";
-    $('input.typeahead2').typeahead({
-        source: function(terms, process) {
-
-            return $.get(path2, {
-                terms: terms
-            }, function(data) {
-                console.log(data);
-                objects = [];
-                data.map(i => {
-                    objects.push(i.district)
-                })
-                console.log(objects);
-                return process(objects);
-            })
-        },
-    });
-
     ///SCRIPT FOR THE MAP
     var center = [7.2906, 80.6337];
 

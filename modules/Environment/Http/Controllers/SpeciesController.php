@@ -30,13 +30,14 @@ class SpeciesController extends Controller
             'polygon' => 'required',
             'description'=> 'required',
             'createby' => 'required',
-            'kingdom'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
-            'phylum'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
-            'class'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
-            'order'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
-            'family'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
-            'genus'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
+            'kingdom'  => 'nullable|alpha', //The input may only contain letters.
+            'phylum'  => 'nullable|alpha',
+            'class'  => 'nullable|alpha',
+            'order'  => 'nullable|alpha',
+            'family'  => 'nullable|alpha',
+            'genus'  => 'nullable|alpha',
         ]);
+
         $species = new Species;
         $species->type = $request->input('type');
         $species->title = $request->input('title');
