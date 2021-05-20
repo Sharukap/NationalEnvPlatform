@@ -16,7 +16,7 @@
                <div class="input-group-prepend">
                   <span class="input-group-text">Access </span>
                </div>
-               <input type="text" class="form-control" name="access" placeholder="Enter">
+               <input type="text" class="form-control" name="access" placeholder="Enter" required>
             </div>
             @error('access')
             <div class="alert alert-danger">{{ $message }}</div>

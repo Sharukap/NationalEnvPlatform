@@ -14,7 +14,7 @@
                <div class="input-group-prepend">
                   <span class="input-group-text">Type</span>
                </div>
-               <input type="text" class="form-control" name="type" placeholder="Enter Eco System Type">
+               <input type="text" class="form-control" name="type" placeholder="Enter Eco System Type" required>
             </div>
             @error('type')
             <div class="alert alert-danger">{{ $message }}</div>

@@ -90,9 +90,9 @@
                <div class="input-group-prepend">
                      <select name="type" class="custom-select" required>
                         <option disabled selected value >Contact Type</option>
-                        <option value ="1" >Phone Number</option>
-                        <option value ="2">Email</option>
-                        <option value ="3">Fax</option>
+                        <option value ="1" >Mobile Number</option>
+                        <option value ="2">Land Number</option>
+                        <option value ="3">Email</option>
                      </select>
                      
                </div>
