@@ -135,9 +135,9 @@
                                     </li>
                                 </span></a>
                             @elseif($notification->type == "App\Notifications\prereqmemo")
-                            <a href="/approval-item/investigate/{{$notification->data['prerequisite_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
+                            <a href="/approval-item/prerequisiteprogress/{{$notification->data['prerequisite_id']}}/{{$notification->id}}"><i class="ni ni-single-02"></i><span>
                                     <li>
-                                        <p>Prerequisite no {{$notification->data['process_id']}} {{$notification->data['remark']}} .</p></i>
+                                        <p>Prerequisite no {{$notification->data['prerequisite_id']}} {{$notification->data['remark']}} .</p></i>
                                     </li>
                                 </span></a>
                             @endif
