@@ -6,12 +6,13 @@ use App\Models\User;
 use App\Models\Process_Item;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use Environment\Http\Controllers\EnvController;
+use Environment\Http\Controllers\SpeciesController;
+use App\Models\Role_has_access;
 
 class SecurityController extends Controller
 {
     
-
     public function moredetails($id,$pid)
     {
         $process_item = Process_Item::find($pid);
@@ -64,7 +65,31 @@ class SecurityController extends Controller
         ]);
     }
 
+    public function envredirect()
+    {
+        $role = Auth::user()->role_id;
+        if($role != 1){
+            $access1 = Role_has_access::where('role_id',$role)->where('access_id',2)->first();;
+            if($access1 == null)
+            {
+                return redirect()->action([EnvController::class, 'index2']);
+            }
+        }
+        return redirect()->action([EnvController::class, 'index']);
+    }
 
+    public function speciesredirect()
+    {
+        $role = Auth::user()->role_id;
+        if($role != 1){
+            $access1 = Role_has_access::where('role_id',$role)->where('access_id',2)->first();;
+            if($access1 == null)
+            {
+                return redirect()->action([SpeciesController::class, 'index2']);
+            }
+        }
+        return redirect()->action([SpeciesController::class, 'index']);
+    }
 
     
 

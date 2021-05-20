@@ -3,10 +3,17 @@
 use Environment\Http\Controllers\EnvController;
 use Environment\Http\Controllers\SpeciesController;
 use Environment\Http\Controllers\TypeController;
+use Security\Http\Controllers\SecurityController;
 
 Route::middleware(['auth'])->group(function () {
-Route::get('/viewdata', [EnvController::class, 'index2']);
-Route::get('/viewdataspecies', [SpeciesController::class, 'index2']);
+//usuing security module accesss based redirect functions
+Route::get('/viewdata', [SecurityController::class, 'envredirect']);
+Route::get('/viewdataspecies', [SecurityController::class, 'speciesredirect']);
+
+//routes to call index2 functions
+Route::get('/envindex2', [EnvController::class, 'index2']);
+Route::get('/spcindex2', [SpeciesController::class, 'index2']);
+
 //More details button , users can see the details of the request
 Route::get('/moreeco/{id}', [EnvController::class, 'more']);
 Route::get('/morespecies/{id}', [SpeciesController::class, 'more']);

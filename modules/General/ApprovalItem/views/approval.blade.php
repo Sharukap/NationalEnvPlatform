@@ -225,8 +225,7 @@
                                 <th>Tree ID</th>
                                 <th>Width at Breast Height</th>
                                 <th>Height</th>
-                                <th>Timber Volume</th>
-                                <th>Timber Cubic</th>
+                                <th>Approx.Timber Volume</th>
                                 <th>Age</th>
                                 <th>Remark</th>
                             </tr>
@@ -236,10 +235,9 @@
                             <tr>
                                 <td>{{$data[$x]['tree_species_id']}}</td>
                                 <td>{{$data[$x]['tree_id']}}</td>
-                                <td>{{$data[$x]['width_at_breast_height']}}</td>
+                                <td>{{$data[$x]['circumference_at_breast_height']}}</td>
                                 <td>{{$data[$x]['height']}}</td>
                                 <td>{{$data[$x]['timber_volume']}}</td>
-                                <td>{{$data[$x]['timber_cubic']}}</td>
                                 <td>{{$data[$x]['age']}}</td>
                                 <td>{{$data[$x]['remark']}}</td>
                             </tr>
