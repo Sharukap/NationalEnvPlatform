@@ -81,9 +81,10 @@ class TreeRemovalController extends Controller
                 'number_of_avian_species' => 'nullable|integer',
                 'externalRequestor' => 'nullable|regex:/^[0-9]{9}[vVxX]$/',
                 'erEmail' => 'nullable|email',
-                'location.*.tree_species_id' => 'required',
+                'location.*.tree_species_id' => 'required|alpha',
                 'location.*.circumference_at_breast_height' => 'required|numeric|between:0,999.999',
-                'location.*.height'    => 'required||numeric|between:0,999.999',
+                'location.*.height' => 'required|numeric|between:0,999.999',
+                'location.*.age' => 'nullable|numeric'
             ]);
         } else {
             $request->validate([
@@ -106,9 +107,10 @@ class TreeRemovalController extends Controller
                 'erEmail' => 'nullable|email',
                 'land_gazettes' => 'nullable',
                 'land_governing_orgs' => 'nullable',
-                'location.*.tree_species_id' => 'required',
+                'location.*.tree_species_id' => 'required|alpha',
                 'location.*.circumference_at_breast_height' => 'required|numeric|between:0,999.999',
-                'location.*.height'    => 'required||numeric|between:0,999.999',
+                'location.*.height' => 'required|numeric|between:0,999.999',
+                'location.*.age' => 'nullable|numeric'
             ]);
         }
 
