@@ -27,7 +27,7 @@
                 <a class="nav-link h4" href="{{ route('land') }}">Register Land</a>
             </li> -->
             <li class="nav-item {{ Route::currentRouteName() == 'crime' ? 'active' : '' }}">
-                <a class="nav-link h4" href="{{ route('crime') }}">Crime Reporting</a>
+                <a class="nav-link h4" href="{{ route('crime') }}">Environment Restoration</a>
             </li>
         </ul>
     </div>
