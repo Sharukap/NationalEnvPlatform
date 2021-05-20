@@ -451,7 +451,6 @@
 									<li>Type</li>
 									<li>Title</li>
 									<li>Description</li>
-									<li>Taxanomy</li>
 									<li>Habitats</li>
 									<li>Location- Mark using the map</li>
 								</ul>

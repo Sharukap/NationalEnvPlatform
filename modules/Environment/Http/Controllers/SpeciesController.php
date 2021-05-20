@@ -15,7 +15,7 @@ class SpeciesController extends Controller
     // Load the form to enter data of the newly found species
     public function form()
     {
-        $species = Organization::all();
+        $species = Species::all();
         return view('environment::species', [
             'org' => $species,
         ]);
@@ -30,7 +30,7 @@ class SpeciesController extends Controller
             'polygon' => 'required',
             'description'=> 'required',
             'createby' => 'required',
-            'kingdom'  => 'nullable|alpha', //The input may only contain letters.
+            'kingdom'  => 'nullable|alpha', //The input may only contain letters or it returns null
             'phylum'  => 'nullable|alpha',
             'class'  => 'nullable|alpha',
             'order'  => 'nullable|alpha',
@@ -60,7 +60,6 @@ class SpeciesController extends Controller
         $taxanomy[] = [$kingdom, $phylum, $class, $order, $family, $genus];
         $species->taxa = $taxanomy;
 
-        $species->polygon = request('polygon');
 
         $species->polygon = request('polygon');
         $species->description = request('description');

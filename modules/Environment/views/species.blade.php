@@ -57,7 +57,8 @@
 
 
                                 </br>
-                                <h6>Scientific Name</h6>
+                                <label for="scientific_name">Scientific Name</label>
+                              
                                 <div class="form-group">
                                     <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
 
@@ -67,7 +68,7 @@
 
                         <div class="row p-2 mt-2">
                             <div class="col">
-                                <h6>Other Taxanomic Heirachy Details</h6>
+                                <h6>Other Taxanomic Heirachy Details <Strong>(Optional)</Strong></h6>
                                 <div class="row p-2 mt-2">
                                     <div class="col">
                                         <div class="form-group">

@@ -6,12 +6,13 @@ use Environment\Http\Controllers\TypeController;
 
 Route::middleware(['auth'])->group(function () {
 Route::get('/viewdata', [EnvController::class, 'index2']);
+
 Route::get('/viewdataspecies', [SpeciesController::class, 'index2']);
 //More details button , users can see the details of the request
 Route::get('/moreeco/{id}', [EnvController::class, 'more']);
 Route::get('/morespecies/{id}', [SpeciesController::class, 'more']);
 });
-
+//2 means the env module, send this to the middlewera to check access
 Route::middleware(['access.control:2'])->group(function () {
 
 Route::get('/home', [EnvController::class, 'home'])->name('environment.home');
