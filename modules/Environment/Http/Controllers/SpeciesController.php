@@ -15,9 +15,9 @@ class SpeciesController extends Controller
     // Load the form to enter data of the newly found species
     public function form()
     {
-        $organization = Organization::all();
+        $species = Organization::all();
         return view('environment::species', [
-            'org' => $organization,
+            'org' => $species,
         ]);
     }
     // Store the data in the database
@@ -26,9 +26,10 @@ class SpeciesController extends Controller
         $request->validate([
             'type' => 'required',
             'habitat' => 'required',
-            'createby' => 'required',
+            'title'=> 'required',
             'polygon' => 'required',
-
+            'description'=> 'required',
+            'createby' => 'required',
             'kingdom'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
             'phylum'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
             'class'  => ['required', 'regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/'],
@@ -38,12 +39,8 @@ class SpeciesController extends Controller
         ]);
         $species = new Species;
         $species->type = $request->input('type');
-
-        if (request('title')) {
-            $species->title = $request->input('title');
-        } else {
-            $species->title = "No Title Given";
-        }
+        $species->title = $request->input('title');
+       
 
         if (request('scientific_name')) {
             $species->scientefic_name = $request->input('scientific_name');
@@ -64,18 +61,16 @@ class SpeciesController extends Controller
 
         $species->polygon = request('polygon');
 
-        if (request('description')) {
-            $species->description = $request->input('description');
-        } else {
-            $species->description = "No Description Given";
-        }
+        $species->polygon = request('polygon');
+        $species->description = request('description');
+      
         $species->status_id = $request->input('status');
         if ($request->hasFile('images')) {
 
             $file = $request->file('images');
             $extension = $file->getClientOriginalExtension(); //geting the image extension
             $filename = time() . '.' . $extension;
-            $result = $file->storeOnCloudinaryAs('species', $filename);
+            $result = $file->storeOnCloudinaryAs('species', $filename); // Stores in the online db
             $species->images = $result->getSecurePath(); // Get the url of the uploaded file; https 
         } else {
 

@@ -449,7 +449,8 @@
 							<div class="card-body">
 								<ul>
 									<li>Type</li>
-									<li>District</li>
+									<li>Title</li>
+									<li>Description</li>
 									<li>Taxanomy</li>
 									<li>Habitats</li>
 									<li>Location- Mark using the map</li>

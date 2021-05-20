@@ -27,29 +27,46 @@
 
                 <div class="row p-2 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-4">
-                        <div class="row p-2 mt-2">
+                    <div class="row p-2 mt-2">
                             <div class="col">
-                                <div class="form-group">
-                                    <label for="type">Species Type<strong>*</strong></label>
+                        <div class="form-group">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">Species Type<strong>*</strong></span>
+                           
+                            <select name="type" input type="text" class="form-control @error('type') is-invalid @enderror" id="type"  placeholder="Required">
+                            <option disabled selected value="">Select the species type</option>
+                            
+                                <option value="Flora">Flora</option>
+                                <option value="Fauna">Fauna</option>
+                               
+                            </select>
+                            </div>
+                        
+                            @error('type')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                                    <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" placeholder="Enter Type">
-                                    @error('type')
-                                    <div class="alert alert-danger">{{ $message }}</div>
-                                    @enderror
-                                </div>
+                        <div>
+                            <label for="number_of_tree_species">Species Title<strong>*</strong></label>
+                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Required">
+                            @error('title')
+                            <div class="alert alert-danger">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                                <div class="form-group">
-                                    <label for="number_of_tree_species">Species Title</label>
-                                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Enter Title">
-                                </div>
 
-                                <div class="form-group">
-                                    <label for="scientific_name">Scientific Name</label>
-                                    <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
-                                </div>
+                        </br>
+                        <h6>Scientific Name</h6>
+                        <div class="form-group">
+                            <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
+
+                        </div>
                             </div>
                         </div>
-                        <br />
+                        </br>
+                    
+
                         <h6>Other Taxanomic Heirachy Details</h6>
                         <div class="row p-2 mt-2">
                             <div class="col">
@@ -126,13 +143,20 @@
                                 </div>
                             </div>
                         </div>
-                        <label>Project Description</label>
-                        <textarea class="form-control" rows="5" name="description"></textarea>
+                        <div>
+                        <label>Species Description</label>
+                        <textarea class="form-control @error('description') is-invalid @enderror" rows="5" name="description"></textarea>
+                       
+                        @error('description')
+                                <div class="alert alert-danger">{{ $message }}</div>
+                                @enderror
+                        </div>
 
                         </br>
                         </br>
 
                         </br>
+                        <h5><strong>Regions where species is commonly found </strong></h5>
                         <div class="col border border-muted rounded-lg p-4">
                             <!-- ////////MAP GOES HERE -->
                             <div id="mapid" style="height:400px;" name="map"></div>
