@@ -14,7 +14,7 @@ use App\Models\Land_Parcel;
 use App\Models\Crime_report;
 use App\Models\Crime_type;
 use App\Models\User;
-use App\Models\Process_item;
+use App\Models\Process_Item;
 use App\Models\Organization;
 use App\Models\District;
 use App\CustomClass\organization_assign;
