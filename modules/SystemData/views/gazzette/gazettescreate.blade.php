@@ -16,7 +16,7 @@
                <div class="input-group-prepend">
                   <span class="input-group-text">Title </span>
                </div>
-               <input type="text" class="form-control" name="title" placeholder="Enter Title">
+               <input type="text" class="form-control" name="title" placeholder="Enter Title" required>
             </div>
             @error('title')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -26,7 +26,7 @@
                <div class="input-group-prepend">
                   <span class="input-group-text">Gazette Number</span>
                </div>
-               <input type="text" class="form-control" name="gazettenumber" placeholder="Enter here">
+               <input type="text" class="form-control" name="gazettenumber" placeholder="Enter here" required>
             </div>
             @error('gazettenumber')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -35,7 +35,7 @@
                <div class="input-group-prepend">
                   <span class="input-group-text">Gazette Date</span>
                </div>
-               <input type="date" class="form-control" name="gazetteddate" placeholder="Enter here">
+               <input type="date" class="form-control" name="gazetteddate" placeholder="Enter here" required>
             </div>
             @error('gazettedate')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -44,7 +44,7 @@
             <h6>Organizations</h6>
             <hr>
             <div class="input-group mb-3">
-               <input type="text" class="form-control" id="org_1"name="organizations[]" placeholder="Organization 1,Organization 2">
+               <input type="text" class="form-control" id="org_1"name="organizations[]" placeholder="Organization 1,Organization 2" required>
             </div>
             @error('organizations')
             <div class="alert alert-danger">{{ $message }}</div>
@@ -53,7 +53,7 @@
                <div class="input-group-prepend">
                   <span class="input-group-text">Content</span>
                </div>
-               <input type="textarea" class="form-control" name="content" placeholder="Enter here">
+         <textarea class="form-control" name="content" rows="5" required></textarea>
             </div>
             @error('content')
             <div class="alert alert-danger">{{ $message }}</div>

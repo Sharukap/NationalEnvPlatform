@@ -14,14 +14,14 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Name</span>
                     </div>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Enter Name">
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" placeholder="Enter Name" required/>
                 </div>
                 @error('name')
                 <div class="alert alert-danger">{{ $message }}</div>
                 @enderror
 
                 <div class="input-group mb-3">
-                <input type="text" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Enter email" name="email" />
+                <input type="text" class="form-control @error('email') is-invalid @enderror" value="{{ old('email') }}" placeholder="Enter email" name="email" required/>
                     <div class="input-group-append">
                         <span class="input-group-text">@example.com</span>
                     </div>
@@ -35,7 +35,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Organization</span>
                     </div>
-                    <select name="organization" class="custom-select @error('organization') is-invalid @enderror">
+                    <select name="organization" class="custom-select @error('organization') is-invalid @enderror" required>
                         <option selected value="">Select</option>
                         @foreach($organizations as $organization)
                         <option value="{{$organization->id}}" {{ Request::old()?(Request::old('organization')==$organization->id?'selected="selected"':''):'' }}>{{$organization->title}}</option>
@@ -51,7 +51,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Designation</span>
                     </div>
-                    <select name="designation" class="custom-select @error('designation') is-invalid @enderror">
+                    <select name="designation" class="custom-select @error('designation') is-invalid @enderror" required>
                         <option selected value="">Select</option>
                         @foreach($designations as $designation)
                         <option value="{{$designation->id}}" {{ Request::old()?(Request::old('designation')==$designation->id?'selected="selected"':''):'' }}>{{$designation->designation}}</option>
@@ -66,7 +66,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Role</span>
                     </div>
-                    <select name="role" class="custom-select @error('role') is-invalid @enderror">
+                    <select name="role" class="custom-select @error('role') is-invalid @enderror" required>
                         <option selected value="">Select</option>
                         @foreach($roles as $role)
                         <option value="{{$role->id}}" {{ Request::old()?(Request::old('role')==$role->id?'selected="selected"':''):'' }}>{{$role->title}}</option>

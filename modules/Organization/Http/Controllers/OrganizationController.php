@@ -28,6 +28,26 @@ class OrganizationController extends Controller
     // When the user fills in the details of the new organization and clicks submit it will be handled here. organization details and contact details will store database.
     public function store(Request $request)
     {
+        $request->validate([
+            'type' => 'required',
+        ]);
+
+        if($request->type==1 || $request->type == 2){
+            $condition= "required|digits:10";
+        }else{
+            $condition = "required|email";
+        }
+        $request->validate([
+           
+            'title' => 'required',
+            'city' => 'required',
+            'organization_type' => 'required',
+            'contact' => $condition,
+            'province'=>'required',
+            'address' =>'required',
+        ]);
+
+
         $org_type = Type::all();
 
         //dd($request->all());
@@ -40,19 +60,25 @@ class OrganizationController extends Controller
         $organization->save();
         $type = $request->type;
 
+        $contact = new Contact();
+        $contact->org_id = $organization->id;
+        $contact->type ="Address";
+        $contact->contact_signature = $request->address;
+        $contact->primary = 0;
 
-        $contact_signature = $request->contact_signature;
-        $count = count((array)$type);
-
-        for ($i = 0; $i < $count; $i++) {
-            $contact = new Contact();
-            $contact->org_id = $organization->id;
-            $contact->type = $request->type[$i];
-            $contact->contact_signature = $request->contact_signature[$i];
-            $contact->primary = $request->primary;
-            // $contact->status = $request->status;
-            $contact->save();
+        $contact = new Contact();
+        $contact->org_id = $organization->id;
+        if($request->type==1){
+            $contact->type ="Phone Number";
+        }elseif($request->type==2){
+            $contact->type ="email";
+        }else{
+            $contact->type ="Fax";
         }
+        $contact->contact_signature = $request->contact;
+        $contact->primary = 1;
+        $contact->save();
+
         $ORG_ACT = $request->activity;
         $act_count = count((array)$ORG_ACT);
 
@@ -63,7 +89,6 @@ class OrganizationController extends Controller
             $ORG_ACT->province_id = $request->province;
             $ORG_ACT->save();
         }
-
 
         //direct back to the index page.
         return redirect('/organization/index')->with('message', 'Organization created Successfully ');
