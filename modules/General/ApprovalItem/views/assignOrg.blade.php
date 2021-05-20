@@ -80,34 +80,6 @@
                     </tbody>
                 </table>
             </div>
-            <div class="col border border-muted rounded-lg mr-2 p-4">
-                <p>Non registered Organizations</p>
-                <form action="\approval-item\changeassignOrganization" method="post">
-                    @csrf
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Organization name" name="organization" value="{{ old('organization') }}"/>
-                        @error('organization')
-                            <div class="alert">                                   
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror 
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Organization email" name="email" value="{{ old('email') }}"/>
-                        @error('email')
-                            <div class="alert">                                   
-                                <strong>{{ $message }}</strong>
-                            </div>
-                        @enderror 
-                        <input type="hidden" class="form-control" name="create_by" value="{{ Auth::user()->id }}">
-                        <input type="hidden" class="form-control" name="create_organization" value="{{ Auth::user()->organization_id }}">
-                        <input type="hidden" class="form-control" name="process_id" value="{{ $process_item->id }}">
-                    </div>
-                    <div class="form-check">
-                        <button type="submit" class="btn btn-primary" >Assign</button>
-                    </div>
-                </form>
-            </div>
         </div>
         <div class="row p-4 bg-white">
             <div class="col border border-muted rounded-lg mr-2 p-4">
@@ -129,11 +101,17 @@
                         <input type="hidden" class="form-control" name="status" value="4">
                     </div>
                     <div class="form-check">
-                        <button type="submit" class="btn btn-primary" >Reject</button>
+                        <button type="submit" class="btn btn-primary" onclick="return finaldecision();">Reject</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
+<script>
+    function finaldecision() {
+      if(!confirm("Please confim that you want to reject this application."))
+      event.preventDefault();
+    }
+</script>
 @endsection

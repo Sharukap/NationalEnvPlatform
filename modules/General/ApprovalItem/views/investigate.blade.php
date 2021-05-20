@@ -235,7 +235,7 @@
                             @enderror
                         </div>
                         <div class="form-check">
-                            <button type="submit" class="btn btn-primary" >Update</button>
+                            <button type="submit" class="btn btn-primary" onclick="return finaldecision();">Update</button>
                         </div>
                     </form>
                 </div>
@@ -256,6 +256,10 @@
     }
     function staffReAssign() {
       if(!confirm("Please confim that you want to change the staff member assigned to this application."))
+      event.preventDefault();
+    }
+    function finaldecision() {
+      if(!confirm("Please confim that you want to make the final decision on this application."))
       event.preventDefault();
     }
 </script>
