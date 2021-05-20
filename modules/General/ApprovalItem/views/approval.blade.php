@@ -227,7 +227,7 @@
                             <tr>
                                 <th>Tree Species ID</th>
                                 <th>Tree ID</th>
-                                <th>Width at Breast Height</th>
+                                <th>Circumference at Breast Height</th>
                                 <th>Height</th>
                                 <th>Approx.Timber Volume</th>
                                 <th>Age</th>
