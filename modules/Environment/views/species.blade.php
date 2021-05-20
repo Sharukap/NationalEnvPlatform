@@ -143,7 +143,7 @@
                         <div class="row p-2 mt-2">
                             <div class="col">
                                 <label>Species Description<strong>*</strong></label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" value="{{ old('description') }}" rows="5" name="description" placeholder="required" required>{{ old('description') }}</textarea>
+                                <textarea class="form-control @error('description') is-invalid @enderror" value="{{ old('description') }}" rows="5" name="description" placeholder="Required" required>{{ old('description') }}</textarea>
 
                                 @error('description')
                                 <div class="alert alert-danger">{{ $message }}</div>
