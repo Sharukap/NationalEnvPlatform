@@ -129,7 +129,7 @@ class UserController extends Controller
                 $users = User::where([
                     ['role_id', '>', 0],
                     ['status', '=', 1],
-                ])->paginate(10);        // Get null (self registered) users as well
+                ])->orderby('id')->paginate(10);        // Get null (self registered) users as well
                 return view('admin::index', [
                     'users' => $users,
                 ]);
@@ -139,7 +139,7 @@ class UserController extends Controller
                     ['role_id', '>', 1],           // where role id = 1
                     ['organization_id', '=', $org], // and org=current user's org
                     ['status', '=', 1],
-                ])->paginate(10);
+                ])->orderby('id')->paginate(10);
                 return view('admin::index', [
                     'users' => $users,
                 ]);
@@ -149,7 +149,7 @@ class UserController extends Controller
                     ['role_id', '>', 3],   //Get all users whose role is > 3. Means less than the HoO role. 
                     ['organization_id', '=', $org],  //Get users from the same org as the logged in user.
                     ['status', '=', 1],
-                ])->paginate(10);
+                ])->orderby('id')->paginate(10);
                 return view('admin::index', [
                     'users' => $users,
                 ]);
@@ -159,7 +159,7 @@ class UserController extends Controller
                     ['role_id', '>', 4],       // Role = 4 means manager.
                     ['organization_id', '=', $org],
                     ['status', '=', 1],
-                ])->paginate(10);
+                ])->orderby('id')->paginate(10);
                 return view('admin::index', [
                     'users' => $users,
                 ]);
