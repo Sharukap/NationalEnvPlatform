@@ -15,9 +15,9 @@ class SpeciesController extends Controller
     // Load the form to enter data of the newly found species
     public function form()
     {
-        $species = Organization::all();
+        $species_types=["fauna","flora"];
         return view('environment::species', [
-            'org' => $species,
+            'species_types'=>$species_types
         ]);
     }
     // Store the data in the database
