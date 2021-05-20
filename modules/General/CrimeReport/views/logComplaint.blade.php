@@ -15,20 +15,17 @@
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     <div class="form-group">
                         <label for="crime_type">Complaint Type*</label>
-                        <select name="crime_type" class="custom-select">
-                            <option disabled selected value="">Select Complaint Type</option>
-                            @foreach($crime_types as $crime_type)
-                            @if (old('crime_type') == $crime_type->id)
-                            <option value="{{ $crime_type->id }}">{{$crime_type->type}}</option>
-                            @else
-                            <option value="{{$crime_type->id}}">{{$crime_type->type}}</option>
-                            @endif
+                        <select class="custom-select @error('crime_type') is-invalid @enderror" name="crime_type" required>
+                            <option selected value="">Select Complaint Type</option>
+                            @foreach ($crime_types as $crime_type)
+                            <option value="{{ $crime_type->id }}" {{ Request::old()?(Request::old('crime_type')==$crime_type->id?'selected="selected"':''):'' }}>{{ $crime_type->type }}</option>
                             @endforeach
                         </select>
                         @error('crime_type')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
+
                     @if(Auth::user()->role_id !=6) 
                     <div class="form-group">
                         <label for="organization">Make complaint to (Optional)</label>
@@ -51,8 +48,8 @@
                         @endif
                     </div>
                     <div class="form-group">
-                        <label for="description">Description:</label>
-                        <textarea class="form-control" rows="3" placeholder="Required" name="description">{{ old('description') }}</textarea>
+                        <label for="description">Description*:</label>
+                        <textarea class="form-control" rows="3" placeholder="Required" name="description" required>{{ old('description') }}</textarea>
                         @error('description')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -85,14 +82,14 @@
                 </div>
                 <div class="col border border-muted rounded-lg p-4">
                     <div class="form-group">
-                        <label for="landTitle">Area name*</label>
-                        <input type="text" class="form-control" placeholder="Required" id="landTitle" name="landTitle" value="{{ old('landTitle') }}">
+                        <label for="landTitle">Area name*:</label>
+                        <input type="text" class="form-control" placeholder="Required" id="landTitle" name="landTitle" value="{{ old('landTitle') }}" required/>
                         @error('landTitle')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                        District*:<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" required/>
                         @error('district')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror

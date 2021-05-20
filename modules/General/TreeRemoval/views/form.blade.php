@@ -288,13 +288,16 @@
       <div class="container">
         <div class="row border rounded-lg p-4 bg-white">
           @error('location.*.tree_species_id')
-          <div class="alert alert-danger">The Tree Species Field Is Required</div>
+          <div class="alert alert-danger">The Tree Species Field Is Required and it must be letters only</div>
           @enderror
           @error('location.*.circumference_at_breast_height')
-          <div class="alert alert-danger">The Circumference At Breast Height Field Is Required and it must be a number</div>
+          <div class="alert alert-danger">The Circumference At Breast Height Field Is Required and it must be numeric</div>
           @enderror
           @error('location.*.height')
-          <div class="alert alert-danger">The Height Field Is Required and it must be a number</div>
+          <div class="alert alert-danger">The Height Field Is Required and it must be numeric</div>
+          @enderror
+          @error('location.*.age')
+          <div class="alert alert-danger">The age field must be numeric</div>
           @enderror
           <table class="table" id="dynamicAddRemoveTable">
             <tr>
@@ -616,7 +619,7 @@
 
   window.onload = function() {
     var popup = L.popup();
-    //false,               ,popup, map.center
+                                    //false,               ,popup, map.center
     function geolocationErrorOccurred(geolocationSupported, popup, latLng) {
       popup.setLatLng(latLng);
       popup.setContent(geolocationSupported ?
@@ -665,8 +668,6 @@
     }).addTo(map);
   //we’re calling tilelayer() to create the tile layer, passing in the OSM URL first, then the second argument is an object containing the options for our new tile 
   //layer (including attribution is critical here to comply with licensing), and then the tile layer is added to the map using addTo().
-
-
 
   var drawnItems = new L.FeatureGroup();
   map.addLayer(drawnItems);

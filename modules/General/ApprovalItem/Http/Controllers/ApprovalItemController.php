@@ -366,7 +366,13 @@ class ApprovalItemController extends Controller
                 ['prerequisite_id', '=', $process_item->id],
                 ['prerequisite', '=', 0],
             ])->first();
-            $landProcess2 = Process_Item::where('prerequisite_id', '=', $process_item->id)->first();
+            if($landProcess == null ){
+                $landProcess = Process_Item::where([
+                    ['form_type_id', '=',5],
+                    ['form_id','=',$land_parcel],
+                    ['prerequisite', '=', 0],
+                ])->first();
+            }
             //dd($landProcess,$landProcess2);
             //dd($data);
             return view('approvalItem::assignOrg', [
@@ -509,6 +515,15 @@ class ApprovalItemController extends Controller
                 ['prerequisite_id', '=', $process_item->id],
                 ['prerequisite', '=', 0],
             ])->first();
+
+            if($landProcess == null ){
+                $landProcess = Process_Item::where([
+                    ['form_type_id', '=', 5],
+                    ['form_id','=',$land_parcel->id],
+                    ['prerequisite', '=', 0],
+                ])->first();
+                
+            }
             //dd($landProcess, $process_item->status_id,$process_item->status);
 
             return view('approvalItem::investigate', [

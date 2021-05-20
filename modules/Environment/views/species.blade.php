@@ -33,35 +33,35 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text">Species Type<strong>*</strong></span>
 
-                                        <select name="type" input type="text" class="form-control @error('type') is-invalid @enderror" id="type" placeholder="Required">
+                                        <select name="type" input type="text" class="form-control @error('type') is-invalid @enderror" id="type" placeholder="Required" required>
                                             <option disabled selected value="">Select the species type</option>
-
-                                            <option value="Flora">Flora</option>
-                                            <option value="Fauna">Fauna</option>
-
+                                            @foreach($species_types as $species_type)
+                                            <option value="{{$species_type}}" {{ Request::old()?(Request::old('type')==$species_type?'selected="selected"':''):'' }}>{{$species_type}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
-
                                     @error('type')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div>
-                                    <label for="number_of_tree_species">Species Title<strong>*</strong></label>
-                                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Required">
+                                    <label>Species Title<strong>*</strong></label>
+                                    <input type="text" class="form-control @error('title') is-invalid @enderror" value="{{ old('title') }}" id="title" name="title" placeholder="Required" required>
                                     @error('title')
                                     <div class="alert alert-danger">{{ $message }}</div>
                                     @enderror
                                 </div>
 
-
                                 </br>
+<<<<<<< HEAD
                                 <label for="scientific_name">Scientific Name</label>
                               
+=======
+                                <label>Scientific Name</label>
+>>>>>>> 6d967ae6c57dd7efd5f4a255276f8d854b5ffe8b
                                 <div class="form-group">
-                                    <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
-
+                                    <input type="text" name="scientific_name" class="form-control @error('scientific_name') is-invalid @enderror" value="{{ old('scientific_name') }}" placeholder="Enter name">
                                 </div>
                             </div>
                         </div>
@@ -73,21 +73,21 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label>Kingdom</label>
-                                            <input type="text" name="kingdom" class="form-control" placeholder="Enter name">
+                                            <input type="text" name="kingdom" class="form-control @error('kingdom') is-invalid @enderror" value="{{ old('kingdom') }}" placeholder="Enter name">
                                             @error('kingdom')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="form-group">
                                             <label>Class</label>
-                                            <input type="text" name="class" class="form-control" placeholder="Enter name">
+                                            <input type="text" name="class" class="form-control @error('class') is-invalid @enderror" value="{{ old('class') }}" placeholder="Enter name">
                                             @error('class')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="form-group">
                                             <label>Family</label>
-                                            <input type="text" name="family" class="form-control" placeholder="Enter name">
+                                            <input type="text" name="family" class="form-control @error('family') is-invalid @enderror" value="{{ old('family') }}" placeholder="Enter name">
                                             @error('family')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -96,21 +96,21 @@
                                     <div class="col">
                                         <div class="form-group">
                                             <label>Phylum</label>
-                                            <input type="text" name="phylum" class="form-control" placeholder="Enter name">
+                                            <input type="text" name="phylum" class="form-control @error('phylum') is-invalid @enderror" value="{{ old('phylum') }}" placeholder="Enter name">
                                             @error('phylum')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="form-group">
                                             <label>Order</label>
-                                            <input type="text" name="order" class="form-control" placeholder="Enter name">
+                                            <input type="text" name="order" class="form-control @error('order') is-invalid @enderror" value="{{ old('order') }}" placeholder="Enter name">
                                             @error('order')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
                                         </div>
                                         <div class="form-group">
                                             <label>Genus</label>
-                                            <input type="text" name="genus" class="form-control" placeholder="Enter name">
+                                            <input type="text" name="genus" class="form-control @error('genus') is-invalid @enderror" value="{{ old('genus') }}" placeholder="Enter name">
                                             @error('genus')
                                             <div class="alert alert-danger">{{ $message }}</div>
                                             @enderror
@@ -131,7 +131,7 @@
                                         <div id="collapsetwo" class="collapse" data-parent="#accordion">
                                             <div class="card-body">
                                                 <strong>Select Multiple</strong>
-                                                <fieldset>
+                                                <fieldset required>
                                                     <input type="checkbox" name="habitat[]" value="Montane forest"><label class="ml-2">Montane forest</label> <br>
                                                     <input type="checkbox" name="habitat[]" value="Sub-Montane forest"><label class="ml-2">Sub-Montane forest</label> <br>
                                                     <input type="checkbox" name="habitat[]" value="Low land wet evergreen forest"><label class="ml-2">Low land wet evergreen forest</label> <br>
@@ -148,8 +148,8 @@
                         </div>
                         <div class="row p-2 mt-2">
                             <div class="col">
-                                <label>Species Description</label>
-                                <textarea class="form-control @error('description') is-invalid @enderror" rows="5" name="description"></textarea>
+                                <label>Species Description<strong>*</strong></label>
+                                <textarea class="form-control @error('description') is-invalid @enderror" value="{{ old('description') }}" rows="5" name="description" placeholder="required" required>{{ old('description') }}</textarea>
 
                                 @error('description')
                                 <div class="alert alert-danger">{{ $message }}</div>
