@@ -30,6 +30,10 @@ Route::middleware(['access.control:8'])->group(function () {
 
     Route::get('/investigate/{id}', [ApprovalItemController::class, 'investigate'])->middleware(['restrict.own']);
 
+    Route::get('/prerequisiteprogress/{id}', [ApprovalItemController::class, 'view_prerequisite']);
+
+    Route::get('/prerequisiteprogress/{id}/{nid}', [ApprovalItemController::class, 'view_prerequisite'])->middleware(['notifiy.read']);
+
     Route::post('/createprerequisite', [ApprovalItemController::class, 'create_prerequisite']);
 
     Route::post('/finalapproval', [ApprovalItemController::class, 'final_approval']);

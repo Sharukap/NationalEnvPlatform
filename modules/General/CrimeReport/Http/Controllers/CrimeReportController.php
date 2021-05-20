@@ -108,7 +108,7 @@ class CrimeReportController extends Controller
                     dd($e);
                 }
             }
-            $Process_item = new Process_item;
+            $Process_item = new Process_Item;
             $Process_item->created_by_user_id = $request['create_by'];
             if (($request->organization) != null) {
                 $org_id = request('organization');
@@ -168,19 +168,11 @@ class CrimeReportController extends Controller
         return Storage::disk('public')->download($path . '/' . $file);
     }
 
-    public function view_image($path, $file)
-    {
-        $url = Storage::disk('public')->url($path . '/' . $file);
-        return $url;
-    }
 
-    public function display_image($path, $file)
-    {
-    }
 
     public function view_crime_reports($id)
     {
-        $process_item = Process_item::find($id);
+        $process_item = Process_Item::find($id);
         $crime = Crime_report::find($process_item->form_id);
         $Photos = Json_decode($crime->photos);
         $land_parcel = Land_Parcel::find($crime->land_parcel_id);
