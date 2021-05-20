@@ -43,6 +43,7 @@ class OrganizationController extends Controller
             'organization_type' => 'required',
             'contact' => $condition,
             'province'=>'required',
+            'address' =>'required',
         ]);
 
         $org_type = Type::all();
@@ -56,25 +57,26 @@ class OrganizationController extends Controller
         $organization->status = $request->status;
         $organization->save();
         $type = $request->type;
-        
 
-        $contact_signature = $request->contact_signature;
-        $count = count((array)$type);
-        
+        $contact = new Contact();
+        $contact->org_id = $organization->id;
+        $contact->type ="Address";
+        $contact->contact_signature = $request->address;
+        $contact->primary = 0;
 
-            $contact = new Contact();
-            $contact->org_id = $organization->id;
-            if($request->type==1){
-                $contact->type ="Phone Number";
-            }elseif($request->type==2){
-                $contact->type ="email";
-            }else{
-                $contact->type ="Fax";
-            }
-            $contact->contact_signature = $request->contact;
-            $contact->primary = 1;
-            // $contact->status = $request->status;
-            $contact->save();
+        $contact = new Contact();
+        $contact->org_id = $organization->id;
+        if($request->type==1){
+            $contact->type ="Phone Number";
+        }elseif($request->type==2){
+            $contact->type ="email";
+        }else{
+            $contact->type ="Fax";
+        }
+        $contact->contact_signature = $request->contact;
+        $contact->primary = 1;
+        $contact->save();
+
         $ORG_ACT = $request->activity;
         $act_count = count((array)$ORG_ACT);
 
@@ -85,8 +87,6 @@ class OrganizationController extends Controller
             $ORG_ACT->province_id= $request->province;
             $ORG_ACT->save();
         }
-     
-
         //direct back to the index page.
         return redirect('/organization/index')->with('message', 'Organization created Successfully ');
     }
