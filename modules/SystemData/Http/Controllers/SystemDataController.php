@@ -105,14 +105,14 @@ class SystemDataController extends Controller
     
         $crimetype->save();
         //direct back to the index page.
-        return redirect('system-data/crimetypeindex')->with('success', 'Crime Type Updated Successfully');
+        return redirect('system-data/crimetypeindex')->with('success', 'Complaint Type Updated Successfully');
     }
     public function crime_typesdelete($id)
     {
         $crimetype =Crime_type::find($id);
 
         $crimetype ->delete();
-        return redirect('system-data/crimetypeindex')->with('success', 'Crime Type Deleted');
+        return redirect('system-data/crimetypeindex')->with('success', 'Complaint Type Deleted');
     }
      
     
@@ -228,9 +228,7 @@ class SystemDataController extends Controller
         $gazette->title = $request->title;
         $gazette->gazette_number = $request->gazettenumber;
         $gazette->gazetted_date = $request->gazetteddate;
-        if (request('degazetteddate')) {
-            $gazette->degazetted_date = $request->degazetteddate;
-        }
+        $gazette->degazetted_date = NULL;
         $gazette->organizations = $request->organizations;
         $gazette->content= $request->content;
         $gazette->status=$request->status;
@@ -251,7 +249,9 @@ class SystemDataController extends Controller
         $gazette->title = $request->title;
         $gazette->gazette_number = $request->gazettenumber;
         $gazette->gazetted_date = $request->gazetteddate;
-        $gazette->degazetted_date = $request->degazetteddate;
+        if(request('degazetteddate')){
+            $gazette->degazetted_date = $request->degazetteddate;
+        }
         $gazette->organizations = $request->organizations;
         $gazette->content= $request->content;
         $gazette->status=$request->status;

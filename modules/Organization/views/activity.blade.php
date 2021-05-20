@@ -1,8 +1,6 @@
 @extends('adminorg')
 
-@section('admin')
-<!-- Sessions to display success or failure -->
-   
+@section('admin')  
 <div class="container">
     <div class="row justify-content-md-center border p-4 bg-white">  
         <span>

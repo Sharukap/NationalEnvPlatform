@@ -24,7 +24,7 @@
                 <div class="row p-2 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-4">
                         <div class="form-group">
-                            <label for="title">Title:</label>
+                            <label for="title">Title:*</label>
                             <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}">
                             @error('title')
                             <div class="alert alert-danger">{{ $message }}</div>
@@ -33,7 +33,7 @@
 
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <span class="input-group-text">Type</span>
+                                <span class="input-group-text">Type*</span>
                             </div>
                             <select name="eco_type" class="custom-select @error('eco_type') is-invalid @enderror">
                                 <option disabled selected value="">Select</option>
@@ -49,7 +49,7 @@
                         </br>
 
                         <div class="form-group">
-                            District:<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                            District:*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
                             @error('district')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -57,9 +57,7 @@
 
                         <label for="description">Description:</label>
                         <textarea class="form-control" rows="5" name="description"></textarea>
-                        @error('description')
-                        <div class="alert alert-danger">{{ $message }}</div>
-                        @enderror
+                        
 
 
 

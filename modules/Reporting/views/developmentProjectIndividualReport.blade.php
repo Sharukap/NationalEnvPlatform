@@ -60,19 +60,15 @@
             <dd class="col-sm-9">{{$development_project->created_at}}</dd>
         </div>
     </div>
-    <!-- <div class="row p-4 bg-white">
+    <div class="row p-4 bg-white">
         <div class="col border border-muted rounded-lg mr-2 p-4">
-
             <div><strong>Photos:</strong></div>
             @isset($Photos)
             <div class="row p-4">
                 <div class="card-deck">
                     @foreach($Photos as $photo)
                     <div class="card" style="background-color:#99A3A4">
-                        <img class="card-img-top" src="{{asset('/storage/'.$photo)}}" alt="photo">
-                        <div class="card-body text-center">
-                            <a class="nav-link text-dark font-italic p-2" href="/item-report/downloadimage/{{$photo}}">Download Image</a>
-                        </div>
+                        <img class="card-img-top" src="{{$photo}}" alt="photo">
                     </div>
                     @endforeach
                 </div>
@@ -82,8 +78,7 @@
             <p>No photos included in the application</p>
             @endempty
         </div>
-    </div> -->
-
+    </div>
     <div class="row p-4 bg-white">
         <div class="col border border-muted rounded-lg mr-2 p-4">
             <div class="d-flex bg-light justify-content-center">

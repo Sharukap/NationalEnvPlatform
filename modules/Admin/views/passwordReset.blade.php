@@ -15,7 +15,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Current Password</span>
                     </div>
-                    <input type="password" class="form-control" name="currentpassword">
+                    <input type="password" class="form-control" name="currentpassword" required/>
                 </div>
                 @error('currentpassword')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -25,7 +25,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">New Password</span>
                     </div>
-                    <input type="password" class="form-control" name="newpassword">
+                    <input type="password" class="form-control" name="newpassword" required/>
                 </div>
                 @error('newpassword')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -35,7 +35,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Confirm Password</span>
                     </div>
-                    <input type="password" class="form-control" name="confirmpassword">
+                    <input type="password" class="form-control" name="confirmpassword" required/>
                 </div>
                 @error('confirmpassword')
                 <div class="alert alert-danger">{{ $message }}</div>
