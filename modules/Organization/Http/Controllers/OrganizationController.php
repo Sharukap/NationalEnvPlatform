@@ -28,26 +28,6 @@ class OrganizationController extends Controller
     // When the user fills in the details of the new organization and clicks submit it will be handled here. organization details and contact details will store database.
     public function store(Request $request)
     {
-
-        if($request->type[0] == 'Mobile Number'||'Land Number')
-        {
-            $request->validate([
-            'contact_signature.0' => 'required | numeric | digits:10 | starts_with: 07',
-        ]);
-        }
-        else if($request->type[0] == 'Fax')
-        {
-            $request->validate([
-            'contact_signature.0' => 'required|regex:/^([0-9\s\-\+\(\)]*)$/|min:11',
-        ]);
-        }
-        else if($request->type[0] == 'Email')
-        {
-            $request->validate([
-            'contact_signature.0' => 'required|email',
-        ]);
-        }
-
         $org_type = Type::all();
 
         //dd($request->all());
