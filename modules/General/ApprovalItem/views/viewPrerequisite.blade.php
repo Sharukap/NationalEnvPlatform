@@ -32,7 +32,7 @@
                                 <th>Requested by</th>
                                 <th>Assigned Organization</th>
                                 <th>remarks</th>
-                                @if(($process_item->activity_user_id == Auth::user()->id || ($process_item->activity_organization ==Auth::user()->organization_id && Auth::user()->role_id == 4)) && $process_item->status_id != 8)
+                                @if((($process_item->activity_user_id == Auth::user()->id || ($process_item->activity_organization ==Auth::user()->organization_id && Auth::user()->role_id == 4)) && $process_item->status_id != 8) || $process_item->prerequisite_id == null )
                                     <th>More Details</th>
                                 @else
                                     <th>status</th>
@@ -49,7 +49,7 @@
                                 @endif
                                     <td>{{$prerequisite->Activity_organization->title}}</td>
                                     <td>{{$prerequisite->remark}}</td>
-                                    @if(($process_item->activity_user_id == Auth::user()->id || ($process_item->activity_organization ==Auth::user()->organization_id && Auth::user()->role_id == 4)) && $process_item->status_id != 8)    
+                                    @if((($process_item->activity_user_id == Auth::user()->id || ($process_item->activity_organization ==Auth::user()->organization_id && Auth::user()->role_id == 4)) && $process_item->status_id != 8)  || $process_item->prerequisite_id == null )  
                                         <td><a href="/approval-item/prerequisiteprogress/{{$prerequisite->id}}" class="text-muted">view</a></td>
                                     @else
                                         <td>{{$prerequisite->status->type}}</td>
@@ -100,8 +100,10 @@
                 @endif
             </div>
         </div>
+        @if($process_item->prerequisite_id != null)
         <div class="row p-4 bg-white">
             <button type="submit" class="btn btn-primary" ><a href="/approval-item/investigate/{{$process_item->prerequisite_id}}" class="text-dark">Back to {{$process_item->prerequisite_process->form_type->type}}</a></button>
         </div>
+        @endif
 </div>
 @endsection
