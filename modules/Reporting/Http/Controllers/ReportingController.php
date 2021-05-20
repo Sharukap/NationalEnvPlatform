@@ -99,11 +99,13 @@ class ReportingController extends Controller
         $item = Process_Item::find($id);
         $tree_removal = Tree_Removal_Request::find($item->form_id);
         $location_data = $tree_removal->tree_details;
+        $Photos = Json_decode($tree_removal->images);
         $land_data = Land_Parcel::find($tree_removal->land_parcel_id);
         $pdf = PDF::loadView('reporting::treeRemovalIndividualReport', [
             'tree' => $tree_removal,
             'location' => $location_data,
             'polygon' => $land_data->polygon,
+            'Photos' => $Photos,
         ]);
         return $pdf->stream('treeRemovalReport.pdf');
     }
@@ -133,22 +135,11 @@ class ReportingController extends Controller
         $development_project = Development_Project::find($item->form_id);
         $Photos = Json_decode($development_project->images);
         $land_data = Land_Parcel::find($development_project->land_parcel_id);
-
-        // if ($Photos != null) {
-        //     foreach ($Photos as $Photo) {
-        //         $photo = base64_encode(file_get_contents('/storage/app/public/'.$Photo));
-        //         $PhotoArray[] = $photo;
-        //     }
-        // }
-        // else{
-        //     $PhotoArray[]=null;
-        // }
-
         $count = 1;
         $pdf = PDF::loadView('reporting::developmentProjectIndividualReport', [
             'development_project' => $development_project,
             'polygon' => $land_data->polygon,
-            // 'Photos' => $PhotoArray,
+            'Photos' => $Photos,
             'count' => $count
         ]);
         return $pdf->stream('restorationReport.pdf');

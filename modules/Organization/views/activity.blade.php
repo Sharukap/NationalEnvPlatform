@@ -1,14 +1,6 @@
 @extends('adminorg')
 
-@section('admin')
-<!-- Sessions to display success or failure -->
-<span>
-        <h3 class="text-center bg-success text-light">{{session('message')}}</h3>
-    </span>
-    <span>
-        <h3 class="text-center bg-danger text-light">{{session('danger')}}</h3>
-    </span>
-   
+@section('admin')  
 <div class="container">
     <div class="row justify-content-md-center border p-4 bg-white">  
         <span>

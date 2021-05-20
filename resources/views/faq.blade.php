@@ -38,7 +38,7 @@
 	}
 
 	.accordion .card-header .btn:hover {
-		color: #ff8300;
+		color: #9cb849;
 	}
 
 	.accordion .card-body {
@@ -84,7 +84,7 @@
 					<div class="card">
 						<div class="card-header" id="headingOne">
 							<h2 class="clearfix mb-0">
-								<a class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-chevron-circle-down"></i> what is this form for?</a>
+								<a class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-chevron-circle-down"></i> What is this form for?</a>
 							</h2>
 						</div>
 						<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
@@ -94,7 +94,7 @@
 					<div class="card">
 						<div class="card-header" id="headingTwo">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> what are the required fields?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> What are the required fields?</a>
 							</h2>
 						</div>
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
@@ -104,8 +104,8 @@
 									<li>If a registered land isn't selected;</li>
 									<ul>
 										<li><strong>Plan Number</strong> given to your land parcel.</li>
-										<li>Surveyor Name</li>
-										<li>Map coordinate has to be selected</li>
+										<li><strong>Surveyor Name</strong></li>
+										<li><strong>Map coordinate</strong> has to be selected</li>
 									</ul>
 									<li><strong>Number of Trees</strong> (the number of trees to be removed)</li>
 									<li><strong>Description</strong> (A description about the need for the tree removal form)</li>
@@ -123,7 +123,7 @@
 							</h2>
 						</div>
 						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
-							<div class="card-body">If the tree removal request is made for an external user by the currently logged in user, simply check the "Creating on behalf of non-registered user" checkbox and fill in the NIC and the email of the non-registered user.</div>
+							<div class="card-body">If the tree removal request is made for an external user by the currently logged in user, simply check the <strong>"Creating on behalf of non-registered user"</strong> checkbox and fill in the <strong>NIC</strong> and the <strong>email</strong> of the non-registered user.</div>
 						</div>
 					</div>
 					<div class="card">
@@ -149,7 +149,7 @@
 					<div class="card">
 						<div class="card-header" id="headingFive">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i> What is I already have a KML file with all the coordinates?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i> What if I already have a KML file with all the coordinates?</a>
 							</h2>
 						</div>
 						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample">
@@ -179,7 +179,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-outline-success" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
@@ -198,7 +198,7 @@
 					<div class="card">
 						<div class="card-header" id="headingOne">
 							<h2 class="clearfix mb-0">
-								<a class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-chevron-circle-down"></i> what is this form for ?</a>
+								<a class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"><i class="fa fa-chevron-circle-down"></i> What is this form for ?</a>
 							</h2>
 						</div>
 						<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample1">
@@ -208,7 +208,7 @@
 					<div class="card">
 						<div class="card-header" id="headingTwo">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> what are the required fields ?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> What are the required fields ?</a>
 							</h2>
 						</div>
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample1">
@@ -219,8 +219,8 @@
 									<li>If a registered land isn't selected;</li>
 									<ul>
 										<li><strong>Plan Number</strong> given to your land parcel.</li>
-										<li>Surveyor Name</li>
-										<li>Map coordinate has to be demarcated.</li>
+										<li><strong>Surveyor Name</strong></li>
+										<li><strong>Map coordinate</strong> has to be demarcated.</li>
 									</ul>
 									<li><strong>Description</strong> (A description about the need for the development project form)</li>
 								</ul>
@@ -250,7 +250,7 @@
 					<div class="card">
 						<div class="card-header" id="headingFour">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i> How can i view my request ?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i> How can I view my request ?</a>
 							</h2>
 						</div>
 						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample1">
@@ -280,7 +280,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-outline-success" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
@@ -330,7 +330,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-outline-success" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
@@ -353,13 +353,18 @@
 							</h2>
 						</div>
 						<div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample3">
-							<div class="card-body">Using the description box in the form, You can enter the details and features of the new Species you found.This will help the authorized parties to get an quick idea abount the Eco-ystem you found.</div>
+							<div class="card-body">
+								<ul>
+									<li>Using the description box in the form, You can enter the details and features of the new Species you found.</li><br>
+									<li>This will help the authorized parties to get an quick idea about the new data that you have entered.</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 					<div class="card">
 						<div class="card-header" id="headingTwo">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> How to mark the location?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> How do I mark cordinates ?</a>
 							</h2>
 						</div>
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample3">
@@ -373,7 +378,7 @@
 					<div class="card">
 						<div class="card-header" id="headingThree">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-chevron-circle-down"></i> Can i mark coordinates using multiple shapes ?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-chevron-circle-down"></i> Can I mark the coordinates using multiple shapes ?</a>
 							</h2>
 						</div>
 						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample3">
@@ -383,17 +388,80 @@
 					<div class="card">
 						<div class="card-header" id="headingFour">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i> How can I know whether my request is approved or not?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i>What if I don't know the exact coordinates to mark on the map?</a>
 							</h2>
 						</div>
 						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample3">
-							<div class="card-body">You can check the status of the request using the status column in the main page. If your request is acepted by the authorized parties it will say Active, if not it will notify as Inactive.</div>
+							<div class="card-body">
+								<ul>
+									<li>The location does not have to be EXACT, mark as close to your land as possible. It will be checked by ministry personnel via an onsite visit. </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingFive">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"><i class="fa fa-chevron-circle-down"></i>How do I search for a location ?</a>
+							</h2>
+						</div>
+						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample3">
+							<div class="card-body">
+								<ul>
+									<li>Clicking the search button allows you to search for a location. </li>
+								</ul>
+							</div>
+
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingSix">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"><i class="fa fa-chevron-circle-down"></i>
+									I drew shapes but made an error, how do I clear the map?</a>
+							</h2>
+						</div>
+						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample3">
+							<div class="card-body">
+								<ul>
+									<li> If an error was made when drawing a layer, click on the bin button and confirm to delete all layers.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingSeven">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven"><i class="fa fa-chevron-circle-down"></i> How can I know whether my request is approved or not?</a>
+							</h2>
+						</div>
+						<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionExample3">
+							<div class="card-body">You can check the status of the request using the status column in the main page. If your request is acepted by the authorized parties it will say <strong>Active</strong>, if not it will notify as <strong>Inactive</strong>.</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingEight">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight"><i class="fa fa-chevron-circle-down"></i> What are the required fields in this form?</a>
+							</h2>
+						</div>
+						<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionExample3">
+							<div class="card-body">
+								<ul>
+									<li>Type</li>
+									<li>Title</li>
+									<li>Description</li>
+									<li>Taxanomy</li>
+									<li>Habitats</li>
+									<li>Location- Mark using the map</li>
+								</ul>
+							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-outline-success" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
@@ -419,7 +487,8 @@
 							<div class="card-body">
 								<ul>
 
-									<li> Using the description box in the form, You can enter the details and features of the new Eco-System you found.This will help the authorized parties to get an quick idea abount the Eco-ystem you found. </li>
+									<li> Using the description box in the form, You can enter the details and features of the new Eco-System you found.</li>
+									<li> This will help the authorized parties to get an quick idea about the Eco-System you found. </li>
 							</div>
 							</ul>
 						</div>
@@ -442,24 +511,66 @@
 							</div>
 						</div>
 					</div>
-
 					<div class="card">
 						<div class="card-header" id="headingThree">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-chevron-circle-down"></i>Can i mark coordinates using multiple shapes ?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree"><i class="fa fa-chevron-circle-down"></i>Can I mark coordinates using multiple shapes ?</a>
 							</h2>
 						</div>
-						<div id="collapseThree" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample4">
+						<div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample4">
 							<div class="card-body"> Yes </div>
 						</div>
 					</div>
 					<div class="card">
 						<div class="card-header" id="headingFour">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i> Is it necessary to put the description ?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour"><i class="fa fa-chevron-circle-down"></i>What if I don't know the exact coordinates to mark on the map?</a>
 							</h2>
 						</div>
-						<div id="collapseFour" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample4">
+						<div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample4">
+							<div class="card-body">
+								<ul>
+									<li>The location does not have to be EXACT, mark as close to your land as possible. It will be checked by ministry personnel via an onsite visit. </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingFive">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"><i class="fa fa-chevron-circle-down"></i>How do I search for a location ?</a>
+							</h2>
+						</div>
+						<div id="collapseFive" class="collapse" aria-labelledby="headingFive" data-parent="#accordionExample4">
+							<div class="card-body">
+								<ul>
+									<li>Clicking the search button allows you to search for a location. </li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingSix">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSix" aria-expanded="false" aria-controls="collapseSix"><i class="fa fa-chevron-circle-down"></i>
+									I drew shapes but made an error, how do I clear the map?</a>
+							</h2>
+						</div>
+						<div id="collapseSix" class="collapse" aria-labelledby="headingSix" data-parent="#accordionExample4">
+							<div class="card-body">
+								<ul>
+									<li> If an error was made when drawing a layer, click on the bin button and confirm to delete all layers.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-header" id="headingSeven">
+							<h2 class="mb-0">
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseSeven" aria-expanded="false" aria-controls="collapseSeven"><i class="fa fa-chevron-circle-down"></i> Is it necessary to put the description ?</a>
+							</h2>
+						</div>
+						<div id="collapseSeven" class="collapse" aria-labelledby="headingSeven" data-parent="#accordionExample4">
 							<div class="card-body">
 								<ul>
 									<li>
@@ -469,15 +580,15 @@
 						</div>
 					</div>
 					<div class="card">
-						<div class="card-header" id="headingFive">
+						<div class="card-header" id="headingEight">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFive" aria-expanded="false" aria-controls="collapseFive"><i class="fa fa-chevron-circle-down"></i> How can I know whether my request is approved or not?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseEight" aria-expanded="false" aria-controls="collapseEight"><i class="fa fa-chevron-circle-down"></i> How can I know whether my request is approved or not?</a>
 							</h2>
 						</div>
-						<div id="collapseFive" class="collapse" aria-labelledby="headingFour" data-parent="#accordionExample4">
+						<div id="collapseEight" class="collapse" aria-labelledby="headingEight" data-parent="#accordionExample4">
 							<div class="card-body">
 								<ul>
-									<li>You can check the status of the request using the status column in the main page. If your request is acepted by the authorized parties it will say Active, if not it will notify as Inactive.</li>
+									<li>You can check the status of the request using the status column in the main page. If your request is acepted by the authorized parties it will say <strong>Active</strong>, if not it will notify as <strong>Inactive.</strong></li>
 							</div>
 							</ul>
 						</div>
@@ -485,7 +596,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-outline-success" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
@@ -514,11 +625,11 @@
 					<div class="card">
 						<div class="card-header" id="headingTwo">
 							<h2 class="mb-0">
-								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> How do I fill restoration project name and restored land title name ?</a>
+								<a class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"><i class="fa fa-chevron-circle-down"></i> How do I fill restoration project name and area name ?</a>
 							</h2>
 						</div>
 						<div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample5">
-							<div class="card-body">Restoration project name refers to the unique project name you may assign to your restoration project. Restored land parcel title refers to the title of the land parcel you are carrying out your restoration in.</div>
+							<div class="card-body">Restoration project name refers to the unique project name you may assign to your restoration project. Area name refers to name of the region you are carrying out your restoration in.</div>
 						</div>
 					</div>
 					<div class="card">
@@ -555,7 +666,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-outline-success" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>
@@ -663,7 +774,7 @@
 				</div>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			</div>
 		</div>
 	</div>

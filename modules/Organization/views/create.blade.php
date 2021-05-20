@@ -6,7 +6,7 @@
    <hr>
    <div class="row justify-content-md-center border p-4 bg-white">
       <div class="col-6 ml-3">
-         <!--Organizaion Details -->        
+         <!--Organizaion Details -->
          <h6 style="text-align:left;" class="text-dark">Organization Details</h6>
          <hr>
          <form method="post" action="/organization/store">
@@ -21,13 +21,13 @@
             @error('title')
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
-              <!-- Select province. -->
+            <!-- Select province. -->
             <div class="input-group mb-3">
                <div class="input-group-prepend">
                   <span class="input-group-text">Province</span>
                </diV>
-               <select name="province" class="custom-select" >
-                  <option disabled selected>Select Province</option>   
+               <select name="province" class="custom-select" required>
+                  <option value="" disabled selected>Select Province</option>
                   @foreach ($Provinces as $province)
                   <option value="{{ $province->id }}"{{ Request::old()?(Request::old('province')==$province->id?'selected="selected"':''):'' }}>{{ $province->province }}</option>
                   @endforeach
@@ -52,7 +52,7 @@
                   <span class="input-group-text">Type</span>
                </diV>
                <select name="organization_type" class="custom-select" required>
-                  <option disabled selected>Organization Type</option>   
+                  <option value="" disabled selected>Organization Type</option>
                   @foreach ($org_type as $page)
                   <option value="{{ $page->id }}"{{ Request::old()?(Request::old('organization_type')==$page->id?'selected="selected"':''):'' }}>{{ $page->title }}</option>
                   @endforeach
@@ -61,7 +61,7 @@
             @error('organization_type')
             <div class="alert alert-danger">{{ $message }}</div>
             @enderror
-         
+
             <!-- Description field. -->
             <div class="input-group mb-3">
                <div class="input-group-prepend">
@@ -106,28 +106,28 @@
             @enderror
             <br>
             <br>
-             <br>
-              <!-- Select Organization Activity. -->
-              <h6 style="text-align:left;" class="text-dark">Activities</h6>
+            <!-- Select Organization Activity. -->
+            <h6 style="text-align:left;" class="text-dark">Activities</h6>
             <hr>
             <div>
-                    <fieldset>
-                     @foreach ($Activities as $activity) 
-                        <input type="checkbox" name="activity[]" value="{{ $activity->id }}"><label class="ml-2" />{{ $activity->activity }}</label> <br>
-                      @endforeach  
-                    </fieldset>
-                </div>
-                  <br>
+               <fieldset>
+                  @foreach ($Activities as $activity)
+                  <input type="checkbox" name="activity[]" value="{{ $activity->id }}"><label class="ml-2" />{{ $activity->activity }}</label> <br>
+                  @endforeach
+               </fieldset>
+            </div>
+            <br>
             @error('activity')
             <div class="alert alert-danger">{{ $message }}</div>
-            @enderror 
-            
-                    <!--pass in the user's organization id as well -->
-            <input type="hidden" class="form-control" name="created_by" value="{{Auth::user()->id}}"/>
+            @enderror
+
+            <!--pass in the user's organization id as well -->
+            <input type="hidden" class="form-control" name="created_by" value="{{Auth::user()->id}}" />
             <br>
-         <div style="float:right;">
+            <div style="float:right;">
                <button type="submit" name="status" value="1" class="btn btn-primary">Create</button>
             </div>
+
             <br>
             <br>
          </form>
@@ -137,26 +137,42 @@
             
                $("#add2").on("click", function() 
             {    
-                
                  $("<div class='row' id='typebox'>").appendTo("#addactivity");
                  $("<div class='col-sm-12 pl-3 pr-3 ml-0 mr-0' id='4th'>").appendTo("#typebox");
                  $("#4th").append(`<select class='custom-select' name='activity[${ActivityCount++}]' id='value'/>`).appendTo("#4th");
                 $("#4th").append("</div>"); 
+               });
 
-       
+               $("#remove").on("click", function() {
 
-            });
-             $("#remove2").on("click", function() 
-            {       
-                       $("#4th").children().last().remove();  
-                      
-            
-                       });  
+                  $("#3rd").children().last().remove();
+                  $("#3rd").children().last().remove();
+                  $("#3rd").children().last().remove();
+                  $("#2nd").children().last().remove();
+                  $("#1st").children().last().remove();
+
+
 
                });
-               
-                    </script>  
-                   
+               $("#add2").on("click", function() {
+
+                  $("<div class='row' id='typebox'>").appendTo("#addactivity");
+                  $("<div class='col-sm-12 pl-3 pr-3 ml-0 mr-0' id='4th'>").appendTo("#typebox");
+                  $("#4th").append(`<select class='custom-select' name='activity[${ActivityCount++}]' id='value'/>`).appendTo("#4th");
+                  $("#4th").append("</div>");
+
+
+
+               });
+               $("#remove2").on("click", function() {
+                  $("#4th").children().last().remove();
+
+
+               });
+
+            });
+         </script>
+
       </div>
    </div>
 </div>

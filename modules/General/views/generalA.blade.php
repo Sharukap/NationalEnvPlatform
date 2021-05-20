@@ -39,6 +39,7 @@
                 <option value="0" selected>Select</option>
                 <option value="1">Tree Cutting permission Requests</option>
                 <option value="2">Development project permission Requests</option>
+                <option value="3">Environment Restoration permission Requests</option>
                 <option value="4">Crime Reports</option>
             </select>
         </div>
@@ -104,6 +105,9 @@
             @endforeach
         </tbody>
     </table>
+    <div class="col-sm-12" style="display:flex; align-items:center; justify-content:center;">
+    {!!$Process_items->links();!!}
+    </div>
 </div>
 @endif
 
