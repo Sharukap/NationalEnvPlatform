@@ -17,13 +17,13 @@
                 <div class="col border border-muted rounded-lg mr-2 p-4">
                     <div class="form-group">
                         <label for="title">Title*</label>
-                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Required" id="title" name="title" value="{{ old('title') }}">
+                        <input type="text" class="form-control @error('title') is-invalid @enderror" placeholder="Required" id="title" name="title" value="{{ old('title') }}" required/>
                         @error('title')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
                     </div>
                     <div class="form-group">
-                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                        District*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" required/>
                         @error('district')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror
@@ -57,7 +57,7 @@
                     @endif
                     <div class="form-group">
                         <label for="description">Description*</label>
-                        <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" placeholder="Required" name="description">{{{ old('description') }}}</textarea>
+                        <textarea class="form-control @error('description') is-invalid @enderror" rows="2" id="description" placeholder="Required" name="description" required>{{{ old('description') }}}</textarea>
                         @error('description')
                         <div class="alert alert-danger">{{ $message }}</div>
                         @enderror

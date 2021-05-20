@@ -33,7 +33,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Role</span>
                     </div>
-                    <select name="role" class="custom-select" class="form-control @error('role') is-invalid @enderror">
+                    <select name="role" class="custom-select" class="form-control @error('role') is-invalid @enderror" required>
                         <option selected value="">Select Role</option>
                         @foreach($roles as $role)
                         <option value="{{$role->id}}" {{ Request::old()?(Request::old('role')==$role->id?'selected="selected"':''):'' }}>{{$role->title}}</option>
@@ -48,7 +48,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Organization</span>
                     </div>
-                    <select name="organization" class="custom-select" class="form-control @error('organization') is-invalid @enderror">
+                    <select name="organization" class="custom-select" class="form-control @error('organization') is-invalid @enderror" required>
                         <option selected value="">Select Organization</option>
                         @foreach($organizations as $organization)
                         <option value="{{$organization->id}}" {{ Request::old()?(Request::old('organization')==$organization->id?'selected="selected"':''):'' }}>{{$organization->title}}</option>
@@ -63,7 +63,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Designation</span>
                     </div>
-                    <select name="designation" class="custom-select" class="form-control @error('designation') is-invalid @enderror">
+                    <select name="designation" class="custom-select" class="form-control @error('designation') is-invalid @enderror" required>
                         <option selected value="">Select Designation</option>
                         @foreach($designations as $designation)
                         <option value="{{$designation->id}}" {{ Request::old()?(Request::old('designation')==$designation->id?'selected="selected"':''):'' }}>{{$designation->designation}}</option>
