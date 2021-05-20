@@ -35,9 +35,8 @@
 
                                         <select name="type" input type="text" class="form-control @error('type') is-invalid @enderror" id="type" placeholder="Required" required>
                                             <option disabled selected value="">Select the species type</option>
-                                            @foreach($species_types as $species_type)
-                                            <option value="{{$species_type}}" {{ Request::old()?(Request::old('type')==$species_type?'selected="selected"':''):'' }}>{{$species_type}}</option>
-                                            @endforeach
+                                            <option value="fauna">fauna</option>
+                                            <option value="flora">flora</option>
                                         </select>
                                     </div>
                                     @error('type')
