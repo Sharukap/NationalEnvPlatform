@@ -21,7 +21,7 @@
                         <span class="input-group-text">Name</span>
                     </div>
                     <!-- Fill in the input fields with the current values of the user -->
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$user->name}}">
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{$user->name}}" required/>
                 </div>
                 @error('name')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -31,7 +31,7 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">Email</span>
                     </div>
-                    <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$user->email}}">
+                    <input type="text" class="form-control @error('email') is-invalid @enderror" name="email" value="{{$user->email}}" required/>
                 </div>
                 @error('email')
                 <div class="alert alert-danger">{{ $message }}</div>
