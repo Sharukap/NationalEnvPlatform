@@ -25,7 +25,7 @@
                     <div class="col border border-muted rounded-lg mr-2 p-4">
                         <div class="form-group">
                             <label for="title">Title:*</label>
-                            <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}">
+                            <input type="text" class="form-control" placeholder="Enter Title" id="title" name="title" value="{{ old('title') }}" required/>
                             @error('title')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror
@@ -35,7 +35,7 @@
                             <div class="input-group-prepend">
                                 <span class="input-group-text">Type*</span>
                             </div>
-                            <select name="eco_type" class="custom-select @error('eco_type') is-invalid @enderror">
+                            <select name="eco_type" class="custom-select @error('eco_type') is-invalid @enderror" required>
                                 <option disabled selected value="">Select</option>
                                 @foreach ($data as $page)
                                 <option value="{{ $page->id }}">{{ $page->type }}</option>
@@ -49,7 +49,7 @@
                         </br>
 
                         <div class="form-group">
-                            District:*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
+                            District:*<input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" required/>
                             @error('district')
                             <div class="alert alert-danger">{{ $message }}</div>
                             @enderror

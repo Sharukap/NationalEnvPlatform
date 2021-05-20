@@ -35,8 +35,8 @@
 
                                         <select name="type" input type="text" class="form-control @error('type') is-invalid @enderror" id="type" placeholder="Required" required>
                                             <option disabled selected value="">Select the species type</option>
-                                            <option value="fauna">fauna</option>
-                                            <option value="flora">flora</option>
+                                            <option value="fauna">Fauna</option>
+                                            <option value="flora">Flora</option>
                                         </select>
                                     </div>
                                     @error('type')
