@@ -277,7 +277,7 @@
                                 <td>{{$species->quantity}}</td>
                                 <td>{{$species->height}}</td>
                                 <td>{{$species->dimensions}}</td>
-                                @if($individualSpecies->remarks!=null)
+                                @if($species->remarks!=null)
                                     <td>No remarks</td>
                                 @else
                                     <td>{{$species->remarks}}</td>
