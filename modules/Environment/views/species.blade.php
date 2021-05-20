@@ -27,108 +27,162 @@
 
                 <div class="row p-2 bg-white">
                     <div class="col border border-muted rounded-lg mr-2 p-4">
-                        <div class="form-group">
-                            <label for="type">Species Type<strong>*</strong></label>
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Species Type<strong>*</strong></span>
 
-                            <input type="text" class="form-control @error('type') is-invalid @enderror" id="type" name="type" placeholder="Enter Type">
-                            @error('type')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
+                                        <select name="type" input type="text" class="form-control @error('type') is-invalid @enderror" id="type" placeholder="Required">
+                                            <option disabled selected value="">Select the species type</option>
 
-                        <div>
-                            <label for="number_of_tree_species">Species Title</label>
-                            <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Enter Title">
-                            
-                        </div>
+                                            <option value="Flora">Flora</option>
+                                            <option value="Fauna">Fauna</option>
 
+                                        </select>
+                                    </div>
 
-                        </br>
-                        <h6>Scientific Name</h6>
-                        <div class="form-group">
-                            <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
-                           
-                        </div>
-
-                        </br>
-                        <div class="form-group">
-                            District:<strong>*</strong><input type="text" class="form-control typeahead2 @error('district') is-invalid @enderror" value="{{ old('district') }}" placeholder="Search" name="district" />
-                            @error('district')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div id="accordion" class="mb-3">
-                            <div class="card mb-3">
-                                <div class="card-header bg-white">
-                                    <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapseone">
-                                        Taxanomy<strong>*</strong>
-                                    </a>
+                                    @error('type')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
                                 </div>
-                                <div id="collapseone" class="collapse" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <strong>Select Multiple</strong>
-                                        <fieldset>
-                                            <input type="checkbox" name="taxanomy[]" value="Clone"><label class="ml-2">Clone</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="Domain"><label class="ml-2">Domain</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="Species"><label class="ml-2">Species</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="Kingdom"><label class="ml-2">Kingdom</label> <br>
-                                            <input type="checkbox" name="taxanomy[]" value="Phylum"><label class="ml-2">Phylum</label> <br>
-                                        </fieldset>
+
+                                <div>
+                                    <label for="number_of_tree_species">Species Title<strong>*</strong></label>
+                                    <input type="text" class="form-control @error('title') is-invalid @enderror" id="title" name="title" placeholder="Required">
+                                    @error('title')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                </div>
+
+
+                                </br>
+                                <h6>Scientific Name</h6>
+                                <div class="form-group">
+                                    <input type="text" name="scientific_name" class="form-control" placeholder="Enter name">
+
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <h6>Other Taxanomic Heirachy Details</h6>
+                                <div class="row p-2 mt-2">
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Kingdom</label>
+                                            <input type="text" name="kingdom" class="form-control" placeholder="Enter name">
+                                            @error('kingdom')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Class</label>
+                                            <input type="text" name="class" class="form-control" placeholder="Enter name">
+                                            @error('class')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Family</label>
+                                            <input type="text" name="family" class="form-control" placeholder="Enter name">
+                                            @error('family')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                    <div class="col">
+                                        <div class="form-group">
+                                            <label>Phylum</label>
+                                            <input type="text" name="phylum" class="form-control" placeholder="Enter name">
+                                            @error('phylum')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Order</label>
+                                            <input type="text" name="order" class="form-control" placeholder="Enter name">
+                                            @error('order')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <label>Genus</label>
+                                            <input type="text" name="genus" class="form-control" placeholder="Enter name">
+                                            @error('genus')
+                                            <div class="alert alert-danger">{{ $message }}</div>
+                                            @enderror
+                                        </div>
                                     </div>
                                 </div>
-                                @error('taxanomy')
+                            </div>
+                        </div>
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <div id="accordion" class="mb-3">
+                                    <div class="card">
+                                        <div class="card-header bg-white">
+                                            <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapsetwo">
+                                                Habitats<strong>*</strong>
+                                            </a>
+                                        </div>
+                                        <div id="collapsetwo" class="collapse" data-parent="#accordion">
+                                            <div class="card-body">
+                                                <strong>Select Multiple</strong>
+                                                <fieldset>
+                                                    <input type="checkbox" name="habitat[]" value="Montane forest"><label class="ml-2">Montane forest</label> <br>
+                                                    <input type="checkbox" name="habitat[]" value="Sub-Montane forest"><label class="ml-2">Sub-Montane forest</label> <br>
+                                                    <input type="checkbox" name="habitat[]" value="Low land wet evergreen forest"><label class="ml-2">Low land wet evergreen forest</label> <br>
+                                                    <input type="checkbox" name="habitat[]" value="Dry mixed evergreen forest"><label class="ml-2">Dry mixed evergreen forest</label> <br>
+                                                </fieldset>
+                                            </div>
+                                        </div>
+                                        @error('habitat')
+                                        <div class="alert alert-danger">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <label>Species Description</label>
+                                <textarea class="form-control @error('description') is-invalid @enderror" rows="5" name="description"></textarea>
+
+                                @error('description')
                                 <div class="alert alert-danger">{{ $message }}</div>
                                 @enderror
                             </div>
+                        </div>
+                        </br>
 
-                            <div class="card">
-                                <div class="card-header bg-white">
-                                    <a class="collapsed card-link text-dark" data-toggle="collapse" href="#collapsetwo">
-                                        Habitats<strong>*</strong>
-                                    </a>
+                        </br>
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <h5><strong>Regions where species is commonly found </strong></h5>
+                                <div class="col border border-muted rounded-lg p-4">
+                                    <!-- ////////MAP GOES HERE -->
+                                    <div id="mapid" style="height:400px;" name="map"></div>
+
+                                    @error('polygon')
+                                    <div class="alert alert-danger">{{ $message }}</div>
+                                    @enderror
+                                    <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" /> <br>
+
                                 </div>
-                                <div id="collapsetwo" class="collapse" data-parent="#accordion">
-                                    <div class="card-body">
-                                        <strong>Select Multiple</strong>
-                                        <fieldset>
-                                            <input type="checkbox" name="habitat[]" value="Montane forest"><label class="ml-2">Montane forest</label> <br>
-                                            <input type="checkbox" name="habitat[]" value="Sub-Montane forest"><label class="ml-2">Sub-Montane forest</label> <br>
-                                            <input type="checkbox" name="habitat[]" value="Low land wet evergreen forest"><label class="ml-2">Low land wet evergreen forest</label> <br>
-                                            <input type="checkbox" name="habitat[]" value="Dry mixed evergreen forest"><label class="ml-2">Dry mixed evergreen forest</label> <br>
-                                        </fieldset>
+                            </div>
+                        </div>
+                        <div class="row p-2 mt-2">
+                            <div class="col">
+                                <div class="form-group">
+                                    <label for="images">Image</label>
+                                    <div class="custom-file mb-3">
+                                        <input type="file" id="images" name="images">
                                     </div>
                                 </div>
-                                @error('habitat')
-                                <div class="alert alert-danger">{{ $message }}</div>
-                                @enderror
                             </div>
                         </div>
-                        <label>Project Description</label>
-                        <textarea class="form-control" rows="5" name="description"></textarea>
-                       
-                        </br>
-                        </br>
-
-                        </br>
-                        <div class="col border border-muted rounded-lg p-4">
-                            <!-- ////////MAP GOES HERE -->
-                            <div id="mapid" style="height:400px;" name="map"></div>
-
-                            @error('polygon')
-                            <div class="alert alert-danger">{{ $message }}</div>
-                            @enderror
-                            <input id="polygon" type="hidden" name="polygon" class="form-control @error('polygon') is-invalid @enderror" value="{{request('polygon')}}" /> <br>
-
-
-                        </div>
-                        <div class="form-group">
-                            <label for="images">Image</label>
-                            <div class="custom-file mb-3">
-                                <input type="file" id="images" name="images">
-                            </div>
-                        </div>
-
 
                         <div class="p-3" style="float:right;">
                             <button type="submit" name="submit" class="btn bd-navbar text-white">Submit</button>
@@ -145,24 +199,6 @@
 
 
 <script type="text/javascript">
-    var path2 = "{{route('district')}}";
-    $('input.typeahead2').typeahead({
-        source: function(terms, process) {
-
-            return $.get(path2, {
-                terms: terms
-            }, function(data) {
-                console.log(data);
-                objects = [];
-                data.map(i => {
-                    objects.push(i.district)
-                })
-                console.log(objects);
-                return process(objects);
-            })
-        },
-    });
-
     ///SCRIPT FOR THE MAP
     var center = [7.2906, 80.6337];
 

@@ -8,16 +8,16 @@
     <div class="row justify-content-md-center border p-4 bg-white">
         <div class="col-6 ml-3">
           
-              <h6 style="text-align:left;" class="text-dark">Access Details</h6>
- <form method="post" action="/system-data/accessupdate/{{$activity->id}}">
+              <h6 style="text-align:left;" class="text-dark">Activity Details</h6>
+ <form method="post" action="/system-data/activityupdate/{{$activity->id}}">
                  @csrf
                 @method('patch')
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
-                        <span class="input-group-text">Access</span>
+                        <span class="input-group-text">Activity</span>
                     </div>
                    
-                    <input type="text" class="form-control" name="access" value="{{$activity->activity}}">
+                    <input type="text" class="form-control" name="activity" value="{{$activity->activity}}">
                 </div>
                 @error('activity')
                 <div class="alert alert-danger">{{ $message }}</div>
@@ -27,7 +27,7 @@
                         <span class="input-group-text">Description</span>
                     </div>
                    
-                    <input type="text" class="form-control" name="access" value="{{$activity->description}}">
+                    <input type="text" class="form-control" name="description" value="{{$activity->description}}">
                 </div>
                 @error('activity')
                 <div class="alert alert-danger">{{ $message }}</div>

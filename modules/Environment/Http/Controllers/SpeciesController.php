@@ -15,9 +15,9 @@ class SpeciesController extends Controller
     // Load the form to enter data of the newly found species
     public function form()
     {
-        $organization = Organization::all();
+        $species = Organization::all();
         return view('environment::species', [
-            'org' => $organization,
+            'org' => $species,
         ]);
     }
     // Store the data in the database
@@ -26,19 +26,22 @@ class SpeciesController extends Controller
         $request->validate([
             'type' => 'required',
             'habitat' => 'required',
-            'taxanomy' => 'required',
-            'createby' => 'required',
+            'title'=> 'required',
             'polygon' => 'required',
-            'district' => 'required|exists:districts,district',
+            'description'=> 'required',
+            'createby' => 'required',
+            'kingdom'  => 'nullable|alpha', //The input may only contain letters.
+            'phylum'  => 'nullable|alpha',
+            'class'  => 'nullable|alpha',
+            'order'  => 'nullable|alpha',
+            'family'  => 'nullable|alpha',
+            'genus'  => 'nullable|alpha',
         ]);
+
         $species = new Species;
         $species->type = $request->input('type');
-
-        if (request('title')) {
-            $species->title = $request->input('title');
-        } else {
-            $species->title = "No Title Given";
-        }
+        $species->title = $request->input('title');
+       
 
         if (request('scientific_name')) {
             $species->scientefic_name = $request->input('scientific_name');
@@ -46,23 +49,29 @@ class SpeciesController extends Controller
             $species->scientefic_name = "No Scientific Name Given";
         }
         $species->habitats = $request->input('habitat');
-        $district_id1 = District::where('district', request('district'))->pluck('id');
-        $species->district_id = $district_id1[0];
-        $species->taxa = $request->input('taxanomy');
+
+        $kingdom = $request->input('kingdom');
+        $phylum = $request->input('phylum');
+        $class = $request->input('class');
+        $order = $request->input('order');
+        $family = $request->input('family');
+        $genus = $request->input('genus');
+
+        $taxanomy[] = [$kingdom, $phylum, $class, $order, $family, $genus];
+        $species->taxa = $taxanomy;
+
         $species->polygon = request('polygon');
 
-        if (request('description')) {
-            $species->description = $request->input('description');
-        } else {
-            $species->description = "No Description Given";
-        }
+        $species->polygon = request('polygon');
+        $species->description = request('description');
+      
         $species->status_id = $request->input('status');
         if ($request->hasFile('images')) {
 
             $file = $request->file('images');
             $extension = $file->getClientOriginalExtension(); //geting the image extension
             $filename = time() . '.' . $extension;
-            $result = $file->storeOnCloudinaryAs('species', $filename);
+            $result = $file->storeOnCloudinaryAs('species', $filename); // Stores in the online db
             $species->images = $result->getSecurePath(); // Get the url of the uploaded file; https 
         } else {
 
