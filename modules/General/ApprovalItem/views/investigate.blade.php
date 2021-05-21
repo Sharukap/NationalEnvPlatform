@@ -7,6 +7,9 @@
         @elseif($process_item->prerequisite == 1)
             <h4>Investigation for additional investigation request for {{$process_item->form_type->type}} no {{$process_item->form_id}} logged on {{date('d-m-Y',strtotime($item->created_at))}} by {{$process_item->requesting_organization->title}}</h4>
         @endif
+        @if($process_item->activity_user_id != null)
+            <h4>Staff Member assigned:- {{$process_item->form_type->activity_user->name}}</h4>
+        @endif
     </div>
 </div>
 @endsection

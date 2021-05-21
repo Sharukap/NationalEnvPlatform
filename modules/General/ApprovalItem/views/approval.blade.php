@@ -150,7 +150,7 @@
                         <table class="table table-light table-striped border-secondary rounded-lg mr-4">
                             <thead>
                                 <tr>
-                                    <th>Land Title/Land Area</th>
+                                    <th>Plan No/Land Area</th>
                                     <th>Surveyor</th>
                                     <th>District</th>
                                     <th>Protected Area</th>
