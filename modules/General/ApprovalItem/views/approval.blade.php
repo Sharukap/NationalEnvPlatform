@@ -258,10 +258,8 @@
                     <table class="table table-light table-striped border-secondary rounded-lg mr-4">
                         <thead>
                             <tr>
-                                <th>Species Type</th>
                                 <th>Species Name</th>
                                 <th>Scientefic Name</th>
-                                <th>View more species information</th>
                                 <th>Number of species to be restored</th>
                                 <th>Height</th>
                                 <th>Dimentions</th>
@@ -273,7 +271,6 @@
                             <tr>
                                 <td>{{$species->Species->title}}</td>
                                 <td>{{$species->Species->scientefic_name}}</td>
-                                <td>....</td>
                                 <td>{{$species->quantity}}</td>
                                 <td>{{$species->height}}</td>
                                 <td>{{$species->dimensions}}</td>
