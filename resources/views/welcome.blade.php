@@ -267,7 +267,7 @@
       <p class="text-light">Deforestation is one of the most serious environmental issues in Sri Lanka. In 1920, the island had a 49% percentage coverage of forests and by the end of 2005, this had fallen up to approximately 29%.</p>
     </div>
     <div id="main">
-      <h2><a href="#">Lorem ipsum dolor sit amet</a></h2>
+      <h2><a href="#">NEP (National Environment Platform)</a></h2>
       <img src="images/img.gif" class="img left" alt="" />
       <p>Deforestation is one of the most serious environmental issues in Sri Lanka. In 1920, the island had a 49% percentage coverage of forests and by the end of 2005, this had fallen up to approximately 29%. In 1990 the national policy for wildlife conservation was approved and the prime objective of this policy was to enhance the sustainability of ecosystems. Sri Lanka also introduced a logging ban for all the natural forests under the forestry sector development program. </p>
       <p>To ensure the sustainability of this natural resource we need to have a proper system to solve the problems above mentioned, which are currently in the environment sector. One of the major issues of the current system is the mismanagement within the authorities which ultimately delay the whole process which is being done by the ministries. This is what leads the people to get work done through illegal means. By using a digitalized system, we can make the system more reliable. For example, data can be created only when they get a request to cut down a tree.</p>
